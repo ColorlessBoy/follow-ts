@@ -4,10 +4,14 @@
   "description": "Follow is logic formal language.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pnpm --stream -r run build",
+    "watch": "pnpm --stream -r run watch",
+    "clean": "pnpm --stream -r run clean",
+    "test": "pnpm --stream -r run test",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "follow-parser": "pnpm --filter follow-parser"
   },
   "keywords": [
     "follow",
@@ -19,14 +23,17 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
+    "@types/jest": "^29.5.5",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-vitest": "^0.3.1",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "prettier": "3.0.3"
+    "prettier": "3.0.3",
+    "vitest": "^0.34.4"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": [

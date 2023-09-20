@@ -1,0 +1,29 @@
+{
+  "name": "@follow/follow-parser",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/follow-parser.umd.cjs",
+  "module": "./dist/follow-parser.js",
+  "exports": {
+    ".": {
+      "import": "./dist/follow-parser.js",
+      "require": "./dist/follow-parser.umd.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc && vite build",
+    "watch": "tsc && vite build --watch",
+    "test": "vitest",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vitest": "^0.34.4"
+  }
+}
