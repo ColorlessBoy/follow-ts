@@ -21,6 +21,8 @@
     "clean": "rimraf dist"
   },
   "devDependencies": {
+    "@types/charcodes": "^0.2.0",
+    "charcodes": "^0.2.0",
     "rimraf": "^5.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
