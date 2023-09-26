@@ -38,11 +38,6 @@ test('#1 Basic', () => {
     tokenList.push(scanner.next());
   }
   expect(tokenList.length).toBe(59);
-  for (let i = 0; i < tokenList.length; i++) {
-    console.log(
-      `createToken(TokenType., createPosition(${tokenList[i].range.start.offset}, ${tokenList[i].range.start.line}, ${tokenList[i].range.start.character}), createPosition(${tokenList[i].range.end.offset}, ${tokenList[i].range.end.line}, ${tokenList[i].range.end.character}), '${tokenList[i].value}'),`,
-    );
-  }
 
   const expectTokens = [
     createToken(TokenType.TYPE, createPosition(0, 0, 0), createPosition(4, 0, 4), 'type'),
@@ -105,6 +100,28 @@ test('#1 Basic', () => {
     createToken(TokenType.BLOCK_COMMENT, createPosition(177, 6, 0), createPosition(196, 8, 2), '/*\nblock comment\n*/'),
     createToken(TokenType.EOF, createPosition(197, 9, 0), createPosition(197, 9, 0), ''),
   ];
+  for (let i = 0; i < tokenList.length; i++) {
+    expect(eqToken(tokenList[i], expectTokens[i])).toBe(true);
+  }
+});
+
+test('#2 Chinese', () => {
+  const input = 'type 命题 const 命题 命题1';
+  const scanner = new Scanner(input);
+  const tokenList: Array<Token> = [];
+  while (!scanner.eof()) {
+    tokenList.push(scanner.next());
+  }
+  expect(tokenList.length).toBe(5);
+
+  const expectTokens = [
+    createToken(TokenType.TYPE, createPosition(0, 0, 0), createPosition(4, 0, 4), 'type'),
+    createToken(TokenType.WORD, createPosition(5, 0, 5), createPosition(7, 0, 7), '命题'),
+    createToken(TokenType.CONST, createPosition(8, 0, 8), createPosition(13, 0, 13), 'const'),
+    createToken(TokenType.WORD, createPosition(14, 0, 14), createPosition(16, 0, 16), '命题'),
+    createToken(TokenType.WORD, createPosition(17, 0, 17), createPosition(20, 0, 20), '命题1'),
+  ];
+
   for (let i = 0; i < tokenList.length; i++) {
     expect(eqToken(tokenList[i], expectTokens[i])).toBe(true);
   }
