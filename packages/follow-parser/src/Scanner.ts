@@ -1,5 +1,5 @@
 import * as charCodes from 'charcodes';
-import { TokenType, Position, Token, Options, clonePosition, createPosition, createToken } from './types';
+import { TokenType, Position, Token, Options, clonePosition, createPosition, createToken } from './types.d';
 
 export default class Scanner {
   input: string;
@@ -120,7 +120,6 @@ export default class Scanner {
     while (code > 0 && !this.isNewLine(code)) {
       code = this.positionGoAhead();
     }
-    this.positionGoAhead();
     const endPosition = clonePosition(this.position);
     return this.generateToken(TokenType.LINE_COMMENT, startPosition, endPosition);
   }

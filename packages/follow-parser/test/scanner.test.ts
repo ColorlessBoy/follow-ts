@@ -25,7 +25,11 @@ test('#1 Basic', () => {
     'const wff w0\n',
     'prop wff imp(wff w0, wff w1)\r\n',
     'axiom ax1(wff w0, wff w1) {-| w0 |- imp w1 w0}\n',
-    'thm th1(wff w0, wff w1) {-| w0 |- imp w1 w0} := {ax1 w0 w1}\r\n',
+    'thm th1(wff w0, wff w1) {-| w0 |- imp w1 w0} := {ax1 // line comment\r\n',
+    'w0 w1}\n',
+    '/*\n',
+    'block comment\n',
+    '*/\n',
   ];
   const input = elements.join('');
   const scanner = new Scanner(input);
@@ -33,7 +37,7 @@ test('#1 Basic', () => {
   while (!scanner.eof()) {
     tokenList.push(scanner.next());
   }
-  expect(tokenList.length).toBe(57);
+  expect(tokenList.length).toBe(59);
   for (let i = 0; i < tokenList.length; i++) {
     console.log(
       `createToken(TokenType., createPosition(${tokenList[i].range.start.offset}, ${tokenList[i].range.start.line}, ${tokenList[i].range.start.character}), createPosition(${tokenList[i].range.end.offset}, ${tokenList[i].range.end.line}, ${tokenList[i].range.end.character}), '${tokenList[i].value}'),`,
@@ -94,10 +98,12 @@ test('#1 Basic', () => {
     createToken(TokenType.EQ, createPosition(146, 4, 46), createPosition(147, 4, 47), '='),
     createToken(TokenType.LBRACE, createPosition(148, 4, 48), createPosition(149, 4, 49), '{'),
     createToken(TokenType.WORD, createPosition(149, 4, 49), createPosition(152, 4, 52), 'ax1'),
-    createToken(TokenType.WORD, createPosition(153, 4, 53), createPosition(155, 4, 55), 'w0'),
-    createToken(TokenType.WORD, createPosition(156, 4, 56), createPosition(158, 4, 58), 'w1'),
-    createToken(TokenType.RBRACE, createPosition(158, 4, 58), createPosition(159, 4, 59), '}'),
-    createToken(TokenType.EOF, createPosition(161, 5, 0), createPosition(161, 5, 0), ''),
+    createToken(TokenType.LINE_COMMENT, createPosition(153, 4, 53), createPosition(168, 4, 68), '// line comment'),
+    createToken(TokenType.WORD, createPosition(170, 5, 0), createPosition(172, 5, 2), 'w0'),
+    createToken(TokenType.WORD, createPosition(173, 5, 3), createPosition(175, 5, 5), 'w1'),
+    createToken(TokenType.RBRACE, createPosition(175, 5, 5), createPosition(176, 5, 6), '}'),
+    createToken(TokenType.BLOCK_COMMENT, createPosition(177, 6, 0), createPosition(196, 8, 2), '/*\nblock comment\n*/'),
+    createToken(TokenType.EOF, createPosition(197, 9, 0), createPosition(197, 9, 0), ''),
   ];
   for (let i = 0; i < tokenList.length; i++) {
     expect(eqToken(tokenList[i], expectTokens[i])).toBe(true);
