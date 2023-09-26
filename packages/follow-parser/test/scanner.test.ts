@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { Position, Range, Token, TokenType, createPosition, createToken } from '../src/types.d';
-import Scanner from '../src/Scanner';
+import Scanner from '../src/scanner';
 
 export function eqPosition(p1: Position, p2: Position): boolean {
   return p1.offset === p2.offset && p1.line === p2.line && p1.character === p2.character;

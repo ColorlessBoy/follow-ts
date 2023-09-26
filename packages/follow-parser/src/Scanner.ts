@@ -1,5 +1,5 @@
 import * as charCodes from 'charcodes';
-import { TokenType, Position, Token, Options, clonePosition, createPosition, createToken } from './types.d';
+import { TokenType, Position, Token, Options, clonePosition, createPosition, createToken } from './types';
 
 export default class Scanner {
   input: string;
