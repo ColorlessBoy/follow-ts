@@ -19,7 +19,7 @@ import {
   Token,
   TokenType,
   TypeDefNode,
-} from './types.d';
+} from './types';
 
 export default class Parser {
   private scanner: Scanner;

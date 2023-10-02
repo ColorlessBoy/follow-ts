@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { Node, NodeType } from '../src/types.d';
+import { Node, NodeType } from '../src/types';
 import Parser from '../src/parser';
 
 function eqNode(node: Node, nodeType: NodeType, type?: string, value?: string): boolean {
@@ -59,7 +59,7 @@ test('#4 parse propdef', () => {
 });
 
 test('#5 parse axiomdef', () => {
-  const input = 'axiom ax1(wff w0, wff w1) { |- imp w0 imp w1 w0 }';
+  const input = 'axiom ax1(wff w0, wff w1) { |- imp(w0, imp(w1, w0) }';
   const parser = new Parser(input);
   const nodeList: Array<Node> = parser.getNodes();
   expect(nodeList.length).toBe(2);
@@ -76,7 +76,7 @@ test('#5 parse axiomdef', () => {
 });
 
 test('#6 parse thmdef', () => {
-  const input = 'thm thm1(wff w0, wff w1) { -| w0 |- imp w1 w0 } = { mp(w0, imp w1 w0) ax1(w0, w1)}';
+  const input = 'thm thm1(wff w0, wff w1) { -| w0 |- imp(w1, w0) } = { mp(w0, imp w1 w0) ax1(w0, w1)}';
   const parser = new Parser(input);
   const nodeList: Array<Node> = parser.getNodes();
   expect(nodeList.length).toBe(2);

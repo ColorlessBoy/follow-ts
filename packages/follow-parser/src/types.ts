@@ -168,7 +168,7 @@ export interface NodeBase {
 
   headComment?: Token;
   inBlockComments?: Array<Token>;
-  error?: NodeError;
+  error?: Error;
 }
 export interface ImportNode extends NodeBase {
   nodeType: NodeType.IMPORT;
