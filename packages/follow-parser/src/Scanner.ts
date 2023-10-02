@@ -1,10 +1,13 @@
 import * as charCodes from 'charcodes';
-import { TokenType, Position, Token, Options, clonePosition, createPosition, createToken } from './types.d';
+import { TokenType, Position, Token, ScannerOptions, clonePosition, createPosition, createToken } from './types.d';
 
 export default class Scanner {
   input: string;
   endOffset: number;
   sourceFilename?: string;
+
+  tokens: Array<Token> = [];
+  currentTokenIdx: number = -1;
 
   position: Position;
 
@@ -14,7 +17,6 @@ export default class Scanner {
     [charCodes.leftCurlyBrace, TokenType.LBRACE],
     [charCodes.rightCurlyBrace, TokenType.RBRACE],
     [charCodes.equalsTo, TokenType.EQ],
-    [charCodes.colon, TokenType.COLON],
     [charCodes.comma, TokenType.COMMA],
   ]);
 
@@ -29,7 +31,7 @@ export default class Scanner {
     ['|-', TokenType.TARGET],
   ]);
 
-  constructor(input: string, options?: Options) {
+  constructor(input: string, options?: ScannerOptions) {
     this.input = input;
     if (options && options.sourceFilename) {
       this.sourceFilename = options.sourceFilename;
@@ -48,7 +50,49 @@ export default class Scanner {
     return this.position.offset >= this.endOffset;
   }
 
+  public lookAhead(): Token {
+    if (this.currentTokenIdx + 1 >= this.tokens.length) {
+      this.tokens.push(this.nextToken());
+    }
+    return this.tokens[this.currentTokenIdx + 1];
+  }
+
+  public peek(): Token {
+    if (this.currentTokenIdx >= this.tokens.length) {
+      this.tokens.push(this.nextToken());
+    }
+    return this.tokens[this.currentTokenIdx];
+  }
+
+  public back(): void {
+    if (this.currentTokenIdx > -1) {
+      this.currentTokenIdx--;
+    }
+  }
+
+  public begin(): void {
+    this.currentTokenIdx = -1;
+  }
+
+  public getTokens(): Array<Token> {
+    while (this.currentTokenIdx < 0 || this.tokens[this.currentTokenIdx].tokenType !== TokenType.EOF) {
+      this.next();
+    }
+    return this.tokens;
+  }
+
   public next(): Token {
+    if (this.currentTokenIdx >= 0 && this.tokens[this.currentTokenIdx].tokenType === TokenType.EOF) {
+      return this.tokens[this.currentTokenIdx];
+    }
+    if (this.currentTokenIdx + 1 >= this.tokens.length) {
+      this.tokens.push(this.nextToken());
+    }
+    this.currentTokenIdx++;
+    return this.tokens[this.currentTokenIdx];
+  }
+
+  private nextToken(): Token {
     let code: number = this.positionPeek();
     // skip invalid char before next token
     while (code >= 0 && this.isSeperation(code)) {
@@ -83,6 +127,7 @@ export default class Scanner {
     while (code > 0 && code !== charCodes.apostrophe) {
       code = this.positionGoAhead();
     }
+    this.positionGoAhead(); // eat `'`
     const endPosition = clonePosition(this.position);
     return this.generateToken(TokenType.STRING, startPosition, endPosition);
   }
@@ -103,8 +148,8 @@ export default class Scanner {
     while (code > 0) {
       if (code === charCodes.asterisk && this.positionLookAhead() === charCodes.slash) {
         // end of block comment
-        this.positionGoAhead(); // position walks into charCodes.slash
-        this.positionGoAhead(); // position leaves charCodes.slash
+        this.positionGoAhead(); // eat charCodes.asterisk
+        this.positionGoAhead(); // eat charCodes.slash
         break;
       }
       code = this.positionGoAhead();
