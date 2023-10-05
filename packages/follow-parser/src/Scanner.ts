@@ -4,7 +4,6 @@ import { TokenType, Position, Token, ScannerOptions, clonePosition, createPositi
 export default class Scanner {
   input: string;
   endOffset: number;
-  sourceFilename?: string;
 
   tokens: Array<Token> = [];
   currentTokenIdx: number = -1;
@@ -33,9 +32,6 @@ export default class Scanner {
 
   constructor(input: string, options?: ScannerOptions) {
     this.input = input;
-    if (options && options.sourceFilename) {
-      this.sourceFilename = options.sourceFilename;
-    }
 
     if (options && options.sourceRange) {
       this.position = clonePosition(options.sourceRange.start);
@@ -189,7 +185,7 @@ export default class Scanner {
   }
 
   private generateToken(tokenType: TokenType, start: Position, end: Position): Token {
-    return createToken(tokenType, start, end, this.input.slice(start.offset, end.offset), this.sourceFilename);
+    return createToken(tokenType, start, end, this.input.slice(start.offset, end.offset));
   }
 
   // move ahead, and return new char code.

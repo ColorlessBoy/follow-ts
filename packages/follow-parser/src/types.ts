@@ -69,7 +69,6 @@ export interface Token {
   tokenType: TokenType;
   range: Range;
   value?: string;
-  filename?: string;
   error?: Error;
 }
 
@@ -91,23 +90,15 @@ export function cloneRange(range: Range): Range {
     end: range.end,
   };
 }
-export function createToken(
-  tokenType: TokenType,
-  start: Position,
-  end: Position,
-  value?: string,
-  filename?: string,
-): Token {
+export function createToken(tokenType: TokenType, start: Position, end: Position, value?: string): Token {
   return {
     tokenType: tokenType,
     range: createRange(start, end),
     value: value,
-    filename: filename,
   };
 }
 
 export type ScannerOptions = {
-  sourceFilename?: string;
   sourceRange?: Range;
 };
 

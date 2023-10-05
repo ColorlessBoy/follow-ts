@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { Position, Range, Token, TokenType, createPosition, createToken } from '../src/types.d';
+import { Position, Range, Token, TokenType, createPosition, createToken } from '../src/types';
 import Scanner from '../src/scanner';
 
 function eqPosition(p1: Position, p2: Position): boolean {
