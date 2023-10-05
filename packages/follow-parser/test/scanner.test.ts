@@ -11,11 +11,7 @@ function eqRange(r1: Range, r2: Range): boolean {
 }
 
 function eqToken(t1: Token, t2: Token): boolean {
-  const rst =
-    t1.tokenType === t2.tokenType &&
-    eqRange(t1.range, t2.range) &&
-    t1.value === t2.value &&
-    t1.filename === t2.filename;
+  const rst = t1.tokenType === t2.tokenType && eqRange(t1.range, t2.range) && t1.value === t2.value;
   return rst;
 }
 
