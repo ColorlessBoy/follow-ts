@@ -26,6 +26,7 @@ export default class Parser {
   private comments: Array<Token> = [];
   nodes: Array<Node> = [];
   currentNodeIdx: number = -1;
+  importNodes: Array<ImportNode> = [];
 
   constructor(input: string, option?: ParserOptions) {
     this.scanner = new Scanner(input, option?.scannerOptions);
@@ -111,6 +112,12 @@ export default class Parser {
     const valueToken = this.scanNext();
     if (valueToken.tokenType === TokenType.STRING) {
       importNode.value = valueToken;
+      const pathStr = valueToken.value;
+      if (pathStr && pathStr.length > 2) {
+        this.importNodes.push(importNode); // `'<filepath>'` ==> `<filepath>`
+      } else {
+        importNode.error = Error.ImportFileStringEmpty;
+      }
     } else {
       this.scanner.back();
       importNode.error = Error.ImportFileStringMissing;
@@ -392,7 +399,7 @@ export default class Parser {
       return;
     }
     if (proofTokens.length === 0) {
-      defNode.error = Error.ProofEmpty;
+      defNode.error = Error.EmptyProof;
       return;
     }
     const proofNode: ProofNode = {

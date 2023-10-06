@@ -9,6 +9,8 @@ export enum Error {
 
   // Node Errors
   ImportFileStringMissing,
+  ImportFileStringEmpty,
+  ImportFileNotExist,
   TypeMissing,
   NameMissing,
   ParamsLeftParenMissing,
@@ -19,7 +21,7 @@ export enum Error {
   ProofEqMissing,
   ProofLeftBraceMissing,
   ProofRightBraceMissing,
-  ProofEmpty,
+  EmptyProof,
 }
 
 // https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#position
@@ -164,6 +166,7 @@ export interface NodeBase {
 export interface ImportNode extends NodeBase {
   nodeType: NodeType.IMPORT;
   keyword: Token;
+  absPath?: string;
 }
 export interface TypeDefNode extends NodeBase {
   nodeType: NodeType.TYPE_DEF;

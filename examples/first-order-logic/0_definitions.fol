@@ -1,5 +1,8 @@
 type wff
-const wff hw0 hw1 hw2 hw3 hw4 hw5 hw6 hw7 hw8 hw9 hw10
+const wff hw0
+const wff hw1
+const wff hw2
+const wff hw3
 prop wff not(wff w0)
 prop wff imp(wff w0, wff w1)
 prop wff iff(wff w0, wff w1)
