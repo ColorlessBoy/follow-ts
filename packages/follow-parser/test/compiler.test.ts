@@ -1,9 +1,9 @@
 import { expect, test } from 'vitest';
-import ImportParser from '../src/import';
+import Compiler from '../src/compiler';
 
 test('#1 init import parser', () => {
-  const importParser = new ImportParser();
+  const importParser = new Compiler();
   const filePath = './examples/first-order-logic/6_mix.fol';
-  importParser.parseFile(filePath);
+  importParser.parseFileRound1(filePath);
   expect(importParser.documentMap.size).toBe(7);
 });

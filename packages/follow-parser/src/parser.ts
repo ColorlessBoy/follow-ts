@@ -5,6 +5,7 @@ import {
   AxiomDefNode,
   BodyNode,
   ConstDefNode,
+  DefNode,
   EofNode,
   Error,
   ImportNode,
@@ -27,6 +28,7 @@ export default class Parser {
   nodes: Array<Node> = [];
   currentNodeIdx: number = -1;
   importNodes: Array<ImportNode> = [];
+  defNodes: Array<DefNode> = [];
 
   constructor(input: string, option?: ParserOptions) {
     this.scanner = new Scanner(input, option?.scannerOptions);
@@ -111,10 +113,10 @@ export default class Parser {
     };
     const valueToken = this.scanNext();
     if (valueToken.tokenType === TokenType.STRING) {
-      importNode.value = valueToken;
+      importNode.name = valueToken;
       const pathStr = valueToken.value;
       if (pathStr && pathStr.length > 2) {
-        this.importNodes.push(importNode); // `'<filepath>'` ==> `<filepath>`
+        this.importNodes.push(importNode);
       } else {
         importNode.error = Error.ImportFileStringEmpty;
       }
@@ -131,6 +133,10 @@ export default class Parser {
       keyword: this.scanner.peek(),
     };
     this.parseType(typeDefNode);
+    if (typeDefNode.error) {
+      return typeDefNode;
+    }
+    this.defNodes.push(typeDefNode);
     return typeDefNode;
   }
 
@@ -144,6 +150,10 @@ export default class Parser {
       return constDefNode;
     }
     this.parseName(constDefNode, TokenType.CONST_VAL);
+    if (constDefNode.error) {
+      return constDefNode;
+    }
+    this.defNodes.push(constDefNode);
     return constDefNode;
   }
 
@@ -164,6 +174,7 @@ export default class Parser {
     if (propDefNode.error) {
       return propDefNode;
     }
+    this.defNodes.push(propDefNode);
     return propDefNode;
   }
 
@@ -181,6 +192,10 @@ export default class Parser {
       return axiomDefNode;
     }
     this.parseBody(axiomDefNode);
+    if (axiomDefNode.error) {
+      return axiomDefNode;
+    }
+    this.defNodes.push(axiomDefNode);
     return axiomDefNode;
   }
 
@@ -202,6 +217,10 @@ export default class Parser {
       return theoremDefNode;
     }
     this.parseProof(theoremDefNode);
+    if (theoremDefNode.error) {
+      return theoremDefNode;
+    }
+    this.defNodes.push(theoremDefNode);
     return theoremDefNode;
   }
 
@@ -234,7 +253,7 @@ export default class Parser {
   private parseName(defNode: NodeBase, tokenType: TokenType): void {
     const nameToken = this.scanNext();
     if (nameToken.tokenType === TokenType.WORD) {
-      defNode.value = nameToken;
+      defNode.name = nameToken;
       nameToken.tokenType = tokenType;
     } else {
       this.scanner.back();
@@ -266,22 +285,32 @@ export default class Parser {
 
     let argDefNode: ArgDefNode;
     let idx = 0;
+    const argNameRecord: Set<string> = new Set();
     while (idx < paramsTokens.length) {
-      if (idx + 1 < paramsTokens.length) {
-        argDefNode = {
-          nodeType: NodeType.ARG_DEF,
-          type: paramsTokens[idx],
-          value: paramsTokens[idx + 1],
-        };
-        if (defNode.params === undefined) {
-          defNode.params = [argDefNode];
-        } else {
-          defNode.params.push(argDefNode);
-        }
-        idx += 2;
-      } else {
+      if (idx + 1 >= paramsTokens.length) {
         paramsTokens[idx].error = Error.ArgNameMissing;
       }
+      argDefNode = {
+        nodeType: NodeType.ARG_DEF,
+        type: paramsTokens[idx],
+        name: paramsTokens[idx + 1],
+      };
+      paramsTokens[idx].tokenType = TokenType.TYPE_VAL;
+      paramsTokens[idx + 1].tokenType = TokenType.ARG_VAL;
+      const argName = paramsTokens[idx + 1].value;
+      if (argName) {
+        if (argNameRecord.has(argName)) {
+          paramsTokens[idx + 1].error = Error.ArgNameDuplicated;
+        } else {
+          argNameRecord.add(argName);
+          if (defNode.params === undefined) {
+            defNode.params = [argDefNode];
+          } else {
+            defNode.params.push(argDefNode);
+          }
+        }
+      }
+      idx += 2;
     }
   }
 
@@ -346,7 +375,7 @@ export default class Parser {
             }
           } else if (state.tokenType === TokenType.TARGET) {
             if (bodyNode.target) {
-              state.error = Error.DuplicateTarget;
+              state.error = Error.TargetDuplicated;
             } else if (stateTokens.length === 0) {
               state.error = Error.TargetEmpty;
             } else {

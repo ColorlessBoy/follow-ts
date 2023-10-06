@@ -2,10 +2,11 @@ export enum Error {
   // Token Errors
   UnknownTokenOutOfBlock,
   ArgNameMissing,
+  ArgNameDuplicated,
   UnknownTokenInBody,
   AssumeEmpty,
   TargetEmpty,
-  DuplicateTarget,
+  TargetDuplicated,
 
   // Node Errors
   ImportFileStringMissing,
@@ -113,12 +114,7 @@ export enum NodeType {
   NAME = 'name', // block name
 
   // instance
-  TYPE = 'type', // semantic type
-  ARG = 'arg',
-  CONST = 'const',
-  PROP = 'prop',
-  AXIOM = 'axiom',
-  THEOREM = 'theorem',
+  OP = 'operation',
 
   // statement
   IMPORT = 'import',
@@ -154,7 +150,7 @@ export interface NodeBase {
   nodeType: NodeType;
 
   type?: Token;
-  value?: Token;
+  name?: Token;
   params?: Array<ArgDefNode>;
   body?: BodyNode;
   proof?: ProofNode;
@@ -166,7 +162,6 @@ export interface NodeBase {
 export interface ImportNode extends NodeBase {
   nodeType: NodeType.IMPORT;
   keyword: Token;
-  absPath?: string;
 }
 export interface TypeDefNode extends NodeBase {
   nodeType: NodeType.TYPE_DEF;
@@ -213,4 +208,12 @@ export interface ProofNode extends NodeBase {
 }
 export interface EofNode extends NodeBase {
   nodeType: NodeType.EOF;
+}
+
+export type DefNode = TypeDefNode | ConstDefNode | PropDefNode | AxiomDefNode | TheoremDefNode | ArgDefNode;
+export interface OpNode extends NodeBase {
+  nodeType: NodeType.OP;
+  definition: DefNode;
+  parent?: OpNode;
+  children?: Array<OpNode>;
 }

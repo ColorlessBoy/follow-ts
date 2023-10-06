@@ -12,7 +12,7 @@ function eqNode(node: Node, nodeType: NodeType, type?: string, value?: string): 
   if (type && node.type?.value !== type) {
     return false;
   }
-  if (value && node.value?.value !== value) {
+  if (value && node.name?.value !== value) {
     return false;
   }
   return true;
