@@ -1,28 +1,39 @@
 export enum Error {
   // Token Errors
-  UnknownTokenOutOfBlock,
-  ArgNameMissing,
-  ArgNameDuplicated,
-  UnknownTokenInBody,
-  AssumeEmpty,
-  TargetEmpty,
-  TargetDuplicated,
+  UnknownTokenOutOfBlock = 'UnknownTokenOutOfBlock',
+  ArgNameMissing = 'ArgNameMissing',
+  ArgNameDuplicated = 'ArgNameDuplicated',
+  UnknownTokenInBody = 'UnknownTokenInBody',
+  AssumeEmpty = 'AssumeEmpty',
+  TargetEmpty = 'TargetEmpty',
+  TargetDuplicated = 'TargetDuplicated',
 
   // Node Errors
-  ImportFileStringMissing,
-  ImportFileStringEmpty,
-  ImportFileNotExist,
-  TypeMissing,
-  NameMissing,
-  ParamsLeftParenMissing,
-  ParamsRightParenMissing,
-  BodyLeftBraceMissing,
-  BodyRightBraceMissing,
-  BodyTargetMissing,
-  ProofEqMissing,
-  ProofLeftBraceMissing,
-  ProofRightBraceMissing,
-  EmptyProof,
+  ImportFileStringMissing = 'ImportFileStringMissing',
+  ImportFileStringEmpty = 'ImportFileStringEmpty',
+  ImportFileNotExist = 'ImportFileNotExist',
+  TypeMissing = 'TypeMissing',
+  NameMissing = 'NameMissing',
+  ParamsLeftParenMissing = 'ParamsLeftParenMissing',
+  ParamsRightParenMissing = 'ParamsRightParenMissing',
+  BodyLeftBraceMissing = 'BodyLeftBraceMissing',
+  BodyRightBraceMissing = 'BodyRightBraceMissing',
+  BodyTargetMissing = 'BodyTargetMissing',
+  ProofEqMissing = 'ProofEqMissing',
+  ProofLeftBraceMissing = 'ProofLeftBraceMissing',
+  ProofRightBraceMissing = 'ProofRightBraceMissing',
+  ProofEmpty = 'ProofEmpty',
+
+  // Compiler Errors
+  HasImportCircle = 'HasImportCircle',
+  TypeDefMissing = 'TypeDefMissing',
+  NameDefDuplicated = 'NameDefDuplicated',
+  NameDefMissing = 'NameDefMissing',
+  DefinitionMissing = 'DefNodeMissing',
+  ArgMissing = 'ArgMissing',
+  ArgTypeWrong = 'ArgTypeWrong',
+  HasArgProblem = 'HasArgProblem',
+  RedundantOpTree = 'RedundantOpTree',
 }
 
 // https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#position
@@ -73,6 +84,7 @@ export interface Token {
   range: Range;
   value?: string;
   error?: Error;
+  filename?: string;
 }
 
 export function createPosition(offset: number, line: number, character: number): Position {
@@ -93,16 +105,24 @@ export function cloneRange(range: Range): Range {
     end: range.end,
   };
 }
-export function createToken(tokenType: TokenType, start: Position, end: Position, value?: string): Token {
+export function createToken(
+  tokenType: TokenType,
+  start: Position,
+  end: Position,
+  value?: string,
+  filename?: string,
+): Token {
   return {
     tokenType: tokenType,
     range: createRange(start, end),
     value: value,
+    filename: filename,
   };
 }
 
 export type ScannerOptions = {
   sourceRange?: Range;
+  sourceFilename?: string;
 };
 
 export type ParserOptions = {
@@ -152,8 +172,11 @@ export interface NodeBase {
   type?: Token;
   name?: Token;
   params?: Array<ArgDefNode>;
+  argDefMap?: Map<string, ArgDefNode>;
   body?: BodyNode;
   proof?: ProofNode;
+  tokens?: Array<Token>;
+  opTrees?: Array<OpNode>;
 
   headComment?: Token;
   inBlockComments?: Array<Token>;
@@ -213,7 +236,24 @@ export interface EofNode extends NodeBase {
 export type DefNode = TypeDefNode | ConstDefNode | PropDefNode | AxiomDefNode | TheoremDefNode | ArgDefNode;
 export interface OpNode extends NodeBase {
   nodeType: NodeType.OP;
-  definition: DefNode;
+  definition?: DefNode;
   parent?: OpNode;
   children?: Array<OpNode>;
+  targetDefNode?: DefNode;
+  assumes?: Array<OpNode>;
+  target?: OpNode;
+}
+
+export function opNodeString(opNode: OpNode): string {
+  const stringList: Array<string> = [];
+  const name = opNode.definition?.name?.value;
+  if (name) {
+    stringList.push(name);
+  }
+  if (opNode.children) {
+    for (const child of opNode.children) {
+      stringList.push(opNodeString(child));
+    }
+  }
+  return stringList.join(' ');
 }

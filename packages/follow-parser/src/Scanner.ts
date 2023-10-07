@@ -10,6 +10,8 @@ export default class Scanner {
 
   position: Position;
 
+  filename?: string;
+
   singleTokenMap: Map<number, TokenType> = new Map([
     [charCodes.leftParenthesis, TokenType.LPAREN],
     [charCodes.rightParenthesis, TokenType.RPAREN],
@@ -40,6 +42,7 @@ export default class Scanner {
       this.position = createPosition(0, 0, 0);
       this.endOffset = input.length;
     }
+    this.filename = options?.sourceFilename;
   }
 
   public eof(): boolean {
@@ -185,7 +188,7 @@ export default class Scanner {
   }
 
   private generateToken(tokenType: TokenType, start: Position, end: Position): Token {
-    return createToken(tokenType, start, end, this.input.slice(start.offset, end.offset));
+    return createToken(tokenType, start, end, this.input.slice(start.offset, end.offset), this.filename);
   }
 
   // move ahead, and return new char code.

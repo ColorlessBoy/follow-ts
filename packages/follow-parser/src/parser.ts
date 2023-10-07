@@ -286,6 +286,10 @@ export default class Parser {
     let argDefNode: ArgDefNode;
     let idx = 0;
     const argNameRecord: Set<string> = new Set();
+    const defNodeName = defNode.name?.value;
+    if (defNodeName) {
+      argNameRecord.add(defNodeName);
+    }
     while (idx < paramsTokens.length) {
       if (idx + 1 >= paramsTokens.length) {
         paramsTokens[idx].error = Error.ArgNameMissing;
@@ -311,6 +315,14 @@ export default class Parser {
         }
       }
       idx += 2;
+    }
+    if (defNode.params) {
+      defNode.argDefMap = new Map();
+      for (const param of defNode.params) {
+        if (param.name?.value) {
+          defNode.argDefMap.set(param.name?.value, param);
+        }
+      }
     }
   }
 
@@ -428,7 +440,7 @@ export default class Parser {
       return;
     }
     if (proofTokens.length === 0) {
-      defNode.error = Error.EmptyProof;
+      defNode.error = Error.ProofEmpty;
       return;
     }
     const proofNode: ProofNode = {

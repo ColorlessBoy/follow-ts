@@ -1,0 +1,19 @@
+import './first-order-logic/0_definitions.fol'
+
+thm ex1(wff w0, wff w1, wff w2) {
+  |- and w0 or w1 w2
+  -| w0 w2
+  -| w1 w2
+} = {
+  jaod and w0 w1 w2
+}
+
+thm mp2(wff w0, wff w1, wff w2) {
+  -| w0
+  -| w1
+  -| (imp w0 (imp w1 w2))
+  |- w2
+} = {
+  ax-mp w1 w2
+  ax-mp w0 imp w1 w2
+}
