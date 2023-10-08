@@ -3,22 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/metamath-to-follow.umd.cjs",
-  "module": "./dist/metamath-to-follow.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/metamath-to-follow.js",
-      "require": "./dist/metamath-to-follow.umd.cjs"
-    }
-  },
+  "main": "./dist/main.js",
+  "types": "./dist/main.d.ts",
   "engines": {
     "node": ">=16.20.0"
   },
   "scripts": {
+    "build": "tsc -b",
     "test": "vitest"
   },
   "keywords": [],
