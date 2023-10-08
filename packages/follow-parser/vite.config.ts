@@ -1,7 +1,6 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import nodeExternals from 'rollup-plugin-node-externals';
 
 export default defineConfig({
   build: {
@@ -13,5 +12,5 @@ export default defineConfig({
       fileName: 'follow-parser',
     },
   },
-  plugins: [dts(), nodeExternals({ builtinsPrefix: 'add' })],
+  plugins: [dts()],
 });

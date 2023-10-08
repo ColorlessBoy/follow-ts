@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
+    "target": "es2016",
     "module": "ESNext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "lib": ["ES2020"],
     "skipLibCheck": true,
 
@@ -19,7 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "sourceMap": true
   },
-  "include": ["src"]
+  "include": ["./src"]
 }

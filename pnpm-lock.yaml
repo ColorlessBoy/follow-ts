@@ -62,9 +62,6 @@ importers:
       rimraf:
         specifier: ^5.0.1
         version: 5.0.1
-      rollup-plugin-node-externals:
-        specifier: ^6.1.2
-        version: 6.1.2(rollup@3.29.2)
       typescript:
         specifier: ^5.0.2
         version: 5.2.2
@@ -73,10 +70,19 @@ importers:
         version: 4.4.9(@types/node@20.8.2)
       vite-plugin-dts:
         specifier: ^3.6.0
-        version: 3.6.0(@types/node@20.8.2)(rollup@3.29.2)(typescript@5.2.2)(vite@4.4.9)
+        version: 3.6.0(@types/node@20.8.2)(typescript@5.2.2)(vite@4.4.9)
       vitest:
         specifier: ^0.34.4
         version: 0.34.4
+
+  packages/metamath-to-follow:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.8.2
+        version: 20.8.2
+      typescript:
+        specifier: ^5.0.2
+        version: 5.2.2
 
 packages:
 
@@ -592,7 +598,7 @@ packages:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 20.4.7
+      '@types/node': 20.8.2
       '@types/yargs': 17.0.24
       chalk: 4.1.2
     dev: true
@@ -696,7 +702,7 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /@rollup/pluginutils@5.0.5(rollup@3.29.2):
+  /@rollup/pluginutils@5.0.5:
     resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -708,7 +714,6 @@ packages:
       '@types/estree': 1.0.2
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 3.29.2
     dev: true
 
   /@rushstack/node-core-library@3.61.0(@types/node@20.8.2):
@@ -2293,7 +2298,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.4.7
+      '@types/node': 20.8.2
       chalk: 4.1.2
       ci-info: 3.8.0
       graceful-fs: 4.2.11
@@ -3020,15 +3025,6 @@ packages:
       glob: 10.3.4
     dev: true
 
-  /rollup-plugin-node-externals@6.1.2(rollup@3.29.2):
-    resolution: {integrity: sha512-2TWan0u0/zHcgPrKpIPgKSY8OMqwDAYD380I0hxx7iUQw8mrN34DWwG9sQUMEo5Yy4xd6/5QEAySYgiKN9fdBQ==}
-    engines: {node: '>=16.0.0'}
-    peerDependencies:
-      rollup: ^3.0.0 || ^4.0.0
-    dependencies:
-      rollup: 3.29.2
-    dev: true
-
   /rollup@3.29.2:
     resolution: {integrity: sha512-CJouHoZ27v6siztc21eEQGo0kIcE5D1gVPA571ez0mMYb25LGYGKnVNXpEj5MGlepmDWGXNjDB5q7uNiPHC11A==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
@@ -3475,7 +3471,7 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-dts@3.6.0(@types/node@20.8.2)(rollup@3.29.2)(typescript@5.2.2)(vite@4.4.9):
+  /vite-plugin-dts@3.6.0(@types/node@20.8.2)(typescript@5.2.2)(vite@4.4.9):
     resolution: {integrity: sha512-doxhDRFJCZD2sGjIp4V800nm8Y19GvmwckjG5vYPuiqJ7OBjc9NlW1Vp9Gkyh2aXlUs1jTDRH/lxWfcsPLOQHg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -3486,7 +3482,7 @@ packages:
         optional: true
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@20.8.2)
-      '@rollup/pluginutils': 5.0.5(rollup@3.29.2)
+      '@rollup/pluginutils': 5.0.5
       '@vue/language-core': 1.8.15(typescript@5.2.2)
       debug: 4.3.4
       kolorist: 1.8.0
