@@ -8,12 +8,14 @@ thm ex1(wff w0, wff w1, wff w2) {
   jaod and w0 w1 w2
 }
 
+axiom ax-mp2(wff w0, wff w1) {|- w0 -| w1 -| imp w1 w0}
+
 thm mp2(wff w0, wff w1, wff w2) {
-  -| w0
+  |- w0
   -| w1
-  -| (imp w0 (imp w1 w2))
-  |- w2
+  -| w2
+  -| imp w2 imp w1 w0
 } = {
-  ax-mp w1 w2
-  ax-mp w0 imp w1 w2
+  ax-mp2 w0 w1
+  ax-mp2 imp w1 w0 w2
 }

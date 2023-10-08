@@ -22,19 +22,19 @@ test('#2 checkDefinition', () => {
     if (opTrees) {
       for (const opTree of opTrees) {
         const outputStr: Array<string> = [];
+        if (opTree.target) {
+          outputStr.push('|- ' + opNodeString(opTree.target));
+        }
         if (opTree.assumes) {
           for (const assume of opTree.assumes) {
             outputStr.push('-| ' + opNodeString(assume));
           }
         }
-        if (opTree.target) {
-          outputStr.push('|- ' + opNodeString(opTree.target));
-        }
         opTreesStr.push(outputStr.join(' '));
       }
     }
     expect(opTreesStr.length).toBe(2);
-    expect(opTreesStr[0]).toBe('-| w1 -| imp w1 w2 |- w2');
-    expect(opTreesStr[1]).toBe('-| w0 -| imp w0 imp w1 w2 |- imp w1 w2');
+    expect(opTreesStr[0]).toBe('|- w0 -| w1 -| imp w1 w0');
+    expect(opTreesStr[1]).toBe('|- imp w1 w0 -| w2 -| imp w2 imp w1 w0');
   }
 });
