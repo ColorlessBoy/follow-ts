@@ -16,7 +16,9 @@
   "author": "Lingwei Peng <penglingwei@zju.edu.cn>",
   "license": "MIT",
   "devDependencies": {
+    "@types/charcodes": "^0.2.0",
     "@types/node": "^20.8.2",
+    "charcodes": "^0.2.0",
     "typescript": "^5.0.2",
     "vitest": "^0.34.6"
   }
