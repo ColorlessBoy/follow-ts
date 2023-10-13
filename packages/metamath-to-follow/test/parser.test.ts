@@ -19,4 +19,6 @@ test('#1 Import', () => {
   const parser = new Parser(input);
   const frame = parser.nextFrame();
   expect(frame?.constants.size).toBe(5);
+  expect(frame?.proves.length).toBe(1);
+  expect(frame?.proves[0].isProved).toBe(true);
 });
