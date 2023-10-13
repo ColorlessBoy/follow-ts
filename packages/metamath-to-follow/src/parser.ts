@@ -1,3 +1,4 @@
+import Scanner from './scanner';
 import {
   AxiomNode,
   DisjointNode,
@@ -5,16 +6,128 @@ import {
   EssentialNode,
   FloatNode,
   Frame,
+  Node,
   NodeType,
+  OpNode,
+  ParserOptions,
   ProveNode,
   Token,
   TokenType,
   disjointNodeToString,
   stmtNodeToString,
 } from './types';
+import * as charCodes from 'charcodes';
+
+export default class Parser {
+  private frameStack: FrameStack = new FrameStack();
+  private scanner: Scanner;
+  private parserOptions?: ParserOptions;
+  private comments: Array<Token> = [];
+
+  constructor(input: string, parserOptions?: ParserOptions) {
+    this.scanner = new Scanner(input, parserOptions?.scannerOptions);
+    this.parserOptions = parserOptions;
+  }
+
+  public nextFrame(): Frame | undefined {
+    this.frameStack.pushEmpty();
+
+    let label: Token | undefined;
+    let keywordToken = this.nextToken();
+    while (keywordToken.tokenType !== TokenType.EOF && keywordToken.tokenType !== TokenType.BEND) {
+      if (keywordToken.tokenType === TokenType.CONST) {
+        const consts = this.nextStatement();
+        for (const c of consts) {
+          this.frameStack.addConst(c);
+        }
+      } else if (keywordToken.tokenType === TokenType.VAR) {
+        const vars = this.nextStatement();
+        for (const v of vars) {
+          this.frameStack.addVar(v);
+        }
+      } else if (keywordToken.tokenType === TokenType.FLOAT) {
+        const statement = this.nextStatement();
+        this.frameStack.addFloat(keywordToken, statement, label);
+      } else if (keywordToken.tokenType === TokenType.AXIOM) {
+        const statement = this.nextStatement();
+        this.frameStack.addAxiom(keywordToken, statement, label);
+      } else if (keywordToken.tokenType === TokenType.ESSENTIAL) {
+        const statement = this.nextStatement();
+        this.frameStack.addEssential(keywordToken, statement, label);
+      } else if (keywordToken.tokenType === TokenType.PROVE) {
+        const statement = this.nextStatement();
+        const proof = this.nextStatement();
+        this.frameStack.addProve(keywordToken, statement, proof, label);
+      } else if (keywordToken.tokenType === TokenType.DISJOINT) {
+        const tokens = this.nextStatement();
+        this.frameStack.addDisjoint(keywordToken, tokens);
+      } else if (keywordToken.tokenType === TokenType.BSTART) {
+        // TODO: fix this.
+        const nextFrame = this.nextFrame();
+        if (nextFrame) {
+          this.frameStack.update(nextFrame);
+        }
+      } else {
+        label = keywordToken;
+      }
+      keywordToken = this.nextToken();
+    }
+
+    const frame = this.frameStack.pop();
+    return frame;
+  }
+
+  private nextToken(): Token {
+    let token = this.scanner.next();
+    while (token.tokenType === TokenType.COMMENT) {
+      this.comments.push(token);
+      token = this.scanner.next();
+    }
+    return token;
+  }
+
+  private nextStatement(): Array<Token> {
+    let token = this.nextToken();
+    const statement: Array<Token> = [];
+    while (token.tokenType !== TokenType.END && token.tokenType !== TokenType.EQ) {
+      statement.push(token);
+      token = this.nextToken();
+    }
+    return statement;
+  }
+}
 
 export class FrameStack {
   private stack: Array<Frame> = [];
+
+  public pop(): Frame | undefined {
+    return this.stack.pop();
+  }
+
+  public update(nextFrame: Frame) {
+    if (this.stack.length === 0) {
+      this.pushEmpty();
+    }
+    const frame = this.stack[this.stack.length - 1];
+    for (const axiom of nextFrame.axioms) {
+      const label = axiom.label;
+      const axiomStr = stmtNodeToString(axiom);
+      if (label) {
+        frame.axioms.push(axiom);
+        frame.axiomMap.set(label.value, axiom);
+        frame.axiomStrMap.set(axiomStr, axiom);
+      }
+    }
+    for (const prove of nextFrame.proves) {
+      const label = prove.label;
+      const axiomStr = stmtNodeToString(prove);
+      if (label) {
+        frame.proves.push(prove);
+        frame.proveMap.set(label.value, prove);
+        frame.proveStrMap.set(axiomStr, prove);
+      }
+    }
+  }
 
   public pushEmpty() {
     this.stack.push(this.createEmptyFrame());
@@ -24,7 +137,7 @@ export class FrameStack {
     if (this.stack.length === 0) {
       this.pushEmpty();
     }
-    const frame = this.stack[-1];
+    const frame = this.stack[this.stack.length - 1];
     if (frame.constants.has(token.value)) {
       token.error = Error.ConstNameDuplicated;
     } else if (frame.variables.has(token.value)) {
@@ -38,7 +151,7 @@ export class FrameStack {
     if (this.stack.length === 0) {
       this.pushEmpty();
     }
-    const frame = this.stack[-1];
+    const frame = this.stack[this.stack.length - 1];
     if (frame.constants.has(token.value)) {
       token.error = Error.VarNameDuplicated;
     } else if (frame.variables.has(token.value)) {
@@ -48,11 +161,11 @@ export class FrameStack {
     }
   }
 
-  public addFloat(keyword: Token, tokens: Array<Token>, label?: Token) {
+  public addFloat(keyword: Token, statement: Array<Token>, label?: Token) {
     if (this.stack.length === 0) {
       this.pushEmpty();
     }
-    const frame = this.stack[-1];
+    const frame = this.stack[this.stack.length - 1];
 
     const floatNode: FloatNode = {
       nodeType: NodeType.FLOAT,
@@ -62,13 +175,18 @@ export class FrameStack {
 
     if (label) {
       label.tokenType = TokenType.FLOAT_LABEL;
+      const node = this.lookUpLabel(label.value);
+      if (node) {
+        floatNode.label = undefined;
+        label.error = Error.LabelDuplicated;
+      }
     }
 
     let idx = 0;
     // parse type
-    if (idx < tokens.length) {
-      const token = tokens[idx];
-      if (this.lookUpConst(token) === undefined) {
+    if (idx < statement.length) {
+      const token = statement[idx];
+      if (this.lookUpConst(token)) {
         token.tokenType = TokenType.TYPE_VAL;
         floatNode.type = token;
       } else {
@@ -77,9 +195,9 @@ export class FrameStack {
       idx++;
     }
     // parse variable
-    if (idx < tokens.length) {
-      const token = tokens[idx];
-      if (this.lookUpVar(token) === undefined) {
+    if (idx < statement.length) {
+      const token = statement[idx];
+      if (this.lookUpVar(token)) {
         token.tokenType = TokenType.VAR_VAL;
         floatNode.variable = token;
       } else {
@@ -88,8 +206,8 @@ export class FrameStack {
       idx++;
     }
     // error handling
-    for (; idx < tokens.length; idx++) {
-      const token = tokens[idx];
+    for (; idx < statement.length; idx++) {
+      const token = statement[idx];
       token.error = Error.FloatTokenUseless;
     }
     if (floatNode.label === undefined) {
@@ -111,11 +229,11 @@ export class FrameStack {
     }
   }
 
-  public addEssential(keyword: Token, tokens: Array<Token>, label?: Token) {
+  public addEssential(keyword: Token, statement: Array<Token>, label?: Token) {
     if (this.stack.length === 0) {
       this.pushEmpty();
     }
-    const frame = this.stack[-1];
+    const frame = this.stack[this.stack.length - 1];
 
     const essentialNode: EssentialNode = {
       nodeType: NodeType.ESSENTIAL,
@@ -126,13 +244,18 @@ export class FrameStack {
 
     if (label) {
       label.tokenType = TokenType.ESSENTIAL_LABEL;
+      const node = this.lookUpLabel(label.value);
+      if (node) {
+        essentialNode.label = undefined;
+        label.error = Error.LabelDuplicated;
+      }
     }
 
     let idx = 0;
     // parse type
-    if (idx < tokens.length) {
-      const token = tokens[idx];
-      if (this.lookUpConst(token) === undefined) {
+    if (idx < statement.length) {
+      const token = statement[idx];
+      if (this.lookUpConst(token)) {
         token.tokenType = TokenType.TYPE_VAL;
         essentialNode.type = token;
       } else {
@@ -141,8 +264,8 @@ export class FrameStack {
       idx++;
     }
     // parse body
-    for (; idx < tokens.length; ++idx) {
-      const token = tokens[idx];
+    for (; idx < statement.length; ++idx) {
+      const token = statement[idx];
       if (this.lookUpConst(token)) {
         token.tokenType = TokenType.CONST_VAL;
         essentialNode.body.push(token);
@@ -164,20 +287,23 @@ export class FrameStack {
 
     if (essentialNode.error === undefined) {
       const bodyStr: string = stmtNodeToString(essentialNode);
-      if (frame.essentialsMap.has(bodyStr)) {
+      if (!frame.essentialsStrMap.has(bodyStr)) {
         frame.essentials.push(essentialNode);
-        frame.essentialsMap.set(bodyStr, essentialNode);
+        frame.essentialsStrMap.set(bodyStr, essentialNode);
+        if (essentialNode.label?.value) {
+          frame.essentialMap.set(essentialNode.label.value, essentialNode);
+        }
       }
     } else {
       frame.errorNodes.push(essentialNode);
     }
   }
 
-  public addAxiom(keyword: Token, tokens: Array<Token>, label?: Token) {
+  public addAxiom(keyword: Token, statement: Array<Token>, label?: Token) {
     if (this.stack.length === 0) {
       this.pushEmpty();
     }
-    const frame = this.stack[-1];
+    const frame = this.stack[this.stack.length - 1];
 
     const axiomNode: AxiomNode = {
       nodeType: NodeType.AXIOM,
@@ -191,13 +317,18 @@ export class FrameStack {
 
     if (label) {
       label.tokenType = TokenType.AXIOM_LABEL;
+      const node = this.lookUpLabel(label.value);
+      if (node) {
+        axiomNode.label = undefined;
+        label.error = Error.LabelDuplicated;
+      }
     }
 
     let idx = 0;
     // parse type
-    if (idx < tokens.length) {
-      const token = tokens[idx];
-      if (this.lookUpConst(token) === undefined) {
+    if (idx < statement.length) {
+      const token = statement[idx];
+      if (this.lookUpConst(token)) {
         token.tokenType = TokenType.TYPE_VAL;
         axiomNode.type = token;
       } else {
@@ -206,8 +337,8 @@ export class FrameStack {
       idx++;
     }
     // parse body
-    for (; idx < tokens.length; ++idx) {
-      const token = tokens[idx];
+    for (; idx < statement.length; ++idx) {
+      const token = statement[idx];
       if (this.lookUpConst(token)) {
         token.tokenType = TokenType.CONST_VAL;
         axiomNode.body.push(token);
@@ -228,23 +359,25 @@ export class FrameStack {
     }
 
     if (axiomNode.error === undefined) {
+      this.makeAssertion(axiomNode);
       const bodyStr: string = stmtNodeToString(axiomNode);
-      if (frame.axiomsMap.has(bodyStr)) {
+      if (!frame.axiomStrMap.has(bodyStr)) {
         frame.axioms.push(axiomNode);
-        frame.axiomsMap.set(bodyStr, axiomNode);
+        frame.axiomStrMap.set(bodyStr, axiomNode);
+        if (axiomNode.label?.value) {
+          frame.axiomMap.set(axiomNode.label.value, axiomNode);
+        }
       }
     } else {
       frame.errorNodes.push(axiomNode);
     }
-
-    this.makeAssertion(axiomNode);
   }
 
-  public addProve(keyword: Token, tokens: Array<Token>, proof: Array<Token>, label?: Token) {
+  public addProve(keyword: Token, statement: Array<Token>, proof: Array<Token>, label?: Token) {
     if (this.stack.length === 0) {
       this.pushEmpty();
     }
-    const frame = this.stack[-1];
+    const frame = this.stack[this.stack.length - 1];
 
     const proveNode: ProveNode = {
       nodeType: NodeType.PROVE,
@@ -259,13 +392,18 @@ export class FrameStack {
 
     if (label) {
       label.tokenType = TokenType.PROVE_LABEL;
+      const node = this.lookUpLabel(label.value);
+      if (node) {
+        proveNode.label = undefined;
+        label.error = Error.LabelDuplicated;
+      }
     }
 
     let idx = 0;
     // parse type
-    if (idx < tokens.length) {
-      const token = tokens[idx];
-      if (this.lookUpConst(token) === undefined) {
+    if (idx < statement.length) {
+      const token = statement[idx];
+      if (this.lookUpConst(token)) {
         token.tokenType = TokenType.TYPE_VAL;
         proveNode.type = token;
       } else {
@@ -274,8 +412,8 @@ export class FrameStack {
       idx++;
     }
     // parse body
-    for (; idx < tokens.length; ++idx) {
-      const token = tokens[idx];
+    for (; idx < statement.length; ++idx) {
+      const token = statement[idx];
       if (this.lookUpConst(token)) {
         token.tokenType = TokenType.CONST_VAL;
         proveNode.body.push(token);
@@ -298,22 +436,27 @@ export class FrameStack {
     }
 
     if (proveNode.error === undefined) {
+      this.makeAssertion(proveNode);
+      this.decompressProof(proveNode);
+      this.verifyProof(proveNode);
       const bodyStr: string = stmtNodeToString(proveNode);
-      if (frame.proveMap.has(bodyStr)) {
-        frame.prove.push(proveNode);
-        frame.proveMap.set(bodyStr, proveNode);
+      if (!frame.proveStrMap.has(bodyStr)) {
+        frame.proves.push(proveNode);
+        frame.proveStrMap.set(bodyStr, proveNode);
+        if (proveNode.label?.value) {
+          frame.proveMap.set(proveNode.label.value, proveNode);
+        }
       }
     } else {
       frame.errorNodes.push(proveNode);
     }
-    this.makeAssertion(proveNode);
   }
 
   public addDisjoint(keyword: Token, tokens: Array<Token>) {
     if (this.stack.length === 0) {
       this.pushEmpty();
     }
-    const frame = this.stack[-1];
+    const frame = this.stack[this.stack.length - 1];
     const tokensValid = [];
     for (const token of tokens) {
       if (this.lookUpVar(token)) {
@@ -382,9 +525,31 @@ export class FrameStack {
   public lookUpEssential(statement: string): EssentialNode | undefined {
     for (let i = this.stack.length - 1; i >= 0; i--) {
       const frame = this.stack[i];
-      const essentialDefToken = frame.essentialsMap.get(statement);
+      const essentialDefToken = frame.essentialsStrMap.get(statement);
       if (essentialDefToken) {
         return essentialDefToken;
+      }
+    }
+  }
+
+  public lookUpLabel(label: string): FloatNode | EssentialNode | AxiomNode | ProveNode | undefined {
+    for (let i = this.stack.length - 1; i >= 0; i--) {
+      const frame = this.stack[i];
+      const floatDefNode = frame.floatMap.get(label);
+      if (floatDefNode) {
+        return floatDefNode;
+      }
+      const essentialDefNode = frame.essentialMap.get(label);
+      if (essentialDefNode) {
+        return essentialDefNode;
+      }
+      const axiomDefNode = frame.axiomMap.get(label);
+      if (axiomDefNode) {
+        return axiomDefNode;
+      }
+      const proveDefNode = frame.proveMap.get(label);
+      if (proveDefNode) {
+        return proveDefNode;
       }
     }
   }
@@ -408,11 +573,14 @@ export class FrameStack {
       floats: [],
       floatMap: new Map(),
       essentials: [],
-      essentialsMap: new Map(),
+      essentialMap: new Map(),
+      essentialsStrMap: new Map(),
       axioms: [],
-      axiomsMap: new Map(),
-      prove: [],
+      axiomMap: new Map(),
+      axiomStrMap: new Map(),
+      proves: [],
       proveMap: new Map(),
+      proveStrMap: new Map(),
       errorNodes: [],
     };
   }
@@ -467,5 +635,235 @@ export class FrameStack {
       }
     }
     node.floats.reverse();
+  }
+
+  private decompressProof(proveNode: ProveNode) {
+    if (proveNode.proof[0].value !== '(') {
+      const decompressProof: Array<Node> = [];
+      for (const token of proveNode.proof) {
+        const node = this.lookUpLabel(token.value);
+        if (node) {
+          decompressProof.push(node);
+        }
+      }
+      proveNode.decompressProof = decompressProof;
+      return;
+    }
+    const floats = proveNode.floats;
+    const essentials = proveNode.essentials;
+
+    const opLabelInProof: Array<Node> = [];
+    let idx = 0;
+    for (; idx < proveNode.proof.length; idx++) {
+      const token = proveNode.proof[idx];
+      if (token.value === '(') {
+        continue;
+      } else if (token.value === ')') {
+        idx++; // eat ')'
+        break;
+      } else {
+        const labelNode = this.lookUpLabel(token.value);
+        if (labelNode) {
+          opLabelInProof.push(labelNode);
+          token.tokenType = TokenType.OP_Label_IN_PROOF;
+        } else {
+          token.error = Error.LabelUndefined;
+        }
+      }
+    }
+
+    const compressdProof = proveNode.proof
+      .slice(idx)
+      .map((e) => e.value)
+      .join();
+    const proofInts: Array<number> = [];
+    let curInt = 0;
+    for (const ch of compressdProof) {
+      if (ch === 'Z') {
+        proofInts.push(-1);
+      } else if ('A' <= ch && ch <= 'T') {
+        curInt = 20 * curInt + (ch.charCodeAt(0) - charCodes.uppercaseA) + 1;
+        proofInts.push(curInt - 1);
+        curInt = 0;
+      } else if ('U' <= ch && ch <= 'Y') {
+        curInt = 5 * curInt + ch.charCodeAt(0) - charCodes.uppercaseU + 1;
+      }
+    }
+
+    const floatEndIdx = floats.length;
+    const essentialEndIdx = floatEndIdx + essentials.length;
+    const opLabelEndIdx = essentialEndIdx + opLabelInProof.length;
+    let decompressInts: Array<number> = [];
+    const subProofs: Array<Array<number>> = [];
+    let prevProofs: Array<Array<number>> = [];
+
+    for (const proofInt of proofInts) {
+      if (proofInt === -1) {
+        subProofs.push(prevProofs[prevProofs.length - 1]);
+      } else if (0 <= proofInt && proofInt < essentialEndIdx) {
+        prevProofs.push([proofInt]);
+        decompressInts.push(proofInt);
+      } else if (essentialEndIdx <= proofInt && proofInt < opLabelEndIdx) {
+        decompressInts.push(proofInt);
+        const labelNode = opLabelInProof[proofInt - essentialEndIdx];
+        if (labelNode.nodeType === NodeType.AXIOM || labelNode.nodeType === NodeType.PROVE) {
+          const hypNum = labelNode.essentials.length + labelNode.floats.length;
+          const newPrevProof: Array<number> = [];
+          if (hypNum > 0) {
+            for (let i = prevProofs.length - hypNum; i < prevProofs.length; i++) {
+              if (i < 0) {
+                continue;
+              }
+              for (const n of prevProofs[i]) {
+                newPrevProof.push(n);
+              }
+            }
+            prevProofs = prevProofs.slice(0, prevProofs.length - hypNum);
+          }
+          newPrevProof.push(proofInt);
+          prevProofs.push(newPrevProof);
+        } else {
+          prevProofs.push([proofInt]);
+        }
+      } else if (proofInt - opLabelEndIdx < subProofs.length) {
+        const proof = subProofs[proofInt - opLabelEndIdx];
+        decompressInts = decompressInts.concat(proof);
+      }
+    }
+
+    const decompressProof: Array<Node> = [];
+    for (const di of decompressInts) {
+      let node: Node | undefined;
+      if (di < floatEndIdx) {
+        node = floats[di];
+      } else if (di < essentialEndIdx) {
+        node = essentials[di - floatEndIdx];
+      } else if (di < opLabelEndIdx) {
+        node = opLabelInProof[di - essentialEndIdx];
+      }
+      if (node) {
+        decompressProof.push(node);
+      }
+    }
+    proveNode.decompressProof = decompressProof;
+  }
+  private verifyProof(proveNode: ProveNode) {
+    if (proveNode.decompressProof === undefined) {
+      this.decompressProof(proveNode);
+    }
+    const decompressProof = proveNode.decompressProof;
+    if (decompressProof === undefined) {
+      return;
+    }
+    let stack: Array<OpNode> = [];
+    for (const node of decompressProof) {
+      const opNode: OpNode = {
+        nodeType: NodeType.OP,
+        definition: node,
+        argMap: new Map(),
+        varSet: new Set(),
+        children: [],
+      };
+      if (node.nodeType === NodeType.AXIOM || node.nodeType === NodeType.PROVE) {
+        const floats = node.floats;
+        const essentials = node.essentials;
+        const disjointMap = node.disjointMap;
+        const argNum: number = floats.length + essentials.length;
+        let sp = stack.length - argNum;
+        if (sp < 0) {
+          opNode.error = Error.OpStackOverflow;
+        } else {
+          for (const float of floats) {
+            const childOpNode = stack[sp];
+            sp++;
+            if (float.type?.value !== childOpNode.definition.type?.value) {
+              childOpNode.error = Error.OpTypeError;
+              opNode.error = Error.ArgOpTypeError;
+              break;
+            } else {
+              if (float.variable) {
+                opNode.argMap.set(float.variable.value, childOpNode);
+                opNode.children.push(childOpNode);
+              }
+            }
+          }
+          for (const disjoint of disjointMap.values()) {
+            const leftVarSet = opNode.argMap.get(disjoint.left.value)?.varSet;
+            const rightVarSet = opNode.argMap.get(disjoint.right.value)?.varSet;
+            if (leftVarSet && rightVarSet) {
+              for (const leftvar of leftVarSet) {
+                if (rightVarSet.has(leftvar)) {
+                  opNode.error = Error.OpDisjointBreak;
+                  break;
+                }
+              }
+            }
+            if (opNode.error) {
+              break;
+            }
+          }
+          for (const essential of essentials) {
+            const childEssential = stack[sp];
+            sp++;
+            const subsInputToken = this.subsBody(essential.body, opNode.argMap);
+            if (childEssential.body) {
+              if (!this.tokensEq(childEssential.body, subsInputToken)) {
+                opNode.error = Error.OpEssentialMissing;
+                break;
+              }
+              opNode.children.push(childEssential);
+            }
+          }
+          if (opNode.error === undefined && opNode.definition.body) {
+            opNode.body = this.subsBody(opNode.definition.body, opNode.argMap);
+          }
+        }
+        stack = stack.slice(0, stack.length - argNum);
+        stack.push(opNode);
+      } else if (node.nodeType === NodeType.FLOAT) {
+        if (node.variable) {
+          opNode.body = [node.variable];
+        }
+        stack.push(opNode);
+      } else if (node.nodeType === NodeType.ESSENTIAL) {
+        if (node.body) {
+          opNode.body = node.body;
+        }
+        stack.push(opNode);
+      }
+    }
+    proveNode.opTree = stack.pop();
+    if (proveNode.opTree?.body) {
+      const proveSuccess = this.tokensEq(proveNode.body, proveNode.opTree?.body);
+      if (proveSuccess) {
+        proveNode.isProved = true;
+      }
+    }
+    if (!proveNode.isProved) {
+      proveNode.error = Error.ProveFailed;
+    }
+  }
+  private subsBody(tokens: Array<Token>, argMap: Map<string, OpNode>): Array<Token> {
+    let subsEssentials: Array<Token> = [];
+    for (const token of tokens) {
+      const arg = argMap.get(token.value);
+      if (arg && arg.body) {
+        subsEssentials = subsEssentials.concat(arg.body);
+      } else {
+        subsEssentials.push(token);
+      }
+    }
+    return subsEssentials;
+  }
+  private tokensEq(tokensA: Array<Token>, tokensB: Array<Token>): boolean {
+    if (tokensA.length !== tokensB.length) {
+      return false;
+    }
+    for (let i = 0; i < tokensA.length; i++) {
+      if (tokensA[i].value !== tokensB[i].value) {
+        return false;
+      }
+    }
+    return true;
   }
 }

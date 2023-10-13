@@ -1,4 +1,7 @@
 export enum Error {
+  LabelDuplicated = 'labelDuplicated',
+  LabelUndefined = 'labelUndefined',
+
   ConstNameDuplicated = 'ConstNameDuplicated',
   VarNameDuplicated = 'VarNameDuplicated',
   TypeUndefined = 'TypeUndefined',
@@ -25,6 +28,15 @@ export enum Error {
   ProveTypeMissing = 'ProveTypeMissing',
   ProveBodyEmpty = 'ProveBodyEmpty',
   ProveProofEmpty = 'ProveProofEmpty',
+
+  OpDefMissing = 'OpDefMissing',
+  OpStackOverflow = 'OpStackOverflow',
+  OpTypeError = 'OpTypeError',
+  ArgOpTypeError = 'ArgOpTypeError',
+  OpDisjointBreak = 'OpDisjointBreak',
+  OpEssentialMissing = 'OpEssentialMissing',
+
+  ProveFailed = 'ProveFailed',
 }
 
 // https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#position
@@ -65,6 +77,9 @@ export enum TokenType {
   ESSENTIAL_LABEL = 'essential_label',
   AXIOM_LABEL = 'axiom_label',
   PROVE_LABEL = 'prove_label',
+
+  OP_Label_IN_PROOF = 'op_in_proof',
+  OP_COMPRESSED_ID = 'op_compressed_id',
 }
 
 export interface Token {
@@ -113,6 +128,10 @@ export type ScannerOptions = {
   sourceFilename?: string;
 };
 
+export type ParserOptions = {
+  scannerOptions?: ScannerOptions;
+};
+
 export interface Frame {
   constants: Map<string, Token>;
   variables: Map<string, Token>;
@@ -120,11 +139,14 @@ export interface Frame {
   floats: Array<FloatNode>;
   floatMap: Map<string, FloatNode>;
   essentials: Array<EssentialNode>;
-  essentialsMap: Map<string, EssentialNode>;
+  essentialMap: Map<string, EssentialNode>;
+  essentialsStrMap: Map<string, EssentialNode>;
   axioms: Array<AxiomNode>;
-  axiomsMap: Map<string, AxiomNode>;
-  prove: Array<ProveNode>;
+  axiomMap: Map<string, AxiomNode>;
+  axiomStrMap: Map<string, AxiomNode>;
+  proves: Array<ProveNode>;
   proveMap: Map<string, ProveNode>;
+  proveStrMap: Map<string, ProveNode>;
   errorNodes: Array<Node>;
 }
 
@@ -136,6 +158,7 @@ export enum NodeType {
   DISJOINT = 'disjoint',
   AXIOM = 'axiom',
   PROVE = 'prove',
+  OP = 'op',
 }
 
 export type Node = FloatNode | EssentialNode | AxiomNode | ProveNode;
@@ -151,6 +174,7 @@ export interface FloatNode extends NodeBase {
   label?: Token;
   type?: Token;
   variable?: Token;
+  body?: Array<Token>;
 }
 
 export interface EssentialNode extends NodeBase {
@@ -158,6 +182,7 @@ export interface EssentialNode extends NodeBase {
   keyword: Token;
   label?: Token;
   type?: Token;
+  variable?: Token;
   body: Array<Token>;
 }
 
@@ -170,6 +195,7 @@ export interface AxiomNode extends NodeBase {
   essentials: Array<EssentialNode>;
   floats: Array<FloatNode>;
   disjointMap: Map<string, DisjointNode>;
+  variable?: Token;
 }
 
 export interface ProveNode extends NodeBase {
@@ -182,6 +208,19 @@ export interface ProveNode extends NodeBase {
   essentials: Array<EssentialNode>;
   floats: Array<FloatNode>;
   disjointMap: Map<string, DisjointNode>;
+  decompressProof?: Array<Node>;
+  opTree?: OpNode;
+  variable?: Token;
+  isProved?: boolean;
+}
+
+export interface OpNode extends NodeBase {
+  nodeType: NodeType.OP;
+  children: Array<OpNode>;
+  definition: Node;
+  argMap: Map<string, OpNode>;
+  body?: Array<Token>;
+  varSet: Set<string>;
 }
 
 export interface DisjointNode extends NodeBase {
