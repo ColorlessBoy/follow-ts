@@ -1,5 +1,7 @@
 import { expect, test } from 'vitest';
 import Parser from '../src/parser';
+import path from 'path';
+import { existsSync, readFileSync } from 'node:fs';
 
 test('#1 Import', () => {
   const elements = [
@@ -21,4 +23,21 @@ test('#1 Import', () => {
   expect(frame?.constants.size).toBe(5);
   expect(frame?.proves.length).toBe(1);
   expect(frame?.proves[0].isProved).toBe(true);
+});
+
+test('#2 set_part1.mm', () => {
+  const filePath = './examples/set_part1.mm';
+  const absPath = path.resolve(filePath);
+  if (existsSync(absPath)) {
+    const input = readFileSync(filePath, 'utf-8');
+    const parser = new Parser(input);
+    const frame = parser.nextFrame();
+    expect(frame?.constants.size).toBe(31);
+    expect(frame?.axioms.length).toBe(55);
+    if (frame?.proves) {
+      for (const prove of frame.proves) {
+        expect(prove.isProved).toBe(true);
+      }
+    }
+  }
 });

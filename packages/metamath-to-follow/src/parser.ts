@@ -219,7 +219,8 @@ export class FrameStack {
     }
 
     if (floatNode.error === undefined) {
-      const name = floatNode.variable?.value;
+      // const name = floatNode.variable?.value;
+      const name = floatNode.label?.value;
       if (name) {
         frame.floats.push(floatNode);
         frame.floatMap.set(name, floatNode);
@@ -441,11 +442,11 @@ export class FrameStack {
       this.verifyProof(proveNode);
       const bodyStr: string = stmtNodeToString(proveNode);
       if (!frame.proveStrMap.has(bodyStr)) {
-        frame.proves.push(proveNode);
         frame.proveStrMap.set(bodyStr, proveNode);
-        if (proveNode.label?.value) {
-          frame.proveMap.set(proveNode.label.value, proveNode);
-        }
+      }
+      if (proveNode.label?.value) {
+        frame.proves.push(proveNode);
+        frame.proveMap.set(proveNode.label.value, proveNode);
       }
     } else {
       frame.errorNodes.push(proveNode);
@@ -728,6 +729,7 @@ export class FrameStack {
       } else if (proofInt - opLabelEndIdx < subProofs.length) {
         const proof = subProofs[proofInt - opLabelEndIdx];
         decompressInts = decompressInts.concat(proof);
+        prevProofs.push(proof);
       }
     }
 
