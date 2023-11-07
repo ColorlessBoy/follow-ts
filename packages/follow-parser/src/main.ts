@@ -1,3 +1,4 @@
-export function hello(name: string): string {
-  return `Hello ${name}, this is follow-parser!`;
-}
+import Parser from './parser';
+import Compiler from './compiler';
+
+export { Parser, Compiler };

@@ -1,0 +1,22 @@
+type wff
+const wff hw0
+const wff hw1
+const wff hw2
+const wff hw3
+prop wff not(wff w0)
+prop wff imp(wff w0, wff w1)
+prop wff iff(wff w0, wff w1)
+prop wff and(wff w0, wff w1)
+prop wff or(wff w0, wff w1)
+axiom ax-1(wff w0, wff w1) {|- imp w0 imp w1 w0}
+axiom ax-2(wff w0, wff w1, wff w2) {|- imp (imp w0 imp w1 w2) (imp imp w0 w1 imp w0 w2)}
+axiom ax-3(wff w0, wff w1) {|- imp (imp not w0 not w1) (imp w1 w0)}
+axiom ax-mp(wff w0, wff w1) {-| w0 -| imp w0 w1 |- w1}
+
+axiom df-iff(wff w0, wff w1) {
+  |- not imp
+    imp (iff w0 w1) (not imp imp w0 w1 not imp w1 w0)
+    not imp (not imp imp w0 w1 not imp w1 w0) (iff w0 w1)
+}
+axiom df-and(wff w0, wff w1) {|- iff and w0 w1 not imp w0 not w1}
+axiom df-or(wff w0, wff w1) {|- iff or w0 w1 imp not w0 w1}
