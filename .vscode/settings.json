@@ -1,5 +1,9 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "vitest.enable": true
+  "vitest.enable": true,
+  "editor.formatOnType": true,
+  "[lisp]": {
+    "editor.wordSeparators": "`|;:'\",()"
+  }
 }

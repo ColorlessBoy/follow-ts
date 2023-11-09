@@ -8,11 +8,15 @@
   ],
   "main": "./dist/follow-parser.umd.cjs",
   "module": "./dist/follow-parser.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/follow-parser.js",
       "require": "./dist/follow-parser.umd.cjs"
     }
+  },
+  "engines": {
+    "node": ">=16.20.0"
   },
   "scripts": {
     "build": "tsc && vite build",
@@ -21,9 +25,15 @@
     "clean": "rimraf dist"
   },
   "devDependencies": {
+    "@types/charcodes": "^0.2.0",
+    "@types/node": "^20.8.2",
+    "charcodes": "^0.2.0",
     "rimraf": "^5.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
+    "vite-plugin-dts": "^3.6.0",
     "vitest": "^0.34.4"
-  }
+  },
+  "author": "Lingwei Peng <penglingwei@zju.edu.cn>",
+  "license": "MIT"
 }
