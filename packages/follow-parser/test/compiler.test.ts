@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import Compiler from '../src/compiler';
-import { opNodeString } from '../src/types';
+import { opNodeToString } from '../src/types';
 
 test('#1 buildCompileGraph', () => {
   const compiler = new Compiler();
@@ -23,11 +23,11 @@ test('#2 checkDefinition', () => {
       for (const opTree of opTrees) {
         const outputStr: Array<string> = [];
         if (opTree.target) {
-          outputStr.push('|- ' + opNodeString(opTree.target));
+          outputStr.push('|- ' + opNodeToString(opTree.target));
         }
         if (opTree.assumes) {
           for (const assume of opTree.assumes) {
-            outputStr.push('-| ' + opNodeString(assume));
+            outputStr.push('-| ' + opNodeToString(assume));
           }
         }
         opTreesStr.push(outputStr.join(' '));
@@ -37,4 +37,12 @@ test('#2 checkDefinition', () => {
     expect(opTreesStr[0]).toBe('|- w0 -| w1 -| imp w1 w0');
     expect(opTreesStr[1]).toBe('|- imp w1 w0 -| w2 -| imp w2 imp w1 w0');
   }
+});
+
+test('#3 set_part2.fol', () => {
+  const compiler = new Compiler();
+  const filePath = './examples/set_part2.fol';
+  const output = './examples/set_part2_v2.fol';
+  compiler.translate(filePath, output);
+  expect(6 + 1).toBe(7);
 });

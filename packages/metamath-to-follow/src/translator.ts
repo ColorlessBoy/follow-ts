@@ -60,9 +60,9 @@ export function metamathToFollow(filename: string, output: string) {
     }
     contents.push(`const wff hw0 hw1 hw2 hw3 hw4 hw5 hw6 hw7 hw8 hw9`);
     contents.push(`const setvar hs0 hs1 hs2 hs3 hs4 hs5 hs6 hs7 hs8 hs9`);
-    contents.push(`prop wff diff-ss(setvar s0, setvar s1)`);
-    contents.push(`prop wff diff-sc(setvar s0, class c0)`);
-    contents.push(`prop wff diff-sw(setvar s0, wff w0)`);
+    contents.push(`prop wff diffss(setvar s0, setvar s1)`);
+    contents.push(`prop wff diffsc(setvar s0, class c0)`);
+    contents.push(`prop wff diffsw(setvar s0, wff w0)`);
     for (const axiom of frame.axioms) {
       if (axiom.type?.value !== '|-' && axiom.floatsReordered && axiom.floatsReordered.length > 0) {
         if (axiom.label?.value === undefined) {
@@ -113,7 +113,7 @@ export function metamathToFollow(filename: string, output: string) {
     }
 
     for (const prove of frame.proves) {
-      if (prove.label?.value === 'idi' || prove.label?.value === 'a1ii') {
+      if (prove.label?.value === 'idi' || prove.label?.value === 'a1ii' || prove.label?.value === 'pm11.07') {
         continue;
       }
       if (prove.type?.value === '|-') {
@@ -208,30 +208,18 @@ class BodyParser {
     return;
   }
 
-  public parseToString(token: Array<Token>): string {
+  public parse(token: Array<Token>, node: AxiomNode | ProveNode): OpNode | undefined {
     const tokenStr = token.map((e) => {
       return e.value;
     });
-    const opNode = this.parse2(tokenStr);
-    if (opNode) {
-      const s = opNodeToString(opNode);
-      return s;
-    }
-    return '';
-  }
-
-  public parse(token: Array<Token>): OpNode | undefined {
-    const tokenStr = token.map((e) => {
-      return e.value;
-    });
-    const opNode = this.parse2(tokenStr);
+    const opNode = this.parse2(tokenStr, node);
     return opNode;
   }
 
-  private parse2(tokens: Array<string>): OpNode | undefined {
+  private parse2(tokens: Array<string>, node: AxiomNode | ProveNode): OpNode | undefined {
     const currentTokens: Array<string | OpNode> = [];
     for (const token of tokens) {
-      const float = this.frame.floatVarMap.get(token);
+      const float = node.floatVarMap.get(token) || this.frame.floatVarMap.get(token);
       if (float) {
         const opNode = createOpNode(float);
         currentTokens.push(opNode);
@@ -522,15 +510,22 @@ export function proofToStringRename(node: OpNode, prove: ProveNode | AxiomNode, 
   const proofOps = proofToString(node).trim().split(new RegExp(' +'));
   const nextProofOps = [];
   const floatsAliasMap: Map<string, string> = prove.floatsAliasMap || new Map();
+  const floatMap = prove.floatMap;
   prove.floatsAliasMap = floatsAliasMap;
   const hiddenAliasCount: Map<string, number> = prove.hiddenAliasCount || new Map();
   prove.hiddenAliasCount = hiddenAliasCount;
   for (const op of proofOps) {
-    let validOp = op;
+    let frameOpStr: string = op;
     if (op.includes('.')) {
-      validOp = op.split('.')[0];
+      for (const partOp of op.split('.')) {
+        const partFloat = frame.floatMap.get(partOp);
+        if (partFloat) {
+          frameOpStr = partOp;
+          break;
+        }
+      }
     }
-    const hiddenDef = frame.floatMap.get(validOp);
+    const hiddenDef = floatMap.get(op) || frame.floatMap.get(frameOpStr);
     const hiddenType = hiddenDef?.type?.value;
     if (hiddenDef && hiddenType && !floatsAliasMap.has(op)) {
       let hiddenCode = hiddenAliasCount.get(hiddenType);
@@ -593,7 +588,7 @@ export function proofToString(node: OpNode): string {
     reOrderedChildrenStr.push(childrenStr[idx]);
   });
   for (let i = reOrderedChildrenStr.length; i < childrenStr.length; i++) {
-    if (node.definition.label?.value === 'weq') {
+    if (node.definition.label?.value === 'weq' || node.definition.label?.value === 'wel') {
       reOrderedChildrenStr.push(`cv ${childrenStr[i]}`);
     } else {
       reOrderedChildrenStr.push(`${childrenStr[i]}`);
@@ -630,7 +625,6 @@ export function generateArgsMap(node: AxiomNode | ProveNode, frame: Frame) {
         floatCountTable.set(dtype, code);
         const rename = `${dtype[0]}${code}`;
         floatAliasMap.set(op, rename);
-        floatAliasMap.set(op.split('.')[0], rename);
         if (dtype === 'setvar') {
           setvarArgs.push(op);
         } else if (dtype === 'class') {
@@ -658,7 +652,6 @@ export function generateArgsMap(node: AxiomNode | ProveNode, frame: Frame) {
           floatCountTable.set(dtype, code);
           const rename = `${dtype[0]}${code}`;
           floatAliasMap.set(op, rename);
-          floatAliasMap.set(op.split('.')[0], rename);
           if (dtype === 'setvar') {
             setvarArgs.push(op);
           } else if (dtype === 'class') {
@@ -684,7 +677,9 @@ export function generateArgsMap(node: AxiomNode | ProveNode, frame: Frame) {
       floatCountTable.set(dtype, code);
       const rename = `${dtype[0]}${code}`;
       floatAliasMap.set(op, rename);
-      floatAliasMap.set(op.split('.')[0], rename);
+      if (definition.label?.value) {
+        floatAliasMap.set(definition.label?.value, rename);
+      }
       if (dtype === 'setvar') {
         setvarArgs.push(op);
       } else if (dtype === 'class') {
@@ -713,13 +708,6 @@ export function generateArgsMap(node: AxiomNode | ProveNode, frame: Frame) {
   });
 
   if (node.bodyOpTree) {
-    // const s = proofToStringRename;
-    // const originalStr = node.bodyOpTreeStr.trim().split(new RegExp(' +'));
-    // const nextStr: Array<string> = [];
-    // for (const op of originalStr) {
-    //   const nextOp = node.floatsAliasMap.get(op) || op;
-    //   nextStr.push(nextOp);
-    // }
     node.bodyOpTreeStrRename = proofToStringRename(node.bodyOpTree, node, frame);
   }
   if (node.essentialsOpTree) {
@@ -735,8 +723,8 @@ export function generateArgsMap(node: AxiomNode | ProveNode, frame: Frame) {
   for (const dNode of node.disjointMap.values()) {
     const left = dNode.left;
     const right = dNode.right;
-    const leftFloat = frame.floatVarMap.get(left.value);
-    const rightFloat = frame.floatVarMap.get(right.value);
+    const leftFloat = node.floatVarMap.get(left.value);
+    const rightFloat = node.floatVarMap.get(right.value);
     const leftType = leftFloat?.type?.value;
     const rightType = rightFloat?.type?.value;
     const leftLabel = leftFloat?.label?.value;
@@ -749,18 +737,18 @@ export function generateArgsMap(node: AxiomNode | ProveNode, frame: Frame) {
       }
       if (leftType === 'setvar' && rightType === 'setvar') {
         if (leftRename > rightRename) {
-          ssDiff.push(`diff-ss ${rightRename} ${leftRename}`);
+          ssDiff.push(`diffss ${rightRename} ${leftRename}`);
         } else {
-          ssDiff.push(`diff-ss ${leftRename} ${rightRename}`);
+          ssDiff.push(`diffss ${leftRename} ${rightRename}`);
         }
       } else if (leftType === 'setvar' && rightType === 'class') {
-        scDiff.push(`diff-sc ${leftRename} ${rightRename}`);
+        scDiff.push(`diffsc ${leftRename} ${rightRename}`);
       } else if (leftType === 'setvar' && rightType === 'wff') {
-        swDiff.push(`diff-sw ${leftRename} ${rightRename}`);
+        swDiff.push(`diffsw ${leftRename} ${rightRename}`);
       } else if (leftType === 'class') {
-        scDiff.push(`diff-sc ${rightRename} ${leftRename}`);
+        scDiff.push(`diffsc ${rightRename} ${leftRename}`);
       } else if (leftType === 'wff') {
-        swDiff.push(`diff-sw ${rightRename} ${leftRename}`);
+        swDiff.push(`diffsw ${rightRename} ${leftRename}`);
       }
     }
   }
@@ -778,16 +766,18 @@ export function initAllBodyTrees(frame: Frame) {
 
   frame.axioms.forEach((axiom) => {
     if (axiom.type?.value === '|-') {
-      axiom.bodyOpTree = bodyParser.parse(axiom.body);
-      axiom.bodyOpTreeStr = axiom.bodyOpTree ? opNodeToString(axiom.bodyOpTree) : '';
+      axiom.bodyOpTree = bodyParser.parse(axiom.body, axiom);
+      // axiom.bodyOpTreeStr = axiom.bodyOpTree ? opNodeToString(axiom.bodyOpTree) : '';
+      axiom.bodyOpTreeStr = axiom.bodyOpTree ? proofToString(axiom.bodyOpTree) : '';
 
       axiom.essentialsOpTree = [];
       axiom.essentialsStr = [];
       axiom.essentials.forEach((e) => {
-        const eOpTree = bodyParser.parse(e.body);
+        const eOpTree = bodyParser.parse(e.body, axiom);
         if (eOpTree) {
           axiom.essentialsOpTree?.push(eOpTree);
-          axiom.essentialsStr?.push(opNodeToString(eOpTree));
+          // axiom.essentialsStr?.push(opNodeToString(eOpTree));
+          axiom.essentialsStr?.push(proofToString(eOpTree));
         }
       });
     }
@@ -796,16 +786,18 @@ export function initAllBodyTrees(frame: Frame) {
 
   frame.proves.forEach((prove) => {
     if (prove.type?.value === '|-') {
-      prove.bodyOpTree = bodyParser.parse(prove.body);
-      prove.bodyOpTreeStr = prove.bodyOpTree ? opNodeToString(prove.bodyOpTree) : '';
+      prove.bodyOpTree = bodyParser.parse(prove.body, prove);
+      // prove.bodyOpTreeStr = prove.bodyOpTree ? opNodeToString(prove.bodyOpTree) : '';
+      prove.bodyOpTreeStr = prove.bodyOpTree ? proofToString(prove.bodyOpTree) : '';
 
       prove.essentialsOpTree = [];
       prove.essentialsStr = [];
       prove.essentials.forEach((e) => {
-        const eOpTree = bodyParser.parse(e.body);
+        const eOpTree = bodyParser.parse(e.body, prove);
         if (eOpTree) {
           prove.essentialsOpTree?.push(eOpTree);
-          prove.essentialsStr?.push(opNodeToString(eOpTree));
+          // prove.essentialsStr?.push(opNodeToString(eOpTree));
+          prove.essentialsStr?.push(proofToString(eOpTree));
         }
       });
       generateArgsMap(prove, frame);

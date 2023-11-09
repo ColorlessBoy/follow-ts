@@ -132,11 +132,15 @@ export default class Parser {
       nodeType: NodeType.TYPE_DEF,
       keyword: this.scanner.peek(),
     };
-    this.parseType(typeDefNode);
-    if (typeDefNode.error) {
-      return typeDefNode;
+    let error: Error | undefined = undefined;
+    while (error === undefined) {
+      const newTypeDefNode = Object.assign({}, typeDefNode);
+      this.parseType(newTypeDefNode);
+      error = newTypeDefNode.error;
+      if (error === undefined) {
+        this.defNodes.push(newTypeDefNode);
+      }
     }
-    this.defNodes.push(typeDefNode);
     return typeDefNode;
   }
 
@@ -149,11 +153,15 @@ export default class Parser {
     if (constDefNode.error) {
       return constDefNode;
     }
-    this.parseName(constDefNode, TokenType.CONST_VAL);
-    if (constDefNode.error) {
-      return constDefNode;
+    let error: Error | undefined = undefined;
+    while (error === undefined) {
+      const newConstDefNode = Object.assign({}, constDefNode);
+      this.parseName(newConstDefNode, TokenType.CONST_VAL);
+      error = newConstDefNode.error;
+      if (error === undefined) {
+        this.defNodes.push(newConstDefNode);
+      }
     }
-    this.defNodes.push(constDefNode);
     return constDefNode;
   }
 
@@ -403,9 +411,9 @@ export default class Parser {
         state = token;
         stateTokens = [];
       }
-      if (bodyNode.target === undefined) {
-        bodyNode.error = Error.BodyTargetMissing;
-      }
+    }
+    if (bodyNode.target === undefined) {
+      bodyNode.error = Error.BodyTargetMissing;
     }
     defNode.body = bodyNode;
   }

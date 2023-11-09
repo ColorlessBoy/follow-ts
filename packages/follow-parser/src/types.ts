@@ -181,6 +181,11 @@ export interface NodeBase {
   headComment?: Token;
   inBlockComments?: Array<Token>;
   error?: Error;
+
+  cumulatedAssumes?: Map<string, OpNode>;
+  cumulatedTarget?: OpNode;
+  suggestions?: Array<string>;
+  preSuggestions?: Array<string>;
 }
 export interface ImportNode extends NodeBase {
   nodeType: NodeType.IMPORT;
@@ -244,7 +249,7 @@ export interface OpNode extends NodeBase {
   target?: OpNode;
 }
 
-export function opNodeString(opNode: OpNode): string {
+export function opNodeToString(opNode: OpNode): string {
   const stringList: Array<string> = [];
   const name = opNode.definition?.name?.value;
   if (name) {
@@ -252,8 +257,42 @@ export function opNodeString(opNode: OpNode): string {
   }
   if (opNode.children) {
     for (const child of opNode.children) {
-      stringList.push(opNodeString(child));
+      stringList.push(opNodeToString(child));
     }
   }
   return stringList.join(' ');
+}
+
+export function opNodeToStringFormat(opNode: OpNode, prefix: string): Array<string> {
+  const stringList: Array<string> = [];
+  const name = opNode.definition?.name?.value;
+  if (name === undefined) {
+    return [];
+  }
+  const head = `${prefix}${name}`;
+  const spaceHead = ' '.repeat(head.length);
+  let totalLength = head.length;
+  if (opNode.children) {
+    for (const child of opNode.children) {
+      const childStr = opNodeToString(child);
+      if (stringList.length === 0) {
+        stringList.push(`${head} ${childStr}`);
+      } else {
+        stringList.push(`${childStr}`);
+      }
+      totalLength += childStr.length;
+    }
+  } else {
+    stringList.push(head);
+  }
+  if (totalLength <= 80) {
+    return [stringList.join(' ')];
+  }
+  return stringList.map((e, idx) => {
+    if (idx == 0) {
+      return e;
+    } else {
+      return `${spaceHead} ${e}`;
+    }
+  });
 }
