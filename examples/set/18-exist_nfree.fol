@@ -1,0 +1,89 @@
+import '17-other_proposition_axiom_systems.fol'
+
+thm alnex(setvar s0, wff w0) {
+  |- wb wal s0 wn w0 wn wex s0 w0
+} = {
+  con2bii wal s0 wn w0 wex s0 w0
+  df-ex s0 w0
+}
+thm eximal(setvar s0, wff w0, wff w1) {
+  |- wb wi wex s0 w0 w1 wi wn w1 wal s0 wn w0
+} = {
+  bitri wi wex s0 w0 w1 wi wn w1 wal s0 wn w0 wi wn wal s0 wn w0 w1
+  imbi1i wex s0 w0 w1 wn wal s0 wn w0
+  df-ex s0 w0
+  con1b wal s0 wn w0 w1
+}
+thm nf2(setvar s0, wff w0) {
+  |- wb wnf s0 w0 wo wal s0 w0 wn wex s0 w0
+} = {
+  3bitri wnf s0 w0
+         wo wal s0 w0 wn wex s0 w0
+         wi wex s0 w0 wal s0 w0
+         wo wn wex s0 w0 wal s0 w0
+  df-nf s0 w0
+  imor wex s0 w0 wal s0 w0
+  orcom wn wex s0 w0 wal s0 w0
+}
+thm nf3(setvar s0, wff w0) {
+  |- wb wnf s0 w0 wo wal s0 w0 wal s0 wn w0
+} = {
+  bitr4i wnf s0 w0 wo wal s0 w0 wal s0 wn w0 wo wal s0 w0 wn wex s0 w0
+  nf2 s0 w0
+  orbi2i wal s0 w0 wal s0 wn w0 wn wex s0 w0
+  alnex s0 w0
+}
+thm nf4(setvar s0, wff w0) {
+  |- wb wnf s0 w0 wi wn wal s0 w0 wal s0 wn w0
+} = {
+  bitri wnf s0 w0 wi wn wal s0 w0 wal s0 wn w0 wo wal s0 w0 wal s0 wn w0
+  nf3 s0 w0
+  df-or wal s0 w0 wal s0 wn w0
+}
+thm nfi(setvar s0, wff w0) {
+  |- wnf s0 w0
+  -| wi wex s0 w0 wal s0 w0
+} = {
+  mpbir wnf s0 w0 wi wex s0 w0 wal s0 w0
+  df-nf s0 w0
+}
+thm nfri(setvar s0, wff w0) {
+  |- wi wex s0 w0 wal s0 w0
+  -| wnf s0 w0
+} = {
+  mpbi wi wex s0 w0 wal s0 w0 wnf s0 w0
+  df-nf s0 w0
+}
+thm nfd(setvar s0, wff w0, wff w1) {
+  |- wi w0 wnf s0 w1
+  -| wi w0 wi wex s0 w1 wal s0 w1
+} = {
+  sylibr w0 wnf s0 w1 wi wex s0 w1 wal s0 w1
+  df-nf s0 w1
+}
+thm nfrd(setvar s0, wff w0, wff w1) {
+  |- wi w0 wi wex s0 w1 wal s0 w1
+  -| wi w0 wnf s0 w1
+} = {
+  sylib w0 wi wex s0 w1 wal s0 w1 wnf s0 w1
+  df-nf s0 w1
+}
+thm nftht(setvar s0, wff w0) {
+  |- wi wal s0 w0 wnf s0 w0
+} = {
+  nfd s0 wal s0 w0 w0
+  ax-1 wal s0 w0 wex s0 w0
+}
+thm nfntht(setvar s0, wff w0) {
+  |- wi wn wex s0 w0 wnf s0 w0
+} = {
+  nfd s0 wn wex s0 w0 w0
+  pm2.21 wex s0 w0 wal s0 w0
+}
+thm nfntht2(setvar s0, wff w0) {
+  |- wi wal s0 wn w0 wnf s0 w0
+} = {
+  sylbi wal s0 wn w0 wnf s0 w0 wn wex s0 w0
+  alnex s0 w0
+  nfntht s0 w0
+}

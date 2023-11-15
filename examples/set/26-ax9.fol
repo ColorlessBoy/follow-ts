@@ -1,0 +1,61 @@
+import '25-ax8.fol'
+
+thm ax9v(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s2 cv s0 wcel cv s2 cv s1
+  -| diffss s0 s1
+} = {
+  a1ii wi wceq cv s0 cv s1 wi wcel cv s2 cv s0 wcel cv s2 cv s1
+       diffss s0 s1
+  ax-9 s0 s1 s2
+}
+thm ax9v1(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s2 cv s0 wcel cv s2 cv s1
+  -| diffss s0 s1
+  -| diffss s0 s2
+} = {
+  a1ii wi wceq cv s0 cv s1 wi wcel cv s2 cv s0 wcel cv s2 cv s1
+       diffss s0 s2
+  ax9v s0 s1 s2
+}
+thm ax9v2(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s2 cv s0 wcel cv s2 cv s1
+  -| diffss s0 s1
+  -| diffss s1 s2
+} = {
+  a1ii wi wceq cv s0 cv s1 wi wcel cv s2 cv s0 wcel cv s2 cv s1
+       diffss s1 s2
+  ax9v s0 s1 s2
+}
+thm ax9(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s2 cv s0 wcel cv s2 cv s1
+} = {
+  sylbi wceq cv s0 cv s1
+        wi wcel cv s2 cv s0 wcel cv s2 cv s1
+        wex hs0 wa wceq cv hs0 cv s0 wceq cv hs0 cv s1
+  equvinv s0 s1 hs0
+  exlimiv hs0
+          wa wceq cv hs0 cv s0 wceq cv hs0 cv s1
+          wi wcel cv s2 cv s0 wcel cv s2 cv s1
+  sylan9 wceq cv hs0 cv s0
+         wceq cv hs0 cv s1
+         wcel cv s2 cv s0
+         wcel cv s2 cv s1
+         wcel cv s2 cv hs0
+  equcoms hs0 s0 wi wcel cv s2 cv s0 wcel cv s2 cv hs0
+  ax9v2 s0 hs0 s2
+  ax9v1 hs0 s1 s2
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diffss.ex s1 hs0
+  diff.hs0.w wi wcel cv s2 cv s0 wcel cv s2 cv s1
+  diff.hs0.s s2
+  diff.hs0.s s1
+}
+thm elequ2(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wb wcel cv s2 cv s0 wcel cv s2 cv s1
+} = {
+  impbid wceq cv s0 cv s1 wcel cv s2 cv s0 wcel cv s2 cv s1
+  ax9 s0 s1 s2
+  equcoms s0 s1 wi wcel cv s2 cv s1 wcel cv s2 cv s0
+  ax9 s1 s0 s2
+}

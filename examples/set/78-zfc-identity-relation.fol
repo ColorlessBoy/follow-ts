@@ -1,0 +1,135 @@
+import '77-zfc-power-class-of-union-and-intersection.fol'
+
+thm dfid3(setvar s0, setvar s1) {
+  |- wceq cid copab s0 s1 wceq cv s0 cv s1
+} = {
+  eqtri cid copab s0 s1 wceq cv s0 cv s1 copab s0 hs0 wceq cv s0 cv hs0
+  df-id s0 hs0
+  3eqtr4i copab s0 hs0 wceq cv s0 cv hs0
+          copab s0 s1 wceq cv s0 cv s1
+          cab hs1 wex s0 wex hs0 wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+          cab hs1 wex s0 wex s1 wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+  abbii hs1
+        wex s0 wex hs0 wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+        wex s0 wex s1 wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+  pm2.61i wb wex s0 wex hs0 wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0 wex s0 wex s1 wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+          wal s0 wceq cv s0 cv s1
+  syl5bb wal s0 wceq cv s0 cv s1
+         wex s0 wex hs0 wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+         wex s0 wex s1 wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+         wex s0 wex s0 wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+  bitr4i wex s0 wex hs0 wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+         wex s0 wex s0 wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+         wex s0 wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+  exbii s0
+        wex hs0 wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+        wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+  3bitri wex hs0 wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+         wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+         wex hs0 wa wceq cv hs0 cv s0 wceq cv hs1 cop cv s0 cv hs0
+         wceq cv hs1 cop cv s0 cv s0
+  exbii hs0
+        wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+        wa wceq cv hs0 cv s0 wceq cv hs1 cop cv s0 cv hs0
+  anbi1ci wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0 wceq cv hs0 cv s0
+  equcom s0 hs0
+  equsexvw hs0 s0 wceq cv hs1 cop cv s0 cv hs0 wceq cv hs1 cop cv s0 cv s0
+  eqeq2d cv hs1 cop cv s0 cv hs0 cop cv s0 cv s0 wceq cv hs0 cv s0
+  opeq2 cv hs0 cv s0 cv s0
+  biantru wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+  equid s0
+  19.9 s0 wex s0 wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+  nfe1 s0 wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+  drex2 s0
+        s1
+        s0
+        wex s0 wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+        wex s1 wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+  drex1 s0
+        s1
+        wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0
+        wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+  sps s0
+      wceq cv s0 cv s1
+      wb wa wceq cv hs1 cop cv s0 cv s0 wceq cv s0 cv s0 wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+  anbi12d wceq cv s0 cv s1
+          wceq cv hs1 cop cv s0 cv s0
+          wceq cv s0 cv s0
+          wceq cv hs1 cop cv s0 cv s1
+          wceq cv s0 cv s1
+  eqeq2d cv hs1 cop cv s0 cv s0 cop cv s0 cv s1 wceq cv s0 cv s1
+  opeq2 cv s0 cv s1 cv s0
+  equequ2 s0 s1 s0
+  exbid s0
+        wn wal s0 wceq cv s0 cv s1
+        wex hs0 wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+        wex s1 wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+  nfnae s0 s0 s1
+  cbvexd hs0
+         s1
+         wn wal s0 wceq cv s0 cv s1
+         wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+         wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+  nfnae s1 s0 s1
+  nfand s1 wn wal s0 wceq cv s0 cv s1 wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0
+  nfeqd s1 cv hs1 cop cv s0 cv hs0 wn wal s0 wceq cv s0 cv s1
+  nfcvd s1 cv hs1 wn wal s0 wceq cv s0 cv s1
+  nfopd s1 cv s0 cv hs0 wn wal s0 wceq cv s0 cv s1
+  nfeqd s1 cv s0 cv hs0 wn wal s0 wceq cv s0 cv s1
+  nfcvf2 s0 s1
+  nfcvd s1 cv hs0 wn wal s0 wceq cv s0 cv s1
+  a1i wn wal s0 wceq cv s0 cv s1
+      wi wceq cv hs0 cv s1 wb wa wceq cv hs1 cop cv s0 cv hs0 wceq cv s0 cv hs0 wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+  anbi12d wceq cv hs0 cv s1
+          wceq cv hs1 cop cv s0 cv hs0
+          wceq cv s0 cv hs0
+          wceq cv hs1 cop cv s0 cv s1
+          wceq cv s0 cv s1
+  eqeq2d cv hs1 cop cv s0 cv hs0 cop cv s0 cv s1 wceq cv hs0 cv s1
+  opeq2 cv hs0 cv s1 cv s0
+  equequ2 hs0 s1 s0
+  df-opab s0 hs0 hs1 wceq cv s0 cv hs0
+  df-opab s0 s1 hs1 wceq cv s0 cv s1
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diff.hs0.w wceq cv hs1 cop cv s0 cv s0
+  diff.hs0.w wn wal s0 wceq cv s0 cv s1
+  diff.hs0.w wa wceq cv hs1 cop cv s0 cv s1 wceq cv s0 cv s1
+  diff.cv s1 hs1
+  diff.cv s1 hs0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diffss.ex s0 hs1
+  diff.hs1.s s0
+  diff.hs0.s hs1
+  diff.hs1.w wceq cv s0 cv hs0
+  diffss.ex s1 hs1
+  diff.hs1.s s1
+  diff.hs1.w wceq cv s0 cv s1
+}
+thm dfid4(setvar s0) {
+  |- wceq cid cmpt s0 universe cv s0
+} = {
+  3eqtr4i cid
+          cmpt s0 universe cv s0
+          copab s0 hs0 wceq cv s0 cv hs0
+          copab s0 hs0 wa wcel cv s0 universe wceq cv hs0 cv s0
+  opabbii s0 hs0 wceq cv s0 cv hs0 wa wcel cv s0 universe wceq cv hs0 cv s0
+  bitri wceq cv s0 cv hs0
+        wa wcel cv s0 universe wceq cv hs0 cv s0
+        wceq cv hs0 cv s0
+  equcom s0 hs0
+  biantrur wceq cv hs0 cv s0 wcel cv s0 universe
+  vex s0
+  df-id s0 hs0
+  df-mpt s0 hs0 universe cv s0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diff.hs0.c universe
+  diff.hs0.c cv s0
+}
+thm dfid2(setvar s0) {
+  |- wceq cid copab s0 s0 wceq cv s0 cv s0
+} = {
+  dfid3 s0 s0
+}

@@ -1,0 +1,79 @@
+import '24-substitution.fol'
+
+thm ax8v(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s0 cv s2 wcel cv s1 cv s2
+  -| diffss s0 s1
+} = {
+  a1ii wi wceq cv s0 cv s1 wi wcel cv s0 cv s2 wcel cv s1 cv s2
+       diffss s0 s1
+  ax-8 s0 s1 s2
+}
+thm ax8v1(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s0 cv s2 wcel cv s1 cv s2
+  -| diffss s0 s1
+  -| diffss s0 s2
+} = {
+  a1ii wi wceq cv s0 cv s1 wi wcel cv s0 cv s2 wcel cv s1 cv s2
+       diffss s0 s2
+  ax8v s0 s1 s2
+}
+thm ax8v2(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s0 cv s2 wcel cv s1 cv s2
+  -| diffss s0 s1
+  -| diffss s1 s2
+} = {
+  a1ii wi wceq cv s0 cv s1 wi wcel cv s0 cv s2 wcel cv s1 cv s2
+       diffss s1 s2
+  ax8v s0 s1 s2
+}
+thm ax8(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s0 cv s2 wcel cv s1 cv s2
+} = {
+  sylbi wceq cv s0 cv s1
+        wi wcel cv s0 cv s2 wcel cv s1 cv s2
+        wex hs0 wa wceq cv hs0 cv s0 wceq cv hs0 cv s1
+  equvinv s0 s1 hs0
+  exlimiv hs0
+          wa wceq cv hs0 cv s0 wceq cv hs0 cv s1
+          wi wcel cv s0 cv s2 wcel cv s1 cv s2
+  sylan9 wceq cv hs0 cv s0
+         wceq cv hs0 cv s1
+         wcel cv s0 cv s2
+         wcel cv s1 cv s2
+         wcel cv hs0 cv s2
+  equcoms hs0 s0 wi wcel cv s0 cv s2 wcel cv hs0 cv s2
+  ax8v2 s0 hs0 s2
+  ax8v1 hs0 s1 s2
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diffss.ex s1 hs0
+  diff.hs0.w wi wcel cv s0 cv s2 wcel cv s1 cv s2
+  diff.hs0.s s2
+  diff.hs0.s s1
+}
+thm elequ1(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wb wcel cv s0 cv s2 wcel cv s1 cv s2
+} = {
+  impbid wceq cv s0 cv s1 wcel cv s0 cv s2 wcel cv s1 cv s2
+  ax8 s0 s1 s2
+  equcoms s0 s1 wi wcel cv s1 cv s2 wcel cv s0 cv s2
+  ax8 s1 s0 s2
+}
+thm cleljust(setvar s0, setvar s1, setvar s2) {
+  |- wb wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  a1ii wb wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+       diffss s0 s2
+  a1ii wb wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+       diffss s1 s2
+  bicomi wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+  equsexvw s2 s0 wcel cv s2 cv s1 wcel cv s0 cv s1
+  elequ1 s2 s0 s1
+  diff.wcel s2 cv s0 cv s1
+  diff.cv s2 s0
+  diffss.ex s2 s0
+  diff.cv s2 s1
+  diffss.ex s2 s1
+}

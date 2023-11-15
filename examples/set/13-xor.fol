@@ -1,0 +1,137 @@
+import '12-nand.fol'
+
+thm xnor(wff w0, wff w1) {
+  |- wb wb w0 w1 wn wxo w0 w1
+} = {
+  con2bii wb w0 w1 wxo w0 w1
+  df-xor w0 w1
+}
+thm xorcom(wff w0, wff w1) {
+  |- wb wxo w0 w1 wxo w1 w0
+} = {
+  3bitr4i wxo w0 w1 wxo w1 w0 wn wb w0 w1 wn wb w1 w0
+  notbii wb w0 w1 wb w1 w0
+  bicom w0 w1
+  df-xor w0 w1
+  df-xor w1 w0
+}
+thm xorass(wff w0, wff w1, wff w2) {
+  |- wb wxo wxo w0 w1 w2 wxo w0 wxo w1 w2
+} = {
+  3bitr4i wxo wxo w0 w1 w2 wxo w0 wxo w1 w2 wn wb wxo w0 w1 w2 wn wb w0 wxo w1 w2
+  3bitr2ri wn wb wxo w0 w1 w2
+           wn wb w0 wxo w1 w2
+           wb w0 wn wxo w1 w2
+           wb wn wxo w0 w1 w2
+  xor3 w0 wxo w1 w2
+  3bitr3i wb wn wxo w0 w1 w2 wb w0 wn wxo w1 w2 wb wb w0 w1 w2 wb w0 wb w1 w2
+  biass w0 w1 w2
+  bibi1i wb w0 w1 w2 wn wxo w0 w1
+  xnor w0 w1
+  bibi2i w0 wb w1 w2 wn wxo w1 w2
+  xnor w1 w2
+  nbbn wxo w0 w1 w2
+  df-xor wxo w0 w1 w2
+  df-xor w0 wxo w1 w2
+}
+thm excxor(wff w0, wff w1) {
+  |- wb wxo w0 w1 wo wa w0 wn w1 wa wn w0 w1
+} = {
+  3bitri wxo w0 w1 wo wa w0 wn w1 wa wn w0 w1 wn wb w0 w1 wo wa w0 wn w1 wa w1 wn w0
+  df-xor w0 w1
+  xor w0 w1
+  orbi2i wa w0 wn w1 wa w1 wn w0 wa wn w0 w1
+  ancom w1 wn w0
+}
+thm xor2(wff w0, wff w1) {
+  |- wb wxo w0 w1 wa wo w0 w1 wn wa w0 w1
+} = {
+  bitri wxo w0 w1 wa wo w0 w1 wn wa w0 w1 wn wb w0 w1
+  df-xor w0 w1
+  nbi2 w0 w1
+}
+thm xoror(wff w0, wff w1) {
+  |- wi wxo w0 w1 wo w0 w1
+} = {
+  simplbi wxo w0 w1 wo w0 w1 wn wa w0 w1
+  xor2 w0 w1
+}
+thm xornan(wff w0, wff w1) {
+  |- wi wxo w0 w1 wn wa w0 w1
+} = {
+  simprbi wxo w0 w1 wn wa w0 w1 wo w0 w1
+  xor2 w0 w1
+}
+thm xornan2(wff w0, wff w1) {
+  |- wi wxo w0 w1 wnan w0 w1
+} = {
+  sylibr wxo w0 w1 wnan w0 w1 wn wa w0 w1
+  xornan w0 w1
+  df-nan w0 w1
+}
+thm xorneg2(wff w0, wff w1) {
+  |- wb wxo w0 wn w1 wn wxo w0 w1
+} = {
+  3bitr2i wxo w0 wn w1 wn wxo w0 w1 wn wb w0 wn w1 wb w0 w1
+  df-xor w0 wn w1
+  pm5.18 w0 w1
+  xnor w0 w1
+}
+thm xorneg1(wff w0, wff w1) {
+  |- wb wxo wn w0 w1 wn wxo w0 w1
+} = {
+  bitri wxo wn w0 w1 wn wxo w0 w1 wxo w1 wn w0
+  xorcom wn w0 w1
+  xchbinx wxo w1 wn w0 wxo w0 w1 wxo w1 w0
+  xorneg2 w1 w0
+  xorcom w1 w0
+}
+thm xorneg(wff w0, wff w1) {
+  |- wb wxo wn w0 wn w1 wxo w0 w1
+} = {
+  bitr4i wxo wn w0 wn w1 wxo w0 w1 wn wxo w0 wn w1
+  xorneg1 w0 wn w1
+  con2bii wxo w0 w1 wxo w0 wn w1
+  xorneg2 w0 w1
+}
+thm xorbi12i(wff w0, wff w1, wff w2, wff w3) {
+  |- wb wxo w0 w1 wxo w2 w3
+  -| wb w0 w2
+  -| wb w1 w3
+} = {
+  3bitr4i wxo w0 w1 wxo w2 w3 wn wb w0 w1 wn wb w2 w3
+  notbii wb w0 w1 wb w2 w3
+  bibi12i w0 w1 w2 w3
+  df-xor w0 w1
+  df-xor w2 w3
+}
+thm xorbi12d(wff w0, wff w1, wff w2, wff w3, wff w4) {
+  |- wi w0 wb wxo w1 w2 wxo w3 w4
+  -| wi w0 wb w1 w3
+  -| wi w0 wb w2 w4
+} = {
+  3bitr4g w0 wxo w1 w2 wxo w3 w4 wn wb w1 w2 wn wb w3 w4
+  notbid w0 wb w1 w2 wb w3 w4
+  bibi12d w0 w1 w2 w3 w4
+  df-xor w1 w2
+  df-xor w3 w4
+}
+thm anxordi(wff w0, wff w1, wff w2) {
+  |- wb wa w0 wxo w1 w2 wxo wa w0 w1 wa w0 w2
+} = {
+  3bitr4i wa w0 wxo w1 w2
+          wxo wa w0 w1 wa w0 w2
+          wa w0 wn wb w1 w2
+          wn wb wa w0 w1 wa w0 w2
+  xordi w0 w1 w2
+  anbi2i w0 wxo w1 w2 wn wb w1 w2
+  df-xor w1 w2
+  df-xor wa w0 w1 wa w0 w2
+}
+thm xorexmid(wff w0) {
+  |- wxo w0 wn w0
+} = {
+  mpbir wxo w0 wn w0 wn wb w0 wn w0
+  pm5.19 w0
+  df-xor w0 wn w0
+}

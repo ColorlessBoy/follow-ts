@@ -1,0 +1,76 @@
+import '42-zfc-condeq.fol'
+
+thm rru(setvar s0, class c0) {
+  |- wn wcel crab s0 c0 wn wcel cv s0 cv s0 c0
+  -| diffsc s0 c0
+} = {
+  ax-mp wn wcel crab s0 c0 wn wcel cv s0 cv s0 c0
+        wb wcel crab s0 c0 wn wcel cv s0 cv s0 crab s0 c0 wn wcel cv s0 cv s0 wa wcel crab s0 c0 wn wcel cv s0 cv s0 c0 wn wcel crab s0 c0 wn wcel cv s0 cv s0 crab s0 c0 wn wcel cv s0 cv s0
+  elrab2 hs0
+         crab s0 c0 wn wcel cv s0 cv s0
+         crab s0 c0 wn wcel cv s0 cv s0
+         c0
+         wn wcel crab s0 c0 wn wcel cv s0 cv s0 crab s0 c0 wn wcel cv s0 cv s0
+         wn wcel cv hs0 cv hs0
+  notbid wceq cv hs0 crab s0 c0 wn wcel cv s0 cv s0
+         wcel cv hs0 cv hs0
+         wcel crab s0 c0 wn wcel cv s0 cv s0 crab s0 c0 wn wcel cv s0 cv s0
+  anidms wceq cv hs0 crab s0 c0 wn wcel cv s0 cv s0
+         wb wcel cv hs0 cv hs0 wcel crab s0 c0 wn wcel cv s0 cv s0 crab s0 c0 wn wcel cv s0 cv s0
+  eleq12 cv hs0 crab s0 c0 wn wcel cv s0 cv s0 cv hs0 crab s0 c0 wn wcel cv s0 cv s0
+  cbvrabv s0 hs0 c0 wn wcel cv s0 cv s0 wn wcel cv hs0 cv hs0
+  notbid wceq cv s0 cv hs0 wcel cv s0 cv s0 wcel cv hs0 cv hs0
+  anidms wceq cv s0 cv hs0 wb wcel cv s0 cv s0 wcel cv hs0 cv hs0
+  eleq12 cv s0 cv hs0 cv s0 cv hs0
+  pclem6 wcel crab s0 c0 wn wcel cv s0 cv s0 crab s0 c0 wn wcel cv s0 cv s0
+         wcel crab s0 c0 wn wcel cv s0 cv s0 c0
+  diff.hs0.c crab s0 c0 wn wcel cv s0 cv s0
+  diff.hs0.c c0
+  diff.hs0.w wn wcel crab s0 c0 wn wcel cv s0 cv s0 crab s0 c0 wn wcel cv s0 cv s0
+  diff.wn s0 wcel cv hs0 cv hs0
+  diff.wcel s0 cv hs0 cv hs0
+  diff.cv s0 hs0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diff.hs0.w wn wcel cv s0 cv s0
+}
+thm ru(setvar s0) {
+  |- wnel cab s0 wnel cv s0 cv s0 universe
+} = {
+  nelir cab s0 wnel cv s0 cv s0 universe
+  mtbir wcel cab s0 wnel cv s0 cv s0 universe
+        wex hs0 wceq cv hs0 cab s0 wnel cv s0 cv s0
+  nex hs0 wceq cv hs0 cab s0 wnel cv s0 cv s0
+  mtbir wceq cv hs0 cab s0 wnel cv s0 cv s0
+        wal s0 wb wcel cv s0 cv hs0 wnel cv s0 cv s0
+  mto wal s0 wb wcel cv s0 cv hs0 wnel cv s0 cv s0
+      wb wcel cv hs0 cv hs0 wn wcel cv hs0 cv hs0
+  pm5.19 wcel cv hs0 cv hs0
+  spvv s0
+       hs0
+       wb wcel cv s0 cv hs0 wnel cv s0 cv s0
+       wb wcel cv hs0 cv hs0 wn wcel cv hs0 cv hs0
+  bibi12d wceq cv s0 cv hs0
+          wcel cv s0 cv hs0
+          wnel cv s0 cv s0
+          wcel cv hs0 cv hs0
+          wn wcel cv hs0 cv hs0
+  eleq1w s0 hs0 cv hs0
+  syl5bb wceq cv s0 cv hs0
+         wnel cv s0 cv s0
+         wn wcel cv hs0 cv hs0
+         wn wcel cv s0 cv s0
+  df-nel cv s0 cv s0
+  notbid wceq cv s0 cv hs0 wcel cv s0 cv s0 wcel cv hs0 cv hs0
+  eleq12d cv s0 cv s0 cv hs0 cv hs0 wceq cv s0 cv hs0
+  id wceq cv s0 cv hs0
+  abeq2 s0 cv hs0 wnel cv s0 cv s0
+  isset hs0 cab s0 wnel cv s0 cv s0
+  diff.wb s0 wcel cv hs0 cv hs0 wn wcel cv hs0 cv hs0
+  diff.wn s0 wcel cv hs0 cv hs0
+  diff.wcel s0 cv hs0 cv hs0
+  diff.cv s0 hs0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diff.hs0.c cab s0 wnel cv s0 cv s0
+}

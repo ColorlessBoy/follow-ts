@@ -1,0 +1,132 @@
+import '13-xor.fol'
+
+thm trujust(setvar s0, setvar s1) {
+  |- wb wi wal s0 wceq cv s0 cv s0 wal s0 wceq cv s0 cv s0
+        wi wal s1 wceq cv s1 cv s1 wal s1 wceq cv s1 cv s1
+} = {
+  monothetic wal s0 wceq cv s0 cv s0 wal s1 wceq cv s1 cv s1
+}
+thm trujustOLD(setvar s0, setvar s1) {
+  |- wb wi wal s0 wceq cv s0 cv s0 wal s0 wceq cv s0 cv s0
+        wi wal s1 wceq cv s1 cv s1 wal s1 wceq cv s1 cv s1
+} = {
+  2th wi wal s0 wceq cv s0 cv s0 wal s0 wceq cv s0 cv s0
+      wi wal s1 wceq cv s1 cv s1 wal s1 wceq cv s1 cv s1
+  id wal s0 wceq cv s0 cv s0
+  id wal s1 wceq cv s1 cv s1
+}
+thm tru() {
+  |- wtru
+} = {
+  mpbir wtru wi wal hs0 wceq cv hs0 cv hs0 wal hs0 wceq cv hs0 cv hs0
+  id wal hs0 wceq cv hs0 cv hs0
+  df-tru hs0
+}
+thm dftru2(wff w0) {
+  |- wb wtru wi w0 w0
+} = {
+  2th wtru wi w0 w0
+  tru
+  id w0
+}
+thm trut(wff w0) {
+  |- wb w0 wi wtru w0
+} = {
+  a1bi w0 wtru
+  tru
+}
+thm mptru(wff w0) {
+  |- w0
+  -| wi wtru w0
+} = {
+  ax-mp w0 wtru
+  tru
+}
+thm tbtru(wff w0) {
+  |- wb w0 wb w0 wtru
+} = {
+  tbt w0 wtru
+  tru
+}
+thm bitru(wff w0) {
+  |- wb w0 wtru
+  -| w0
+} = {
+  2th w0 wtru
+  tru
+}
+thm trud(wff w0) {
+  |- wi w0 wtru
+} = {
+  a1i w0 wtru
+  tru
+}
+thm truan(wff w0) {
+  |- wb wa wtru w0 w0
+} = {
+  bicomi wa wtru w0 w0
+  biantrur w0 wtru
+  tru
+}
+thm fal() {
+  |- wn wfal
+} = {
+  mtbir wfal wn wtru
+  notnoti wtru
+  tru
+  df-fal
+}
+thm nbfal(wff w0) {
+  |- wb wn w0 wb w0 wfal
+} = {
+  nbn w0 wfal
+  fal
+}
+thm bifal(wff w0) {
+  |- wb w0 wfal
+  -| wn w0
+} = {
+  2false w0 wfal
+  fal
+}
+thm falim(wff w0) {
+  |- wi wfal w0
+} = {
+  pm2.21i wfal w0
+  fal
+}
+thm falimd(wff w0, wff w1) {
+  |- wi wa w0 wfal w1
+} = {
+  adantl w0 wfal w1
+  falim w1
+}
+thm dfnot(wff w0) {
+  |- wb wn w0 wi w0 wfal
+} = {
+  ax-mp wb wn w0 wi w0 wfal wn wfal
+  fal
+  mtt wfal w0
+}
+thm inegd(wff w0, wff w1) {
+  |- wi w0 wn w1
+  -| wi wa w0 w1 wfal
+} = {
+  sylibr w0 wn w1 wi w1 wfal
+  ex w0 w1 wfal
+  dfnot w1
+}
+thm efald(wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi wa w0 wn w1 wfal
+} = {
+  notnotrd w0 w1
+  inegd w0 wn w1
+}
+thm pm2.21fal(wff w0, wff w1) {
+  |- wi w0 wfal
+  -| wi w0 w1
+  -| wi w0 wn w1
+} = {
+  pm2.21dd w0 wfal w1
+}

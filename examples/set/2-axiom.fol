@@ -1,0 +1,871 @@
+import '1-definition.fol'
+
+axiom ax-mp(wff w0, wff w1) {
+  |- w0
+  -| w1
+  -| wi w1 w0
+}
+axiom ax-1(wff w0, wff w1) {
+  |- wi w0 wi w1 w0
+}
+axiom ax-2(wff w0, wff w1, wff w2) {
+  |- wi wi w0 wi w1 w2 wi wi w0 w1 wi w0 w2
+}
+axiom ax-3(wff w0, wff w1) {
+  |- wi wi wn w0 wn w1 wi w1 w0
+}
+axiom df-bi(wff w0, wff w1) {
+  |- wn wi wi wb w0 w1 wn wi wi w0 w1 wn wi w1 w0 wn wi wn wi wi w0 w1 wn wi w1 w0 wb w0 w1
+}
+axiom df-an(wff w0, wff w1) {
+  |- wb wa w0 w1 wn wi w0 wn w1
+}
+axiom df-or(wff w0, wff w1) {
+  |- wb wo w0 w1 wi wn w0 w1
+}
+axiom df-ifp(wff w0, wff w1, wff w2) {
+  |- wb wif w0 w1 w2 wo wa w0 w1 wa wn w0 w2
+}
+axiom df-3or(wff w0, wff w1, wff w2) {
+  |- wb w3o w0 w1 w2 wo wo w0 w1 w2
+}
+axiom df-3an(wff w0, wff w1, wff w2) {
+  |- wb w3a w0 w1 w2 wa wa w0 w1 w2
+}
+axiom df-nan(wff w0, wff w1) {
+  |- wb wnan w0 w1 wn wa w0 w1
+}
+axiom df-xor(wff w0, wff w1) {
+  |- wb wxo w0 w1 wn wb w0 w1
+}
+axiom df-tru(setvar s0) {
+  |- wb wtru wi wal s0 wceq cv s0 cv s0 wal s0 wceq cv s0 cv s0
+}
+axiom df-fal() {
+  |- wb wfal wn wtru
+}
+axiom df-had(wff w0, wff w1, wff w2) {
+  |- wb whad w0 w1 w2 wxo wxo w0 w1 w2
+}
+axiom df-cad(wff w0, wff w1, wff w2) {
+  |- wb wcad w0 w1 w2 wo wa w0 w1 wa w2 wxo w0 w1
+}
+axiom df-ex(setvar s0, wff w0) {
+  |- wb wex s0 w0 wn wal s0 wn w0
+}
+axiom df-nf(setvar s0, wff w0) {
+  |- wb wnf s0 w0 wi wex s0 w0 wal s0 w0
+}
+axiom ax-gen(setvar s0, wff w0) {
+  |- wal s0 w0
+  -| w0
+}
+axiom ax-4(setvar s0, wff w0, wff w1) {
+  |- wi wal s0 wi w0 w1 wi wal s0 w0 wal s0 w1
+}
+axiom ax-5(setvar s0, wff w0) {
+  |- wi w0 wal s0 w0
+  -| diffsw s0 w0
+}
+axiom ax-6(setvar s0, setvar s1) {
+  |- wn wal s0 wn wceq cv s0 cv s1
+}
+axiom ax-7(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wceq cv s0 cv s2 wceq cv s1 cv s2
+}
+axiom df-sb(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wb wsb s0 s1 w0 wal s2 wi wceq cv s2 cv s1 wal s0 wi wceq cv s0 cv s2 w0
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsw s2 w0
+}
+axiom ax-8(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s0 cv s2 wcel cv s1 cv s2
+}
+axiom ax-9(setvar s0, setvar s1, setvar s2) {
+  |- wi wceq cv s0 cv s1 wi wcel cv s2 cv s0 wcel cv s2 cv s1
+}
+axiom ax-10(setvar s0, wff w0) {
+  |- wi wn wal s0 w0 wal s0 wn wal s0 w0
+}
+axiom ax-11(setvar s0, setvar s1, wff w0) {
+  |- wi wal s0 wal s1 w0 wal s1 wal s0 w0
+}
+axiom ax-12(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 wi wal s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+}
+axiom ax-13(setvar s0, setvar s1, setvar s2) {
+  |- wi wn wceq cv s0 cv s1 wi wceq cv s1 cv s2 wal s0 wceq cv s1 cv s2
+}
+axiom df-mo(setvar s0, setvar s1, wff w0) {
+  |- wb wmo s0 w0 wex s1 wal s0 wi w0 wceq cv s0 cv s1
+  -| diffss s0 s1
+  -| diffsw s1 w0
+}
+axiom df-eu(setvar s0, wff w0) {
+  |- wb weu s0 w0 wa wex s0 w0 wmo s0 w0
+}
+axiom ax-ext(setvar s0, setvar s1, setvar s2) {
+  |- wi wal s0 wb wcel cv s0 cv s1 wcel cv s0 cv s2 wceq cv s1 cv s2
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+}
+axiom df-clab(setvar s0, setvar s1, wff w0) {
+  |- wb wcel cv s0 cab s1 w0 wsb s1 s0 w0
+}
+axiom df-cleq(setvar s0, setvar s1, setvar s2, class c0, class c1) {
+  |- wb wceq c0 c1 wal s0 wb wcel cv s0 c0 wcel cv s0 c1
+  -| wi wal s0 wb wcel cv s0 cv s1 wcel cv s0 cv s2 wceq cv s1 cv s2
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+}
+axiom df-clel(setvar s0, class c0, class c1) {
+  |- wb wcel c0 c1 wex s0 wa wceq cv s0 c0 wcel cv s0 c1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+}
+axiom df-nfc(setvar s0, setvar s1, class c0) {
+  |- wb wnfc s0 c0 wal s1 wnf s0 wcel cv s1 c0
+  -| diffss s0 s1
+  -| diffsc s1 c0
+}
+axiom df-ne(class c0, class c1) {
+  |- wb wne c0 c1 wn wceq c0 c1
+}
+axiom df-nel(class c0, class c1) {
+  |- wb wnel c0 c1 wn wcel c0 c1
+}
+axiom df-ral(setvar s0, class c0, wff w0) {
+  |- wb wral s0 c0 w0 wal s0 wi wcel cv s0 c0 w0
+}
+axiom df-rex(setvar s0, class c0, wff w0) {
+  |- wb wrex s0 c0 w0 wex s0 wa wcel cv s0 c0 w0
+}
+axiom df-reu(setvar s0, class c0, wff w0) {
+  |- wb wreu s0 c0 w0 weu s0 wa wcel cv s0 c0 w0
+}
+axiom df-rmo(setvar s0, class c0, wff w0) {
+  |- wb wrmo s0 c0 w0 wmo s0 wa wcel cv s0 c0 w0
+}
+axiom df-rab(setvar s0, class c0, wff w0) {
+  |- wceq crab s0 c0 w0 cab s0 wa wcel cv s0 c0 w0
+}
+axiom df-universe(setvar s0) {
+  |- wceq universe cab s0 wceq cv s0 cv s0
+}
+axiom df-cdeq(setvar s0, setvar s1, wff w0) {
+  |- wb wcdeq s0 s1 w0 wi wceq cv s0 cv s1 w0
+}
+axiom df-sbc(setvar s0, class c0, wff w0) {
+  |- wb wsbc s0 c0 w0 wcel c0 cab s0 w0
+}
+axiom df-csb(setvar s0, setvar s1, class c0, class c1) {
+  |- wceq csb s0 c0 c1 cab s1 wsbc s0 c0 wcel cv s1 c1
+  -| diffss s0 s1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+}
+axiom df-dif(setvar s0, class c0, class c1) {
+  |- wceq cdif c0 c1 cab s0 wa wcel cv s0 c0 wn wcel cv s0 c1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+}
+axiom df-un(setvar s0, class c0, class c1) {
+  |- wceq cun c0 c1 cab s0 wo wcel cv s0 c0 wcel cv s0 c1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+}
+axiom df-in(setvar s0, class c0, class c1) {
+  |- wceq cin c0 c1 cab s0 wa wcel cv s0 c0 wcel cv s0 c1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+}
+axiom df-ss(class c0, class c1) {
+  |- wb wss c0 c1 wceq cin c0 c1 c0
+}
+axiom df-pss(class c0, class c1) {
+  |- wb wpss c0 c1 wa wss c0 c1 wne c0 c1
+}
+axiom df-symdif(class c0, class c1) {
+  |- wceq csymdif c0 c1 cun cdif c0 c1 cdif c1 c0
+}
+axiom df-nul() {
+  |- wceq emptycls cdif universe universe
+}
+axiom df-if(setvar s0, class c0, class c1, wff w0) {
+  |- wceq cif c0 c1 w0 cab s0 wo wa wcel cv s0 c0 w0 wa wcel cv s0 c1 wn w0
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+  -| diffsw s0 w0
+}
+axiom df-pw(setvar s0, class c0) {
+  |- wceq cpw c0 cab s0 wss cv s0 c0
+  -| diffsc s0 c0
+}
+axiom df-sn(setvar s0, class c0) {
+  |- wceq csn c0 cab s0 wceq cv s0 c0
+  -| diffsc s0 c0
+}
+axiom df-pr(class c0, class c1) {
+  |- wceq cpr c0 c1 cun csn c0 csn c1
+}
+axiom df-tp(class c0, class c1, class c2) {
+  |- wceq ctp c0 c1 c2 cun cpr c0 c1 csn c2
+}
+axiom df-op(setvar s0, class c0, class c1) {
+  |- wceq cop c0 c1
+          cab s0 w3a wcel c0 universe wcel c1 universe wcel cv s0 cpr csn c0 cpr c0 c1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+}
+axiom df-ot(class c0, class c1, class c2) {
+  |- wceq cotp c0 c1 c2 cop cop c0 c1 c2
+}
+axiom df-uni(setvar s0, setvar s1, class c0) {
+  |- wceq cuni c0 cab s0 wex s1 wa wcel cv s0 cv s1 wcel cv s1 c0
+  -| diffss s0 s1
+  -| diffsc s0 c0
+  -| diffsc s1 c0
+}
+axiom df-int(setvar s0, setvar s1, class c0) {
+  |- wceq cint c0 cab s0 wal s1 wi wcel cv s1 c0 wcel cv s0 cv s1
+  -| diffss s0 s1
+  -| diffsc s0 c0
+  -| diffsc s1 c0
+}
+axiom df-iun(setvar s0, setvar s1, class c0, class c1) {
+  |- wceq ciun s0 c0 c1 cab s1 wrex s0 c0 wcel cv s1 c1
+  -| diffss s0 s1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+}
+axiom df-iin(setvar s0, setvar s1, class c0, class c1) {
+  |- wceq ciin s0 c0 c1 cab s1 wral s0 c0 wcel cv s1 c1
+  -| diffss s0 s1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+}
+axiom df-disj(setvar s0, setvar s1, class c0, class c1) {
+  |- wb wdisj s0 c0 c1 wal s1 wrmo s0 c0 wcel cv s1 c1
+  -| diffss s0 s1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+}
+axiom df-br(class c0, class c1, class c2) {
+  |- wb wbr c0 c1 c2 wcel cop c0 c1 c2
+}
+axiom df-opab(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wceq copab s0 s1 w0 cab s2 wex s0 wex s1 wa wceq cv s2 cop cv s0 cv s1 w0
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsw s2 w0
+}
+axiom df-mpt(setvar s0, setvar s1, class c0, class c1) {
+  |- wceq cmpt s0 c0 c1 copab s0 s1 wa wcel cv s0 c0 wceq cv s1 c1
+  -| diffss s0 s1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+}
+axiom df-tr(class c0) {
+  |- wb wtr c0 wss cuni c0 c0
+}
+axiom ax-rep(setvar s0, setvar s1, setvar s2, setvar s3, wff w0) {
+  |- wi wal s0 wex s1 wal s2 wi wal s1 w0 wceq cv s2 cv s1
+        wex s1 wal s2 wb wcel cv s2 cv s1 wex s0 wa wcel cv s0 cv s3 wal s1 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s0 s3
+  -| diffss s1 s2
+  -| diffss s1 s3
+  -| diffss s2 s3
+}
+axiom ax-sep(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsw s0 w0
+  -| diffsw s2 w0
+}
+axiom ax-nul(setvar s0, setvar s1) {
+  |- wex s0 wal s1 wn wcel cv s1 cv s0
+  -| diffss s0 s1
+}
+axiom ax-pow(setvar s0, setvar s1, setvar s2, setvar s3) {
+  |- wex s0 wal s1 wi wal s2 wi wcel cv s2 cv s1 wcel cv s2 cv s3 wcel cv s1 cv s0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s0 s3
+  -| diffss s1 s2
+  -| diffss s1 s3
+  -| diffss s2 s3
+}
+axiom ax-pr(setvar s0, setvar s1, setvar s2, setvar s3) {
+  |- wex s0 wal s1 wi wo wceq cv s1 cv s2 wceq cv s1 cv s3 wcel cv s1 cv s0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s0 s3
+  -| diffss s1 s2
+  -| diffss s1 s3
+}
+axiom df-id(setvar s0, setvar s1) {
+  |- wceq cid copab s0 s1 wceq cv s0 cv s1
+  -| diffss s0 s1
+}
+axiom df-eprel(setvar s0, setvar s1) {
+  |- wceq cep copab s0 s1 wcel cv s0 cv s1
+  -| diffss s0 s1
+}
+axiom df-po(setvar s0, setvar s1, setvar s2, class c0, class c1) {
+  |- wb wpo c0 c1
+        wral s0 c0 wral s1 c0 wral s2 c0 wa wn wbr cv s0 cv s0 c1 wi wa wbr cv s0 cv s1 c1 wbr cv s1 cv s2 c1 wbr cv s0 cv s2 c1
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+  -| diffsc s2 c0
+  -| diffsc s2 c1
+}
+axiom df-so(setvar s0, setvar s1, class c0, class c1) {
+  |- wb wor c0 c1
+        wa wpo c0 c1 wral s0 c0 wral s1 c0 w3o wbr cv s0 cv s1 c1 wceq cv s0 cv s1 wbr cv s1 cv s0 c1
+  -| diffss s0 s1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+}
+axiom df-fr(setvar s0, setvar s1, setvar s2, class c0, class c1) {
+  |- wb wfr c0 c1
+        wal s0 wi wa wss cv s0 c0 wne cv s0 emptycls wrex s1 cv s0 wral s2 cv s0 wn wbr cv s2 cv s1 c1
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+  -| diffsc s2 c0
+  -| diffsc s2 c1
+}
+axiom df-se(setvar s0, setvar s1, class c0, class c1) {
+  |- wb wse c0 c1 wral s0 c0 wcel crab s1 c0 wbr cv s1 cv s0 c1 universe
+  -| diffss s0 s1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+}
+axiom df-we(class c0, class c1) {
+  |- wb wwe c0 c1 wa wfr c0 c1 wor c0 c1
+}
+axiom df-xp(setvar s0, setvar s1, class c0, class c1) {
+  |- wceq cxp c0 c1 copab s0 s1 wa wcel cv s0 c0 wcel cv s1 c1
+  -| diffss s0 s1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+}
+axiom df-rel(class c0) {
+  |- wb wrel c0 wss c0 cxp universe universe
+}
+axiom df-cnv(setvar s0, setvar s1, class c0) {
+  |- wceq ccnv c0 copab s0 s1 wbr cv s1 cv s0 c0
+  -| diffss s0 s1
+  -| diffsc s0 c0
+  -| diffsc s1 c0
+}
+axiom df-co(setvar s0, setvar s1, setvar s2, class c0, class c1) {
+  |- wceq ccom c0 c1 copab s0 s1 wex s2 wa wbr cv s0 cv s2 c1 wbr cv s2 cv s1 c0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+  -| diffsc s1 c0
+  -| diffsc s1 c1
+  -| diffsc s2 c0
+  -| diffsc s2 c1
+}
+axiom df-dm(setvar s0, setvar s1, class c0) {
+  |- wceq cdm c0 cab s0 wex s1 wbr cv s0 cv s1 c0
+  -| diffss s0 s1
+  -| diffsc s0 c0
+  -| diffsc s1 c0
+}
+axiom df-rn(class c0) {
+  |- wceq crn c0 cdm ccnv c0
+}
+axiom df-res(class c0, class c1) {
+  |- wceq cres c0 c1 cin c0 cxp c1 universe
+}
+axiom df-ima(class c0, class c1) {
+  |- wceq cima c0 c1 crn cres c0 c1
+}
+axiom df-pred(class c0, class c1, class c2) {
+  |- wceq cpred c0 c1 c2 cin c0 cima ccnv c1 csn c2
+}
+axiom df-ord(class c0) {
+  |- wb word c0 wa wtr c0 wwe c0 cep
+}
+axiom df-on(setvar s0) {
+  |- wceq con0 cab s0 word cv s0
+}
+axiom df-lim(class c0) {
+  |- wb wlim c0 w3a word c0 wne c0 emptycls wceq c0 cuni c0
+}
+axiom df-suc(class c0) {
+  |- wceq csuc c0 cun c0 csn c0
+}
+axiom df-iota(setvar s0, setvar s1, wff w0) {
+  |- wceq cio s0 w0 cuni cab s1 wceq cab s0 w0 csn cv s1
+  -| diffss s0 s1
+  -| diffsw s1 w0
+}
+
+axiom diffss.ex (setvar s0, setvar s1) { |- diffss s0 s1 -| diffss s1 s0 }
+axiom diff.wtru.s (setvar s0) { |- diffsw s0 wtru }
+axiom diff.wfal.s (setvar s0) { |- diffsw s0 wfal }
+axiom diff.universe.s (setvar s0) { |- diffsc s0 universe }
+axiom diff.emptycls.s (setvar s0) { |- diffsc s0 emptycls }
+axiom diff.cid.s (setvar s0) { |- diffsc s0 cid }
+axiom diff.cep.s (setvar s0) { |- diffsc s0 cep }
+axiom diff.con0.s (setvar s0) { |- diffsc s0 con0 }
+axiom diff.hw0.s (setvar s0) { |- diffsw s0 hw0 }
+axiom diff.hw1.s (setvar s0) { |- diffsw s0 hw1 }
+axiom diff.hw2.s (setvar s0) { |- diffsw s0 hw2 }
+axiom diff.hw3.s (setvar s0) { |- diffsw s0 hw3 }
+axiom diff.hw4.s (setvar s0) { |- diffsw s0 hw4 }
+axiom diff.hw5.s (setvar s0) { |- diffsw s0 hw5 }
+axiom diff.hw6.s (setvar s0) { |- diffsw s0 hw6 }
+axiom diff.hw7.s (setvar s0) { |- diffsw s0 hw7 }
+axiom diff.hw8.s (setvar s0) { |- diffsw s0 hw8 }
+axiom diff.hw9.s (setvar s0) { |- diffsw s0 hw9 }
+axiom diff.hs0.s (setvar s0) { |- diffss hs0 s0 }
+axiom diff.hs0.c (class c0) { |- diffsc hs0 c0 }
+axiom diff.hs0.w (wff w0) { |- diffsw hs0 w0 }
+axiom diff.hs1.s (setvar s0) { |- diffss hs1 s0 }
+axiom diff.hs1.c (class c0) { |- diffsc hs1 c0 }
+axiom diff.hs1.w (wff w0) { |- diffsw hs1 w0 }
+axiom diff.hs2.s (setvar s0) { |- diffss hs2 s0 }
+axiom diff.hs2.c (class c0) { |- diffsc hs2 c0 }
+axiom diff.hs2.w (wff w0) { |- diffsw hs2 w0 }
+axiom diff.hs3.s (setvar s0) { |- diffss hs3 s0 }
+axiom diff.hs3.c (class c0) { |- diffsc hs3 c0 }
+axiom diff.hs3.w (wff w0) { |- diffsw hs3 w0 }
+axiom diff.hs4.s (setvar s0) { |- diffss hs4 s0 }
+axiom diff.hs4.c (class c0) { |- diffsc hs4 c0 }
+axiom diff.hs4.w (wff w0) { |- diffsw hs4 w0 }
+axiom diff.hs5.s (setvar s0) { |- diffss hs5 s0 }
+axiom diff.hs5.c (class c0) { |- diffsc hs5 c0 }
+axiom diff.hs5.w (wff w0) { |- diffsw hs5 w0 }
+axiom diff.hs6.s (setvar s0) { |- diffss hs6 s0 }
+axiom diff.hs6.c (class c0) { |- diffsc hs6 c0 }
+axiom diff.hs6.w (wff w0) { |- diffsw hs6 w0 }
+axiom diff.hs7.s (setvar s0) { |- diffss hs7 s0 }
+axiom diff.hs7.c (class c0) { |- diffsc hs7 c0 }
+axiom diff.hs7.w (wff w0) { |- diffsw hs7 w0 }
+axiom diff.hs8.s (setvar s0) { |- diffss hs8 s0 }
+axiom diff.hs8.c (class c0) { |- diffsc hs8 c0 }
+axiom diff.hs8.w (wff w0) { |- diffsw hs8 w0 }
+axiom diff.hs9.s (setvar s0) { |- diffss hs9 s0 }
+axiom diff.hs9.c (class c0) { |- diffsc hs9 c0 }
+axiom diff.hs9.w (wff w0) { |- diffsw hs9 w0 }
+axiom diff.diffss (setvar sBase, setvar s0, setvar s1) {
+  |- diffsw sBase diffss s0 s1
+  -| diffss sBase s0
+  -| diffss sBase s1
+}
+axiom diff.diffsc (setvar sBase, setvar s0, class c0) {
+  |- diffsw sBase diffsc s0 c0
+  -| diffss sBase s0
+  -| diffsc sBase c0
+}
+axiom diff.diffsw (setvar sBase, setvar s0, wff w0) {
+  |- diffsw sBase diffsw s0 w0
+  -| diffss sBase s0
+  -| diffsw sBase w0
+}
+axiom diff.wn (setvar sBase, wff w0) {
+  |- diffsw sBase wn w0
+  -| diffsw sBase w0
+}
+axiom diff.wi (setvar sBase, wff w0, wff w1) {
+  |- diffsw sBase wi w0 w1
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+}
+axiom diff.wb (setvar sBase, wff w0, wff w1) {
+  |- diffsw sBase wb w0 w1
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+}
+axiom diff.wa (setvar sBase, wff w0, wff w1) {
+  |- diffsw sBase wa w0 w1
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+}
+axiom diff.wo (setvar sBase, wff w0, wff w1) {
+  |- diffsw sBase wo w0 w1
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+}
+axiom diff.wif (setvar sBase, wff w0, wff w1, wff w2) {
+  |- diffsw sBase wif w0 w1 w2
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+  -| diffsw sBase w2
+}
+axiom diff.w3o (setvar sBase, wff w0, wff w1, wff w2) {
+  |- diffsw sBase w3o w0 w1 w2
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+  -| diffsw sBase w2
+}
+axiom diff.w3a (setvar sBase, wff w0, wff w1, wff w2) {
+  |- diffsw sBase w3a w0 w1 w2
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+  -| diffsw sBase w2
+}
+axiom diff.wnan (setvar sBase, wff w0, wff w1) {
+  |- diffsw sBase wnan w0 w1
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+}
+axiom diff.wxo (setvar sBase, wff w0, wff w1) {
+  |- diffsw sBase wxo w0 w1
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+}
+axiom diff.wal (setvar sBase, setvar s0, wff w0) {
+  |- diffsw sBase wal s0 w0
+  -| diffss sBase s0
+  -| diffsw sBase w0
+}
+axiom diff.cv (setvar sBase, setvar s0) {
+  |- diffsc sBase cv s0
+  -| diffss sBase s0
+}
+axiom diff.wceq (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wceq c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.whad (setvar sBase, wff w0, wff w1, wff w2) {
+  |- diffsw sBase whad w0 w1 w2
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+  -| diffsw sBase w2
+}
+axiom diff.wcad (setvar sBase, wff w0, wff w1, wff w2) {
+  |- diffsw sBase wcad w0 w1 w2
+  -| diffsw sBase w0
+  -| diffsw sBase w1
+  -| diffsw sBase w2
+}
+axiom diff.wex (setvar sBase, setvar s0, wff w0) {
+  |- diffsw sBase wex s0 w0
+  -| diffss sBase s0
+  -| diffsw sBase w0
+}
+axiom diff.wnf (setvar sBase, setvar s0, wff w0) {
+  |- diffsw sBase wnf s0 w0
+  -| diffss sBase s0
+  -| diffsw sBase w0
+}
+axiom diff.wsb (setvar sBase, setvar s0, setvar s1, wff w0) {
+  |- diffsw sBase wsb s0 s1 w0
+  -| diffss sBase s0
+  -| diffss sBase s1
+  -| diffsw sBase w0
+}
+axiom diff.wcel (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wcel c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wmo (setvar sBase, setvar s0, wff w0) {
+  |- diffsw sBase wmo s0 w0
+  -| diffss sBase s0
+  -| diffsw sBase w0
+}
+axiom diff.weu (setvar sBase, setvar s0, wff w0) {
+  |- diffsw sBase weu s0 w0
+  -| diffss sBase s0
+  -| diffsw sBase w0
+}
+axiom diff.cab (setvar sBase, setvar s0, wff w0) {
+  |- diffsc sBase cab s0 w0
+  -| diffss sBase s0
+  -| diffsw sBase w0
+}
+axiom diff.wnfc (setvar sBase, setvar s0, class c0) {
+  |- diffsw sBase wnfc s0 c0
+  -| diffss sBase s0
+  -| diffsc sBase c0
+}
+axiom diff.wne (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wne c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wnel (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wnel c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wral (setvar sBase, setvar s0, class c0, wff w0) {
+  |- diffsw sBase wral s0 c0 w0
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsw sBase w0
+}
+axiom diff.wrex (setvar sBase, setvar s0, class c0, wff w0) {
+  |- diffsw sBase wrex s0 c0 w0
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsw sBase w0
+}
+axiom diff.wreu (setvar sBase, setvar s0, class c0, wff w0) {
+  |- diffsw sBase wreu s0 c0 w0
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsw sBase w0
+}
+axiom diff.wrmo (setvar sBase, setvar s0, class c0, wff w0) {
+  |- diffsw sBase wrmo s0 c0 w0
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsw sBase w0
+}
+axiom diff.crab (setvar sBase, setvar s0, class c0, wff w0) {
+  |- diffsc sBase crab s0 c0 w0
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsw sBase w0
+}
+axiom diff.wcdeq (setvar sBase, setvar s0, setvar s1, wff w0) {
+  |- diffsw sBase wcdeq s0 s1 w0
+  -| diffss sBase s0
+  -| diffss sBase s1
+  -| diffsw sBase w0
+}
+axiom diff.wsbc (setvar sBase, setvar s0, class c0, wff w0) {
+  |- diffsw sBase wsbc s0 c0 w0
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsw sBase w0
+}
+axiom diff.csb (setvar sBase, setvar s0, class c0, class c1) {
+  |- diffsc sBase csb s0 c0 c1
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.cdif (setvar sBase, class c0, class c1) {
+  |- diffsc sBase cdif c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.cun (setvar sBase, class c0, class c1) {
+  |- diffsc sBase cun c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.cin (setvar sBase, class c0, class c1) {
+  |- diffsc sBase cin c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wss (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wss c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wpss (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wpss c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.csymdif (setvar sBase, class c0, class c1) {
+  |- diffsc sBase csymdif c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.cif (setvar sBase, class c0, class c1, wff w0) {
+  |- diffsc sBase cif c0 c1 w0
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+  -| diffsw sBase w0
+}
+axiom diff.cpw (setvar sBase, class c0) {
+  |- diffsc sBase cpw c0
+  -| diffsc sBase c0
+}
+axiom diff.csn (setvar sBase, class c0) {
+  |- diffsc sBase csn c0
+  -| diffsc sBase c0
+}
+axiom diff.cpr (setvar sBase, class c0, class c1) {
+  |- diffsc sBase cpr c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.ctp (setvar sBase, class c0, class c1, class c2) {
+  |- diffsc sBase ctp c0 c1 c2
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+  -| diffsc sBase c2
+}
+axiom diff.cop (setvar sBase, class c0, class c1) {
+  |- diffsc sBase cop c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.cotp (setvar sBase, class c0, class c1, class c2) {
+  |- diffsc sBase cotp c0 c1 c2
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+  -| diffsc sBase c2
+}
+axiom diff.cuni (setvar sBase, class c0) {
+  |- diffsc sBase cuni c0
+  -| diffsc sBase c0
+}
+axiom diff.cint (setvar sBase, class c0) {
+  |- diffsc sBase cint c0
+  -| diffsc sBase c0
+}
+axiom diff.ciun (setvar sBase, setvar s0, class c0, class c1) {
+  |- diffsc sBase ciun s0 c0 c1
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.ciin (setvar sBase, setvar s0, class c0, class c1) {
+  |- diffsc sBase ciin s0 c0 c1
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wdisj (setvar sBase, setvar s0, class c0, class c1) {
+  |- diffsw sBase wdisj s0 c0 c1
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wbr (setvar sBase, class c0, class c1, class c2) {
+  |- diffsw sBase wbr c0 c1 c2
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+  -| diffsc sBase c2
+}
+axiom diff.copab (setvar sBase, setvar s0, setvar s1, wff w0) {
+  |- diffsc sBase copab s0 s1 w0
+  -| diffss sBase s0
+  -| diffss sBase s1
+  -| diffsw sBase w0
+}
+axiom diff.cmpt (setvar sBase, setvar s0, class c0, class c1) {
+  |- diffsc sBase cmpt s0 c0 c1
+  -| diffss sBase s0
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wtr (setvar sBase, class c0) {
+  |- diffsw sBase wtr c0
+  -| diffsc sBase c0
+}
+axiom diff.wpo (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wpo c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wor (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wor c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wfr (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wfr c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wse (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wse c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wwe (setvar sBase, class c0, class c1) {
+  |- diffsw sBase wwe c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.cxp (setvar sBase, class c0, class c1) {
+  |- diffsc sBase cxp c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.ccnv (setvar sBase, class c0) {
+  |- diffsc sBase ccnv c0
+  -| diffsc sBase c0
+}
+axiom diff.cdm (setvar sBase, class c0) {
+  |- diffsc sBase cdm c0
+  -| diffsc sBase c0
+}
+axiom diff.crn (setvar sBase, class c0) {
+  |- diffsc sBase crn c0
+  -| diffsc sBase c0
+}
+axiom diff.cres (setvar sBase, class c0, class c1) {
+  |- diffsc sBase cres c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.cima (setvar sBase, class c0, class c1) {
+  |- diffsc sBase cima c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.ccom (setvar sBase, class c0, class c1) {
+  |- diffsc sBase ccom c0 c1
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+}
+axiom diff.wrel (setvar sBase, class c0) {
+  |- diffsw sBase wrel c0
+  -| diffsc sBase c0
+}
+axiom diff.cpred (setvar sBase, class c0, class c1, class c2) {
+  |- diffsc sBase cpred c0 c1 c2
+  -| diffsc sBase c0
+  -| diffsc sBase c1
+  -| diffsc sBase c2
+}
+axiom diff.word (setvar sBase, class c0) {
+  |- diffsw sBase word c0
+  -| diffsc sBase c0
+}
+axiom diff.wlim (setvar sBase, class c0) {
+  |- diffsw sBase wlim c0
+  -| diffsc sBase c0
+}
+axiom diff.csuc (setvar sBase, class c0) {
+  |- diffsc sBase csuc c0
+  -| diffsc sBase c0
+}
+axiom diff.cio (setvar sBase, setvar s0, wff w0) {
+  |- diffsc sBase cio s0 w0
+  -| diffss sBase s0
+  -| diffsw sBase w0
+}

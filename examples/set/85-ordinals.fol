@@ -1,0 +1,1911 @@
+import '84-zfc-well-founded-induction.fol'
+
+thm ordeq(class c0, class c1) {
+  |- wi wceq c0 c1 wb word c0 word c1
+} = {
+  3bitr4g wceq c0 c1 word c0 word c1 wa wtr c0 wwe c0 cep wa wtr c1 wwe c1 cep
+  anbi12d wceq c0 c1 wtr c0 wwe c0 cep wtr c1 wwe c1 cep
+  treq c0 c1
+  weeq2 c0 c1 cep
+  df-ord c0
+  df-ord c1
+}
+thm elong(class c0, class c1) {
+  |- wi wcel c0 c1 wb wcel c0 con0 word c0
+} = {
+  elab2g hs0 c0 c1 con0 word c0 word cv hs0
+  ordeq cv hs0 c0
+  df-on hs0
+  diff.hs0.c c0
+  diff.hs0.w word c0
+}
+thm elon(class c0) {
+  |- wb wcel c0 con0 word c0
+  -| wcel c0 universe
+} = {
+  ax-mp wb wcel c0 con0 word c0 wcel c0 universe
+  elong c0 universe
+}
+thm eloni(class c0) {
+  |- wi wcel c0 con0 word c0
+} = {
+  ibi wcel c0 con0 word c0
+  elong c0 con0
+}
+thm elon2(class c0) {
+  |- wb wcel c0 con0 wa word c0 wcel c0 universe
+} = {
+  biancomi wcel c0 con0 word c0 wcel c0 universe
+  biadanii wcel c0 con0 wcel c0 universe word c0
+  elex c0 con0
+  elong c0 universe
+}
+thm limeq(class c0, class c1) {
+  |- wi wceq c0 c1 wb wlim c0 wlim c1
+} = {
+  3bitr4g wceq c0 c1
+          wlim c0
+          wlim c1
+          w3a word c0 wne c0 emptycls wceq c0 cuni c0
+          w3a word c1 wne c1 emptycls wceq c1 cuni c1
+  3anbi123d wceq c0 c1
+            word c0
+            wne c0 emptycls
+            wceq c0 cuni c0
+            word c1
+            wne c1 emptycls
+            wceq c1 cuni c1
+  ordeq c0 c1
+  neeq1 c0 c1 emptycls
+  eqeq12d c0 cuni c0 c1 cuni c1 wceq c0 c1
+  id wceq c0 c1
+  unieq c0 c1
+  df-lim c0
+  df-lim c1
+}
+thm ordwe(class c0) {
+  |- wi word c0 wwe c0 cep
+} = {
+  simprbi word c0 wwe c0 cep wtr c0
+  df-ord c0
+}
+thm ordtr(class c0) {
+  |- wi word c0 wtr c0
+} = {
+  simplbi word c0 wtr c0 wwe c0 cep
+  df-ord c0
+}
+thm ordfr(class c0) {
+  |- wi word c0 wfr c0 cep
+} = {
+  syl word c0 wfr c0 cep wwe c0 cep
+  ordwe c0
+  wefr c0 cep
+}
+thm ordelss(class c0, class c1) {
+  |- wi wa word c0 wcel c1 c0 wss c1 c0
+} = {
+  sylan word c0 wcel c1 c0 wss c1 c0 wtr c0
+  ordtr c0
+  imp wtr c0 wcel c1 c0 wss c1 c0
+  trss c0 c1
+}
+thm trssord(class c0, class c1) {
+  |- wi w3a wtr c0 wss c0 c1 word c1 word c0
+} = {
+  sylibr w3a wtr c0 wss c0 c1 word c1 word c0 wa wtr c0 wwe c0 cep
+  3impb wtr c0 wss c0 c1 word c1 wa wtr c0 wwe c0 cep
+  anim2i wtr c0 wa wss c0 c1 word c1 wwe c0 cep
+  impel wss c0 c1 word c1 wwe c0 cep wwe c1 cep
+  wess c0 c1 cep
+  ordwe c1
+  df-ord c0
+}
+thm ordirr(class c0) {
+  |- wi word c0 wn wcel c0 c0
+} = {
+  syl word c0 wn wcel c0 c0 wfr c0 cep
+  ordfr c0
+  efrirr c0
+}
+thm nordeq(class c0, class c1) {
+  |- wi wa word c0 wcel c1 c0 wne c0 c1
+} = {
+  imp word c0 wcel c1 c0 wne c0 c1
+  necon2ad c0 c1 word c0 wcel c1 c0
+  syl5ibcom word c0 wceq c0 c1 wn wcel c1 c0 wn wcel c0 c0
+  ordirr c0
+  notbid wceq c0 c1 wcel c0 c0 wcel c1 c0
+  eleq1 c0 c1 c0
+}
+thm ordn2lp(class c0, class c1) {
+  |- wi word c0 wn wa wcel c0 c1 wcel c1 c0
+} = {
+  mtod word c0 wa wcel c0 c1 wcel c1 c0 wcel c0 c0
+  ordirr c0
+  syl word c0 wi wa wcel c0 c1 wcel c1 c0 wcel c0 c0 wtr c0
+  ordtr c0
+  trel c0 c0 c1
+}
+thm tz7.5(setvar s0, class c0, class c1) {
+  |- wi w3a word c0 wss c1 c0 wne c1 emptycls
+        wrex s0 c1 wceq cin c1 cv s0 emptycls
+  -| diffsc s0 c1
+} = {
+  syl3an1 word c0
+          wss c1 c0
+          wne c1 emptycls
+          wrex s0 c1 wceq cin c1 cv s0 emptycls
+          wwe c0 cep
+  ordwe c0
+  wefrc s0 c0 c1
+}
+thm ordelord(class c0, class c1) {
+  |- wi wa word c0 wcel c1 c0 word c1
+} = {
+  anabsi7 word c0 wcel c1 c0 word c1
+  vtoclg hs0
+         c1
+         c0
+         wi wa word c0 wcel c1 c0 word c1
+         wi wa word c0 wcel cv hs0 c0 word cv hs0
+  imbi12d wceq cv hs0 c1
+          wa word c0 wcel cv hs0 c0
+          word cv hs0
+          wa word c0 wcel c1 c0
+          word c1
+  anbi2d wceq cv hs0 c1 word c0 wcel cv hs0 c0 wcel c1 c0
+  eleq1 cv hs0 c1 c0
+  ordeq cv hs0 c1
+  sylanbrc wa word c0 wcel cv hs0 c0 word cv hs0 wtr cv hs0 wwe cv hs0 cep
+  sylibr wa word c0 wcel cv hs0 c0
+         wtr cv hs0
+         wal hs1 wal hs2 wi wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0 wcel cv hs1 cv hs0
+  alrimivv hs1
+           hs2
+           wa word c0 wcel cv hs0 c0
+           wi wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0 wcel cv hs1 cv hs0
+  pm2.43d wa word c0 wcel cv hs0 c0
+          wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+          wcel cv hs1 cv hs0
+  ex wa word c0 wcel cv hs0 c0
+     wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+     wi wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0 wcel cv hs1 cv hs0
+  syl13anc wa wa word c0 wcel cv hs0 c0 wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+           wi wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0 wcel cv hs1 cv hs0
+           word c0
+           wcel cv hs1 c0
+           wcel cv hs2 c0
+           wcel cv hs0 c0
+  simpll word c0 wcel cv hs0 c0 wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+  impl word c0
+       wcel cv hs0 c0
+       wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+       wcel cv hs1 c0
+  syl5bir word c0
+          wa wcel cv hs0 c0 wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+          wcel cv hs1 c0
+          w3a wcel cv hs1 cv hs2 wcel cv hs2 cv hs0 wcel cv hs0 c0
+  bitr3i w3a wcel cv hs1 cv hs2 wcel cv hs2 cv hs0 wcel cv hs0 c0
+         wa wcel cv hs0 c0 wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+         w3a wcel cv hs0 c0 wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+  3anrot wcel cv hs0 c0 wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+  3anass wcel cv hs0 c0 wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+  syl word c0
+      wi w3a wcel cv hs1 cv hs2 wcel cv hs2 cv hs0 wcel cv hs0 c0 wcel cv hs1 c0
+      wtr c0
+  trel3 c0 cv hs1 cv hs2 cv hs0
+  adantrl wa word c0 wcel cv hs0 c0
+          wcel cv hs1 cv hs2
+          wcel cv hs2 cv hs0
+          wcel cv hs2 c0
+  imp31 word c0 wcel cv hs0 c0 wcel cv hs2 cv hs0 wcel cv hs2 c0
+  expcomd word c0 wcel cv hs0 c0 wcel cv hs2 cv hs0 wcel cv hs2 c0
+  syl word c0 wi wa wcel cv hs2 cv hs0 wcel cv hs0 c0 wcel cv hs2 c0 wtr c0
+  trel c0 cv hs2 cv hs0
+  simplr word c0 wcel cv hs0 c0 wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0
+  sylan word c0
+        w3a wcel cv hs1 c0 wcel cv hs2 c0 wcel cv hs0 c0
+        wi wa wcel cv hs1 cv hs2 wcel cv hs2 cv hs0 wcel cv hs1 cv hs0
+        wwe c0 cep
+  wetrep hs1 hs2 hs0 c0
+  dftr2 hs1 hs2 cv hs0
+  imp word c0 wcel cv hs0 c0 wwe cv hs0 cep
+  syl6ci word c0 wcel cv hs0 c0 wwe cv hs0 cep wss cv hs0 c0 wwe c0 cep
+  syl word c0 wi wcel cv hs0 c0 wss cv hs0 c0 wtr c0
+  ordtr c0
+  trss c0 cv hs0
+  ordwe c0
+  wess cv hs0 c0 cep
+  df-ord cv hs0
+  diff.hs0.c c1
+  diff.hs0.w wi wa word c0 wcel c1 c0 word c1
+  diff.hs1.w wa word c0 wcel cv hs0 c0
+  diff.hs2.w wa word c0 wcel cv hs0 c0
+  diff.hs1.s hs2
+  diff.hs1.c cv hs0
+  diff.hs2.c cv hs0
+}
+thm tron() {
+  |- wtr con0
+} = {
+  mprgbir hs0 con0 wtr con0 wss cv hs0 con0
+  dftr3 hs0 con0
+  ssrdv hs1 cv hs0 con0 wcel cv hs0 con0
+  syl6ibr wcel cv hs0 con0 wcel cv hs1 cv hs0 wcel cv hs1 con0 word cv hs1
+  ex wcel cv hs0 con0 wcel cv hs1 cv hs0 word cv hs1
+  sylanb wcel cv hs0 con0 wcel cv hs1 cv hs0 word cv hs1 word cv hs0
+  elon cv hs0
+  vex hs0
+  ordelord cv hs0 cv hs1
+  elon cv hs1
+  vex hs1
+  diff.hs0.c con0
+  diff.hs1.c cv hs0
+  diff.hs1.c con0
+  diff.hs1.w wcel cv hs0 con0
+}
+thm ordelon(class c0, class c1) {
+  |- wi wa word c0 wcel c1 c0 wcel c1 con0
+} = {
+  mpbird wa word c0 wcel c1 c0 wcel c1 con0 word c1
+  ordelord c0 c1
+  adantl word c0 wcel c1 c0 wb wcel c1 con0 word c1
+  elong c1 c0
+}
+thm onelon(class c0, class c1) {
+  |- wi wa wcel c0 con0 wcel c1 c0 wcel c1 con0
+} = {
+  sylan wcel c0 con0 wcel c1 c0 wcel c1 con0 word c0
+  eloni c0
+  ordelon c0 c1
+}
+thm tz7.7(class c0, class c1) {
+  |- wi wa word c0 wtr c1 wb wcel c1 c0 wa wss c1 c0 wne c1 c0
+} = {
+  impbid wa word c0 wtr c1 wcel c1 c0 wa wss c1 c0 wne c1 c0
+  adantr word c0 wtr c1 wi wcel c1 c0 wa wss c1 c0 wne c1 c0
+  sylc word c0 wi wcel c1 c0 wa wss c1 c0 wne c1 c0 wtr c0 wfr c0 cep
+  ordfr c0
+  3exp wtr c0 wfr c0 cep wcel c1 c0 wa wss c1 c0 wne c1 c0
+  tz7.2 c0 c1
+  impd wa word c0 wtr c1 wss c1 c0 wne c1 c0 wcel c1 c0
+  pm2.43d wa word c0 wtr c1 wss c1 c0 wi wne c1 c0 wcel c1 c0
+  exp4a wa word c0 wtr c1 wss c1 c0 wss c1 c0 wne c1 c0 wcel c1 c0
+  syl7 wa word c0 wtr c1
+       wss c1 c0
+       wa wss c1 c0 wne c1 c0
+       wcel c1 c0
+       wne cdif c0 c1 emptycls
+  pssdifn0 c1 c0
+  pm2.43i wa word c0 wtr c1 wi wss c1 c0 wi wne cdif c0 c1 emptycls wcel c1 c0
+  adantrd wa word c0 wtr c1
+          word c0
+          wtr c1
+          wi wss c1 c0 wi wne cdif c0 c1 emptycls wcel c1 c0
+  com23 wa word c0 wtr c1 word c0 wss c1 c0 wi wne cdif c0 c1 emptycls wcel c1 c0
+  exp4b wa word c0 wtr c1 wss c1 c0 word c0 wne cdif c0 c1 emptycls wcel c1 c0
+  syl5 wa wa word c0 wtr c1 wss c1 c0
+       wa word c0 wne cdif c0 c1 emptycls
+       wcel c1 c0
+       wrex hs0 cdif c0 c1 wceq cin cdif c0 c1 cv hs0 emptycls
+  mp3an2 word c0
+         wne cdif c0 c1 emptycls
+         wrex hs0 cdif c0 c1 wceq cin cdif c0 c1 cv hs0 emptycls
+         wss cdif c0 c1 c0
+  difss c0 c1
+  tz7.5 hs0 c0 cdif c0 c1
+  rexlimdvaa hs0
+             cdif c0 c1
+             wa wa word c0 wtr c1 wss c1 c0
+             wceq cin cdif c0 c1 cv hs0 emptycls
+             wcel c1 c0
+  eqeltrrd c1
+           c0
+           cv hs0
+           wa wa wa word c0 wtr c1 wss c1 c0 wa wcel cv hs0 cdif c0 c1 wceq cin cdif c0 c1 cv hs0 emptycls
+  eqssd cv hs0
+        c1
+        wa wa wa word c0 wtr c1 wss c1 c0 wa wcel cv hs0 cdif c0 c1 wceq cin cdif c0 c1 cv hs0 emptycls
+  imp32 wa wa word c0 wtr c1 wss c1 c0
+        wcel cv hs0 cdif c0 c1
+        wceq cin cdif c0 c1 cv hs0 emptycls
+        wss cv hs0 c1
+  ad2antrr word c0
+           wtr c1
+           wss c1 c0
+           wi wcel cv hs0 cdif c0 c1 wi wceq cin cdif c0 c1 cv hs0 emptycls wss cv hs0 c1
+  syl word c0
+      wi wcel cv hs0 cdif c0 c1 wi wceq cin cdif c0 c1 cv hs0 emptycls wss cv hs0 c1
+      wtr c0
+  ordtr c0
+  syl56 wtr c0
+        wcel cv hs0 cdif c0 c1
+        wi wceq cin cdif c0 c1 cv hs0 emptycls wss cv hs0 c1
+        wcel cv hs0 c0
+        wss cv hs0 c0
+  trss c0 cv hs0
+  com12 wss cv hs0 c0 wceq cin cdif c0 c1 cv hs0 emptycls wss cv hs0 c1
+  difin0ss c0 c1 cv hs0
+  adantrr wa wa word c0 wtr c1 wss c1 c0
+          wcel cv hs0 cdif c0 c1
+          wceq cin cdif c0 c1 cv hs0 emptycls
+          wss c1 cv hs0
+  ssrdv hs1 c1 cv hs0 wa wa wa word c0 wtr c1 wss c1 c0 wcel cv hs0 cdif c0 c1
+  imp31 wa word c0 wtr c1
+        wss c1 c0
+        wcel cv hs0 cdif c0 c1
+        wi wcel cv hs1 c1 wcel cv hs1 cv hs0
+  com34 wa word c0 wtr c1
+        wss c1 c0
+        wcel cv hs0 cdif c0 c1
+        wcel cv hs1 c1
+        wcel cv hs1 cv hs0
+  exp44 wa word c0 wtr c1
+        wss c1 c0
+        wcel cv hs1 c1
+        wcel cv hs0 cdif c0 c1
+        wcel cv hs1 cv hs0
+  ecase23d wa wa word c0 wtr c1 wa wa wss c1 c0 wcel cv hs1 c1 wcel cv hs0 cdif c0 c1
+           wcel cv hs1 cv hs0
+           wceq cv hs1 cv hs0
+           wcel cv hs0 cv hs1
+  adantl wa word c0 wtr c1
+         wa wa wss c1 c0 wcel cv hs1 c1 wcel cv hs0 cdif c0 c1
+         wn wceq cv hs1 cv hs0
+  adantll wss c1 c0 wcel cv hs1 c1 wcel cv hs0 cdif c0 c1 wn wceq cv hs1 cv hs0
+  imp wcel cv hs1 c1 wcel cv hs0 cdif c0 c1 wn wceq cv hs1 cv hs0
+  nsyli wcel cv hs1 c1 wcel cv hs0 cdif c0 c1 wceq cv hs1 cv hs0 wcel cv hs0 c1
+  biimpcd wcel cv hs1 c1 wceq cv hs1 cv hs0 wcel cv hs0 c1
+  eleq1w hs1 hs0 c1
+  adantll word c0
+          wtr c1
+          wa wa wss c1 c0 wcel cv hs1 c1 wcel cv hs0 cdif c0 c1
+          wn wcel cv hs0 cv hs1
+  imp32 wtr c1
+        wa wss c1 c0 wcel cv hs1 c1
+        wcel cv hs0 cdif c0 c1
+        wn wcel cv hs0 cv hs1
+  adantld wtr c1
+          wss c1 c0
+          wcel cv hs1 c1
+          wi wcel cv hs0 cdif c0 c1 wn wcel cv hs0 cv hs1
+  ex wtr c1 wcel cv hs1 c1 wi wcel cv hs0 cdif c0 c1 wn wcel cv hs0 cv hs1
+  nsyli wa wtr c1 wcel cv hs1 c1
+        wcel cv hs0 cdif c0 c1
+        wcel cv hs0 cv hs1
+        wcel cv hs0 c1
+  imp wtr c1 wcel cv hs1 c1 wi wcel cv hs0 cv hs1 wcel cv hs0 c1
+  expcomd wtr c1 wcel cv hs1 c1 wcel cv hs0 cv hs1 wcel cv hs0 c1
+  trel c1 cv hs0 cv hs1
+  eldifn cv hs0 c0 c1
+  adantlr word c0
+          wtr c1
+          wa wa wss c1 c0 wcel cv hs1 c1 wcel cv hs0 cdif c0 c1
+          w3o wcel cv hs1 cv hs0 wceq cv hs1 cv hs0 wcel cv hs0 cv hs1
+  syl2an word c0
+         wa wa wss c1 c0 wcel cv hs1 c1 wcel cv hs0 cdif c0 c1
+         w3o wcel cv hs1 cv hs0 wceq cv hs1 cv hs0 wcel cv hs0 cv hs1
+         wwe c0 cep
+         wa wcel cv hs1 c0 wcel cv hs0 c0
+  ordwe c0
+  anim12i wa wss c1 c0 wcel cv hs1 c1
+          wcel cv hs0 cdif c0 c1
+          wcel cv hs1 c0
+          wcel cv hs0 c0
+  ssel2 c1 c0 cv hs1
+  wecmpep hs1 hs0 c0
+  ad2antrl wa wa word c0 wtr c1 wss c1 c0
+           wcel cv hs0 cdif c0 c1
+           wceq cin cdif c0 c1 cv hs0 emptycls
+           wcel cv hs0 c0
+  eldifi cv hs0 c0 c1
+  diff.hs0.c cdif c0 c1
+  diff.hs0.w wa wa word c0 wtr c1 wss c1 c0
+  diff.hs0.w wcel c1 c0
+  diff.hs1.c c1
+  diff.hs1.c cv hs0
+  diff.hs1.w wa wa wa word c0 wtr c1 wss c1 c0 wcel cv hs0 cdif c0 c1
+}
+thm ordelssne(class c0, class c1) {
+  |- wi wa word c0 word c1 wb wcel c0 c1 wa wss c0 c1 wne c0 c1
+} = {
+  ancoms word c0 word c1 wb wcel c0 c1 wa wss c0 c1 wne c0 c1
+  sylan2 word c1 word c0 wb wcel c0 c1 wa wss c0 c1 wne c0 c1 wtr c0
+  ordtr c0
+  tz7.7 c1 c0
+}
+thm ordelpss(class c0, class c1) {
+  |- wi wa word c0 word c1 wb wcel c0 c1 wpss c0 c1
+} = {
+  syl6bbr wa word c0 word c1 wcel c0 c1 wpss c0 c1 wa wss c0 c1 wne c0 c1
+  ordelssne c0 c1
+  df-pss c0 c1
+}
+thm ordsseleq(class c0, class c1) {
+  |- wi wa word c0 word c1 wb wss c0 c1 wo wcel c0 c1 wceq c0 c1
+} = {
+  syl6rbbr wa word c0 word c1
+           wss c0 c1
+           wo wcel c0 c1 wceq c0 c1
+           wo wpss c0 c1 wceq c0 c1
+  orbi1d wa word c0 word c1 wcel c0 c1 wceq c0 c1 wpss c0 c1
+  ordelpss c0 c1
+  sspss c0 c1
+}
+thm ordin(class c0, class c1) {
+  |- wi wa word c0 word c1 word cin c0 c1
+} = {
+  sylancom word c0 word c1 word cin c0 c1 wtr cin c0 c1
+  syl2an word c0 word c1 wtr cin c0 c1 wtr c0 wtr c1
+  ordtr c0
+  ordtr c1
+  trin c0 c1
+  mp3an2 wtr cin c0 c1 word c1 word cin c0 c1 wss cin c0 c1 c1
+  inss2 c0 c1
+  trssord cin c0 c1 c1
+}
+thm onin(class c0, class c1) {
+  |- wi wa wcel c0 con0 wcel c1 con0 wcel cin c0 c1 con0
+} = {
+  mpbird wa wcel c0 con0 wcel c1 con0 wcel cin c0 c1 con0 word cin c0 c1
+  syl2an wcel c0 con0 wcel c1 con0 word cin c0 c1 word c0 word c1
+  eloni c0
+  eloni c1
+  ordin c0 c1
+  3syl wa wcel c0 con0 wcel c1 con0
+       wb wcel cin c0 c1 con0 word cin c0 c1
+       wcel c0 con0
+       wcel cin c0 c1 universe
+  simpl wcel c0 con0 wcel c1 con0
+  inex1g c0 con0 c1
+  elong cin c0 c1 universe
+}
+thm ordtri3or(class c0, class c1) {
+  |- wi wa word c0 word c1 w3o wcel c0 c1 wceq c0 c1 wcel c1 c0
+} = {
+  mpbird wa word c0 word c1
+         w3o wcel c0 c1 wceq c0 c1 wcel c1 c0
+         w3o wpss c0 c1 wceq c0 c1 wpss c1 c0
+  sylib wa word c0 word c1
+        w3o wpss c0 c1 wceq c0 c1 wpss c1 c0
+        wo wss c0 c1 wss c1 c0
+  mpd wa word c0 word c1
+      wo wss c0 c1 wss c1 c0
+      wo wn wcel cin c0 c1 c0 wn wcel cin c1 c0 c1
+  sylib wa word c0 word c1
+        wo wn wcel cin c0 c1 c0 wn wcel cin c1 c0 c1
+        wn wcel cin c0 c1 cin c0 c1
+  syl wa word c0 word c1 wn wcel cin c0 c1 cin c0 c1 word cin c0 c1
+  ordirr cin c0 c1
+  xchnxbir wcel cin c0 c1 cin c0 c1
+           wo wn wcel cin c0 c1 c0 wn wcel cin c1 c0 c1
+           wa wcel cin c0 c1 c0 wcel cin c1 c0 c1
+  ianor wcel cin c0 c1 c0 wcel cin c1 c0 c1
+  bitri wcel cin c0 c1 cin c0 c1
+        wa wcel cin c0 c1 c0 wcel cin c1 c0 c1
+        wa wcel cin c0 c1 c0 wcel cin c0 c1 c1
+  elin cin c0 c1 c0 c1
+  anbi2i wcel cin c0 c1 c0 wcel cin c0 c1 c1 wcel cin c1 c0 c1
+  eleq1i cin c0 c1 c1 cin c1 c0
+  incom c0 c1
+  orim12d wa word c0 word c1
+          wn wcel cin c0 c1 c0
+          wn wcel cin c1 c0 c1
+          wss c0 c1
+          wss c1 c0
+  syl6ibr wa word c0 word c1 wn wcel cin c0 c1 c0 wss c0 c1 wceq cin c0 c1 c0
+  ord wa word c0 word c1 wcel cin c0 c1 c0 wceq cin c0 c1 c0
+  anabss1 word c0 word c1 wo wcel cin c0 c1 c0 wceq cin c0 c1 c0
+  sylan wa word c0 word c1
+        word c0
+        wo wcel cin c0 c1 c0 wceq cin c0 c1 c0
+        word cin c0 c1
+  ordin c0 c1
+  mpbii wa word cin c0 c1 word c0
+        wo wcel cin c0 c1 c0 wceq cin c0 c1 c0
+        wss cin c0 c1 c0
+  inss1 c0 c1
+  ordsseleq cin c0 c1 c0
+  df-ss c0 c1
+  syl6ibr wa word c0 word c1 wn wcel cin c1 c0 c1 wss c1 c0 wceq cin c1 c0 c1
+  ord wa word c0 word c1 wcel cin c1 c0 c1 wceq cin c1 c0 c1
+  anabss4 word c0 word c1 wo wcel cin c1 c0 c1 wceq cin c1 c0 c1
+  sylan wa word c1 word c0
+        word c1
+        wo wcel cin c1 c0 c1 wceq cin c1 c0 c1
+        word cin c1 c0
+  ordin c1 c0
+  mpbii wa word cin c1 c0 word c1
+        wo wcel cin c1 c0 c1 wceq cin c1 c0 c1
+        wss cin c1 c0 c1
+  inss1 c1 c0
+  ordsseleq cin c1 c0 c1
+  df-ss c1 c0
+  sspsstri c0 c1
+  3orbi123d wa word c0 word c1
+            wcel c0 c1
+            wceq c0 c1
+            wcel c1 c0
+            wpss c0 c1
+            wceq c0 c1
+            wpss c1 c0
+  ordelpss c0 c1
+  biidd wa word c0 word c1 wceq c0 c1
+  ancoms word c0 word c1 wb wcel c1 c0 wpss c1 c0
+  ordelpss c1 c0
+}
+thm ordtri1(class c0, class c1) {
+  |- wi wa word c0 word c1 wb wss c0 c1 wn wcel c1 c0
+} = {
+  bitrd wa word c0 word c1 wss c0 c1 wn wcel c1 c0 wo wcel c0 c1 wceq c0 c1
+  ordsseleq c0 c1
+  impbid wa word c0 word c1 wo wcel c0 c1 wceq c0 c1 wn wcel c1 c0
+  jaao word c0 word c1 wcel c0 c1 wceq c0 c1 wn wcel c1 c0
+  sylibr word c0 wi wcel c0 c1 wn wcel c1 c0 wn wa wcel c0 c1 wcel c1 c0
+  ordn2lp c0 c1
+  imnan wcel c0 c1 wcel c1 c0
+  syl5ibrcom word c1 wceq c0 c1 wn wcel c1 c0 wn wcel c1 c1
+  ordirr c1
+  notbid wceq c0 c1 wcel c1 c0 wcel c1 c1
+  eleq2 c0 c1 c1
+  ord wa word c0 word c1 wcel c1 c0 wo wcel c0 c1 wceq c0 c1
+  orcomd wa word c0 word c1 wcel c1 c0 wo wcel c0 c1 wceq c0 c1
+  sylib wa word c0 word c1
+        wo wo wcel c0 c1 wceq c0 c1 wcel c1 c0
+        w3o wcel c0 c1 wceq c0 c1 wcel c1 c0
+  ordtri3or c0 c1
+  df-3or wcel c0 c1 wceq c0 c1 wcel c1 c0
+}
+thm ontri1(class c0, class c1) {
+  |- wi wa wcel c0 con0 wcel c1 con0 wb wss c0 c1 wn wcel c1 c0
+} = {
+  syl2an wcel c0 con0 wcel c1 con0 wb wss c0 c1 wn wcel c1 c0 word c0 word c1
+  eloni c0
+  eloni c1
+  ordtri1 c0 c1
+}
+thm ordtri2(class c0, class c1) {
+  |- wi wa word c0 word c1 wb wcel c0 c1 wn wo wceq c0 c1 wcel c1 c0
+} = {
+  con2bid wa word c0 word c1 wcel c0 c1 wo wceq c0 c1 wcel c1 c0
+  ancoms word c0 word c1 wb wo wceq c0 c1 wcel c1 c0 wn wcel c0 c1
+  bitr3d wa word c1 word c0 wo wceq c0 c1 wcel c1 c0 wn wcel c0 c1 wss c1 c0
+  syl6bb wa word c1 word c0
+         wss c1 c0
+         wo wceq c0 c1 wcel c1 c0
+         wo wcel c1 c0 wceq c1 c0
+  ordsseleq c1 c0
+  bitri wo wcel c1 c0 wceq c1 c0 wo wceq c0 c1 wcel c1 c0 wo wcel c1 c0 wceq c0 c1
+  orbi2i wcel c1 c0 wceq c1 c0 wceq c0 c1
+  eqcom c1 c0
+  orcom wcel c1 c0 wceq c0 c1
+  ordtri1 c1 c0
+}
+thm ordtri3(class c0, class c1) {
+  |- wi wa word c0 word c1 wb wceq c0 c1 wn wo wcel c0 c1 wcel c1 c0
+} = {
+  bitr4d wa word c0 word c1
+         wceq c0 c1
+         wn wo wcel c0 c1 wcel c1 c0
+         wn wo wn wo wceq c0 c1 wcel c1 c0 wcel c1 c0
+  syl6bb wa word c0 word c1
+         wceq c0 c1
+         wn wo wn wo wceq c0 c1 wcel c1 c0 wcel c1 c0
+         wa wceq c0 c1 wn wcel c1 c0
+  pm4.71d wa word c0 word c1 wceq c0 c1 wn wcel c1 c0
+  syl5ibrcom wa word c0 word c1 wceq c0 c1 wn wcel c1 c0 wn wcel c1 c1
+  adantl word c0 word c1 wn wcel c1 c1
+  ordirr c1
+  notbid wceq c0 c1 wcel c1 c0 wcel c1 c1
+  eleq2 c0 c1 c1
+  bitr3i wa wceq c0 c1 wn wcel c1 c0
+         wn wo wn wo wceq c0 c1 wcel c1 c0 wcel c1 c0
+         wa wo wceq c0 c1 wcel c1 c0 wn wcel c1 c0
+  pm5.61 wceq c0 c1 wcel c1 c0
+  pm4.52 wo wceq c0 c1 wcel c1 c0 wcel c1 c0
+  notbid wa word c0 word c1
+         wo wcel c0 c1 wcel c1 c0
+         wo wn wo wceq c0 c1 wcel c1 c0 wcel c1 c0
+  orbi1d wa word c0 word c1 wcel c0 c1 wcel c1 c0 wn wo wceq c0 c1 wcel c1 c0
+  ordtri2 c0 c1
+}
+thm ordtri4(class c0, class c1) {
+  |- wi wa word c0 word c1 wb wceq c0 c1 wa wss c0 c1 wn wcel c0 c1
+} = {
+  syl5bb wa word c0 word c1
+         wceq c0 c1
+         wa wss c0 c1 wn wcel c0 c1
+         wa wss c0 c1 wss c1 c0
+  eqss c0 c1
+  anbi2d wa word c0 word c1 wss c0 c1 wss c1 c0 wn wcel c0 c1
+  ancoms word c0 word c1 wb wss c1 c0 wn wcel c0 c1
+  ordtri1 c1 c0
+}
+thm orddisj(class c0) {
+  |- wi word c0 wceq cin c0 csn c0 emptycls
+} = {
+  sylibr word c0 wceq cin c0 csn c0 emptycls wn wcel c0 c0
+  ordirr c0
+  disjsn c0 c0
+}
+thm onfr() {
+  |- wfr con0 cep
+} = {
+  mpgbir hs0
+         wfr con0 cep
+         wi wa wss cv hs0 con0 wne cv hs0 emptycls wrex hs1 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+  dfepfr hs0 hs1 con0
+  imp wss cv hs0 con0
+      wne cv hs0 emptycls
+      wrex hs1 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+  syl5bi wss cv hs0 con0
+         wne cv hs0 emptycls
+         wrex hs1 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+         wex hs2 wcel cv hs2 cv hs0
+  n0 hs2 cv hs0
+  exlimdv hs2
+          wss cv hs0 con0
+          wcel cv hs2 cv hs0
+          wrex hs1 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+  ex wss cv hs0 con0
+     wcel cv hs2 cv hs0
+     wrex hs1 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+  pm2.61dane cin cv hs0 cv hs2
+             emptycls
+             wa wss cv hs0 con0 wcel cv hs2 cv hs0
+             wrex hs1 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+  adantll wss cv hs0 con0
+          wcel cv hs2 cv hs0
+          wceq cin cv hs0 cv hs2 emptycls
+          wrex hs1 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+  rspcev hs1
+         cv hs2
+         cv hs0
+         wceq cin cv hs0 cv hs2 emptycls
+         wceq cin cv hs0 cv hs1 emptycls
+  eqeq1d cin cv hs0 cv hs1 emptycls cin cv hs0 cv hs2 wceq cv hs1 cv hs2
+  ineq2 cv hs1 cv hs2 cv hs0
+  mpsyl wa wa wss cv hs0 con0 wcel cv hs2 cv hs0 wne cin cv hs0 cv hs2 emptycls
+        wrex hs1 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+        wss cin cv hs0 cv hs2 cv hs0
+        wrex hs1 cin cv hs0 cv hs2 wceq cin cv hs0 cv hs1 emptycls
+  inss1 cv hs0 cv hs2
+  mpbid wa wa wss cv hs0 con0 wcel cv hs2 cv hs0 wne cin cv hs0 cv hs2 emptycls
+        wrex hs1 cin cv hs0 cv hs2 wceq cin cv hs0 cv hs1 emptycls
+        wrex hs1 cin cv hs0 cv hs2 wceq cin cin cv hs0 cv hs2 cv hs1 emptycls
+  sylan wa wss cv hs0 con0 wcel cv hs2 cv hs0
+        wne cin cv hs0 cv hs2 emptycls
+        wrex hs1 cin cv hs0 cv hs2 wceq cin cin cv hs0 cv hs2 cv hs1 emptycls
+        wfr cv hs2 cep
+  3syl wa wss cv hs0 con0 wcel cv hs2 cv hs0
+       wfr cv hs2 cep
+       wcel cv hs2 con0
+       word cv hs2
+  ordfr cv hs2
+  mp3an2 wfr cv hs2 cep
+         wne cin cv hs0 cv hs2 emptycls
+         wrex hs1 cin cv hs0 cv hs2 wceq cin cin cv hs0 cv hs2 cv hs1 emptycls
+         wss cin cv hs0 cv hs2 cv hs2
+  inss2 cv hs0 cv hs2
+  epfrc hs1 cv hs2 cin cv hs0 cv hs2
+  inex1 cv hs0 cv hs2
+  vex hs0
+  adantr wa wss cv hs0 con0 wcel cv hs2 cv hs0
+         wne cin cv hs0 cv hs2 emptycls
+         wb wrex hs1 cin cv hs0 cv hs2 wceq cin cin cv hs0 cv hs2 cv hs1 emptycls wrex hs1 cin cv hs0 cv hs2 wceq cin cv hs0 cv hs1 emptycls
+  rexbidva hs1
+           cin cv hs0 cv hs2
+           wa wss cv hs0 con0 wcel cv hs2 cv hs0
+           wceq cin cin cv hs0 cv hs2 cv hs1 emptycls
+           wceq cin cv hs0 cv hs1 emptycls
+  eqeq1d cin cin cv hs0 cv hs2 cv hs1
+         emptycls
+         cin cv hs0 cv hs1
+         wa wa wss cv hs0 con0 wcel cv hs2 cv hs0 wcel cv hs1 cin cv hs0 cv hs2
+  syl5eq cin cin cv hs0 cv hs2 cv hs1
+         cin cv hs0 cv hs1
+         cin cv hs0 cin cv hs2 cv hs1
+         wa wa wss cv hs0 con0 wcel cv hs2 cv hs0 wcel cv hs1 cin cv hs0 cv hs2
+  inass cv hs0 cv hs2 cv hs1
+  ineq2d cv hs0
+         cin cv hs2 cv hs1
+         cv hs1
+         wa wa wss cv hs0 con0 wcel cv hs2 cv hs0 wcel cv hs1 cin cv hs0 cv hs2
+  sylib wa wa wss cv hs0 con0 wcel cv hs2 cv hs0 wcel cv hs1 cin cv hs0 cv hs2
+        wceq cin cv hs2 cv hs1 cv hs1
+        wss cv hs1 cv hs2
+  syl2an wa wss cv hs0 con0 wcel cv hs2 cv hs0
+         wcel cv hs1 cin cv hs0 cv hs2
+         wss cv hs1 cv hs2
+         word cv hs2
+         wcel cv hs1 cv hs2
+  syl wa wss cv hs0 con0 wcel cv hs2 cv hs0 word cv hs2 wcel cv hs2 con0
+  ssel2 cv hs0 con0 cv hs2
+  eloni cv hs2
+  elinel2 cv hs1 cv hs0 cv hs2
+  ordelss cv hs2 cv hs1
+  sseqin2 cv hs1 cv hs2
+  ssrexv hs1 cin cv hs0 cv hs2 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+  diff.hs0.s hs1
+  diff.hs0.c con0
+  diff.hs1.c con0
+  diff.hs2.c cv hs0
+  diff.hs2.w wss cv hs0 con0
+  diff.hs2.w wrex hs1 cv hs0 wceq cin cv hs0 cv hs1 emptycls
+  diff.hs1.c cv hs2
+  diff.hs1.c cv hs0
+  diff.hs1.w wceq cin cv hs0 cv hs2 emptycls
+  diff.hs1.c cin cv hs0 cv hs2
+  diff.hs1.w wa wss cv hs0 con0 wcel cv hs2 cv hs0
+}
+thm onelpss(class c0, class c1) {
+  |- wi wa wcel c0 con0 wcel c1 con0 wb wcel c0 c1 wa wss c0 c1 wne c0 c1
+} = {
+  syl2an wcel c0 con0
+         wcel c1 con0
+         wb wcel c0 c1 wa wss c0 c1 wne c0 c1
+         word c0
+         word c1
+  eloni c0
+  eloni c1
+  ordelssne c0 c1
+}
+thm onsseleq(class c0, class c1) {
+  |- wi wa wcel c0 con0 wcel c1 con0 wb wss c0 c1 wo wcel c0 c1 wceq c0 c1
+} = {
+  syl2an wcel c0 con0
+         wcel c1 con0
+         wb wss c0 c1 wo wcel c0 c1 wceq c0 c1
+         word c0
+         word c1
+  eloni c0
+  eloni c1
+  ordsseleq c0 c1
+}
+thm onelss(class c0, class c1) {
+  |- wi wcel c0 con0 wi wcel c1 c0 wss c1 c0
+} = {
+  syl wcel c0 con0 wi wcel c1 c0 wss c1 c0 word c0
+  eloni c0
+  ex word c0 wcel c1 c0 wss c1 c0
+  ordelss c0 c1
+}
+thm ordtr1(class c0, class c1, class c2) {
+  |- wi word c0 wi wa wcel c1 c2 wcel c2 c0 wcel c1 c0
+} = {
+  syl word c0 wi wa wcel c1 c2 wcel c2 c0 wcel c1 c0 wtr c0
+  ordtr c0
+  trel c0 c1 c2
+}
+thm ordtr2(class c0, class c1, class c2) {
+  |- wi wa word c0 word c1 wi wa wss c0 c2 wcel c2 c1 wcel c0 c1
+} = {
+  sylibrd wa word c0 word c1 wa wss c0 c2 wcel c2 c1 wcel c0 c1 wpss c0 c1
+  adantl word c0 word c1 wi wa wss c0 c2 wcel c2 c1 wpss c0 c1
+  impd word c1 wss c0 c2 wcel c2 c1 wpss c0 c1
+  syl9 word c1 wss c0 c2 wcel c2 c1 wpss c0 c1 wa word c1 wa wcel c2 c1 word c2
+  anc2li word c1 wcel c2 c1 wa wcel c2 c1 word c2
+  ancld word c1 wcel c2 c1 word c2
+  ex word c1 wcel c2 c1 word c2
+  ordelord c1 c2
+  com12 wss c0 c2 wa word c1 wa wcel c2 c1 word c2 wpss c0 c1
+  imp32 word c1 wcel c2 c1 word c2 wi wss c0 c2 wpss c0 c1
+  com23 word c1 wcel c2 c1 word c2 wi wss c0 c2 wpss c0 c1
+  expcom word c1 word c2 wi wcel c2 c1 wi wss c0 c2 wpss c0 c1
+  syl6bi wa word c2 word c1 wcel c2 c1 wi wss c0 c2 wpss c0 c1 wpss c2 c1
+  ordelpss c2 c1
+  expcom wpss c2 c1 wss c0 c2 wpss c0 c1
+  sspsstr c0 c2 c1
+  ordelpss c0 c1
+}
+thm ordtr3(class c0, class c1, class c2) {
+  |- wi wa word c0 word c1 wi wcel c2 c0 wo wcel c2 c1 wcel c1 c0
+} = {
+  ex wa word c0 word c1 wcel c2 c0 wo wcel c2 c1 wcel c1 c0
+  orrd wa wa word c0 word c1 wcel c2 c0 wcel c2 c1 wcel c1 c0
+  expr wa word c0 word c1 wcel c2 c0 wn wcel c2 c1 wcel c1 c0
+  mpbird wa wa word c0 word c1 wa wcel c2 c0 wn wcel c2 c1 wcel c1 c0 wn wss c0 c1
+  adantl wa word c0 word c1 wa wcel c2 c0 wn wcel c2 c1 wn wss c0 c1
+  nelss c2 c0 c1
+  adantr wa word c0 word c1 wa wcel c2 c0 wn wcel c2 c1 wb wcel c1 c0 wn wss c0 c1
+  con2bid wa word c0 word c1 wcel c1 c0 wss c0 c1
+  ordtri1 c0 c1
+}
+thm ontr1(class c0, class c1, class c2) {
+  |- wi wcel c0 con0 wi wa wcel c1 c2 wcel c2 c0 wcel c1 c0
+} = {
+  syl wcel c0 con0 wi wa wcel c1 c2 wcel c2 c0 wcel c1 c0 word c0
+  eloni c0
+  ordtr1 c0 c1 c2
+}
+thm ontr2(class c0, class c1, class c2) {
+  |- wi wa wcel c0 con0 wcel c1 con0 wi wa wss c0 c2 wcel c2 c1 wcel c0 c1
+} = {
+  syl2an wcel c0 con0
+         wcel c1 con0
+         wi wa wss c0 c2 wcel c2 c1 wcel c0 c1
+         word c0
+         word c1
+  eloni c0
+  eloni c1
+  ordtr2 c0 c1 c2
+}
+thm ordunidif(class c0, class c1) {
+  |- wi wa word c0 wcel c1 c0 wceq cuni cdif c0 c1 cuni c0
+} = {
+  syl wa word c0 wcel c1 c0
+      wceq cuni cdif c0 c1 cuni c0
+      wral hs0 c0 wrex hs1 cdif c0 c1 wss cv hs0 cv hs1
+  ralrimiva hs0 c0 wa word c0 wcel c1 c0 wrex hs1 cdif c0 c1 wss cv hs0 cv hs1
+  pm2.61d wa wa word c0 wcel c1 c0 wcel cv hs0 c0
+          wrex hs1 cdif c0 c1 wss cv hs0 cv hs1
+          wcel cv hs0 c1
+  syl6 wa wa word c0 wcel c1 c0 wcel cv hs0 c0
+       wcel cv hs0 c1
+       wrex hs1 cdif c0 c1 wss cv hs0 cv hs1
+       wa wcel c1 cdif c0 c1 wss cv hs0 c1
+  adantr wa word c0 wcel c1 c0
+         wcel cv hs0 c0
+         wi wcel cv hs0 c1 wa wcel c1 cdif c0 c1 wss cv hs0 c1
+  jctild wa word c0 wcel c1 c0 wcel cv hs0 c1 wcel c1 cdif c0 c1 wss cv hs0 c1
+  syl wa word c0 wcel c1 c0 wi wcel cv hs0 c1 wss cv hs0 c1 wcel c1 con0
+  onelss c1 cv hs0
+  mpd wa word c0 wcel c1 c0 wcel c1 cdif c0 c1 wcel c1 con0
+  ordelon c0 c1
+  adantl word c0 wcel c1 c0 wi wcel c1 con0 wcel c1 cdif c0 c1
+  syl5 wcel c1 c0 wcel c1 con0 wcel c1 cdif c0 c1 wn wcel c1 c1
+  syl wcel c1 con0 wn wcel c1 c1 word c1
+  eloni c1
+  ordirr c1
+  simplbi2 wcel c1 c0 wn wcel c1 c1 wcel c1 cdif c0 c1
+  eldif c1 c0 c1
+  rspcev hs1 c1 cdif c0 c1 wss cv hs0 c1 wss cv hs0 cv hs1
+  sseq2 cv hs1 c1 cv hs0
+  adantl wa word c0 wcel c1 c0
+         wcel cv hs0 c0
+         wi wn wcel cv hs0 c1 wrex hs1 cdif c0 c1 wss cv hs0 cv hs1
+  syl6 wcel cv hs0 c0
+       wn wcel cv hs0 c1
+       wrex hs1 cdif c0 c1 wss cv hs0 cv hs1
+       wa wcel cv hs0 cdif c0 c1 wss cv hs0 cv hs0
+  ex wcel cv hs0 c0 wn wcel cv hs0 c1 wa wcel cv hs0 cdif c0 c1 wss cv hs0 cv hs0
+  jctir wa wcel cv hs0 c0 wn wcel cv hs0 c1
+        wcel cv hs0 cdif c0 c1
+        wss cv hs0 cv hs0
+  biimpri wa wcel cv hs0 c0 wn wcel cv hs0 c1 wcel cv hs0 cdif c0 c1
+  eldif cv hs0 c0 c1
+  ssid cv hs0
+  rspcev hs1 cv hs0 cdif c0 c1 wss cv hs0 cv hs0 wss cv hs0 cv hs1
+  sseq2 cv hs1 cv hs0 cv hs0
+  unidif hs0 hs1 c0 c1
+  diff.hs0.w wa word c0 wcel c1 c0
+  diff.hs1.c c1
+  diff.hs1.c cdif c0 c1
+  diff.hs1.w wss cv hs0 c1
+  diff.hs1.c cv hs0
+  diff.hs1.w wss cv hs0 cv hs0
+  diff.hs0.s hs1
+  diff.hs0.c c0
+  diff.hs0.c c1
+  diff.hs1.c c0
+}
+thm ordintdif(class c0, class c1) {
+  |- wi w3a word c0 word c1 wne cdif c0 c1 emptycls wceq c1 cint cdif c0 c1
+} = {
+  syl3an3br word c0
+            word c1
+            wne cdif c0 c1 emptycls
+            wceq c1 cint cdif c0 c1
+            wn wss c0 c1
+  necon3bbii cdif c0 c1 emptycls wss c0 c1
+  ssdif0 c0 c1
+  syl5req c1
+          cint cdif c0 c1
+          cint crab hs0 c0 wn wcel cv hs0 c1
+          w3a word c0 word c1 wn wss c0 c1
+  inteqi cdif c0 c1 crab hs0 c0 wn wcel cv hs0 c1
+  dfdif2 hs0 c0 c1
+  3impia word c0 word c1 wn wss c0 c1 wceq cint crab hs0 c0 wn wcel cv hs0 c1 c1
+  sylbird wa word c0 word c1
+          wn wss c0 c1
+          wceq cint crab hs0 c0 wn wcel cv hs0 c1 c1
+          wcel c1 c0
+  con2bid wa word c0 word c1 wcel c1 c0 wss c0 c1
+  ordtri1 c0 c1
+  ex wa word c0 word c1 wcel c1 c0 wceq cint crab hs0 c0 wn wcel cv hs0 c1 c1
+  sylan9req cint crab hs0 c0 wn wcel cv hs0 c1
+            c1
+            cint crab hs0 c0 wss c1 cv hs0
+            wa word c0 word c1
+            wcel c1 c0
+  inteqd crab hs0 c0 wss c1 cv hs0 crab hs0 c0 wn wcel cv hs0 c1 wa word c0 word c1
+  rabbidva hs0 c0 wa word c0 word c1 wss c1 cv hs0 wn wcel cv hs0 c1
+  an32s word c0 word c1 wcel cv hs0 c0 wb wss c1 cv hs0 wn wcel cv hs0 c1
+  syl2anr wa word c0 wcel cv hs0 c0
+          word c1
+          wb wss c1 cv hs0 wn wcel cv hs0 c1
+          word c1
+          word cv hs0
+  id word c1
+  ordelord c0 cv hs0
+  ordtri1 c1 cv hs0
+  intmin hs0 c1 c0
+  diff.hs0.c c0
+  diff.hs0.c c1
+  diff.hs0.w wa word c0 word c1
+}
+thm onintss(setvar s0, class c0, wff w0, wff w1) {
+  |- wi wcel c0 con0 wi w0 wss cint crab s0 con0 w1 c0
+  -| wi wceq cv s0 c0 wb w1 w0
+  -| diffsc s0 c0
+  -| diffsw s0 w0
+} = {
+  ex wcel c0 con0 w0 wss cint crab s0 con0 w1 c0
+  intminss s0 c0 con0 w0 w1
+  diff.con0.s s0
+}
+thm oneqmini(setvar s0, class c0, class c1) {
+  |- wi wss c0 con0 wi wa wcel c1 c0 wral s0 c1 wn wcel cv s0 c0 wceq c1 cint c0
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+} = {
+  syl6ibr wss c0 con0
+          wa wcel c1 c0 wral s0 c1 wn wcel cv s0 c0
+          wceq c1 cint c0
+          wa wss c1 cint c0 wss cint c0 c1
+  jcad wss c0 con0
+       wa wcel c1 c0 wral s0 c1 wn wcel cv s0 c0
+       wss c1 cint c0
+       wss cint c0 c1
+  expimpd wss c0 con0 wcel c1 c0 wral s0 c1 wn wcel cv s0 c0 wss c1 cint c0
+  biimprd wa wss c0 con0 wcel c1 c0 wral s0 c1 wn wcel cv s0 c0 wss c1 cint c0
+  syl5bb wa wss c0 con0 wcel c1 c0
+         wss c1 cint c0
+         wral s0 c1 wn wcel cv s0 c0
+         wral s0 c0 wss c1 cv s0
+  ssint s0 c1 c0
+  ralbidv2 s0 c0 c1 wa wss c0 con0 wcel c1 c0 wss c1 cv s0 wn wcel cv s0 c0
+  syl6bb wa wss c0 con0 wcel c1 c0
+         wi wcel cv s0 c0 wss c1 cv s0
+         wi wcel cv s0 c1 wn wcel cv s0 c0
+         wi wcel cv s0 c0 wn wcel cv s0 c1
+  pm5.74d wa wss c0 con0 wcel c1 c0 wcel cv s0 c0 wss c1 cv s0 wn wcel cv s0 c1
+  expdimp wss c0 con0 wcel c1 c0 wcel cv s0 c0 wb wss c1 cv s0 wn wcel cv s0 c1
+  syl6 wss c0 con0
+       wa wcel c1 c0 wcel cv s0 c0
+       wb wss c1 cv s0 wn wcel cv s0 c1
+       wa wcel c1 con0 wcel cv s0 con0
+  anim12d wss c0 con0 wcel c1 c0 wcel cv s0 c0 wcel c1 con0 wcel cv s0 con0
+  ssel c0 con0 c1
+  ssel c0 con0 cv s0
+  ontri1 c1 cv s0
+  con2b wcel cv s0 c0 wcel cv s0 c1
+  adantrd wss c0 con0 wcel c1 c0 wral s0 c1 wn wcel cv s0 c0 wss cint c0 c1
+  a1i wss c0 con0 wi wcel c1 c0 wss cint c0 c1
+  intss1 c1 c0
+  eqss c1 cint c0
+  diff.wa s0 wss c0 con0 wcel c1 c0
+  diff.wss s0 c0 con0
+  diff.con0.s s0
+  diff.wcel s0 c1 c0
+}
+thm ord0() {
+  |- word emptycls
+} = {
+  mpbir2an word emptycls wtr emptycls wwe emptycls cep
+  tr0
+  we0 cep
+  df-ord emptycls
+}
+thm 0elon() {
+  |- wcel emptycls con0
+} = {
+  mpbir wcel emptycls con0 word emptycls
+  ord0
+  elon emptycls
+  0ex
+}
+thm ord0eln0(class c0) {
+  |- wi word c0 wb wcel emptycls c0 wne c0 emptycls
+} = {
+  impbid2 word c0 wcel emptycls c0 wne c0 emptycls
+  ne0i emptycls c0
+  sylib word c0
+        wi wne c0 emptycls wcel emptycls c0
+        wo wceq c0 emptycls wcel emptycls c0
+  mpan2 word c0 wo wceq c0 emptycls wcel emptycls c0 word emptycls
+  ord0
+  mpbiri wa word c0 word emptycls
+         wo wceq c0 emptycls wcel emptycls c0
+         wn wcel c0 emptycls
+  noel c0
+  con2bid wa word c0 word emptycls
+          wo wceq c0 emptycls wcel emptycls c0
+          wcel c0 emptycls
+  ordtri2 c0 emptycls
+  neor c0 emptycls wcel emptycls c0
+}
+thm on0eln0(class c0) {
+  |- wi wcel c0 con0 wb wcel emptycls c0 wne c0 emptycls
+} = {
+  syl wcel c0 con0 wb wcel emptycls c0 wne c0 emptycls word c0
+  eloni c0
+  ord0eln0 c0
+}
+thm dflim2(class c0) {
+  |- wb wlim c0 w3a word c0 wcel emptycls c0 wceq c0 cuni c0
+} = {
+  bitr4i wlim c0
+         w3a word c0 wcel emptycls c0 wceq c0 cuni c0
+         w3a word c0 wne c0 emptycls wceq c0 cuni c0
+  df-lim c0
+  3bitr4i w3a word c0 wcel emptycls c0 wceq c0 cuni c0
+          w3a word c0 wne c0 emptycls wceq c0 cuni c0
+          wa word c0 wa wcel emptycls c0 wceq c0 cuni c0
+          wa word c0 wa wne c0 emptycls wceq c0 cuni c0
+  pm5.32i word c0
+          wa wcel emptycls c0 wceq c0 cuni c0
+          wa wne c0 emptycls wceq c0 cuni c0
+  anbi1d word c0 wcel emptycls c0 wceq c0 cuni c0 wne c0 emptycls
+  ord0eln0 c0
+  3anass word c0 wcel emptycls c0 wceq c0 cuni c0
+  3anass word c0 wne c0 emptycls wceq c0 cuni c0
+}
+thm inton() {
+  |- wceq cint con0 emptycls
+} = {
+  ax-mp wceq cint con0 emptycls wcel emptycls con0
+  0elon
+  int0el con0
+}
+thm nlim0() {
+  |- wn wlim emptycls
+} = {
+  mtbir wlim emptycls
+        w3a word emptycls wcel emptycls emptycls wceq emptycls cuni emptycls
+  mto w3a word emptycls wcel emptycls emptycls wceq emptycls cuni emptycls
+      wcel emptycls emptycls
+  noel emptycls
+  simp2 word emptycls wcel emptycls emptycls wceq emptycls cuni emptycls
+  dflim2 emptycls
+}
+thm limord(class c0) {
+  |- wi wlim c0 word c0
+} = {
+  simp1bi wlim c0 word c0 wne c0 emptycls wceq c0 cuni c0
+  df-lim c0
+}
+thm limuni(class c0) {
+  |- wi wlim c0 wceq c0 cuni c0
+} = {
+  simp3bi wlim c0 wceq c0 cuni c0 word c0 wne c0 emptycls
+  df-lim c0
+}
+thm limuni2(class c0) {
+  |- wi wlim c0 wlim cuni c0
+} = {
+  ibi wlim c0 wlim cuni c0
+  syl wlim c0 wb wlim c0 wlim cuni c0 wceq c0 cuni c0
+  limuni c0
+  limeq c0 cuni c0
+}
+thm 0ellim(class c0) {
+  |- wi wlim c0 wcel emptycls c0
+} = {
+  mpbird wlim c0 wcel emptycls c0 wne c0 emptycls
+  necon2ai c0 emptycls wlim c0
+  mtbiri wceq c0 emptycls wlim c0 wlim emptycls
+  nlim0
+  limeq c0 emptycls
+  syl wlim c0 wb wcel emptycls c0 wne c0 emptycls word c0
+  limord c0
+  ord0eln0 c0
+}
+thm limelon(class c0, class c1) {
+  |- wi wa wcel c0 c1 wlim c0 wcel c0 con0
+} = {
+  imp wcel c0 c1 wlim c0 wcel c0 con0
+  syl5ibr wcel c0 c1 wlim c0 wcel c0 con0 word c0
+  limord c0
+  elong c0 c1
+}
+thm onn0() {
+  |- wne con0 emptycls
+} = {
+  ne0ii con0 emptycls
+  0elon
+}
+thm suceq(class c0, class c1) {
+  |- wi wceq c0 c1 wceq csuc c0 csuc c1
+} = {
+  3eqtr4g csuc c0 csuc c1 cun c0 csn c0 cun c1 csn c1 wceq c0 c1
+  uneq12d c0 csn c0 c1 csn c1 wceq c0 c1
+  id wceq c0 c1
+  sneq c0 c1
+  df-suc c0
+  df-suc c1
+}
+thm elsuci(class c0, class c1) {
+  |- wi wcel c0 csuc c1 wo wcel c0 c1 wceq c0 c1
+} = {
+  sylbi wcel c0 csuc c1 wo wcel c0 c1 wceq c0 c1 wo wcel c0 c1 wcel c0 csn c1
+  bitri wcel c0 csuc c1 wo wcel c0 c1 wcel c0 csn c1 wcel c0 cun c1 csn c1
+  eleq2i c0 csuc c1 cun c1 csn c1
+  df-suc c1
+  elun c0 c1 csn c1
+  orim2i wcel c0 c1 wcel c0 csn c1 wceq c0 c1
+  elsni c0 c1
+}
+thm elsucg(class c0, class c1, class c2) {
+  |- wi wcel c0 c1 wb wcel c0 csuc c2 wo wcel c0 c2 wceq c0 c2
+} = {
+  syl5bb wcel c0 c1
+         wcel c0 csuc c2
+         wo wcel c0 c2 wceq c0 c2
+         wo wcel c0 c2 wcel c0 csn c2
+  bitri wcel c0 csuc c2 wo wcel c0 c2 wcel c0 csn c2 wcel c0 cun c2 csn c2
+  eleq2i c0 csuc c2 cun c2 csn c2
+  df-suc c2
+  elun c0 c2 csn c2
+  orbi2d wcel c0 c1 wcel c0 c2 wcel c0 csn c2 wceq c0 c2
+  elsng c0 c1 c2
+}
+thm elsuc2g(class c0, class c1, class c2) {
+  |- wi wcel c0 c1 wb wcel c2 csuc c0 wo wcel c2 c0 wceq c2 c0
+} = {
+  syl5bb wcel c0 c1 wcel c2 csuc c0 wo wcel c2 c0 wceq c2 c0 wcel c2 cun c0 csn c0
+  eleq2i c2 csuc c0 cun c0 csn c0
+  df-suc c0
+  syl5bb wcel c0 c1
+         wcel c2 cun c0 csn c0
+         wo wcel c2 c0 wceq c2 c0
+         wo wcel c2 c0 wcel c2 csn c0
+  elun c2 c0 csn c0
+  orbi2d wcel c0 c1 wcel c2 c0 wcel c2 csn c0 wceq c2 c0
+  elsn2g c0 c1 c2
+}
+thm elsuc(class c0, class c1) {
+  |- wb wcel c0 csuc c1 wo wcel c0 c1 wceq c0 c1
+  -| wcel c0 universe
+} = {
+  ax-mp wb wcel c0 csuc c1 wo wcel c0 c1 wceq c0 c1 wcel c0 universe
+  elsucg c0 universe c1
+}
+thm elsuc2(class c0, class c1) {
+  |- wb wcel c0 csuc c1 wo wcel c0 c1 wceq c0 c1
+  -| wcel c1 universe
+} = {
+  ax-mp wb wcel c0 csuc c1 wo wcel c0 c1 wceq c0 c1 wcel c1 universe
+  elsuc2g c1 universe c0
+}
+thm nfsuc(setvar s0, class c0) {
+  |- wnfc s0 csuc c0
+  -| wnfc s0 c0
+} = {
+  nfcxfr s0 csuc c0 cun c0 csn c0
+  df-suc c0
+  nfun s0 c0 csn c0
+  nfsn s0 c0
+}
+thm elelsuc(class c0, class c1) {
+  |- wi wcel c0 c1 wcel c0 csuc c1
+} = {
+  mpbird wcel c0 c1 wcel c0 csuc c1 wo wcel c0 c1 wceq c0 c1
+  orc wcel c0 c1 wceq c0 c1
+  elsucg c0 c1 c1
+}
+thm sucel(setvar s0, setvar s1, class c0, class c1) {
+  |- wb wcel csuc c0 c1
+        wrex s0 c1 wal s1 wb wcel cv s1 cv s0 wo wcel cv s1 c0 wceq cv s1 c0
+  -| diffss s0 s1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+  -| diffsc s1 c0
+} = {
+  a1ii wb wcel csuc c0 c1 wrex s0 c1 wal s1 wb wcel cv s1 cv s0 wo wcel cv s1 c0 wceq cv s1 c0
+       diffss s0 s1
+  a1ii wb wcel csuc c0 c1 wrex s0 c1 wal s1 wb wcel cv s1 cv s0 wo wcel cv s1 c0 wceq cv s1 c0
+       diffsc s0 c0
+  a1ii wb wcel csuc c0 c1 wrex s0 c1 wal s1 wb wcel cv s1 cv s0 wo wcel cv s1 c0 wceq cv s1 c0
+       diffsc s1 c0
+  bitri wcel csuc c0 c1
+        wrex s0 c1 wal s1 wb wcel cv s1 cv s0 wo wcel cv s1 c0 wceq cv s1 c0
+        wrex s0 c1 wceq cv s0 csuc c0
+  risset s0 csuc c0 c1
+  rexbii s0
+         c1
+         wceq cv s0 csuc c0
+         wal s1 wb wcel cv s1 cv s0 wo wcel cv s1 c0 wceq cv s1 c0
+  bitri wceq cv s0 csuc c0
+        wal s1 wb wcel cv s1 cv s0 wo wcel cv s1 c0 wceq cv s1 c0
+        wal s1 wb wcel cv s1 cv s0 wcel cv s1 csuc c0
+  dfcleq s1 cv s0 csuc c0
+  albii s1
+        wb wcel cv s1 cv s0 wcel cv s1 csuc c0
+        wb wcel cv s1 cv s0 wo wcel cv s1 c0 wceq cv s1 c0
+  bibi2i wcel cv s1 cv s0 wcel cv s1 csuc c0 wo wcel cv s1 c0 wceq cv s1 c0
+  elsuc cv s1 c0
+  vex s1
+  diff.csuc s0 c0
+  diff.cv s1 s0
+  diffss.ex s1 s0
+  diff.csuc s1 c0
+}
+thm suc0() {
+  |- wceq csuc emptycls csn emptycls
+} = {
+  3eqtri csuc emptycls
+         csn emptycls
+         cun emptycls csn emptycls
+         cun csn emptycls emptycls
+  df-suc emptycls
+  uncom emptycls csn emptycls
+  un0 csn emptycls
+}
+thm sucprc(class c0) {
+  |- wi wn wcel c0 universe wceq csuc c0 c0
+} = {
+  3eqtr4g csuc c0 c0 cun c0 csn c0 cun c0 emptycls wn wcel c0 universe
+  uneq2d c0 csn c0 emptycls wn wcel c0 universe
+  biimpi wn wcel c0 universe wceq csn c0 emptycls
+  snprc c0
+  df-suc c0
+  eqcomi c0 cun c0 emptycls
+  un0 c0
+}
+thm unisuc(class c0) {
+  |- wb wtr c0 wceq cuni csuc c0 c0
+  -| wcel c0 universe
+} = {
+  3bitr4i wtr c0 wceq cuni csuc c0 c0 wss cuni c0 c0 wceq cun cuni c0 c0 c0
+  ssequn1 cuni c0 c0
+  df-tr c0
+  eqeq1i cuni csuc c0 c0 cun cuni c0 c0
+  3eqtri cuni csuc c0 cun cuni c0 c0 cuni cun c0 csn c0 cun cuni c0 cuni csn c0
+  unieqi csuc c0 cun c0 csn c0
+  df-suc c0
+  uniun c0 csn c0
+  uneq2i cuni c0 cuni csn c0 c0
+  unisn c0
+}
+thm sssucid(class c0) {
+  |- wss c0 csuc c0
+} = {
+  sseqtr4i c0 csuc c0 cun c0 csn c0
+  ssun1 c0 csn c0
+  df-suc c0
+}
+thm sucidg(class c0, class c1) {
+  |- wi wcel c0 c1 wcel c0 csuc c0
+} = {
+  mpbiri wcel c0 c1 wcel c0 csuc c0 wo wcel c0 c0 wceq c0 c0
+  olci wcel c0 c0 wceq c0 c0
+  eqid c0
+  elsucg c0 c1 c0
+}
+thm sucid(class c0) {
+  |- wcel c0 csuc c0
+  -| wcel c0 universe
+} = {
+  ax-mp wcel c0 csuc c0 wcel c0 universe
+  sucidg c0 universe
+}
+thm nsuceq0(class c0) {
+  |- wne csuc c0 emptycls
+} = {
+  neir csuc c0 emptycls
+  pm2.61i wn wceq csuc c0 emptycls wcel c0 universe
+  mtoi wcel c0 universe wceq csuc c0 emptycls wcel c0 emptycls
+  noel c0
+  syl5ibcom wcel c0 universe wceq csuc c0 emptycls wcel c0 emptycls wcel c0 csuc c0
+  sucidg c0 universe
+  eleq2 csuc c0 emptycls c0
+  mtbird wn wcel c0 universe wceq csuc c0 emptycls wceq c0 emptycls
+  con3i wcel c0 universe wceq c0 emptycls
+  mpbiri wceq c0 emptycls wcel c0 universe wcel emptycls universe
+  0ex
+  eleq1 c0 emptycls universe
+  eqeq1d csuc c0 emptycls c0 wn wcel c0 universe
+  sucprc c0
+}
+thm eqelsuc(class c0, class c1) {
+  |- wi wceq c0 c1 wcel c0 csuc c1
+  -| wcel c0 universe
+} = {
+  syl5eleq c0 csuc c1 csuc c0 wceq c0 c1
+  sucid c0
+  suceq c0 c1
+}
+thm iunsuc(setvar s0, class c0, class c1, class c2) {
+  |- wceq ciun s0 csuc c0 c1 cun ciun s0 c0 c1 c2
+  -| wcel c0 universe
+  -| wi wceq cv s0 c0 wceq c1 c2
+  -| diffsc s0 c0
+  -| diffsc s0 c2
+} = {
+  3eqtri ciun s0 csuc c0 c1
+         cun ciun s0 c0 c1 c2
+         ciun s0 cun c0 csn c0 c1
+         cun ciun s0 c0 c1 ciun s0 csn c0 c1
+  ax-mp wceq ciun s0 csuc c0 c1 ciun s0 cun c0 csn c0 c1
+        wceq csuc c0 cun c0 csn c0
+  df-suc c0
+  iuneq1 s0 csuc c0 cun c0 csn c0 c1
+  iunxun s0 c0 csn c0 c1
+  uneq2i ciun s0 c0 c1 ciun s0 csn c0 c1 c2
+  iunxsn s0 c0 c1 c2
+  diff.csuc s0 c0
+  diff.cun s0 c0 csn c0
+  diff.csn s0 c0
+}
+thm suctr(class c0) {
+  |- wi wtr c0 wtr csuc c0
+} = {
+  sylibr wtr c0
+         wtr csuc c0
+         wal hs0 wal hs1 wi wa wcel cv hs0 cv hs1 wcel cv hs1 csuc c0 wcel cv hs0 csuc c0
+  alrimivv hs0
+           hs1
+           wtr c0
+           wi wa wcel cv hs0 cv hs1 wcel cv hs1 csuc c0 wcel cv hs0 csuc c0
+  syl6 wtr c0
+       wa wcel cv hs0 cv hs1 wcel cv hs1 csuc c0
+       wcel cv hs0 csuc c0
+       wcel cv hs0 c0
+  expimpd wtr c0 wcel cv hs0 cv hs1 wcel cv hs1 csuc c0 wcel cv hs0 c0
+  syl5 wa wtr c0 wcel cv hs0 cv hs1
+       wcel cv hs1 csuc c0
+       wcel cv hs0 c0
+       wo wcel cv hs1 c0 wceq cv hs1 c0
+  elsuci cv hs1 c0
+  jaod wa wtr c0 wcel cv hs0 cv hs1 wcel cv hs1 c0 wceq cv hs1 c0 wcel cv hs0 c0
+  expdimp wtr c0 wcel cv hs0 cv hs1 wcel cv hs1 c0 wcel cv hs0 c0
+  trel c0 cv hs0 cv hs1
+  adantl wtr c0 wcel cv hs0 cv hs1 wi wceq cv hs1 c0 wcel cv hs0 c0
+  biimpcd wcel cv hs0 cv hs1 wceq cv hs1 c0 wcel cv hs0 c0
+  eleq2 cv hs1 c0 cv hs0
+  elelsuc cv hs0 c0
+  dftr2 hs0 hs1 csuc c0
+  diff.hs0.w wtr c0
+  diff.hs1.w wtr c0
+  diff.hs0.s hs1
+  diff.hs0.c csuc c0
+  diff.hs1.c csuc c0
+}
+thm trsuc(class c0, class c1) {
+  |- wi wa wtr c0 wcel csuc c1 c0 wcel c1 c0
+} = {
+  impel wtr c0 wcel csuc c1 c0 wcel c1 c0 wa wcel c1 csuc c1 wcel csuc c1 c0
+  trel c0 c1 csuc c1
+  ancri wcel csuc c1 c0 wcel c1 csuc c1
+  syl wcel csuc c1 c0 wcel c1 csuc c1 wcel c1 universe
+  mpan wcel csuc c1 c0 wcel c1 universe wss c1 csuc c1
+  sssucid c1
+  ssexg c1 csuc c1 c0
+  sucidg c1 universe
+}
+thm trsucss(class c0, class c1) {
+  |- wi wtr c0 wi wcel c1 csuc c0 wss c1 c0
+} = {
+  syl5 wtr c0 wcel c1 csuc c0 wss c1 c0 wo wcel c1 c0 wceq c1 c0
+  elsuci c1 c0
+  jaod wtr c0 wcel c1 c0 wceq c1 c0 wss c1 c0
+  trss c0 c1
+  a1i wtr c0 wi wceq c1 c0 wss c1 c0
+  eqimss c1 c0
+}
+thm ordsssuc(class c0, class c1) {
+  |- wi wa wcel c0 con0 word c1 wb wss c0 c1 wcel c0 csuc c1
+} = {
+  bitr4d wa wcel c0 con0 word c1 wss c0 c1 wcel c0 csuc c1 wo wcel c0 c1 wceq c0 c1
+  sylan wcel c0 con0 word c1 wb wss c0 c1 wo wcel c0 c1 wceq c0 c1 word c0
+  eloni c0
+  ordsseleq c0 c1
+  adantr wcel c0 con0 word c1 wb wcel c0 csuc c1 wo wcel c0 c1 wceq c0 c1
+  elsucg c0 con0 c1
+}
+thm onsssuc(class c0, class c1) {
+  |- wi wa wcel c0 con0 wcel c1 con0 wb wss c0 c1 wcel c0 csuc c1
+} = {
+  sylan2 wcel c0 con0 wcel c1 con0 wb wss c0 c1 wcel c0 csuc c1 word c1
+  eloni c1
+  ordsssuc c0 c1
+}
+thm ordsssuc2(class c0, class c1) {
+  |- wi wa word c0 wcel c1 con0 wb wss c0 c1 wcel c0 csuc c1
+} = {
+  pm2.61i wi wa word c0 wcel c1 con0 wb wss c0 c1 wcel c0 csuc c1 wcel c0 universe
+  syl6 wcel c0 universe
+       wa word c0 wcel c1 con0
+       wb wss c0 c1 wcel c0 csuc c1
+       wa wcel c0 con0 wcel c1 con0
+  anim1d wcel c0 universe word c0 wcel c1 con0 wcel c0 con0
+  biimprd wcel c0 universe word c0 wcel c0 con0
+  elong c0 universe
+  onsssuc c0 c1
+  adantld wn wcel c0 universe word c0 wcel c1 con0 wb wss c0 c1 wcel c0 csuc c1
+  expcom wn wcel c0 universe wcel c1 con0 wb wss c0 c1 wcel c0 csuc c1
+  sylbi wa wcel c1 con0 wn wcel c0 universe
+        wb wss c0 c1 wcel c0 csuc c1
+        wn wi wcel c1 con0 wcel c0 universe
+  annim wcel c1 con0 wcel c0 universe
+  pm5.21ni wi wcel c1 con0 wcel c0 universe wss c0 c1 wcel c0 csuc c1
+  ex wss c0 c1 wcel c1 con0 wcel c0 universe
+  ssexg c0 c1 con0
+  a1d wcel c0 csuc c1 wcel c1 con0 wcel c0 universe
+  elex c0 csuc c1
+}
+thm onmindif(class c0, class c1) {
+  |- wi wa wss c0 con0 wcel c1 con0 wcel c1 cint cdif c0 csuc c1
+} = {
+  mpbird wa wss c0 con0 wcel c1 con0
+         wcel c1 cint cdif c0 csuc c1
+         wral hs0 cdif c0 csuc c1 wcel c1 cv hs0
+  ralrimiv hs0 cdif c0 csuc c1 wa wss c0 con0 wcel c1 con0 wcel c1 cv hs0
+  syl5bi wa wss c0 con0 wcel c1 con0
+         wcel cv hs0 cdif c0 csuc c1
+         wcel c1 cv hs0
+         wa wcel cv hs0 c0 wn wcel cv hs0 csuc c1
+  eldif cv hs0 c0 csuc c1
+  imp4b wss c0 con0 wcel c1 con0 wcel cv hs0 c0 wn wcel cv hs0 csuc c1 wcel c1 cv hs0
+  com23 wss c0 con0
+        wcel c1 con0
+        wcel cv hs0 c0
+        wi wn wcel cv hs0 csuc c1 wcel c1 cv hs0
+  exp31 wss c0 con0
+        wcel cv hs0 c0
+        wcel c1 con0
+        wi wn wcel cv hs0 csuc c1 wcel c1 cv hs0
+  biimpd wa wa wss c0 con0 wcel cv hs0 c0 wcel c1 con0
+         wn wcel cv hs0 csuc c1
+         wcel c1 cv hs0
+  sylan wa wss c0 con0 wcel cv hs0 c0
+        wcel c1 con0
+        wb wn wcel cv hs0 csuc c1 wcel c1 cv hs0
+        wcel cv hs0 con0
+  ssel2 c0 con0 cv hs0
+  con1bid wa wcel cv hs0 con0 wcel c1 con0 wcel cv hs0 csuc c1 wcel c1 cv hs0
+  bitr3d wa wcel cv hs0 con0 wcel c1 con0
+         wn wcel c1 cv hs0
+         wcel cv hs0 csuc c1
+         wss cv hs0 c1
+  ontri1 cv hs0 c1
+  onsssuc cv hs0 c1
+  adantl wss c0 con0
+         wcel c1 con0
+         wb wcel c1 cint cdif c0 csuc c1 wral hs0 cdif c0 csuc c1 wcel c1 cv hs0
+  elintg hs0 c1 con0 cdif c0 csuc c1
+  diff.hs0.w wa wss c0 con0 wcel c1 con0
+  diff.hs0.c c1
+  diff.hs0.c cdif c0 csuc c1
+}
+thm ordnbtwn(class c0, class c1) {
+  |- wi word c0 wn wa wcel c0 c1 wcel c1 csuc c0
+} = {
+  nsyl word c0 wa wcel c0 c1 wcel c1 csuc c0 wa wcel c0 c1 wo wcel c1 c0 wceq c1 c0
+  mtod word c0 wa wcel c0 c1 wo wcel c1 c0 wceq c1 c0 wcel c0 c0
+  ordirr c0
+  syl5com word c0
+          wa wcel c0 c1 wo wcel c1 c0 wceq c1 c0
+          wcel c0 c0
+          wn wa wcel c0 c1 wcel c1 c0
+  ordn2lp c0 c1
+  jaodan wcel c0 c1 wcel c1 c0 wceq c1 c0 wi wn wa wcel c0 c1 wcel c1 c0 wcel c0 c0
+  pm2.24 wa wcel c0 c1 wcel c1 c0 wcel c0 c0
+  a1d wa wcel c0 c1 wceq c1 c0 wn wa wcel c0 c1 wcel c1 c0 wcel c0 c0
+  biimpac wcel c0 c1 wceq c1 c0 wcel c0 c0
+  eleq2 c1 c0 c0
+  anim2i wcel c0 c1 wcel c1 csuc c0 wo wcel c1 c0 wceq c1 c0
+  elsuci c1 c0
+}
+thm onnbtwn(class c0, class c1) {
+  |- wi wcel c0 con0 wn wa wcel c0 c1 wcel c1 csuc c0
+} = {
+  syl wcel c0 con0 wn wa wcel c0 c1 wcel c1 csuc c0 word c0
+  eloni c0
+  ordnbtwn c0 c1
+}
+thm sucssel(class c0, class c1, class c2) {
+  |- wi wcel c0 c1 wi wss csuc c0 c2 wcel c0 c2
+} = {
+  syl5com wcel c0 c1 wss csuc c0 c2 wcel c0 c2 wcel c0 csuc c0
+  sucidg c0 c1
+  ssel csuc c0 c2 c0
+}
+thm orddif(class c0) {
+  |- wi word c0 wceq c0 cdif csuc c0 csn c0
+} = {
+  sylib word c0 wceq c0 cdif csuc c0 csn c0 wceq cin c0 csn c0 emptycls
+  orddisj c0
+  bitr4i wceq cin c0 csn c0 emptycls
+         wceq c0 cdif csuc c0 csn c0
+         wceq c0 cdif c0 csn c0
+  disj3 c0 csn c0
+  eqeq2i c0 cdif csuc c0 csn c0 cdif c0 csn c0
+  eqtri cdif csuc c0 csn c0 cdif c0 csn c0 cdif cun c0 csn c0 csn c0
+  difeq1i csuc c0 csn c0 cun c0 csn c0
+  df-suc c0
+  difun2 c0 csn c0
+}
+thm orduniss(class c0) {
+  |- wi word c0 wss cuni c0 c0
+} = {
+  sylib word c0 wss cuni c0 c0 wtr c0
+  ordtr c0
+  df-tr c0
+}
+thm ordtri2or(class c0, class c1) {
+  |- wi wa word c0 word c1 wo wcel c0 c1 wss c1 c0
+} = {
+  orrd wa word c0 word c1 wcel c0 c1 wss c1 c0
+  biimprd wa word c0 word c1 wn wcel c0 c1 wss c1 c0
+  ancoms word c0 word c1 wb wss c1 c0 wn wcel c0 c1
+  ordtri1 c1 c0
+}
+thm ordtri2or2(class c0, class c1) {
+  |- wi wa word c0 word c1 wo wss c0 c1 wss c1 c0
+} = {
+  mpd wa word c0 word c1 wo wss c0 c1 wss c1 c0 wo wcel c0 c1 wss c1 c0
+  ordtri2or c0 c1
+  adantl word c0 word c1 wi wo wcel c0 c1 wss c1 c0 wo wss c0 c1 wss c1 c0
+  orim1d word c1 wcel c0 c1 wss c1 c0 wss c0 c1
+  ex word c1 wcel c0 c1 wss c0 c1
+  ordelss c1 c0
+}
+thm ordtri2or3(class c0, class c1) {
+  |- wi wa word c0 word c1 wo wceq c0 cin c0 c1 wceq c1 cin c0 c1
+} = {
+  sylib wa word c0 word c1
+        wo wceq c0 cin c0 c1 wceq c1 cin c0 c1
+        wo wss c0 c1 wss c1 c0
+  ordtri2or2 c0 c1
+  orbi12i wss c0 c1 wss c1 c0 wceq c0 cin c0 c1 wceq c1 cin c0 c1
+  dfss c0 c1
+  bitri wss c1 c0 wceq c1 cin c0 c1 wceq cin c0 c1 c1
+  sseqin2 c1 c0
+  eqcom cin c0 c1 c1
+}
+thm ordelinel(class c0, class c1, class c2) {
+  |- wi w3a word c0 word c1 word c2 wb wcel cin c0 c1 c2 wo wcel c0 c2 wcel c1 c2
+} = {
+  impbid w3a word c0 word c1 word c2 wcel cin c0 c1 c2 wo wcel c0 c2 wcel c1 c2
+  syl5com w3a word c0 word c1 word c2
+          wcel cin c0 c1 c2
+          wo wcel c0 c2 wcel c1 c2
+          wo wceq c0 cin c0 c1 wceq c1 cin c0 c1
+  3adant3 word c0 word c1 word c2 wo wceq c0 cin c0 c1 wceq c1 cin c0 c1
+  ordtri2or3 c0 c1
+  orim12d wcel cin c0 c1 c2 wceq c0 cin c0 c1 wceq c1 cin c0 c1 wcel c0 c2 wcel c1 c2
+  eleq1a cin c0 c1 c2 c0
+  eleq1a cin c0 c1 c2 c1
+  stoic3 word c0
+         word c1
+         word c2
+         wi wo wcel c0 c2 wcel c1 c2 wcel cin c0 c1 c2
+         word cin c0 c1
+  ordin c0 c1
+  jaod wa word cin c0 c1 word c2 wcel c0 c2 wcel c1 c2 wcel cin c0 c1 c2
+  mpani wa word cin c0 c1 word c2 wcel c0 c2 wcel cin c0 c1 c2 wss cin c0 c1 c0
+  inss1 c0 c1
+  ordtr2 cin c0 c1 c2 c0
+  mpani wa word cin c0 c1 word c2 wcel c1 c2 wcel cin c0 c1 c2 wss cin c0 c1 c1
+  inss2 c0 c1
+  ordtr2 cin c0 c1 c2 c1
+}
+thm ordssun(class c0, class c1, class c2) {
+  |- wi wa word c0 word c1 wb wss c2 cun c0 c1 wo wss c2 c0 wss c2 c1
+} = {
+  impbid1 wa word c0 word c1 wss c2 cun c0 c1 wo wss c2 c0 wss c2 c1
+  syl wa word c0 word c1
+      wi wss c2 cun c0 c1 wo wss c2 c0 wss c2 c1
+      wo wss c0 c1 wss c1 c0
+  ordtri2or2 c0 c1
+  jaoi wss c0 c1 wss c1 c0 wi wss c2 cun c0 c1 wo wss c2 c0 wss c2 c1
+  syl6bi wss c0 c1 wss c2 cun c0 c1 wo wss c2 c0 wss c2 c1 wss c2 c1
+  sylbi wss c0 c1 wb wss c2 cun c0 c1 wss c2 c1 wceq cun c0 c1 c1
+  ssequn1 c0 c1
+  sseq2 cun c0 c1 c1 c2
+  olc wss c2 c1 wss c2 c0
+  syl6bi wss c1 c0 wss c2 cun c0 c1 wo wss c2 c0 wss c2 c1 wss c2 c0
+  sylbi wss c1 c0 wb wss c2 cun c0 c1 wss c2 c0 wceq cun c0 c1 c0
+  ssequn2 c1 c0
+  sseq2 cun c0 c1 c0 c2
+  orc wss c2 c0 wss c2 c1
+  ssun c2 c0 c1
+}
+thm ordequn(class c0, class c1, class c2) {
+  |- wi wa word c0 word c1 wi wceq c2 cun c0 c1 wo wceq c2 c0 wceq c2 c1
+} = {
+  syl5ibcom wa word c0 word c1
+            wceq c2 cun c0 c1
+            wo wceq c2 c0 wceq c2 c1
+            wo wss c1 c0 wss c0 c1
+  orcomd wa word c0 word c1 wss c1 c0 wss c0 c1
+  ordtri2or2 c0 c1
+  orbi12d wceq c2 cun c0 c1 wss c1 c0 wss c0 c1 wceq c2 c0 wceq c2 c1
+  syl6rbbr wceq c2 cun c0 c1 wss c1 c0 wceq c2 c0 wceq cun c0 c1 c0
+  eqeq1 c2 cun c0 c1 c0
+  ssequn2 c1 c0
+  syl6rbbr wceq c2 cun c0 c1 wss c0 c1 wceq c2 c1 wceq cun c0 c1 c1
+  eqeq1 c2 cun c0 c1 c1
+  ssequn1 c0 c1
+}
+thm ordun(class c0, class c1) {
+  |- wi wa word c0 word c1 word cun c0 c1
+} = {
+  mpd wa word c0 word c1 word cun c0 c1 wo wceq cun c0 c1 c0 wceq cun c0 c1 c1
+  mpi wa word c0 word c1
+      wo wceq cun c0 c1 c0 wceq cun c0 c1 c1
+      wceq cun c0 c1 cun c0 c1
+  eqid cun c0 c1
+  ordequn c0 c1 cun c0 c1
+  jaao word c0 word c1 wceq cun c0 c1 c0 wceq cun c0 c1 c1 word cun c0 c1
+  biimprcd word c0 wceq cun c0 c1 c0 word cun c0 c1
+  ordeq cun c0 c1 c0
+  biimprcd word c1 wceq cun c0 c1 c1 word cun c0 c1
+  ordeq cun c0 c1 c1
+}
+thm ordunisssuc(class c0, class c1) {
+  |- wi wa wss c0 con0 word c1 wb wss cuni c0 c1 wss c0 csuc c1
+} = {
+  3bitr4g wa wss c0 con0 word c1
+          wss cuni c0 c1
+          wss c0 csuc c1
+          wral hs0 c0 wss cv hs0 c1
+          wral hs0 c0 wcel cv hs0 csuc c1
+  ralbidva hs0 c0 wa wss c0 con0 word c1 wss cv hs0 c1 wcel cv hs0 csuc c1
+  an32s wss c0 con0 word c1 wcel cv hs0 c0 wb wss cv hs0 c1 wcel cv hs0 csuc c1
+  sylan wa wss c0 con0 wcel cv hs0 c0
+        word c1
+        wb wss cv hs0 c1 wcel cv hs0 csuc c1
+        wcel cv hs0 con0
+  ssel2 c0 con0 cv hs0
+  ordsssuc cv hs0 c1
+  unissb hs0 c0 c1
+  dfss3 hs0 c0 csuc c1
+  diff.hs0.w wa wss c0 con0 word c1
+  diff.hs0.c c0
+  diff.hs0.c c1
+  diff.hs0.c csuc c1
+}
+thm suc11(class c0, class c1) {
+  |- wi wa wcel c0 con0 wcel c1 con0 wb wceq csuc c0 csuc c1 wceq c0 c1
+} = {
+  impbid1 wa wcel c0 con0 wcel c1 con0 wceq csuc c0 csuc c1 wceq c0 c1
+  mpd wa wcel c0 con0 wcel c1 con0
+      wi wceq csuc c0 csuc c1 wceq c0 c1
+      wo wn wcel c0 c1 wn wcel c1 c0
+  adantr wcel c0 con0 wcel c1 con0 wo wn wcel c0 c1 wn wcel c1 c0
+  3syl wcel c0 con0
+       wo wn wcel c0 c1 wn wcel c1 c0
+       word c0
+       wn wa wcel c0 c1 wcel c1 c0
+  eloni c0
+  ordn2lp c0 c1
+  pm3.13 wcel c0 c1 wcel c1 c0
+  jaao wcel c0 con0
+       wcel c1 con0
+       wn wcel c0 c1
+       wn wcel c1 c0
+       wi wceq csuc c0 csuc c1 wceq c0 c1
+  syl9 wcel c0 con0 wn wcel c0 c1 wceq csuc c0 csuc c1 wceq c0 c1 wcel c0 csuc c1
+  syl5 wcel c0 con0 wceq csuc c0 csuc c1 wcel c0 csuc c1 wss csuc c0 csuc c1
+  eqimss csuc c0 csuc c1
+  sucssel c0 con0 csuc c1
+  com12 wn wcel c0 c1 wcel c0 csuc c1 wceq c0 c1
+  ord wcel c0 csuc c1 wcel c0 c1 wceq c0 c1
+  elsuci c0 c1
+  syl9 wcel c1 con0 wn wcel c1 c0 wceq csuc c0 csuc c1 wceq c0 c1 wcel c1 csuc c0
+  syl5 wcel c1 con0 wceq csuc c0 csuc c1 wcel c1 csuc c0 wss csuc c1 csuc c0
+  eqimss2 csuc c0 csuc c1
+  sucssel c1 con0 csuc c0
+  com12 wn wcel c1 c0 wcel c1 csuc c0 wceq c0 c1
+  syl6ib wcel c1 csuc c0 wn wcel c1 c0 wceq c0 c1 wceq c1 c0
+  ord wcel c1 csuc c0 wcel c1 c0 wceq c1 c0
+  elsuci c1 c0
+  eqcom c1 c0
+  suceq c0 c1
+}
+thm onordi(class c0) {
+  |- word c0
+  -| wcel c0 con0
+} = {
+  ax-mp word c0 wcel c0 con0
+  eloni c0
+}
+thm ontrci(class c0) {
+  |- wtr c0
+  -| wcel c0 con0
+} = {
+  ax-mp wtr c0 word c0
+  onordi c0
+  ordtr c0
+}
+thm onirri(class c0) {
+  |- wn wcel c0 c0
+  -| wcel c0 con0
+} = {
+  ax-mp wn wcel c0 c0 word c0
+  onordi c0
+  ordirr c0
+}
+thm oneli(class c0, class c1) {
+  |- wi wcel c0 c1 wcel c0 con0
+  -| wcel c1 con0
+} = {
+  mpan wcel c0 c1 wcel c0 con0 wcel c1 con0
+  onelon c1 c0
+}
+thm onelssi(class c0, class c1) {
+  |- wi wcel c0 c1 wss c0 c1
+  -| wcel c1 con0
+} = {
+  ax-mp wi wcel c0 c1 wss c0 c1 wcel c1 con0
+  onelss c1 c0
+}
+thm onssneli(class c0, class c1) {
+  |- wi wss c0 c1 wn wcel c1 c0
+  -| wcel c0 con0
+} = {
+  pm2.01d wss c0 c1 wcel c1 c0
+  nsyli wss c0 c1 wcel c1 c0 wcel c1 c0 wcel c1 c1
+  ssel c0 c1 c1
+  3syl wcel c1 c0 wn wcel c1 c1 wcel c1 con0 word c1
+  oneli c1 c0
+  eloni c1
+  ordirr c1
+}
+thm onssnel2i(class c0, class c1) {
+  |- wi wss c0 c1 wn wcel c1 c0
+  -| wcel c1 con0
+} = {
+  mtoi wss c0 c1 wcel c1 c0 wcel c1 c1
+  onirri c1
+  ssel c0 c1 c1
+}
+thm onelini(class c0, class c1) {
+  |- wi wcel c0 c1 wceq c0 cin c0 c1
+  -| wcel c1 con0
+} = {
+  sylib wcel c0 c1 wceq c0 cin c0 c1 wss c0 c1
+  onelssi c0 c1
+  dfss c0 c1
+}
+thm oneluni(class c0, class c1) {
+  |- wi wcel c0 c1 wceq cun c1 c0 c1
+  -| wcel c1 con0
+} = {
+  sylib wcel c0 c1 wceq cun c1 c0 c1 wss c0 c1
+  onelssi c0 c1
+  ssequn2 c0 c1
+}
+thm onunisuci(class c0) {
+  |- wceq cuni csuc c0 c0
+  -| wcel c0 con0
+} = {
+  mpbi wceq cuni csuc c0 c0 wtr c0
+  ontrci c0
+  unisuc c0
+  elexi c0 con0
+}
+thm onsseli(class c0, class c1) {
+  |- wb wss c0 c1 wo wcel c0 c1 wceq c0 c1
+  -| wcel c0 con0
+  -| wcel c1 con0
+} = {
+  mp2an wb wss c0 c1 wo wcel c0 c1 wceq c0 c1 wcel c0 con0 wcel c1 con0
+  onsseleq c0 c1
+}
+thm onun2i(class c0, class c1) {
+  |- wcel cun c0 c1 con0
+  -| wcel c0 con0
+  -| wcel c1 con0
+} = {
+  ax-mp wcel cun c0 c1 con0 wo wcel c1 c0 wss c0 c1
+  mp2an wo wcel c1 c0 wss c0 c1 word c1 word c0
+  onordi c1
+  onordi c0
+  ordtri2or c1 c0
+  jaoi wcel c1 c0 wss c0 c1 wcel cun c0 c1 con0
+  syl6eqel cun c0 c1 con0 c0 wcel c1 c0
+  oneluni c1 c0
+  sylbi wss c0 c1 wcel cun c0 c1 con0 wceq cun c0 c1 c1
+  ssequn1 c0 c1
+  mpbiri wceq cun c0 c1 c1 wcel cun c0 c1 con0 wcel c1 con0
+  eleq1 cun c0 c1 c1 con0
+}
+thm unizlim(class c0) {
+  |- wi word c0 wb wceq c0 cuni c0 wo wceq c0 emptycls wlim c0
+} = {
+  impbid1 word c0 wceq c0 cuni c0 wo wceq c0 emptycls wlim c0
+  ex word c0 wceq c0 cuni c0 wo wceq c0 emptycls wlim c0
+  orrd wa word c0 wceq c0 cuni c0 wceq c0 emptycls wlim c0
+  imp word c0 wceq c0 cuni c0 wi wn wceq c0 emptycls wlim c0
+  com23 word c0 wceq c0 cuni c0 wn wceq c0 emptycls wlim c0
+  syl5bir word c0 wn wceq c0 emptycls wi wceq c0 cuni c0 wlim c0 wne c0 emptycls
+  df-ne c0 emptycls
+  3exp word c0 wne c0 emptycls wceq c0 cuni c0 wlim c0
+  biimpri w3a word c0 wne c0 emptycls wceq c0 cuni c0 wlim c0
+  df-lim c0
+  jaoi wceq c0 emptycls wlim c0 wceq c0 cuni c0
+  3eqtr4a c0 cuni c0 emptycls cuni emptycls wceq c0 emptycls
+  eqcomi emptycls cuni emptycls
+  uni0
+  id wceq c0 emptycls
+  unieq c0 emptycls
+  limuni c0
+}
+thm on0eqel(class c0) {
+  |- wi wcel c0 con0 wo wceq c0 emptycls wcel emptycls c0
+} = {
+  sylib wcel c0 con0
+        wo wceq c0 emptycls wcel emptycls c0
+        wo wcel emptycls c0 wceq emptycls c0
+  mpbii wcel c0 con0 wo wcel emptycls c0 wceq emptycls c0 wss emptycls c0
+  0ss c0
+  mpan wcel c0 con0
+       wb wss emptycls c0 wo wcel emptycls c0 wceq emptycls c0
+       wcel emptycls con0
+  0elon
+  onsseleq emptycls c0
+  bitri wo wcel emptycls c0 wceq emptycls c0
+        wo wceq c0 emptycls wcel emptycls c0
+        wo wcel emptycls c0 wceq c0 emptycls
+  orbi2i wcel emptycls c0 wceq emptycls c0 wceq c0 emptycls
+  eqcom emptycls c0
+  orcom wcel emptycls c0 wceq c0 emptycls
+}
+thm snsn0non() {
+  |- wn wcel csn csn emptycls con0
+} = {
+  mto wcel csn csn emptycls con0
+      wo wceq csn csn emptycls emptycls wcel emptycls csn csn emptycls
+  pm3.2ni wceq csn csn emptycls emptycls wcel emptycls csn csn emptycls
+  n0ii csn csn emptycls csn emptycls
+  snid csn emptycls
+  snex emptycls
+  mtbir wcel emptycls csn csn emptycls wceq emptycls csn emptycls
+  mtbir wceq emptycls csn emptycls wceq csn emptycls emptycls
+  n0ii csn emptycls emptycls
+  snid emptycls
+  eqcom emptycls csn emptycls
+  elsn emptycls csn emptycls
+  0ex
+  on0eqel csn csn emptycls
+}
+thm onxpdisj() {
+  |- wceq cin con0 cxp universe universe emptycls
+} = {
+  mprgbir hs0
+          con0
+          wceq cin con0 cxp universe universe emptycls
+          wn wcel cv hs0 cxp universe universe
+  disj hs0 con0 cxp universe universe
+  syl wcel cv hs0 con0
+      wn wcel cv hs0 cxp universe universe
+      wo wceq cv hs0 emptycls wcel emptycls cv hs0
+  on0eqel cv hs0
+  jaoi wceq cv hs0 emptycls
+       wcel emptycls cv hs0
+       wn wcel cv hs0 cxp universe universe
+  mtbiri wceq cv hs0 emptycls
+         wcel cv hs0 cxp universe universe
+         wcel emptycls cxp universe universe
+  0nelxp universe universe
+  eleq1 cv hs0 emptycls cxp universe universe
+  con2i wcel emptycls cv hs0 wcel cv hs0 cxp universe universe
+  0nelelxp cv hs0 universe universe
+  diff.hs0.c con0
+  diff.hs0.c cxp universe universe
+}
+thm onnev() {
+  |- wne con0 universe
+} = {
+  ax-mp wne con0 universe wn wcel csn csn emptycls con0
+  snsn0non
+  necon3bi con0 universe wcel csn csn emptycls con0
+  syl5eleqr csn csn emptycls con0 universe wceq con0 universe
+  snex csn emptycls
+  id wceq con0 universe
+}

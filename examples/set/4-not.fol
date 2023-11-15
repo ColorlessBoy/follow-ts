@@ -1,0 +1,625 @@
+import '3-imply.fol'
+
+thm con4(wff w0, wff w1) {
+  |- wi wi wn w0 wn w1 wi w1 w0
+} = {
+  ax-3 w0 w1
+}
+thm con4i(wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi wn w1 wn w0
+} = {
+  ax-mp wi w0 w1 wi wn w1 wn w0
+  con4 w1 w0
+}
+thm con4d(wff w0, wff w1, wff w2) {
+  |- wi w0 wi w1 w2
+  -| wi w0 wi wn w2 wn w1
+} = {
+  syl w0 wi w1 w2 wi wn w2 wn w1
+  con4 w2 w1
+}
+thm mt4(wff w0, wff w1) {
+  |- w0
+  -| w1
+  -| wi wn w0 wn w1
+} = {
+  ax-mp w0 w1
+  con4i w1 w0
+}
+thm pm2.21i(wff w0, wff w1) {
+  |- wi w0 w1
+  -| wn w0
+} = {
+  con4i w0 w1
+  a1i wn w1 wn w0
+}
+thm pm2.24ii(wff w0, wff w1) {
+  |- w0
+  -| w1
+  -| wn w1
+} = {
+  ax-mp w0 w1
+  pm2.21i w1 w0
+}
+thm pm2.21d(wff w0, wff w1, wff w2) {
+  |- wi w0 wi w1 w2
+  -| wi w0 wn w1
+} = {
+  con4d w0 w1 w2
+  a1d w0 wn w2 wn w1
+}
+thm pm2.21ddALT(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi w0 w2
+  -| wi w0 wn w2
+} = {
+  mpd w0 w1 w2
+  pm2.21d w0 w2 w1
+}
+thm pm2.21(wff w0, wff w1) {
+  |- wi wn w0 wi w0 w1
+} = {
+  pm2.21d wn w0 w0 w1
+  id wn w0
+}
+thm pm2.24(wff w0, wff w1) {
+  |- wi w0 wi wn w0 w1
+} = {
+  com12 w0 wn w0 w1
+  pm2.21 w0 w1
+}
+thm jarl(wff w0, wff w1, wff w2) {
+  |- wi wi wi w0 w1 w2 wi wn w0 w2
+} = {
+  imim1i wi w0 w1 w2 wn w0
+  pm2.21 w0 w1
+}
+thm jarli(wff w0, wff w1, wff w2) {
+  |- wi wn w0 w1
+  -| wi wi w0 w2 w1
+} = {
+  syl wn w0 w1 wi w0 w2
+  pm2.21 w0 w2
+}
+thm pm2.18(wff w0) {
+  |- wi wi wn w0 w0 w0
+} = {
+  pm2.43i wi wn w0 w0 w0
+  con4d wi wn w0 w0 wi wn w0 w0 w0
+  a2i wn w0 w0 wn wi wn w0 w0
+  pm2.21 w0 wn wi wn w0 w0
+}
+thm pm2.18i(wff w0) {
+  |- w0
+  -| wi wn w0 w0
+} = {
+  ax-mp w0 wi wn w0 w0
+  pm2.18 w0
+}
+thm pm2.18d(wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi w0 wi wn w1 w1
+} = {
+  syl w0 w1 wi wn w1 w1
+  pm2.18 w1
+}
+thm notnotr(wff w0) {
+  |- wi wn wn w0 w0
+} = {
+  jarli wn w0 w0 w0
+  pm2.18 w0
+}
+thm notnotri(wff w0) {
+  |- w0
+  -| wn wn w0
+} = {
+  mt4 w0 wn wn w0
+  pm2.21i wn w0 wn wn wn w0
+}
+thm notnotriALT(wff w0) {
+  |- w0
+  -| wn wn w0
+} = {
+  pm2.18i w0
+  pm2.21i wn w0 w0
+}
+thm notnotrd(wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi w0 wn wn w1
+} = {
+  syl w0 w1 wn wn w1
+  notnotr w1
+}
+thm con2d(wff w0, wff w1, wff w2) {
+  |- wi w0 wi w1 wn w2
+  -| wi w0 wi w2 wn w1
+} = {
+  con4d w0 w1 wn w2
+  syl5 w0 wn wn w2 wn w1 w2
+  notnotr w2
+}
+thm con2(wff w0, wff w1) {
+  |- wi wi w0 wn w1 wi w1 wn w0
+} = {
+  con2d wi w0 wn w1 w1 w0
+  id wi w0 wn w1
+}
+thm mt2d(wff w0, wff w1, wff w2) {
+  |- wi w0 wn w1
+  -| wi w0 w2
+  -| wi w0 wi w1 wn w2
+} = {
+  mpd w0 wn w1 w2
+  con2d w0 w2 w1
+}
+thm mt2i(wff w0, wff w1, wff w2) {
+  |- wi w0 wn w1
+  -| w2
+  -| wi w0 wi w1 wn w2
+} = {
+  mt2d w0 w1 w2
+  a1i w0 w2
+}
+thm nsyl3(wff w0, wff w1, wff w2) {
+  |- wi w0 wn w1
+  -| wi w1 wn w2
+  -| wi w0 w2
+} = {
+  mt2d w0 w1 w2
+  a1i w0 wi w1 wn w2
+}
+thm con2i(wff w0, wff w1) {
+  |- wi w0 wn w1
+  -| wi w1 wn w0
+} = {
+  nsyl3 w0 w1 w0
+  id w0
+}
+thm nsyl(wff w0, wff w1, wff w2) {
+  |- wi w0 wn w1
+  -| wi w0 wn w2
+  -| wi w1 w2
+} = {
+  con2i w0 w1
+  nsyl3 w1 w0 w2
+}
+thm notnot(wff w0) {
+  |- wi w0 wn wn w0
+} = {
+  con2i w0 wn w0
+  id wn w0
+}
+thm notnoti(wff w0) {
+  |- wn wn w0
+  -| w0
+} = {
+  ax-mp wn wn w0 w0
+  notnot w0
+}
+thm notnotd(wff w0, wff w1) {
+  |- wi w0 wn wn w1
+  -| wi w0 w1
+} = {
+  syl w0 wn wn w1 w1
+  notnot w1
+}
+thm con1d(wff w0, wff w1, wff w2) {
+  |- wi w0 wi wn w1 w2
+  -| wi w0 wi wn w2 w1
+} = {
+  con4d w0 wn w1 w2
+  syl6 w0 wn w2 wn wn w1 w1
+  notnot w1
+}
+thm mt3d(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi w0 wn w2
+  -| wi w0 wi wn w1 w2
+} = {
+  mpd w0 w1 wn w2
+  con1d w0 w2 w1
+}
+thm mt3i(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wn w2
+  -| wi w0 wi wn w1 w2
+} = {
+  mt3d w0 w1 w2
+  a1i w0 wn w2
+}
+thm nsyl2(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi w0 wn w2
+  -| wi wn w1 w2
+} = {
+  mt3d w0 w1 w2
+  a1i w0 wi wn w1 w2
+}
+thm con1(wff w0, wff w1) {
+  |- wi wi wn w0 w1 wi wn w1 w0
+} = {
+  con1d wi wn w0 w1 w1 w0
+  id wi wn w0 w1
+}
+thm con1i(wff w0, wff w1) {
+  |- wi wn w0 w1
+  -| wi wn w1 w0
+} = {
+  nsyl2 wn w0 w1 w0
+  id wn w0
+}
+thm pm2.24i(wff w0, wff w1) {
+  |- wi wn w0 w1
+  -| w0
+} = {
+  con1i w0 w1
+  a1i wn w1 w0
+}
+thm pm2.24d(wff w0, wff w1, wff w2) {
+  |- wi w0 wi wn w1 w2
+  -| wi w0 w1
+} = {
+  con1d w0 w1 w2
+  a1d w0 wn w2 w1
+}
+thm con3d(wff w0, wff w1, wff w2) {
+  |- wi w0 wi wn w1 wn w2
+  -| wi w0 wi w2 w1
+} = {
+  con1d w0 w1 wn w2
+  syl5 w0 wn wn w2 w1 w2
+  notnotr w2
+}
+thm con3(wff w0, wff w1) {
+  |- wi wi w0 w1 wi wn w1 wn w0
+} = {
+  con3d wi w0 w1 w1 w0
+  id wi w0 w1
+}
+thm con3i(wff w0, wff w1) {
+  |- wi wn w0 wn w1
+  -| wi w1 w0
+} = {
+  nsyl wn w0 w1 w0
+  id wn w0
+}
+thm con3rr3(wff w0, wff w1, wff w2) {
+  |- wi wn w0 wi w1 wn w2
+  -| wi w1 wi w2 w0
+} = {
+  com12 wn w0 w1 wn w2
+  con3d w1 w0 w2
+}
+thm mt4d(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi w0 w2
+  -| wi w0 wi wn w1 wn w2
+} = {
+  mpd w0 w1 w2
+  con4d w0 w2 w1
+}
+thm mt4i(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| w2
+  -| wi w0 wi wn w1 wn w2
+} = {
+  mt4d w0 w1 w2
+  a1i w0 w2
+}
+thm nsyld(wff w0, wff w1, wff w2, wff w3) {
+  |- wi w0 wi w1 wn w2
+  -| wi w0 wi w1 wn w3
+  -| wi w0 wi w2 w3
+} = {
+  syld w0 w1 wn w2 wn w3
+  con3d w0 w3 w2
+}
+thm nsyli(wff w0, wff w1, wff w2, wff w3) {
+  |- wi w0 wi w1 wn w2
+  -| wi w0 wi w2 w3
+  -| wi w1 wn w3
+} = {
+  syl5 w0 w1 wn w2 wn w3
+  con3d w0 w3 w2
+}
+thm nsyl4(wff w0, wff w1, wff w2) {
+  |- wi wn w0 w1
+  -| wi w2 w1
+  -| wi wn w2 w0
+} = {
+  syl wn w0 w1 w2
+  con1i w0 w2
+}
+thm pm3.2im(wff w0, wff w1) {
+  |- wi w0 wi w1 wn wi w0 wn w1
+} = {
+  con2d w0 w1 wi w0 wn w1
+  pm2.27 w0 wn w1
+}
+thm mth8(wff w0, wff w1) {
+  |- wi w0 wi wn w1 wn wi w0 w1
+} = {
+  con3d w0 w1 wi w0 w1
+  pm2.27 w0 w1
+}
+thm jc(wff w0, wff w1, wff w2) {
+  |- wi w0 wn wi w1 wn w2
+  -| wi w0 w1
+  -| wi w0 w2
+} = {
+  sylc w0 wn wi w1 wn w2 w1 w2
+  pm3.2im w1 w2
+}
+thm impi(wff w0, wff w1, wff w2) {
+  |- wi wn wi w0 wn w1 w2
+  -| wi w0 wi w1 w2
+} = {
+  con1i wi w0 wn w1 w2
+  con3rr3 w2 w0 w1
+}
+thm expi(wff w0, wff w1, wff w2) {
+  |- wi w0 wi w1 w2
+  -| wi wn wi w0 wn w1 w2
+} = {
+  syl6 w0 w1 w2 wn wi w0 wn w1
+  pm3.2im w0 w1
+}
+thm simprim(wff w0, wff w1) {
+  |- wi wn wi w0 wn w1 w1
+} = {
+  impi w0 w1 w1
+  idd w0 w1
+}
+thm simplim(wff w0, wff w1) {
+  |- wi wn wi w0 w1 w0
+} = {
+  con1i wi w0 w1 w0
+  pm2.21 w0 w1
+}
+thm pm2.5(wff w0, wff w1) {
+  |- wi wn wi w0 w1 wi wn w0 w1
+} = {
+  pm2.24d wn wi w0 w1 w0 w1
+  simplim w0 w1
+}
+thm pm2.51(wff w0, wff w1) {
+  |- wi wn wi w0 w1 wi w0 wn w1
+} = {
+  a1d wn wi w0 w1 w0 wn w1
+  con3i wi w0 w1 w1
+  ax-1 w1 w0
+}
+thm pm2.521(wff w0, wff w1) {
+  |- wi wn wi w0 w1 wi w1 w0
+} = {
+  a1d wn wi w0 w1 w1 w0
+  simplim w0 w1
+}
+thm pm2.52(wff w0, wff w1) {
+  |- wi wn wi w0 w1 wi wn w0 wn w1
+} = {
+  con3d wn wi w0 w1 w0 w1
+  pm2.521 w0 w1
+}
+thm expt(wff w0, wff w1, wff w2) {
+  |- wi wi wn wi w0 wn w1 w2 wi w0 wi w1 w2
+} = {
+  com12 wi wn wi w0 wn w1 w2 w0 wi w1 w2
+  imim1d w0 wn wi w0 wn w1 w2 w1
+  pm3.2im w0 w1
+}
+thm impt(wff w0, wff w1, wff w2) {
+  |- wi wi w0 wi w1 w2 wi wn wi w0 wn w1 w2
+} = {
+  mpdi wi w0 wi w1 w2 wn wi w0 wn w1 w2 w1
+  simprim w0 w1
+  imim1i w0 wi w1 w2 wn wi w0 wn w1
+  simplim w0 wn w1
+}
+thm pm2.61d(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi w0 wi w2 w1
+  -| wi w0 wi wn w2 w1
+} = {
+  pm2.18d w0 w1
+  syld w0 wn w1 w1 w2
+  con1d w0 w1 w2
+}
+thm pm2.61d1(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi w0 wi w2 w1
+  -| wi wn w2 w1
+} = {
+  pm2.61d w0 w1 w2
+  a1i w0 wi wn w2 w1
+}
+thm pm2.61d2(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi w0 wi wn w2 w1
+  -| wi w2 w1
+} = {
+  pm2.61d w0 w1 w2
+  a1i w0 wi w2 w1
+}
+thm ja(wff w0, wff w1, wff w2) {
+  |- wi wi w0 w1 w2
+  -| wi wn w0 w2
+  -| wi w1 w2
+} = {
+  pm2.61d1 wi w0 w1 w2 w0
+  imim2i w0 w1 w2
+}
+thm jad(wff w0, wff w1, wff w2, wff w3) {
+  |- wi w0 wi wi w1 w2 w3
+  -| wi w0 wi wn w1 w3
+  -| wi w0 wi w2 w3
+} = {
+  com12 w0 wi w1 w2 w3
+  ja w1 w2 wi w0 w3
+  com12 wn w1 w0 w3
+  com12 w2 w0 w3
+}
+thm pm2.61i(wff w0, wff w1) {
+  |- w0
+  -| wi w1 w0
+  -| wi wn w1 w0
+} = {
+  ax-mp w0 wi w1 w1
+  id w1
+  ja w1 w1 w0
+}
+thm pm2.61ii(wff w0, wff w1, wff w2) {
+  |- w0
+  -| wi wn w1 wi wn w2 w0
+  -| wi w1 w0
+  -| wi w2 w0
+} = {
+  pm2.61i w0 w1
+  pm2.61d2 wn w1 w0 w2
+}
+thm pm2.61nii(wff w0, wff w1, wff w2) {
+  |- w0
+  -| wi w1 wi w2 w0
+  -| wi wn w1 w0
+  -| wi wn w2 w0
+} = {
+  pm2.61i w0 w1
+  pm2.61d1 w1 w0 w2
+}
+thm pm2.61iii(wff w0, wff w1, wff w2, wff w3) {
+  |- w0
+  -| wi wn w1 wi wn w2 wi wn w3 w0
+  -| wi w1 w0
+  -| wi w2 w0
+  -| wi w3 w0
+} = {
+  pm2.61i w0 w3
+  pm2.61ii wi wn w3 w0 w1 w2
+  a1d w1 wn w3 w0
+  a1d w2 wn w3 w0
+}
+thm pm2.01(wff w0) {
+  |- wi wi w0 wn w0 wn w0
+} = {
+  ja w0 wn w0 wn w0
+  id wn w0
+}
+thm pm2.01d(wff w0, wff w1) {
+  |- wi w0 wn w1
+  -| wi w0 wi w1 wn w1
+} = {
+  pm2.61d1 w0 wn w1 w1
+  id wn w1
+}
+thm pm2.6(wff w0, wff w1) {
+  |- wi wi wn w0 w1 wi wi w0 w1 w1
+} = {
+  jad wi wn w0 w1 w0 w1 w1
+  id wi wn w0 w1
+  idd wi wn w0 w1 w1
+}
+thm pm2.61(wff w0, wff w1) {
+  |- wi wi w0 w1 wi wi wn w0 w1 w1
+} = {
+  com12 wi w0 w1 wi wn w0 w1 w1
+  pm2.6 w0 w1
+}
+thm pm2.65(wff w0, wff w1) {
+  |- wi wi w0 w1 wi wi w0 wn w1 wn w0
+} = {
+  jad wi w0 w1 w0 wn w1 wn w0
+  idd wi w0 w1 wn w0
+  con3 w0 w1
+}
+thm pm2.65i(wff w0, wff w1) {
+  |- wn w0
+  -| wi w0 w1
+  -| wi w0 wn w1
+} = {
+  pm2.61i wn w0 w1
+  con2i w1 w0
+  con3i w1 w0
+}
+thm pm2.21dd(wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi w0 w2
+  -| wi w0 wn w2
+} = {
+  pm2.21i w0 w1
+  pm2.65i w0 w2
+}
+thm pm2.65d(wff w0, wff w1, wff w2) {
+  |- wi w0 wn w1
+  -| wi w0 wi w1 w2
+  -| wi w0 wi w1 wn w2
+} = {
+  pm2.01d w0 w1
+  nsyld w0 w1 w1 w2
+}
+thm mto(wff w0, wff w1) {
+  |- wn w0
+  -| wn w1
+  -| wi w0 w1
+} = {
+  pm2.65i w0 w1
+  a1i w0 wn w1
+}
+thm mtod(wff w0, wff w1, wff w2) {
+  |- wi w0 wn w1
+  -| wi w0 wn w2
+  -| wi w0 wi w1 w2
+} = {
+  pm2.65d w0 w1 w2
+  a1d w0 w1 wn w2
+}
+thm mtoi(wff w0, wff w1, wff w2) {
+  |- wi w0 wn w1
+  -| wn w2
+  -| wi w0 wi w1 w2
+} = {
+  mtod w0 w1 w2
+  a1i w0 wn w2
+}
+thm mt2(wff w0, wff w1) {
+  |- wn w0
+  -| w1
+  -| wi w0 wn w1
+} = {
+  pm2.65i w0 w1
+  a1i w0 w1
+}
+thm mt3(wff w0, wff w1) {
+  |- w0
+  -| wn w1
+  -| wi wn w0 w1
+} = {
+  notnotri w0
+  mto wn w0 w1
+}
+thm peirce(wff w0, wff w1) {
+  |- wi wi wi w0 w1 w0 w0
+} = {
+  ja wi w0 w1 w0 w0
+  simplim w0 w1
+  id w0
+}
+thm looinv(wff w0, wff w1) {
+  |- wi wi wi w0 w1 w1 wi wi w1 w0 w0
+} = {
+  syl6 wi wi w0 w1 w1 wi w1 w0 w0 wi wi w0 w1 w0
+  imim1 wi w0 w1 w1 w0
+  peirce w0 w1
+}
+thm bijust0(wff w0) {
+  |- wn wi wi w0 w0 wn wi w0 w0
+} = {
+  mt2 wi wi w0 w0 wn wi w0 w0 wi w0 w0
+  id w0
+  pm2.01 wi w0 w0
+}
+thm bijust(wff w0, wff w1) {
+  |- wn wi wi wn wi wi w0 w1 wn wi w1 w0 wn wi wi w0 w1 wn wi w1 w0 wn wi wn wi wi w0 w1 wn wi w1 w0 wn wi wi w0 w1 wn wi w1 w0
+} = {
+  bijust0 wn wi wi w0 w1 wn wi w1 w0
+}

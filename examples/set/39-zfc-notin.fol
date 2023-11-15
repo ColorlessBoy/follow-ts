@@ -1,0 +1,107 @@
+import '38-zfc-noteq.fol'
+
+thm neli(class c0, class c1) {
+  |- wn wcel c0 c1
+  -| wnel c0 c1
+} = {
+  mpbi wn wcel c0 c1 wnel c0 c1
+  df-nel c0 c1
+}
+thm nelir(class c0, class c1) {
+  |- wnel c0 c1
+  -| wn wcel c0 c1
+} = {
+  mpbir wnel c0 c1 wn wcel c0 c1
+  df-nel c0 c1
+}
+thm neleq12d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wb wnel c0 c1 wnel c2 c3
+  -| wi w0 wceq c0 c2
+  -| wi w0 wceq c1 c3
+} = {
+  3bitr4g w0 wnel c0 c1 wnel c2 c3 wn wcel c0 c1 wn wcel c2 c3
+  notbid w0 wcel c0 c1 wcel c2 c3
+  eleq12d c0 c1 c2 c3 w0
+  df-nel c0 c1
+  df-nel c2 c3
+}
+thm neleq1(class c0, class c1, class c2) {
+  |- wi wceq c0 c1 wb wnel c0 c2 wnel c1 c2
+} = {
+  neleq12d c0 c2 c1 c2 wceq c0 c1
+  id wceq c0 c1
+  eqidd c2 wceq c0 c1
+}
+thm neleq2(class c0, class c1, class c2) {
+  |- wi wceq c0 c1 wb wnel c2 c0 wnel c2 c1
+} = {
+  neleq12d c2 c0 c2 c1 wceq c0 c1
+  eqidd c2 wceq c0 c1
+  id wceq c0 c1
+}
+thm nfnel(setvar s0, class c0, class c1) {
+  |- wnf s0 wnel c0 c1
+  -| wnfc s0 c0
+  -| wnfc s0 c1
+} = {
+  nfxfr s0 wnel c0 c1 wn wcel c0 c1
+  df-nel c0 c1
+  nfn s0 wcel c0 c1
+  nfel s0 c0 c1
+}
+thm nfneld(setvar s0, class c0, class c1, wff w0) {
+  |- wi w0 wnf s0 wnel c0 c1
+  -| wi w0 wnfc s0 c0
+  -| wi w0 wnfc s0 c1
+} = {
+  nfxfrd s0 w0 wnel c0 c1 wn wcel c0 c1
+  df-nel c0 c1
+  nfnd s0 w0 wcel c0 c1
+  nfeld s0 c0 c1 w0
+}
+thm nnel(class c0, class c1) {
+  |- wb wn wnel c0 c1 wcel c0 c1
+} = {
+  con1bii wnel c0 c1 wcel c0 c1
+  bicomi wn wcel c0 c1 wnel c0 c1
+  df-nel c0 c1
+}
+thm elnelne1(class c0, class c1, class c2) {
+  |- wi wa wcel c0 c1 wnel c0 c2 wne c1 c2
+} = {
+  sylan2b wcel c0 c1 wnel c0 c2 wne c1 c2 wn wcel c0 c2
+  df-nel c0 c2
+  nelne1 c0 c1 c2
+}
+thm elnelne2(class c0, class c1, class c2) {
+  |- wi wa wcel c0 c1 wnel c2 c1 wne c0 c2
+} = {
+  sylan2b wcel c0 c1 wnel c2 c1 wne c0 c2 wn wcel c2 c1
+  df-nel c2 c1
+  nelne2 c0 c1 c2
+}
+thm nelcon3d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wi wnel c0 c1 wnel c2 c3
+  -| wi w0 wi wcel c2 c3 wcel c0 c1
+} = {
+  3imtr4g w0 wnel c0 c1 wnel c2 c3 wn wcel c0 c1 wn wcel c2 c3
+  con3d w0 wcel c0 c1 wcel c2 c3
+  df-nel c0 c1
+  df-nel c2 c3
+}
+thm elnelall(class c0, class c1, wff w0) {
+  |- wi wcel c0 c1 wi wnel c0 c1 w0
+} = {
+  syl5bi wcel c0 c1 wnel c0 c1 w0 wn wcel c0 c1
+  df-nel c0 c1
+  pm2.24 wcel c0 c1 w0
+}
+thm pm2.61danel(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi wa w0 wcel c0 c1 w1
+  -| wi wa w0 wnel c0 c1 w1
+} = {
+  pm2.61dan w0 w1 wcel c0 c1
+  sylan2br w0 wn wcel c0 c1 w1 wnel c0 c1
+  df-nel c0 c1
+}

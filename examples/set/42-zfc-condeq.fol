@@ -1,0 +1,170 @@
+import '41-zfc-universe.fol'
+
+thm cdeqi(setvar s0, setvar s1, wff w0) {
+  |- wcdeq s0 s1 w0
+  -| wi wceq cv s0 cv s1 w0
+} = {
+  mpbir wcdeq s0 s1 w0 wi wceq cv s0 cv s1 w0
+  df-cdeq s0 s1 w0
+}
+thm cdeqri(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 w0
+  -| wcdeq s0 s1 w0
+} = {
+  mpbi wi wceq cv s0 cv s1 w0 wcdeq s0 s1 w0
+  df-cdeq s0 s1 w0
+}
+thm cdeqth(setvar s0, setvar s1, wff w0) {
+  |- wcdeq s0 s1 w0
+  -| w0
+} = {
+  cdeqi s0 s1 w0
+  a1i wceq cv s0 cv s1 w0
+}
+thm cdeqnot(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wcdeq s0 s1 wb wn w0 wn w1
+  -| wcdeq s0 s1 wb w0 w1
+} = {
+  cdeqi s0 s1 wb wn w0 wn w1
+  notbid wceq cv s0 cv s1 w0 w1
+  cdeqri s0 s1 wb w0 w1
+}
+thm cdeqal(setvar s0, setvar s1, setvar s2, wff w0, wff w1) {
+  |- wcdeq s0 s1 wb wal s2 w0 wal s2 w1
+  -| wcdeq s0 s1 wb w0 w1
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  a1ii wcdeq s0 s1 wb wal s2 w0 wal s2 w1
+       diffss s0 s2
+  a1ii wcdeq s0 s1 wb wal s2 w0 wal s2 w1
+       diffss s1 s2
+  cdeqi s0 s1 wb wal s2 w0 wal s2 w1
+  albidv s2 wceq cv s0 cv s1 w0 w1
+  cdeqri s0 s1 wb w0 w1
+  diff.wceq s2 cv s0 cv s1
+  diff.cv s2 s0
+  diffss.ex s2 s0
+  diff.cv s2 s1
+  diffss.ex s2 s1
+}
+thm cdeqab(setvar s0, setvar s1, setvar s2, wff w0, wff w1) {
+  |- wcdeq s0 s1 wceq cab s2 w0 cab s2 w1
+  -| wcdeq s0 s1 wb w0 w1
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  a1ii wcdeq s0 s1 wceq cab s2 w0 cab s2 w1
+       diffss s0 s2
+  a1ii wcdeq s0 s1 wceq cab s2 w0 cab s2 w1
+       diffss s1 s2
+  cdeqi s0 s1 wceq cab s2 w0 cab s2 w1
+  abbidv s2 wceq cv s0 cv s1 w0 w1
+  cdeqri s0 s1 wb w0 w1
+  diff.wceq s2 cv s0 cv s1
+  diff.cv s2 s0
+  diffss.ex s2 s0
+  diff.cv s2 s1
+  diffss.ex s2 s1
+}
+thm cdeqal1(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wcdeq s0 s1 wb wal s0 w0 wal s1 w1
+  -| wcdeq s0 s1 wb w0 w1
+  -| diffsw s0 w1
+  -| diffsw s1 w0
+} = {
+  cdeqth s0 s1 wb wal s0 w0 wal s1 w1
+  cbvalv s0 s1 w0 w1
+  cdeqri s0 s1 wb w0 w1
+}
+thm cdeqab1(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wcdeq s0 s1 wceq cab s0 w0 cab s1 w1
+  -| wcdeq s0 s1 wb w0 w1
+  -| diffsw s0 w1
+  -| diffsw s1 w0
+} = {
+  cdeqth s0 s1 wceq cab s0 w0 cab s1 w1
+  cbvab s0 s1 w0 w1
+  nfv s1 w0
+  nfv s0 w1
+  cdeqri s0 s1 wb w0 w1
+}
+thm cdeqim(setvar s0, setvar s1, wff w0, wff w1, wff w2, wff w3) {
+  |- wcdeq s0 s1 wb wi w0 w1 wi w2 w3
+  -| wcdeq s0 s1 wb w0 w2
+  -| wcdeq s0 s1 wb w1 w3
+} = {
+  cdeqi s0 s1 wb wi w0 w1 wi w2 w3
+  imbi12d wceq cv s0 cv s1 w0 w1 w2 w3
+  cdeqri s0 s1 wb w0 w2
+  cdeqri s0 s1 wb w1 w3
+}
+thm cdeqcv(setvar s0, setvar s1) {
+  |- wcdeq s0 s1 wceq cv s0 cv s1
+} = {
+  cdeqi s0 s1 wceq cv s0 cv s1
+  id wceq cv s0 cv s1
+}
+thm cdeqeq(setvar s0, setvar s1, class c0, class c1, class c2, class c3) {
+  |- wcdeq s0 s1 wb wceq c0 c1 wceq c2 c3
+  -| wcdeq s0 s1 wceq c0 c2
+  -| wcdeq s0 s1 wceq c1 c3
+} = {
+  cdeqi s0 s1 wb wceq c0 c1 wceq c2 c3
+  eqeq12d c0 c1 c2 c3 wceq cv s0 cv s1
+  cdeqri s0 s1 wceq c0 c2
+  cdeqri s0 s1 wceq c1 c3
+}
+thm cdeqel(setvar s0, setvar s1, class c0, class c1, class c2, class c3) {
+  |- wcdeq s0 s1 wb wcel c0 c1 wcel c2 c3
+  -| wcdeq s0 s1 wceq c0 c2
+  -| wcdeq s0 s1 wceq c1 c3
+} = {
+  cdeqi s0 s1 wb wcel c0 c1 wcel c2 c3
+  eleq12d c0 c1 c2 c3 wceq cv s0 cv s1
+  cdeqri s0 s1 wceq c0 c2
+  cdeqri s0 s1 wceq c1 c3
+}
+thm nfcdeq(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb w0 w1
+  -| wnf s0 w0
+  -| wcdeq s0 s1 wb w0 w1
+  -| diffsw s0 w1
+  -| diffsw s1 w0
+} = {
+  a1ii wb w0 w1
+       diffsw s1 w0
+  bitr3i w0 w1 wsb s0 s1 w0
+  sbf s0 s1 w0
+  sbie s0 s1 w0 w1
+  nfv s0 w1
+  cdeqri s0 s1 wb w0 w1
+}
+thm nfccdeq(setvar s0, setvar s1, class c0, class c1) {
+  |- wceq c0 c1
+  -| wnfc s0 c0
+  -| wcdeq s0 s1 wceq c0 c1
+  -| diffsc s0 c1
+  -| diffsc s1 c0
+} = {
+  a1ii wceq c0 c1
+       diffsc s0 c1
+  a1ii wceq c0 c1
+       diffsc s1 c0
+  eqriv hs0 c0 c1
+  nfcdeq s0 s1 wcel cv hs0 c0 wcel cv hs0 c1
+  nfcriv s0 hs0 c0
+  cdeqel s0 s1 cv hs0 c0 cv hs0 c1
+  cdeqth s0 s1 wceq cv hs0 cv hs0
+  eqid cv hs0
+  diff.hs0.c c0
+  diff.hs0.c c1
+  diff.wcel s0 cv hs0 c1
+  diff.cv s0 hs0
+  diff.wcel s1 cv hs0 c0
+  diff.cv s1 hs0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+}

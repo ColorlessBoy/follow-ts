@@ -1,0 +1,173 @@
+import '14-true_false.fol'
+
+thm truimtru() {
+  |- wb wi wtru wtru wtru
+} = {
+  bitru wi wtru wtru
+  id wtru
+}
+thm truimfal() {
+  |- wb wi wtru wfal wfal
+} = {
+  bicomi wi wtru wfal wfal
+  trut wfal
+}
+thm falimtru() {
+  |- wb wi wfal wtru wtru
+} = {
+  bitru wi wfal wtru
+  trud wfal
+}
+thm falimfal() {
+  |- wb wi wfal wfal wtru
+} = {
+  bitru wi wfal wfal
+  id wfal
+}
+thm nottru() {
+  |- wb wn wtru wfal
+} = {
+  bicomi wn wtru wfal
+  df-fal
+}
+thm notfal() {
+  |- wb wn wfal wtru
+} = {
+  bitru wn wfal
+  fal
+}
+thm trubitru() {
+  |- wb wb wtru wtru wtru
+} = {
+  bitru wb wtru wtru
+  biid wtru
+}
+thm falbitru() {
+  |- wb wb wfal wtru wfal
+} = {
+  bicomi wb wfal wtru wfal
+  tbtru wfal
+}
+thm trubifal() {
+  |- wb wb wtru wfal wfal
+} = {
+  bitri wb wtru wfal wfal wb wfal wtru
+  bicom wtru wfal
+  falbitru
+}
+thm falbifal() {
+  |- wb wb wfal wfal wtru
+} = {
+  bitru wb wfal wfal
+  biid wfal
+}
+thm truantru() {
+  |- wb wa wtru wtru wtru
+} = {
+  anidm wtru
+}
+thm truanfal() {
+  |- wb wa wtru wfal wfal
+} = {
+  truan wfal
+}
+thm falantru() {
+  |- wb wa wfal wtru wfal
+} = {
+  bifal wa wfal wtru
+  intnanr wfal wtru
+  fal
+}
+thm falanfal() {
+  |- wb wa wfal wfal wfal
+} = {
+  anidm wfal
+}
+thm truortru() {
+  |- wb wo wtru wtru wtru
+} = {
+  oridm wtru
+}
+thm truorfal() {
+  |- wb wo wtru wfal wtru
+} = {
+  bitru wo wtru wfal
+  orci wtru wfal
+  tru
+}
+thm falortru() {
+  |- wb wo wfal wtru wtru
+} = {
+  bitru wo wfal wtru
+  olci wfal wtru
+  tru
+}
+thm falorfal() {
+  |- wb wo wfal wfal wfal
+} = {
+  oridm wfal
+}
+thm trunantru() {
+  |- wb wnan wtru wtru wfal
+} = {
+  bitr3i wnan wtru wtru wfal wn wtru
+  nannot wtru
+  nottru
+}
+thm trunanfal() {
+  |- wb wnan wtru wfal wtru
+} = {
+  bitri wnan wtru wfal wtru wn wfal
+  xchbinx wnan wtru wfal wfal wa wtru wfal
+  df-nan wtru wfal
+  truanfal
+  notfal
+}
+thm falnantru() {
+  |- wb wnan wfal wtru wtru
+} = {
+  bitri wnan wfal wtru wtru wnan wtru wfal
+  nancom wfal wtru
+  trunanfal
+}
+thm falnanfal() {
+  |- wb wnan wfal wfal wtru
+} = {
+  bitr3i wnan wfal wfal wtru wn wfal
+  nannot wfal
+  notfal
+}
+thm truxortru() {
+  |- wb wxo wtru wtru wfal
+} = {
+  bitri wxo wtru wtru wfal wn wtru
+  xchbinx wxo wtru wtru wtru wb wtru wtru
+  df-xor wtru wtru
+  trubitru
+  nottru
+}
+thm truxorfal() {
+  |- wb wxo wtru wfal wtru
+} = {
+  bitri wxo wtru wfal wtru wn wfal
+  xchbinx wxo wtru wfal wfal wb wtru wfal
+  df-xor wtru wfal
+  trubifal
+  notfal
+}
+thm falxortru() {
+  |- wb wxo wfal wtru wtru
+} = {
+  bitri wxo wfal wtru wtru wxo wtru wfal
+  xorcom wfal wtru
+  truxorfal
+}
+thm falxorfal() {
+  |- wb wxo wfal wfal wfal
+} = {
+  bitri wxo wfal wfal wfal wn wtru
+  xchbinx wxo wfal wfal wtru wb wfal wfal
+  df-xor wfal wfal
+  falbifal
+  nottru
+}

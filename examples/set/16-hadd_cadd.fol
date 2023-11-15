@@ -1,0 +1,303 @@
+import '15-truth_table.fol'
+
+thm hadbi123d(wff w0, wff w1, wff w2, wff w3, wff w4, wff w5, wff w6) {
+  |- wi w0 wb whad w1 w2 w3 whad w4 w5 w6
+  -| wi w0 wb w1 w4
+  -| wi w0 wb w2 w5
+  -| wi w0 wb w3 w6
+} = {
+  3bitr4g w0 whad w1 w2 w3 whad w4 w5 w6 wxo wxo w1 w2 w3 wxo wxo w4 w5 w6
+  xorbi12d w0 wxo w1 w2 w3 wxo w4 w5 w6
+  xorbi12d w0 w1 w2 w4 w5
+  df-had w1 w2 w3
+  df-had w4 w5 w6
+}
+thm hadbi123i(wff w0, wff w1, wff w2, wff w3, wff w4, wff w5) {
+  |- wb whad w0 w1 w2 whad w3 w4 w5
+  -| wb w0 w3
+  -| wb w1 w4
+  -| wb w2 w5
+} = {
+  mptru wb whad w0 w1 w2 whad w3 w4 w5
+  hadbi123d wtru w0 w1 w2 w3 w4 w5
+  a1i wtru wb w0 w3
+  a1i wtru wb w1 w4
+  a1i wtru wb w2 w5
+}
+thm hadass(wff w0, wff w1, wff w2) {
+  |- wb whad w0 w1 w2 wxo w0 wxo w1 w2
+} = {
+  bitri whad w0 w1 w2 wxo w0 wxo w1 w2 wxo wxo w0 w1 w2
+  df-had w0 w1 w2
+  xorass w0 w1 w2
+}
+thm hadbi(wff w0, wff w1, wff w2) {
+  |- wb whad w0 w1 w2 wb wb w0 w1 w2
+} = {
+  3bitr4i whad w0 w1 w2 wb wb w0 w1 w2 wxo wxo w0 w1 w2 wn wb wxo w0 w1 w2
+  df-xor wxo w0 w1 w2
+  df-had w0 w1 w2
+  bitri wb wb w0 w1 w2 wn wb wxo w0 w1 w2 wb wn wxo w0 w1 w2
+  bibi1i wb w0 w1 w2 wn wxo w0 w1
+  xnor w0 w1
+  nbbn wxo w0 w1 w2
+}
+thm hadcoma(wff w0, wff w1, wff w2) {
+  |- wb whad w0 w1 w2 whad w1 w0 w2
+} = {
+  3bitr4i whad w0 w1 w2 whad w1 w0 w2 wxo wxo w0 w1 w2 wxo wxo w1 w0 w2
+  xorbi12i wxo w0 w1 w2 wxo w1 w0 w2
+  xorcom w0 w1
+  biid w2
+  df-had w0 w1 w2
+  df-had w1 w0 w2
+}
+thm hadcomb(wff w0, wff w1, wff w2) {
+  |- wb whad w0 w1 w2 whad w0 w2 w1
+} = {
+  3bitr4i whad w0 w1 w2 whad w0 w2 w1 wxo w0 wxo w1 w2 wxo w0 wxo w2 w1
+  xorbi12i w0 wxo w1 w2 w0 wxo w2 w1
+  biid w0
+  xorcom w1 w2
+  hadass w0 w1 w2
+  hadass w0 w2 w1
+}
+thm hadrot(wff w0, wff w1, wff w2) {
+  |- wb whad w0 w1 w2 whad w1 w2 w0
+} = {
+  bitri whad w0 w1 w2 whad w1 w2 w0 whad w1 w0 w2
+  hadcoma w0 w1 w2
+  hadcomb w1 w0 w2
+}
+thm hadnot(wff w0, wff w1, wff w2) {
+  |- wb wn whad w0 w1 w2 whad wn w0 wn w1 wn w2
+} = {
+  3bitr4i wn whad w0 w1 w2
+          whad wn w0 wn w1 wn w2
+          wb wb w0 w1 wn w2
+          wb wb wn w0 wn w1 wn w2
+  bibi1i wb w0 w1 wn w2 wb wn w0 wn w1
+  notbi w0 w1
+  xchnxbir whad w0 w1 w2 wb wb w0 w1 wn w2 wb wb w0 w1 w2
+  xor3 wb w0 w1 w2
+  hadbi w0 w1 w2
+  hadbi wn w0 wn w1 wn w2
+}
+thm had1(wff w0, wff w1, wff w2) {
+  |- wi w0 wb whad w0 w1 w2 wb w1 w2
+} = {
+  biimpri w0 wb whad w0 w1 w2 wb w1 w2
+  mpbir wb wb whad w0 w1 w2 wb w1 w2 w0 wb whad w0 w1 w2 wb wb w1 w2 w0
+  bitri whad w0 w1 w2 wb wb w1 w2 w0 whad w1 w2 w0
+  hadrot w0 w1 w2
+  hadbi w1 w2 w0
+  biass whad w0 w1 w2 wb w1 w2 w0
+}
+thm had0(wff w0, wff w1, wff w2) {
+  |- wi wn w0 wb whad w0 w1 w2 wxo w1 w2
+} = {
+  con4bid wn w0 whad w0 w1 w2 wxo w1 w2
+  3bitr4g wn w0 wn whad w0 w1 w2 wn wxo w1 w2 whad wn w0 wn w1 wn w2 wb wn w1 wn w2
+  had1 wn w0 wn w1 wn w2
+  hadnot w0 w1 w2
+  bitr3i wn wxo w1 w2 wb wn w1 wn w2 wb w1 w2
+  xnor w1 w2
+  notbi w1 w2
+}
+thm hadifp(wff w0, wff w1, wff w2) {
+  |- wb whad w0 w1 w2 wif w0 wb w1 w2 wxo w1 w2
+} = {
+  casesifp whad w0 w1 w2 w0 wb w1 w2 wxo w1 w2
+  had1 w0 w1 w2
+  had0 w0 w1 w2
+}
+thm cador(wff w0, wff w1, wff w2) {
+  |- wb wcad w0 w1 w2 w3o wa w0 w1 wa w0 w2 wa w1 w2
+} = {
+  3bitr4i wcad w0 w1 w2
+          w3o wa w0 w1 wa w0 w2 wa w1 w2
+          wo wa w0 w1 wa w2 wxo w0 w1
+          wo wa w0 w1 wo wa w0 w2 wa w1 w2
+  3bitr4i wo wa w0 w1 wa w2 wxo w0 w1
+          wo wa w0 w1 wo wa w0 w2 wa w1 w2
+          wi wn wa w0 w1 wa w2 wxo w0 w1
+          wi wn wa w0 w1 wo wa w0 w2 wa w1 w2
+  pm5.74i wn wa w0 w1 wa w2 wxo w0 w1 wo wa w0 w2 wa w1 w2
+  3bitr3g wn wa w0 w1
+          wa w2 wxo w0 w1
+          wo wa w0 w2 wa w1 w2
+          wa wxo w0 w1 w2
+          wa wo w0 w1 w2
+  anbi1d wn wa w0 w1 wxo w0 w1 w2 wo w0 w1
+  rbaib wn wa w0 w1 wxo w0 w1 wo w0 w1
+  xor2 w0 w1
+  ancom wxo w0 w1 w2
+  andir w0 w1 w2
+  df-or wa w0 w1 wa w2 wxo w0 w1
+  df-or wa w0 w1 wo wa w0 w2 wa w1 w2
+  df-cad w0 w1 w2
+  3orass wa w0 w1 wa w0 w2 wa w1 w2
+}
+thm cadan(wff w0, wff w1, wff w2) {
+  |- wb wcad w0 w1 w2 w3a wo w0 w1 wo w0 w2 wo w1 w2
+} = {
+  bitr4i wcad w0 w1 w2
+         w3a wo w0 w1 wo w0 w2 wo w1 w2
+         wa wa wo w0 w1 wo w0 w2 wo w1 w2
+  3bitri wcad w0 w1 w2
+         wa wa wo w0 w1 wo w0 w2 wo w1 w2
+         wo wa w0 wo w1 w2 wa w1 w2
+         wa wo w0 wa w1 w2 wo wo w1 w2 wa w1 w2
+  3bitr4i wcad w0 w1 w2
+          wo wa w0 wo w1 w2 wa w1 w2
+          w3o wa w0 w1 wa w0 w2 wa w1 w2
+          wo wo wa w0 w1 wa w0 w2 wa w1 w2
+  df-3or wa w0 w1 wa w0 w2 wa w1 w2
+  cador w0 w1 w2
+  orbi1i wa w0 wo w1 w2 wa w1 w2 wo wa w0 w1 wa w0 w2
+  andi w0 w1 w2
+  ordir w0 wo w1 w2 wa w1 w2
+  anbi12i wo w0 wa w1 w2 wo wo w1 w2 wa w1 w2 wa wo w0 w1 wo w0 w2 wo w1 w2
+  ordi w0 w1 w2
+  bitr4i wo wo w1 w2 wa w1 w2 wo w1 w2 wo wa w1 w2 wo w1 w2
+  orcom wo w1 w2 wa w1 w2
+  mpbi wb wo w1 w2 wo wa w1 w2 wo w1 w2 wi wa w1 w2 wo w1 w2
+  animorl w1 w2 w2
+  pm4.72 wa w1 w2 wo w1 w2
+  df-3an wo w0 w1 wo w0 w2 wo w1 w2
+}
+thm cadbi123d(wff w0, wff w1, wff w2, wff w3, wff w4, wff w5, wff w6) {
+  |- wi w0 wb wcad w1 w2 w3 wcad w4 w5 w6
+  -| wi w0 wb w1 w4
+  -| wi w0 wb w2 w5
+  -| wi w0 wb w3 w6
+} = {
+  3bitr4g w0
+          wcad w1 w2 w3
+          wcad w4 w5 w6
+          wo wa w1 w2 wa w3 wxo w1 w2
+          wo wa w4 w5 wa w6 wxo w4 w5
+  orbi12d w0 wa w1 w2 wa w3 wxo w1 w2 wa w4 w5 wa w6 wxo w4 w5
+  anbi12d w0 w1 w2 w4 w5
+  anbi12d w0 w3 wxo w1 w2 w6 wxo w4 w5
+  xorbi12d w0 w1 w2 w4 w5
+  df-cad w1 w2 w3
+  df-cad w4 w5 w6
+}
+thm cadbi123i(wff w0, wff w1, wff w2, wff w3, wff w4, wff w5) {
+  |- wb wcad w0 w1 w2 wcad w3 w4 w5
+  -| wb w0 w3
+  -| wb w1 w4
+  -| wb w2 w5
+} = {
+  mptru wb wcad w0 w1 w2 wcad w3 w4 w5
+  cadbi123d wtru w0 w1 w2 w3 w4 w5
+  a1i wtru wb w0 w3
+  a1i wtru wb w1 w4
+  a1i wtru wb w2 w5
+}
+thm cadcoma(wff w0, wff w1, wff w2) {
+  |- wb wcad w0 w1 w2 wcad w1 w0 w2
+} = {
+  3bitr4i wcad w0 w1 w2
+          wcad w1 w0 w2
+          wo wa w0 w1 wa w2 wxo w0 w1
+          wo wa w1 w0 wa w2 wxo w1 w0
+  orbi12i wa w0 w1 wa w2 wxo w0 w1 wa w1 w0 wa w2 wxo w1 w0
+  ancom w0 w1
+  anbi2i w2 wxo w0 w1 wxo w1 w0
+  xorcom w0 w1
+  df-cad w0 w1 w2
+  df-cad w1 w0 w2
+}
+thm cadcomb(wff w0, wff w1, wff w2) {
+  |- wb wcad w0 w1 w2 wcad w0 w2 w1
+} = {
+  bitr4i wcad w0 w1 w2 wcad w0 w2 w1 w3a wo w0 w2 wo w0 w1 wo w2 w1
+  3bitri wcad w0 w1 w2
+         w3a wo w0 w2 wo w0 w1 wo w2 w1
+         w3a wo w0 w1 wo w0 w2 wo w1 w2
+         w3a wo w0 w2 wo w0 w1 wo w1 w2
+  cadan w0 w1 w2
+  3ancoma wo w0 w1 wo w0 w2 wo w1 w2
+  3anbi3i wo w0 w2 wo w0 w1 wo w1 w2 wo w2 w1
+  orcom w1 w2
+  cadan w0 w2 w1
+}
+thm cadrot(wff w0, wff w1, wff w2) {
+  |- wb wcad w0 w1 w2 wcad w1 w2 w0
+} = {
+  bitri wcad w0 w1 w2 wcad w1 w2 w0 wcad w1 w0 w2
+  cadcoma w0 w1 w2
+  cadcomb w1 w0 w2
+}
+thm cadnot(wff w0, wff w1, wff w2) {
+  |- wb wn wcad w0 w1 w2 wcad wn w0 wn w1 wn w2
+} = {
+  3bitr4i wn wcad w0 w1 w2
+          wcad wn w0 wn w1 wn w2
+          w3a wn wa w0 w1 wn wa w0 w2 wn wa w1 w2
+          w3a wo wn w0 wn w1 wo wn w0 wn w2 wo wn w1 wn w2
+  3anbi123i wn wa w0 w1
+            wn wa w0 w2
+            wn wa w1 w2
+            wo wn w0 wn w1
+            wo wn w0 wn w2
+            wo wn w1 wn w2
+  ianor w0 w1
+  ianor w0 w2
+  ianor w1 w2
+  xchnxbir wcad w0 w1 w2
+           w3a wn wa w0 w1 wn wa w0 w2 wn wa w1 w2
+           w3o wa w0 w1 wa w0 w2 wa w1 w2
+  3ioran wa w0 w1 wa w0 w2 wa w1 w2
+  cador w0 w1 w2
+  cadan wn w0 wn w1 wn w2
+}
+thm cad1(wff w0, wff w1, wff w2) {
+  |- wi w0 wb wcad w1 w2 w0 wo w1 w2
+} = {
+  syl6rbbr w0 wcad w1 w2 w0 wo w1 w2 wa wo w1 w2 wa wo w1 w0 wo w2 w0
+  biantrud w0 wo w1 w2 wa wo w1 w0 wo w2 w0
+  jca w0 wo w1 w0 wo w2 w0
+  olc w0 w1
+  olc w0 w2
+  bitri wcad w1 w2 w0
+        wa wo w1 w2 wa wo w1 w0 wo w2 w0
+        w3a wo w1 w2 wo w1 w0 wo w2 w0
+  cadan w1 w2 w0
+  3anass wo w1 w2 wo w1 w0 wo w2 w0
+}
+thm cad0(wff w0, wff w1, wff w2) {
+  |- wi wn w0 wb wcad w1 w2 w0 wa w1 w2
+} = {
+  syl5bb wn w0 wcad w1 w2 w0 wa w1 w2 wo wa w1 w2 wa w0 wxo w1 w2
+  df-cad w1 w2 w0
+  impbid1 wn w0 wo wa w1 w2 wa w0 wxo w1 w2 wa w1 w2
+  jaod wn w0 wa w1 w2 wa w0 wxo w1 w2 wa w1 w2
+  idd wn w0 wa w1 w2
+  adantrd wn w0 w0 wxo w1 w2 wa w1 w2
+  pm2.21 w0 wa w1 w2
+  orc wa w1 w2 wa w0 wxo w1 w2
+}
+thm cadifp(wff w0, wff w1, wff w2) {
+  |- wb wcad w0 w1 w2 wif w2 wo w0 w1 wa w0 w1
+} = {
+  casesifp wcad w0 w1 w2 w2 wo w0 w1 wa w0 w1
+  cad1 w2 w0 w1
+  cad0 w2 w0 w1
+}
+thm cad11(wff w0, wff w1, wff w2) {
+  |- wi wa w0 w1 wcad w0 w1 w2
+} = {
+  sylibr wa w0 w1 wcad w0 w1 w2 wo wa w0 w1 wa w2 wxo w0 w1
+  orc wa w0 w1 wa w2 wxo w0 w1
+  df-cad w0 w1 w2
+}
+thm cadtru(wff w0) {
+  |- wcad wtru wtru w0
+} = {
+  mp2an wcad wtru wtru w0 wtru wtru
+  tru
+  cad11 wtru wtru w0
+}

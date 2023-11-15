@@ -1,0 +1,50 @@
+import '21-ax5.fol'
+
+thm equs3OLD(setvar s0, setvar s1, wff w0) {
+  |- wb wex s0 wa wceq cv s0 cv s1 w0 wn wal s0 wi wceq cv s0 cv s1 wn w0
+} = {
+  con2bii wex s0 wa wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 wn w0
+  alinexa s0 wceq cv s0 cv s1 w0
+}
+thm speimfw(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wn wal s0 wn wceq cv s0 cv s1 wi wal s0 w0 wex s0 w1
+  -| wi wceq cv s0 cv s1 wi w0 w1
+} = {
+  syl5com wn wal s0 wn wceq cv s0 cv s1 wal s0 w0 wex s0 w1 wex s0 wceq cv s0 cv s1
+  biimpri wn wal s0 wn wceq cv s0 cv s1 wex s0 wceq cv s0 cv s1
+  df-ex s0 wceq cv s0 cv s1
+  aleximi s0 w0 wceq cv s0 cv s1 w1
+  com12 w0 wceq cv s0 cv s1 w1
+}
+thm speimfwALT(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wn wal s0 wn wceq cv s0 cv s1 wi wal s0 w0 wex s0 w1
+  -| wi wceq cv s0 cv s1 wi w0 w1
+} = {
+  3imtr3i wn wal s0 wn wceq cv s0 cv s1
+          wi wal s0 w0 wex s0 w1
+          wex s0 wceq cv s0 cv s1
+          wex s0 wi w0 w1
+  eximi s0 wceq cv s0 cv s1 wi w0 w1
+  df-ex s0 wceq cv s0 cv s1
+  19.35 s0 w0 w1
+}
+thm spimfw(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wn wal s0 wn wceq cv s0 cv s1 wi wal s0 w0 w1
+  -| wi wn w1 wal s0 wn w1
+  -| wi wceq cv s0 cv s1 wi w0 w1
+} = {
+  syl6 wn wal s0 wn wceq cv s0 cv s1 wal s0 w0 w1 wex s0 w1
+  speimfw s0 s1 w0 w1
+  sylbi wex s0 w1 w1 wn wal s0 wn w1
+  df-ex s0 w1
+  con1i wal s0 wn w1 w1
+}
+thm ax12i(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wceq cv s0 cv s1 wi w0 wal s0 wi wceq cv s0 cv s1 w0
+  -| wi wceq cv s0 cv s1 wb w0 w1
+  -| wi w1 wal s0 w1
+} = {
+  syl6bi wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 w0 w1
+  alrimih s0 w1 wi wceq cv s0 cv s1 w0
+  biimprcd w1 wceq cv s0 cv s1 w0
+}

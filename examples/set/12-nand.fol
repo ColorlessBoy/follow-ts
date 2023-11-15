@@ -1,0 +1,259 @@
+import '11-w3a_w3o.fol'
+
+thm nanan(wff w0, wff w1) {
+  |- wb wa w0 w1 wn wnan w0 w1
+} = {
+  con2bii wa w0 w1 wnan w0 w1
+  df-nan w0 w1
+}
+thm nanimn(wff w0, wff w1) {
+  |- wb wnan w0 w1 wi w0 wn w1
+} = {
+  bitr4i wnan w0 w1 wi w0 wn w1 wn wa w0 w1
+  df-nan w0 w1
+  imnan w0 w1
+}
+thm nanor(wff w0, wff w1) {
+  |- wb wnan w0 w1 wo wn w0 wn w1
+} = {
+  bitri wnan w0 w1 wo wn w0 wn w1 wn wa w0 w1
+  df-nan w0 w1
+  ianor w0 w1
+}
+thm nancom(wff w0, wff w1) {
+  |- wb wnan w0 w1 wnan w1 w0
+} = {
+  3bitr4i wnan w0 w1 wnan w1 w0 wi w0 wn w1 wi w1 wn w0
+  con2b w0 w1
+  nanimn w0 w1
+  nanimn w1 w0
+}
+thm nancomOLD(wff w0, wff w1) {
+  |- wb wnan w0 w1 wnan w1 w0
+} = {
+  bitr4i wnan w0 w1 wnan w1 w0 wn wa w1 w0
+  xchbinx wnan w0 w1 wa w1 w0 wa w0 w1
+  df-nan w0 w1
+  ancom w0 w1
+  df-nan w1 w0
+}
+thm nannan(wff w0, wff w1, wff w2) {
+  |- wb wnan w0 wnan w1 w2 wi w0 wa w1 w2
+} = {
+  bitr4i wnan w0 wnan w1 w2 wi w0 wa w1 w2 wi w0 wn wnan w1 w2
+  nanimn w0 wnan w1 w2
+  imbi2i w0 wa w1 w2 wn wnan w1 w2
+  nanan w1 w2
+}
+thm nannanOLD(wff w0, wff w1, wff w2) {
+  |- wb wnan w0 wnan w1 w2 wi w0 wa w1 w2
+} = {
+  3bitr4ri wnan w0 wnan w1 w2 wi w0 wa w1 w2 wi w0 wn wnan w1 w2 wn wa w0 wnan w1 w2
+  imnan w0 wnan w1 w2
+  imbi2i w0 wa w1 w2 wn wnan w1 w2
+  nanan w1 w2
+  df-nan w0 wnan w1 w2
+}
+thm nanim(wff w0, wff w1) {
+  |- wb wi w0 w1 wnan w0 wnan w1 w1
+} = {
+  bitr2i wi w0 w1 wnan w0 wnan w1 w1 wi w0 wa w1 w1
+  nannan w0 w1 w1
+  anidmdbi w0 w1
+}
+thm nannot(wff w0) {
+  |- wb wn w0 wnan w0 w0
+} = {
+  bitr2i wn w0 wnan w0 w0 wi w0 wn w0
+  nanimn w0 w0
+  pm4.8 w0
+}
+thm nannotOLD(wff w0) {
+  |- wb wn w0 wnan w0 w0
+} = {
+  bicomi wn w0 wnan w0 w0
+  xchbinx wnan w0 w0 w0 wa w0 w0
+  df-nan w0 w0
+  anidm w0
+}
+thm nanbi(wff w0, wff w1) {
+  |- wb wb w0 w1 wnan wnan w0 w1 wnan wnan w0 w0 wnan w1 w1
+} = {
+  bitr4i wb w0 w1
+         wnan wnan w0 w1 wnan wnan w0 w0 wnan w1 w1
+         wi wnan w0 w1 wa wnan w0 w0 wnan w1 w1
+  3bitri wb w0 w1
+         wi wnan w0 w1 wa wnan w0 w0 wnan w1 w1
+         wo wa w0 w1 wa wn w0 wn w1
+         wi wn wa w0 w1 wa wn w0 wn w1
+  dfbi3 w0 w1
+  df-or wa w0 w1 wa wn w0 wn w1
+  imbi12i wn wa w0 w1 wa wn w0 wn w1 wnan w0 w1 wa wnan w0 w0 wnan w1 w1
+  bicomi wn wa w0 w1 wnan w0 w1
+  df-nan w0 w1
+  anbi12i wn w0 wn w1 wnan w0 w0 wnan w1 w1
+  nannot w0
+  nannot w1
+  nannan wnan w0 w1 wnan w0 w0 wnan w1 w1
+}
+thm nanbi1(wff w0, wff w1, wff w2) {
+  |- wi wb w0 w1 wb wnan w0 w2 wnan w1 w2
+} = {
+  3bitr4g wb w0 w1 wnan w0 w2 wnan w1 w2 wi w0 wn w2 wi w1 wn w2
+  imbi1 w0 w1 wn w2
+  nanimn w0 w2
+  nanimn w1 w2
+}
+thm nanbi1OLD(wff w0, wff w1, wff w2) {
+  |- wi wb w0 w1 wb wnan w0 w2 wnan w1 w2
+} = {
+  3bitr4g wb w0 w1 wnan w0 w2 wnan w1 w2 wn wa w0 w2 wn wa w1 w2
+  notbid wb w0 w1 wa w0 w2 wa w1 w2
+  anbi1 w0 w1 w2
+  df-nan w0 w2
+  df-nan w1 w2
+}
+thm nanbi2(wff w0, wff w1, wff w2) {
+  |- wi wb w0 w1 wb wnan w2 w0 wnan w2 w1
+} = {
+  3bitr4g wb w0 w1 wnan w2 w0 wnan w2 w1 wnan w0 w2 wnan w1 w2
+  nanbi1 w0 w1 w2
+  nancom w2 w0
+  nancom w2 w1
+}
+thm nanbi12(wff w0, wff w1, wff w2, wff w3) {
+  |- wi wa wb w0 w1 wb w2 w3 wb wnan w0 w2 wnan w1 w3
+} = {
+  sylan9bb wb w0 w1 wb w2 w3 wnan w0 w2 wnan w1 w3 wnan w1 w2
+  nanbi1 w0 w1 w2
+  nanbi2 w2 w3 w1
+}
+thm nanbi1i(wff w0, wff w1, wff w2) {
+  |- wb wnan w0 w1 wnan w2 w1
+  -| wb w0 w2
+} = {
+  ax-mp wb wnan w0 w1 wnan w2 w1 wb w0 w2
+  nanbi1 w0 w2 w1
+}
+thm nanbi2i(wff w0, wff w1, wff w2) {
+  |- wb wnan w0 w1 wnan w0 w2
+  -| wb w1 w2
+} = {
+  ax-mp wb wnan w0 w1 wnan w0 w2 wb w1 w2
+  nanbi2 w1 w2 w0
+}
+thm nanbi12i(wff w0, wff w1, wff w2, wff w3) {
+  |- wb wnan w0 w1 wnan w2 w3
+  -| wb w0 w2
+  -| wb w1 w3
+} = {
+  mp2an wb wnan w0 w1 wnan w2 w3 wb w0 w2 wb w1 w3
+  nanbi12 w0 w2 w1 w3
+}
+thm nanbi1d(wff w0, wff w1, wff w2, wff w3) {
+  |- wi w0 wb wnan w1 w2 wnan w3 w2
+  -| wi w0 wb w1 w3
+} = {
+  syl w0 wb wnan w1 w2 wnan w3 w2 wb w1 w3
+  nanbi1 w1 w3 w2
+}
+thm nanbi2d(wff w0, wff w1, wff w2, wff w3) {
+  |- wi w0 wb wnan w1 w2 wnan w1 w3
+  -| wi w0 wb w2 w3
+} = {
+  syl w0 wb wnan w1 w2 wnan w1 w3 wb w2 w3
+  nanbi2 w2 w3 w1
+}
+thm nanbi12d(wff w0, wff w1, wff w2, wff w3, wff w4) {
+  |- wi w0 wb wnan w1 w2 wnan w3 w4
+  -| wi w0 wb w1 w3
+  -| wi w0 wb w2 w4
+} = {
+  syl2anc w0 wb wnan w1 w2 wnan w3 w4 wb w1 w3 wb w2 w4
+  nanbi12 w1 w3 w2 w4
+}
+thm nanass(wff w0, wff w1, wff w2) {
+  |- wb wb w0 w1 wb wnan wnan w0 w2 w1 wnan w0 wnan w2 w1
+} = {
+  bitri wb w0 w1
+        wb wnan wnan w0 w2 w1 wnan w0 wnan w2 w1
+        wb wnan w1 wnan w2 w0 wnan w0 wnan w2 w1
+  impbii wb w0 w1 wb wnan w1 wnan w2 w0 wnan w0 wnan w2 w1
+  nanbi12d wb w0 w1 w1 wnan w2 w0 w0 wnan w2 w1
+  bicom1 w0 w1
+  nanbi2 w0 w1 w2
+  bija wnan w1 wnan w2 w0 wnan w0 wnan w2 w1 wb w0 w1
+  impbid21d wnan w1 wnan w2 w0 wnan w0 wnan w2 w1 w0 w1
+  sylbi wnan w0 wnan w2 w1 wi w0 w1 wi w0 wa w2 w1
+  nannan w0 w2 w1
+  imim2i w0 wa w2 w1 w1
+  simpr w2 w1
+  sylbi wnan w1 wnan w2 w0 wi w1 w0 wi w1 wa w2 w0
+  nannan w1 w2 w0
+  imim2i w1 wa w2 w0 w0
+  simpr w2 w0
+  syl2imc wn wnan w1 wnan w2 w0 wn wnan w0 wnan w2 w1 wb w0 w1 w0 w1
+  sylbir wn wnan w0 wnan w2 w1 w0 wa w0 wnan w2 w1
+  nanan w0 wnan w2 w1
+  simpl w0 wnan w2 w1
+  sylbir wn wnan w1 wnan w2 w0 w1 wa w1 wnan w2 w0
+  nanan w1 wnan w2 w0
+  simpl w1 wnan w2 w0
+  pm5.1im w0 w1
+  bibi1i wnan w1 wnan w2 w0 wnan w0 wnan w2 w1 wnan wnan w0 w2 w1
+  bitri wnan w1 wnan w2 w0 wnan wnan w0 w2 w1 wnan w1 wnan w0 w2
+  nanbi2i w1 wnan w2 w0 wnan w0 w2
+  nancom w2 w0
+  nancom w1 wnan w0 w2
+}
+thm nanassOLD(wff w0, wff w1, wff w2) {
+  |- wb wb w0 w1 wb wnan wnan w0 w2 w1 wnan w0 wnan w2 w1
+} = {
+  bitri wb w0 w1
+        wb wnan wnan w0 w2 w1 wnan w0 wnan w2 w1
+        wb wnan w1 wnan w2 w0 wnan w0 wnan w2 w1
+  impbii wb w0 w1 wb wnan w1 wnan w2 w0 wnan w0 wnan w2 w1
+  nanbi12d wb w0 w1 w1 wnan w2 w0 w0 wnan w2 w1
+  bicom1 w0 w1
+  nanbi2 w0 w1 w2
+  bija wnan w1 wnan w2 w0 wnan w0 wnan w2 w1 wb w0 w1
+  impbid21d wnan w1 wnan w2 w0 wnan w0 wnan w2 w1 w0 w1
+  sylbi wnan w0 wnan w2 w1 wi w0 w1 wi w0 wa w2 w1
+  imim2i w0 wa w2 w1 w1
+  simpr w2 w1
+  sylbi wnan w1 wnan w2 w0 wi w1 w0 wi w1 wa w2 w0
+  imim2i w1 wa w2 w0 w0
+  simpr w2 w0
+  ex wn wnan w1 wnan w2 w0 wn wnan w0 wnan w2 w1 wb w0 w1
+  syl2anb wn wnan w1 wnan w2 w0
+          wn wnan w0 wnan w2 w1
+          wb w0 w1
+          wa w1 wo wn w2 wn w0
+          wa w0 wo wn w2 wn w1
+  3bitri wn wnan w1 wnan w2 w0
+         wa w1 wo wn w2 wn w0
+         wn wi w1 wa w2 w0
+         wa w1 wn wa w2 w0
+  notbii wnan w1 wnan w2 w0 wi w1 wa w2 w0
+  nannan w1 w2 w0
+  pm4.61 w1 wa w2 w0
+  anbi2i w1 wn wa w2 w0 wo wn w2 wn w0
+  ianor w2 w0
+  3bitri wn wnan w0 wnan w2 w1
+         wa w0 wo wn w2 wn w1
+         wn wi w0 wa w2 w1
+         wa w0 wn wa w2 w1
+  notbii wnan w0 wnan w2 w1 wi w0 wa w2 w1
+  nannan w0 w2 w1
+  pm4.61 w0 wa w2 w1
+  anbi2i w0 wn wa w2 w1 wo wn w2 wn w1
+  ianor w2 w1
+  ad2ant2r w1 wo wn w2 wn w0 w0 wo wn w2 wn w1 wb w0 w1
+  ancoms w1 w0 wb w0 w1
+  pm5.1 w0 w1
+  bibi1i wnan w1 wnan w2 w0 wnan w0 wnan w2 w1 wnan wnan w0 w2 w1
+  bitri wnan w1 wnan w2 w0 wnan wnan w0 w2 w1 wnan w1 wnan w0 w2
+  nanbi2i w1 wnan w2 w0 wnan w0 w2
+  nancom w2 w0
+  nancom w1 wnan w0 w2
+}

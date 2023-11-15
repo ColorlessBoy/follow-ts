@@ -1,0 +1,163 @@
+import '57-zfc-weak-deduction.fol'
+
+thm pwjust(setvar s0, setvar s1, class c0) {
+  |- wceq cab s0 wss cv s0 c0 cab s1 wss cv s1 c0
+  -| diffsc s0 c0
+  -| diffsc s1 c0
+} = {
+  a1ii wceq cab s0 wss cv s0 c0 cab s1 wss cv s1 c0
+       diffsc s0 c0
+  a1ii wceq cab s0 wss cv s0 c0 cab s1 wss cv s1 c0
+       diffsc s1 c0
+  eqtri cab s0 wss cv s0 c0 cab s1 wss cv s1 c0 cab hs0 wss cv hs0 c0
+  cbvabv s0 hs0 wss cv s0 c0 wss cv hs0 c0
+  sseq1 cv s0 cv hs0 c0
+  cbvabv hs0 s1 wss cv hs0 c0 wss cv s1 c0
+  sseq1 cv hs0 cv s1 c0
+  diff.wss s0 cv hs0 c0
+  diff.cv s0 hs0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diff.hs0.w wss cv s0 c0
+  diff.hs0.w wss cv s1 c0
+  diff.wss s1 cv hs0 c0
+  diff.cv s1 hs0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+}
+thm pweq(class c0, class c1) {
+  |- wi wceq c0 c1 wceq cpw c0 cpw c1
+} = {
+  3eqtr4g cpw c0 cpw c1 cab hs0 wss cv hs0 c0 cab hs0 wss cv hs0 c1 wceq c0 c1
+  abbidv hs0 wceq c0 c1 wss cv hs0 c0 wss cv hs0 c1
+  sseq2 c0 c1 cv hs0
+  df-pw hs0 c0
+  df-pw hs0 c1
+  diff.hs0.w wceq c0 c1
+  diff.hs0.c c0
+  diff.hs0.c c1
+}
+thm pweqi(class c0, class c1) {
+  |- wceq cpw c0 cpw c1
+  -| wceq c0 c1
+} = {
+  ax-mp wceq cpw c0 cpw c1 wceq c0 c1
+  pweq c0 c1
+}
+thm pweqd(class c0, class c1, wff w0) {
+  |- wi w0 wceq cpw c0 cpw c1
+  -| wi w0 wceq c0 c1
+} = {
+  syl w0 wceq cpw c0 cpw c1 wceq c0 c1
+  pweq c0 c1
+}
+thm elpw(class c0, class c1) {
+  |- wb wcel c0 cpw c1 wss c0 c1
+  -| wcel c0 universe
+} = {
+  elab2 hs0 c0 cpw c1 wss c0 c1 wss cv hs0 c1
+  sseq1 cv hs0 c0 c1
+  df-pw hs0 c1
+  diff.hs0.c c0
+  diff.hs0.w wss c0 c1
+  diff.hs0.c c1
+}
+thm selpw(setvar s0, class c0) {
+  |- wb wcel cv s0 cpw c0 wss cv s0 c0
+  -| diffsc s0 c0
+} = {
+  a1ii wb wcel cv s0 cpw c0 wss cv s0 c0
+       diffsc s0 c0
+  elpw cv s0 c0
+  vex s0
+}
+thm elpwg(class c0, class c1, class c2) {
+  |- wi wcel c0 c1 wb wcel c0 cpw c2 wss c0 c2
+} = {
+  vtoclbg hs0 c0 c1 wcel c0 cpw c2 wss c0 c2 wcel cv hs0 cpw c2 wss cv hs0 c2
+  eleq1 cv hs0 c0 cpw c2
+  sseq1 cv hs0 c0 c2
+  selpw hs0 c2
+  diff.hs0.c c0
+  diff.hs0.w wcel c0 cpw c2
+  diff.hs0.w wss c0 c2
+  diff.hs0.c c2
+}
+thm elpwd(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wcel c0 cpw c1
+  -| wi w0 wcel c0 c2
+  -| wi w0 wss c0 c1
+} = {
+  mpbird w0 wcel c0 cpw c1 wss c0 c1
+  syl w0 wb wcel c0 cpw c1 wss c0 c1 wcel c0 c2
+  elpwg c0 c2 c1
+}
+thm elpwi(class c0, class c1) {
+  |- wi wcel c0 cpw c1 wss c0 c1
+} = {
+  ibi wcel c0 cpw c1 wss c0 c1
+  elpwg c0 cpw c1 c1
+}
+thm elpwb(class c0, class c1) {
+  |- wb wcel c0 cpw c1 wa wcel c0 universe wss c0 c1
+} = {
+  biadanii wcel c0 cpw c1 wcel c0 universe wss c0 c1
+  elex c0 cpw c1
+  elpwg c0 universe c1
+}
+thm elpwid(class c0, class c1, wff w0) {
+  |- wi w0 wss c0 c1
+  -| wi w0 wcel c0 cpw c1
+} = {
+  syl w0 wss c0 c1 wcel c0 cpw c1
+  elpwi c0 c1
+}
+thm elelpwi(class c0, class c1, class c2) {
+  |- wi wa wcel c0 c1 wcel c1 cpw c2 wcel c0 c2
+} = {
+  impcom wcel c0 c1 wcel c1 cpw c2 wcel c0 c2
+  sseld c0 c1 c2 wcel c1 cpw c2
+  elpwi c1 c2
+}
+thm nfpw(setvar s0, class c0) {
+  |- wnfc s0 cpw c0
+  -| wnfc s0 c0
+} = {
+  nfcxfr s0 cpw c0 cab hs0 wss cv hs0 c0
+  df-pw hs0 c0
+  nfab s0 hs0 wss cv hs0 c0
+  nfss s0 cv hs0 c0
+  nfcv s0 cv hs0
+  diff.hs0.c c0
+  diff.cv s0 hs0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+}
+thm pwidg(class c0, class c1) {
+  |- wi wcel c0 c1 wcel c0 cpw c0
+} = {
+  mpbiri wcel c0 c1 wcel c0 cpw c0 wss c0 c0
+  ssid c0
+  elpwg c0 c1 c0
+}
+thm pwid(class c0) {
+  |- wcel c0 cpw c0
+  -| wcel c0 universe
+} = {
+  ax-mp wcel c0 cpw c0 wcel c0 universe
+  pwidg c0 universe
+}
+thm pwss(setvar s0, class c0, class c1) {
+  |- wb wss cpw c0 c1 wal s0 wi wss cv s0 c0 wcel cv s0 c1
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+} = {
+  bitri wss cpw c0 c1
+        wal s0 wi wss cv s0 c0 wcel cv s0 c1
+        wal s0 wi wcel cv s0 cpw c0 wcel cv s0 c1
+  dfss2 s0 cpw c0 c1
+  albii s0 wi wcel cv s0 cpw c0 wcel cv s0 c1 wi wss cv s0 c0 wcel cv s0 c1
+  imbi1i wcel cv s0 cpw c0 wcel cv s0 c1 wss cv s0 c0
+  selpw s0 c0
+  diff.cpw s0 c0
+}

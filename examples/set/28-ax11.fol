@@ -1,0 +1,105 @@
+import '27-ax10.fol'
+
+thm alcoms(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wal s0 wal s1 w0 w1
+  -| wi wal s1 wal s0 w0 w1
+} = {
+  syl wal s0 wal s1 w0 w1 wal s1 wal s0 w0
+  ax-11 s0 s1 w0
+}
+thm alcom(setvar s0, setvar s1, wff w0) {
+  |- wb wal s0 wal s1 w0 wal s1 wal s0 w0
+} = {
+  impbii wal s0 wal s1 w0 wal s1 wal s0 w0
+  ax-11 s0 s1 w0
+  ax-11 s1 s0 w0
+}
+thm alrot3(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wb wal s0 wal s1 wal s2 w0 wal s1 wal s2 wal s0 w0
+} = {
+  bitri wal s0 wal s1 wal s2 w0 wal s1 wal s2 wal s0 w0 wal s1 wal s0 wal s2 w0
+  alcom s0 s1 wal s2 w0
+  albii s1 wal s0 wal s2 w0 wal s2 wal s0 w0
+  alcom s0 s2 w0
+}
+thm alrot4(setvar s0, setvar s1, setvar s2, setvar s3, wff w0) {
+  |- wb wal s0 wal s1 wal s2 wal s3 w0 wal s2 wal s3 wal s0 wal s1 w0
+} = {
+  bitri wal s0 wal s1 wal s2 wal s3 w0
+        wal s2 wal s3 wal s0 wal s1 w0
+        wal s0 wal s2 wal s3 wal s1 w0
+  albii s0 wal s1 wal s2 wal s3 w0 wal s2 wal s3 wal s1 w0
+  alrot3 s1 s2 s3 w0
+  alrot3 s0 s2 s3 wal s1 w0
+}
+thm excom(setvar s0, setvar s1, wff w0) {
+  |- wb wex s0 wex s1 w0 wex s1 wex s0 w0
+} = {
+  3bitr4i wex s0 wex s1 w0
+          wex s1 wex s0 w0
+          wn wal s0 wal s1 wn w0
+          wn wal s1 wal s0 wn w0
+  notbii wal s0 wal s1 wn w0 wal s1 wal s0 wn w0
+  alcom s0 s1 wn w0
+  2exnaln s0 s1 w0
+  2exnaln s1 s0 w0
+}
+thm excomim(setvar s0, setvar s1, wff w0) {
+  |- wi wex s0 wex s1 w0 wex s1 wex s0 w0
+} = {
+  biimpi wex s0 wex s1 w0 wex s1 wex s0 w0
+  excom s0 s1 w0
+}
+thm excom13(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wb wex s0 wex s1 wex s2 w0 wex s2 wex s1 wex s0 w0
+} = {
+  3bitri wex s0 wex s1 wex s2 w0
+         wex s2 wex s1 wex s0 w0
+         wex s1 wex s0 wex s2 w0
+         wex s1 wex s2 wex s0 w0
+  excom s0 s1 wex s2 w0
+  exbii s1 wex s0 wex s2 w0 wex s2 wex s0 w0
+  excom s0 s2 w0
+  excom s1 s2 wex s0 w0
+}
+thm exrot3(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wb wex s0 wex s1 wex s2 w0 wex s1 wex s2 wex s0 w0
+} = {
+  bitri wex s0 wex s1 wex s2 w0 wex s1 wex s2 wex s0 w0 wex s2 wex s1 wex s0 w0
+  excom13 s0 s1 s2 w0
+  excom s2 s1 wex s0 w0
+}
+thm exrot4(setvar s0, setvar s1, setvar s2, setvar s3, wff w0) {
+  |- wb wex s0 wex s1 wex s2 wex s3 w0 wex s2 wex s3 wex s0 wex s1 w0
+} = {
+  bitri wex s0 wex s1 wex s2 wex s3 w0
+        wex s2 wex s3 wex s0 wex s1 w0
+        wex s0 wex s3 wex s2 wex s1 w0
+  exbii s0 wex s1 wex s2 wex s3 w0 wex s3 wex s2 wex s1 w0
+  excom13 s1 s2 s3 w0
+  excom13 s0 s3 s2 wex s1 w0
+}
+thm hbal(setvar s0, setvar s1, wff w0) {
+  |- wi wal s0 w0 wal s1 wal s0 w0
+  -| wi w0 wal s1 w0
+} = {
+  syl wal s0 w0 wal s1 wal s0 w0 wal s0 wal s1 w0
+  alimi s0 w0 wal s1 w0
+  ax-11 s0 s1 w0
+}
+thm hbald(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi w0 wi wal s0 w1 wal s1 wal s0 w1
+  -| wi w0 wal s0 w0
+  -| wi w0 wi w1 wal s1 w1
+} = {
+  syl6 w0 wal s0 w1 wal s1 wal s0 w1 wal s0 wal s1 w1
+  alimdh s0 w0 w1 wal s1 w1
+  ax-11 s0 s1 w1
+}
+thm nfa2(setvar s0, setvar s1, wff w0) {
+  |- wnf s0 wal s1 wal s0 w0
+} = {
+  nfxfr s0 wal s1 wal s0 w0 wal s0 wal s1 w0
+  alcom s1 s0 w0
+  nfa1 s0 wal s1 w0
+}

@@ -1,0 +1,245 @@
+import '69-zfc-separation.fol'
+
+thm zfnuleuOLD(setvar s0, setvar s1) {
+  |- weu s0 wal s1 wn wcel cv s1 cv s0
+  -| wex s0 wal s1 wn wcel cv s1 cv s0
+  -| diffss s0 s1
+} = {
+  mpbir weu s0 wal s1 wn wcel cv s1 cv s0 weu s0 wal s1 wb wcel cv s1 cv s0 wfal
+  ax-mp weu s0 wal s1 wb wcel cv s1 cv s0 wfal
+        wex s0 wal s1 wb wcel cv s1 cv s0 wfal
+  mpbi wex s0 wal s1 wb wcel cv s1 cv s0 wfal wex s0 wal s1 wn wcel cv s1 cv s0
+  exbii s0 wal s1 wn wcel cv s1 cv s0 wal s1 wb wcel cv s1 cv s0 wfal
+  mpbi wi wex s0 wal s1 wb wcel cv s1 cv s0 wfal weu s0 wal s1 wb wcel cv s1 cv s0 wfal
+       wmo s0 wal s1 wb wcel cv s1 cv s0 wfal
+  axextmo s0 s1 wfal
+  nfv s0 wfal
+  moeu s0 wal s1 wb wcel cv s1 cv s0 wfal
+  eubii s0 wal s1 wn wcel cv s1 cv s0 wal s1 wb wcel cv s1 cv s0 wfal
+  albii s1 wn wcel cv s1 cv s0 wb wcel cv s1 cv s0 wfal
+  nbfal wcel cv s1 cv s0
+  diff.wfal.s s0
+}
+thm axnulALT(setvar s0, setvar s1) {
+  |- wex s0 wal s1 wn wcel cv s1 cv s0
+  -| diffss s0 s1
+} = {
+  mpbir wex s0 wal s1 wn wcel cv s1 cv s0
+        wex s0 wal s1 wb wcel cv s1 cv s0 wex hs0 wa wcel cv hs0 cv hs1 wal s0 wfal
+  mpg hs0
+      wex s0 wal s1 wb wcel cv s1 cv s0 wex hs0 wa wcel cv hs0 cv hs1 wal s0 wfal
+      wex s0 wal s1 wi wal s0 wfal wceq cv s1 cv s0
+  ax-rep hs0 s0 s1 hs1 wfal
+  mpg s1
+      wex s0 wal s1 wi wal s0 wfal wceq cv s1 cv s0
+      wi wal s0 wfal wceq cv s1 cv s0
+  sylibr wal s1 wi wal s0 wfal wceq cv s1 cv s0
+         wex s0 wal s1 wi wal s0 wfal wceq cv s1 cv s0
+         wn wal s0 wn wal s1 wi wal s0 wfal wceq cv s1 cv s0
+  con2i wal s1 wi wal s0 wfal wceq cv s1 cv s0
+        wal s0 wn wal s1 wi wal s0 wfal wceq cv s1 cv s0
+  sp s0 wn wal s1 wi wal s0 wfal wceq cv s1 cv s0
+  df-ex s0 wal s1 wi wal s0 wfal wceq cv s1 cv s0
+  pm2.21i wal s0 wfal wceq cv s1 cv s0
+  exbii s0
+        wal s1 wn wcel cv s1 cv s0
+        wal s1 wb wcel cv s1 cv s0 wex hs0 wa wcel cv hs0 cv hs1 wal s0 wfal
+  albii s1
+        wn wcel cv s1 cv s0
+        wb wcel cv s1 cv s0 wex hs0 wa wcel cv hs0 cv hs1 wal s0 wfal
+  nbn wcel cv s1 cv s0 wex hs0 wa wcel cv hs0 cv hs1 wal s0 wfal
+  nex hs0 wa wcel cv hs0 cv hs1 wal s0 wfal
+  intnan wcel cv hs0 cv hs1 wal s0 wfal
+  mto wal s0 wfal wfal
+  fal
+  sp s0 wfal
+  diff.hs0.s s0
+  diff.hs0.s s1
+  diff.hs0.s hs1
+  diffss.ex s0 hs1
+  diff.hs1.s s0
+  diffss.ex s1 hs1
+  diff.hs1.s s1
+}
+thm axnul(setvar s0, setvar s1) {
+  |- wex s0 wal s1 wn wcel cv s1 cv s0
+  -| diffss s0 s1
+} = {
+  eximii s0
+         wal s1 wn wcel cv s1 cv s0
+         wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 wfal
+  ax-sep s0 s1 hs0 wfal
+  alimi s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 wfal wn wcel cv s1 cv s0
+  mtbiri wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 wfal
+         wcel cv s1 cv s0
+         wa wcel cv s1 cv hs0 wfal
+  intnan wcel cv s1 cv hs0 wfal
+  fal
+  id wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 wfal
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diff.wfal.s s0
+  diff.hs0.w wfal
+}
+thm 0ex() {
+  |- wcel emptycls universe
+} = {
+  issetri hs0 emptycls
+  mpbir wex hs0 wceq cv hs0 emptycls wex hs0 wal hs1 wn wcel cv hs1 cv hs0
+  ax-nul hs0 hs1
+  exbii hs0 wceq cv hs0 emptycls wal hs1 wn wcel cv hs1 cv hs0
+  eq0 hs1 cv hs0
+  diff.hs0.c emptycls
+  diff.hs0.s hs1
+  diff.hs1.c cv hs0
+}
+thm al0ssb(setvar s0, class c0) {
+  |- wb wal s0 wss c0 cv s0 wceq c0 emptycls
+  -| diffsc s0 c0
+} = {
+  a1ii wb wal s0 wss c0 cv s0 wceq c0 emptycls
+       diffsc s0 c0
+  impbii wal s0 wss c0 cv s0 wceq c0 emptycls
+  spcv s0 emptycls wss c0 cv s0 wceq c0 emptycls
+  0ex
+  syl6bb wceq cv s0 emptycls wss c0 cv s0 wceq c0 emptycls wss c0 emptycls
+  sseq2 cv s0 emptycls c0
+  ss0b c0
+  mpbiri wceq c0 emptycls wal s0 wss c0 cv s0 wal s0 wss emptycls cv s0
+  ax-gen s0 wss emptycls cv s0
+  0ss cv s0
+  albidv s0 wceq c0 emptycls wss c0 cv s0 wss emptycls cv s0
+  sseq1 c0 emptycls cv s0
+  diff.wceq s0 c0 emptycls
+  diff.emptycls.s s0
+}
+thm sseliALT(class c0, class c1, class c2) {
+  |- wi wcel c0 c1 wcel c0 c2
+  -| wss c1 c2
+} = {
+  dedth3v c1
+          csn emptycls
+          c2
+          csn emptycls
+          c0
+          emptycls
+          wcel c0 c1
+          wcel c0 c2
+          wcel c0 c2
+          wcel c0 cif c2 csn emptycls wcel c0 c1
+          wcel cif c0 emptycls wcel c0 c1 cif c2 csn emptycls wcel c0 c1
+  biidd wceq c1 cif c1 csn emptycls wcel c0 c1 wcel c0 c2
+  eleq2 c2 cif c2 csn emptycls wcel c0 c1 c0
+  eleq1 c0 cif c0 emptycls wcel c0 c1 cif c2 csn emptycls wcel c0 c1
+  sselii cif c0 emptycls wcel c0 c1
+         cif c2 csn emptycls wcel c0 c1
+         cif c1 csn emptycls wcel c0 c1
+  keephyp3v c1
+            csn emptycls
+            c2
+            csn emptycls
+            c0
+            emptycls
+            wss cif c1 csn emptycls wcel c0 c1 cif c2 csn emptycls wcel c0 c1
+            wcel c0 c1
+            wss c1 c2
+            wss cif c1 csn emptycls wcel c0 c1 c2
+            wss cif c1 csn emptycls wcel c0 c1 cif c2 csn emptycls wcel c0 c1
+            wss csn emptycls csn emptycls
+            wss cif c1 csn emptycls wcel c0 c1 csn emptycls
+            wss cif c1 csn emptycls wcel c0 c1 cif c2 csn emptycls wcel c0 c1
+  sseq1 c1 cif c1 csn emptycls wcel c0 c1 c2
+  sseq2 c2 cif c2 csn emptycls wcel c0 c1 cif c1 csn emptycls wcel c0 c1
+  biidd wceq c0 cif c0 emptycls wcel c0 c1
+        wss cif c1 csn emptycls wcel c0 c1 cif c2 csn emptycls wcel c0 c1
+  sseq1 csn emptycls cif c1 csn emptycls wcel c0 c1 csn emptycls
+  sseq2 csn emptycls cif c2 csn emptycls wcel c0 c1 cif c1 csn emptycls wcel c0 c1
+  biidd wceq emptycls cif c0 emptycls wcel c0 c1
+        wss cif c1 csn emptycls wcel c0 c1 cif c2 csn emptycls wcel c0 c1
+  ssid csn emptycls
+  elimhyp3v c1
+            csn emptycls
+            c2
+            csn emptycls
+            c0
+            emptycls
+            wcel cif c0 emptycls wcel c0 c1 cif c1 csn emptycls wcel c0 c1
+            wcel c0 c1
+            wcel c0 cif c1 csn emptycls wcel c0 c1
+            wcel c0 cif c1 csn emptycls wcel c0 c1
+            wcel emptycls csn emptycls
+            wcel emptycls cif c1 csn emptycls wcel c0 c1
+            wcel emptycls cif c1 csn emptycls wcel c0 c1
+  eleq2 c1 cif c1 csn emptycls wcel c0 c1 c0
+  biidd wceq c2 cif c2 csn emptycls wcel c0 c1
+        wcel c0 cif c1 csn emptycls wcel c0 c1
+  eleq1 c0 cif c0 emptycls wcel c0 c1 cif c1 csn emptycls wcel c0 c1
+  eleq2 csn emptycls cif c1 csn emptycls wcel c0 c1 emptycls
+  biidd wceq csn emptycls cif c2 csn emptycls wcel c0 c1
+        wcel emptycls cif c1 csn emptycls wcel c0 c1
+  eleq1 emptycls cif c0 emptycls wcel c0 c1 cif c1 csn emptycls wcel c0 c1
+  snid emptycls
+  0ex
+}
+thm csbexg(setvar s0, class c0, class c1, class c2) {
+  |- wi wal s0 wcel c0 c1 wcel csb s0 c2 c0 universe
+} = {
+  pm2.61ian wal s0 wcel c0 c1 wcel csb s0 c2 c0 universe wcel c2 universe
+  syl5eqel csb s0 c2 c0
+           universe
+           cab hs0 wsbc s0 c2 wcel cv hs0 c0
+           wa wcel c2 universe wal s0 wcel c0 c1
+  df-csb s0 hs0 c2 c0
+  imp wcel c2 universe
+      wal s0 wcel c0 c1
+      wcel cab hs0 wsbc s0 c2 wcel cv hs0 c0 universe
+  sylibd wcel c2 universe
+         wal s0 wcel c0 c1
+         wcel cab hs0 wsbc s0 c2 wcel cv hs0 c0 universe
+         wsbc s0 c2 wcel cab hs0 wcel cv hs0 c0 universe
+  syl5 wcel c2 universe
+       wal s0 wcel c0 c1
+       wsbc s0 c2 wcel cab hs0 wcel cv hs0 c0 universe
+       wal s0 wcel cab hs0 wcel cv hs0 c0 universe
+  alimi s0 wcel c0 c1 wcel cab hs0 wcel cv hs0 c0 universe
+  syl5eqel cab hs0 wcel cv hs0 c0 universe c0 wcel c0 c1
+  abid2 hs0 c0
+  elex c0 c1
+  spsbc s0 c2 universe wcel cab hs0 wcel cv hs0 c0 universe
+  sbcabel s0 hs0 c2 universe universe wcel cv hs0 c0
+  nfcv s0 universe
+  adantr wn wcel c2 universe wal s0 wcel c0 c1 wcel csb s0 c2 c0 universe
+  syl6eqel csb s0 c2 c0 universe emptycls wn wcel c2 universe
+  csbprc s0 c2 c0
+  0ex
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diff.hs0.c c2
+  diff.hs0.c c0
+  diff.universe.s s0
+}
+thm csbex(setvar s0, class c0, class c1) {
+  |- wcel csb s0 c0 c1 universe
+  -| wcel c1 universe
+} = {
+  mpg s0 wcel csb s0 c0 c1 universe wcel c1 universe
+  csbexg s0 c1 universe c0
+}
+thm unisn2(class c0) {
+  |- wcel cuni csn c0 cpr emptycls c0
+} = {
+  pm2.61i wcel cuni csn c0 cpr emptycls c0 wcel c0 universe
+  eqeltrd cuni csn c0 cpr emptycls c0 c0 wcel c0 universe
+  unisng c0 universe
+  prid2g c0 universe emptycls
+  syl6eqel cuni csn c0 cpr emptycls c0 cuni emptycls wn wcel c0 universe
+  unieqd csn c0 emptycls wn wcel c0 universe
+  biimpi wn wcel c0 universe wceq csn c0 emptycls
+  snprc c0
+  eqeltri cuni emptycls cpr emptycls c0 emptycls
+  uni0
+  prid1 emptycls c0
+  0ex
+}

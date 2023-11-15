@@ -1,0 +1,91 @@
+import '18-exist_nfree.fol'
+
+thm gen2(setvar s0, setvar s1, wff w0) {
+  |- wal s0 wal s1 w0
+  -| w0
+} = {
+  ax-gen s0 wal s1 w0
+  ax-gen s1 w0
+}
+thm mpg(setvar s0, wff w0, wff w1) {
+  |- w0
+  -| wi wal s0 w1 w0
+  -| w1
+} = {
+  ax-mp w0 wal s0 w1
+  ax-gen s0 w1
+}
+thm mpgbi(setvar s0, wff w0, wff w1) {
+  |- w0
+  -| wb wal s0 w1 w0
+  -| w1
+} = {
+  mpbi w0 wal s0 w1
+  ax-gen s0 w1
+}
+thm mpgbir(setvar s0, wff w0, wff w1) {
+  |- w0
+  -| wb w0 wal s0 w1
+  -| w1
+} = {
+  mpbir w0 wal s0 w1
+  ax-gen s0 w1
+}
+thm nex(setvar s0, wff w0) {
+  |- wn wex s0 w0
+  -| wn w0
+} = {
+  mpgbi s0 wn wex s0 w0 wn w0
+  alnex s0 w0
+}
+thm nfth(setvar s0, wff w0) {
+  |- wnf s0 w0
+  -| w0
+} = {
+  mpg s0 wnf s0 w0 w0
+  nftht s0 w0
+}
+thm nfnth(setvar s0, wff w0) {
+  |- wnf s0 w0
+  -| wn w0
+} = {
+  mpg s0 wnf s0 w0 wn w0
+  nfntht2 s0 w0
+}
+thm hbth(setvar s0, wff w0) {
+  |- wi w0 wal s0 w0
+  -| w0
+} = {
+  a1i w0 wal s0 w0
+  ax-gen s0 w0
+}
+thm nftru(setvar s0) {
+  |- wnf s0 wtru
+} = {
+  nfth s0 wtru
+  tru
+}
+thm nffal(setvar s0) {
+  |- wnf s0 wfal
+} = {
+  nfnth s0 wfal
+  fal
+}
+thm sptruw(setvar s0, wff w0) {
+  |- wi wal s0 w0 w0
+  -| w0
+} = {
+  a1i wal s0 w0 w0
+}
+thm altru(setvar s0) {
+  |- wal s0 wtru
+} = {
+  ax-gen s0 wtru
+  tru
+}
+thm alfal(setvar s0) {
+  |- wal s0 wn wfal
+} = {
+  ax-gen s0 wn wfal
+  fal
+}

@@ -1,0 +1,477 @@
+import '48-zfc-difference.fol'
+
+thm elun(class c0, class c1, class c2) {
+  |- wb wcel c0 cun c1 c2 wo wcel c0 c1 wcel c0 c2
+} = {
+  pm5.21nii wcel c0 cun c1 c2 wo wcel c0 c1 wcel c0 c2 wcel c0 universe
+  elex c0 cun c1 c2
+  jaoi wcel c0 c1 wcel c0 c2 wcel c0 universe
+  elex c0 c1
+  elex c0 c2
+  elab2g hs0
+         c0
+         universe
+         cun c1 c2
+         wo wcel c0 c1 wcel c0 c2
+         wo wcel cv hs0 c1 wcel cv hs0 c2
+  orbi12d wceq cv hs0 c0 wcel cv hs0 c1 wcel cv hs0 c2 wcel c0 c1 wcel c0 c2
+  eleq1 cv hs0 c0 c1
+  eleq1 cv hs0 c0 c2
+  df-un hs0 c1 c2
+  diff.hs0.c c0
+  diff.hs0.w wo wcel c0 c1 wcel c0 c2
+  diff.hs0.c c1
+  diff.hs0.c c2
+}
+thm elunnel1(class c0, class c1, class c2) {
+  |- wi wa wcel c0 cun c1 c2 wn wcel c0 c1 wcel c0 c2
+} = {
+  orcanai wcel c0 cun c1 c2 wcel c0 c1 wcel c0 c2
+  biimpi wcel c0 cun c1 c2 wo wcel c0 c1 wcel c0 c2
+  elun c0 c1 c2
+}
+thm uneqri(setvar s0, class c0, class c1, class c2) {
+  |- wceq cun c0 c1 c2
+  -| wb wo wcel cv s0 c0 wcel cv s0 c1 wcel cv s0 c2
+  -| diffsc s0 c0
+  -| diffsc s0 c1
+  -| diffsc s0 c2
+} = {
+  a1ii wceq cun c0 c1 c2
+       diffsc s0 c0
+  a1ii wceq cun c0 c1 c2
+       diffsc s0 c1
+  eqriv s0 cun c0 c1 c2
+  bitri wcel cv s0 cun c0 c1 wcel cv s0 c2 wo wcel cv s0 c0 wcel cv s0 c1
+  elun cv s0 c0 c1
+  diff.cun s0 c0 c1
+}
+thm unidm(class c0) {
+  |- wceq cun c0 c0 c0
+} = {
+  uneqri hs0 c0 c0 c0
+  oridm wcel cv hs0 c0
+  diff.hs0.c c0
+}
+thm uncom(class c0, class c1) {
+  |- wceq cun c0 c1 cun c1 c0
+} = {
+  uneqri hs0 c0 c1 cun c1 c0
+  bitr4i wo wcel cv hs0 c0 wcel cv hs0 c1
+         wcel cv hs0 cun c1 c0
+         wo wcel cv hs0 c1 wcel cv hs0 c0
+  orcom wcel cv hs0 c0 wcel cv hs0 c1
+  elun cv hs0 c1 c0
+  diff.hs0.c c0
+  diff.hs0.c c1
+  diff.hs0.c cun c1 c0
+}
+thm equncom(class c0, class c1, class c2) {
+  |- wb wceq c0 cun c1 c2 wceq c0 cun c2 c1
+} = {
+  eqeq2i c0 cun c1 c2 cun c2 c1
+  uncom c1 c2
+}
+thm equncomi(class c0, class c1, class c2) {
+  |- wceq c0 cun c1 c2
+  -| wceq c0 cun c2 c1
+} = {
+  mpbi wceq c0 cun c1 c2 wceq c0 cun c2 c1
+  equncom c0 c2 c1
+}
+thm uneq1(class c0, class c1, class c2) {
+  |- wi wceq c0 c1 wceq cun c0 c2 cun c1 c2
+} = {
+  eqrdv hs0 cun c0 c2 cun c1 c2 wceq c0 c1
+  3bitr4g wceq c0 c1
+          wcel cv hs0 cun c0 c2
+          wcel cv hs0 cun c1 c2
+          wo wcel cv hs0 c0 wcel cv hs0 c2
+          wo wcel cv hs0 c1 wcel cv hs0 c2
+  orbi1d wceq c0 c1 wcel cv hs0 c0 wcel cv hs0 c2 wcel cv hs0 c1
+  eleq2 c0 c1 cv hs0
+  elun cv hs0 c0 c2
+  elun cv hs0 c1 c2
+  diff.hs0.c cun c0 c2
+  diff.hs0.c cun c1 c2
+  diff.hs0.w wceq c0 c1
+}
+thm uneq2(class c0, class c1, class c2) {
+  |- wi wceq c0 c1 wceq cun c2 c0 cun c2 c1
+} = {
+  3eqtr4g cun c2 c0 cun c2 c1 cun c0 c2 cun c1 c2 wceq c0 c1
+  uneq1 c0 c1 c2
+  uncom c2 c0
+  uncom c2 c1
+}
+thm uneq12(class c0, class c1, class c2, class c3) {
+  |- wi wa wceq c0 c1 wceq c2 c3 wceq cun c0 c2 cun c1 c3
+} = {
+  sylan9eq cun c0 c2 cun c1 c3 cun c1 c2 wceq c0 c1 wceq c2 c3
+  uneq1 c0 c1 c2
+  uneq2 c2 c3 c1
+}
+thm uneq1i(class c0, class c1, class c2) {
+  |- wceq cun c0 c1 cun c2 c1
+  -| wceq c0 c2
+} = {
+  ax-mp wceq cun c0 c1 cun c2 c1 wceq c0 c2
+  uneq1 c0 c2 c1
+}
+thm uneq2i(class c0, class c1, class c2) {
+  |- wceq cun c0 c1 cun c0 c2
+  -| wceq c1 c2
+} = {
+  ax-mp wceq cun c0 c1 cun c0 c2 wceq c1 c2
+  uneq2 c1 c2 c0
+}
+thm uneq12i(class c0, class c1, class c2, class c3) {
+  |- wceq cun c0 c1 cun c2 c3
+  -| wceq c0 c2
+  -| wceq c1 c3
+} = {
+  mp2an wceq cun c0 c1 cun c2 c3 wceq c0 c2 wceq c1 c3
+  uneq12 c0 c2 c1 c3
+}
+thm uneq1d(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wceq cun c0 c1 cun c2 c1
+  -| wi w0 wceq c0 c2
+} = {
+  syl w0 wceq cun c0 c1 cun c2 c1 wceq c0 c2
+  uneq1 c0 c2 c1
+}
+thm uneq2d(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wceq cun c0 c1 cun c0 c2
+  -| wi w0 wceq c1 c2
+} = {
+  syl w0 wceq cun c0 c1 cun c0 c2 wceq c1 c2
+  uneq2 c1 c2 c0
+}
+thm uneq12d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wceq cun c0 c1 cun c2 c3
+  -| wi w0 wceq c0 c2
+  -| wi w0 wceq c1 c3
+} = {
+  syl2anc w0 wceq cun c0 c1 cun c2 c3 wceq c0 c2 wceq c1 c3
+  uneq12 c0 c2 c1 c3
+}
+thm nfun(setvar s0, class c0, class c1) {
+  |- wnfc s0 cun c0 c1
+  -| wnfc s0 c0
+  -| wnfc s0 c1
+} = {
+  nfcxfr s0 cun c0 c1 cab hs0 wo wcel cv hs0 c0 wcel cv hs0 c1
+  df-un hs0 c0 c1
+  nfab s0 hs0 wo wcel cv hs0 c0 wcel cv hs0 c1
+  nfor s0 wcel cv hs0 c0 wcel cv hs0 c1
+  nfcri s0 hs0 c0
+  nfcri s0 hs0 c1
+  diff.hs0.c c0
+  diff.hs0.c c1
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+}
+thm unass(class c0, class c1, class c2) {
+  |- wceq cun cun c0 c1 c2 cun c0 cun c1 c2
+} = {
+  uneqri hs0 cun c0 c1 c2 cun c0 cun c1 c2
+  3bitrri wo wcel cv hs0 cun c0 c1 wcel cv hs0 c2
+          wcel cv hs0 cun c0 cun c1 c2
+          wo wcel cv hs0 c0 wcel cv hs0 cun c1 c2
+          wo wcel cv hs0 c0 wo wcel cv hs0 c1 wcel cv hs0 c2
+  elun cv hs0 c0 cun c1 c2
+  orbi2i wcel cv hs0 c0 wcel cv hs0 cun c1 c2 wo wcel cv hs0 c1 wcel cv hs0 c2
+  elun cv hs0 c1 c2
+  bitr2i wo wcel cv hs0 c0 wo wcel cv hs0 c1 wcel cv hs0 c2
+         wo wcel cv hs0 cun c0 c1 wcel cv hs0 c2
+         wo wo wcel cv hs0 c0 wcel cv hs0 c1 wcel cv hs0 c2
+  orbi1i wcel cv hs0 cun c0 c1 wcel cv hs0 c2 wo wcel cv hs0 c0 wcel cv hs0 c1
+  elun cv hs0 c0 c1
+  orass wcel cv hs0 c0 wcel cv hs0 c1 wcel cv hs0 c2
+  diff.hs0.c cun c0 c1
+  diff.hs0.c c2
+  diff.hs0.c cun c0 cun c1 c2
+}
+thm un12(class c0, class c1, class c2) {
+  |- wceq cun c0 cun c1 c2 cun c1 cun c0 c2
+} = {
+  3eqtr3i cun c0 cun c1 c2 cun c1 cun c0 c2 cun cun c0 c1 c2 cun cun c1 c0 c2
+  uneq1i cun c0 c1 c2 cun c1 c0
+  uncom c0 c1
+  unass c0 c1 c2
+  unass c1 c0 c2
+}
+thm un23(class c0, class c1, class c2) {
+  |- wceq cun cun c0 c1 c2 cun cun c0 c2 c1
+} = {
+  3eqtri cun cun c0 c1 c2 cun cun c0 c2 c1 cun c0 cun c1 c2 cun c1 cun c0 c2
+  unass c0 c1 c2
+  un12 c0 c1 c2
+  uncom c1 cun c0 c2
+}
+thm un4(class c0, class c1, class c2, class c3) {
+  |- wceq cun cun c0 c1 cun c2 c3 cun cun c0 c2 cun c1 c3
+} = {
+  3eqtr4i cun cun c0 c1 cun c2 c3
+          cun cun c0 c2 cun c1 c3
+          cun c0 cun c1 cun c2 c3
+          cun c0 cun c2 cun c1 c3
+  uneq2i c0 cun c1 cun c2 c3 cun c2 cun c1 c3
+  un12 c1 c2 c3
+  unass c0 c1 cun c2 c3
+  unass c0 c2 cun c1 c3
+}
+thm unundi(class c0, class c1, class c2) {
+  |- wceq cun c0 cun c1 c2 cun cun c0 c1 cun c0 c2
+} = {
+  eqtr3i cun c0 cun c1 c2 cun cun c0 c1 cun c0 c2 cun cun c0 c0 cun c1 c2
+  uneq1i cun c0 c0 cun c1 c2 c0
+  unidm c0
+  un4 c0 c0 c1 c2
+}
+thm unundir(class c0, class c1, class c2) {
+  |- wceq cun cun c0 c1 c2 cun cun c0 c2 cun c1 c2
+} = {
+  eqtr3i cun cun c0 c1 c2 cun cun c0 c2 cun c1 c2 cun cun c0 c1 cun c2 c2
+  uneq2i cun c0 c1 cun c2 c2 c2
+  unidm c2
+  un4 c0 c1 c2 c2
+}
+thm ssun1(class c0, class c1) {
+  |- wss c0 cun c0 c1
+} = {
+  ssriv hs0 c0 cun c0 c1
+  sylibr wcel cv hs0 c0 wcel cv hs0 cun c0 c1 wo wcel cv hs0 c0 wcel cv hs0 c1
+  orc wcel cv hs0 c0 wcel cv hs0 c1
+  elun cv hs0 c0 c1
+  diff.hs0.c c0
+  diff.hs0.c cun c0 c1
+}
+thm ssun2(class c0, class c1) {
+  |- wss c0 cun c1 c0
+} = {
+  sseqtri c0 cun c1 c0 cun c0 c1
+  ssun1 c0 c1
+  uncom c0 c1
+}
+thm ssun3(class c0, class c1, class c2) {
+  |- wi wss c0 c1 wss c0 cun c1 c2
+} = {
+  mpi wss c0 c1 wss c0 cun c1 c2 wss c1 cun c1 c2
+  ssun1 c1 c2
+  sstr2 c0 c1 cun c1 c2
+}
+thm ssun4(class c0, class c1, class c2) {
+  |- wi wss c0 c1 wss c0 cun c2 c1
+} = {
+  mpi wss c0 c1 wss c0 cun c2 c1 wss c1 cun c2 c1
+  ssun2 c1 c2
+  sstr2 c0 c1 cun c2 c1
+}
+thm elun1(class c0, class c1, class c2) {
+  |- wi wcel c0 c1 wcel c0 cun c1 c2
+} = {
+  sseli c0 c1 cun c1 c2
+  ssun1 c1 c2
+}
+thm elun2(class c0, class c1, class c2) {
+  |- wi wcel c0 c1 wcel c0 cun c2 c1
+} = {
+  sseli c0 c1 cun c2 c1
+  ssun2 c1 c2
+}
+thm unss1(class c0, class c1, class c2) {
+  |- wi wss c0 c1 wss cun c0 c2 cun c1 c2
+} = {
+  ssrdv hs0 cun c0 c2 cun c1 c2 wss c0 c1
+  3imtr4g wss c0 c1
+          wcel cv hs0 cun c0 c2
+          wcel cv hs0 cun c1 c2
+          wo wcel cv hs0 c0 wcel cv hs0 c2
+          wo wcel cv hs0 c1 wcel cv hs0 c2
+  orim1d wss c0 c1 wcel cv hs0 c0 wcel cv hs0 c2 wcel cv hs0 c1
+  ssel c0 c1 cv hs0
+  elun cv hs0 c0 c2
+  elun cv hs0 c1 c2
+  diff.hs0.c cun c0 c2
+  diff.hs0.c cun c1 c2
+  diff.hs0.w wss c0 c1
+}
+thm ssequn1(class c0, class c1) {
+  |- wb wss c0 c1 wceq cun c0 c1 c1
+} = {
+  3bitr4i wss c0 c1
+          wceq cun c0 c1 c1
+          wal hs0 wi wcel cv hs0 c0 wcel cv hs0 c1
+          wal hs0 wb wcel cv hs0 cun c0 c1 wcel cv hs0 c1
+  albii hs0
+        wi wcel cv hs0 c0 wcel cv hs0 c1
+        wb wcel cv hs0 cun c0 c1 wcel cv hs0 c1
+  3bitr4i wi wcel cv hs0 c0 wcel cv hs0 c1
+          wb wcel cv hs0 cun c0 c1 wcel cv hs0 c1
+          wb wcel cv hs0 c1 wo wcel cv hs0 c0 wcel cv hs0 c1
+          wb wo wcel cv hs0 c0 wcel cv hs0 c1 wcel cv hs0 c1
+  bicom wcel cv hs0 c1 wo wcel cv hs0 c0 wcel cv hs0 c1
+  pm4.72 wcel cv hs0 c0 wcel cv hs0 c1
+  bibi1i wcel cv hs0 cun c0 c1 wcel cv hs0 c1 wo wcel cv hs0 c0 wcel cv hs0 c1
+  elun cv hs0 c0 c1
+  dfss2 hs0 c0 c1
+  dfcleq hs0 cun c0 c1 c1
+  diff.hs0.c c0
+  diff.hs0.c c1
+  diff.hs0.c cun c0 c1
+}
+thm unss2(class c0, class c1, class c2) {
+  |- wi wss c0 c1 wss cun c2 c0 cun c2 c1
+} = {
+  3sstr4g cun c2 c0 cun c2 c1 cun c0 c2 cun c1 c2 wss c0 c1
+  unss1 c0 c1 c2
+  uncom c2 c0
+  uncom c2 c1
+}
+thm unss12(class c0, class c1, class c2, class c3) {
+  |- wi wa wss c0 c1 wss c2 c3 wss cun c0 c2 cun c1 c3
+} = {
+  sylan9ss cun c0 c2 cun c1 c3 cun c1 c2 wss c0 c1 wss c2 c3
+  unss1 c0 c1 c2
+  unss2 c2 c3 c1
+}
+thm ssequn2(class c0, class c1) {
+  |- wb wss c0 c1 wceq cun c1 c0 c1
+} = {
+  bitri wss c0 c1 wceq cun c1 c0 c1 wceq cun c0 c1 c1
+  ssequn1 c0 c1
+  eqeq1i cun c0 c1 c1 cun c1 c0
+  uncom c0 c1
+}
+thm unss(class c0, class c1, class c2) {
+  |- wb wa wss c0 c1 wss c2 c1 wss cun c0 c2 c1
+} = {
+  bitr2i wa wss c0 c1 wss c2 c1
+         wss cun c0 c2 c1
+         wal hs0 wi wcel cv hs0 cun c0 c2 wcel cv hs0 c1
+  dfss2 hs0 cun c0 c2 c1
+  3bitr4i wal hs0 wi wcel cv hs0 cun c0 c2 wcel cv hs0 c1
+          wa wss c0 c1 wss c2 c1
+          wal hs0 wa wi wcel cv hs0 c0 wcel cv hs0 c1 wi wcel cv hs0 c2 wcel cv hs0 c1
+          wa wal hs0 wi wcel cv hs0 c0 wcel cv hs0 c1 wal hs0 wi wcel cv hs0 c2 wcel cv hs0 c1
+  19.26 hs0 wi wcel cv hs0 c0 wcel cv hs0 c1 wi wcel cv hs0 c2 wcel cv hs0 c1
+  albii hs0
+        wi wcel cv hs0 cun c0 c2 wcel cv hs0 c1
+        wa wi wcel cv hs0 c0 wcel cv hs0 c1 wi wcel cv hs0 c2 wcel cv hs0 c1
+  bitri wi wcel cv hs0 cun c0 c2 wcel cv hs0 c1
+        wa wi wcel cv hs0 c0 wcel cv hs0 c1 wi wcel cv hs0 c2 wcel cv hs0 c1
+        wi wo wcel cv hs0 c0 wcel cv hs0 c2 wcel cv hs0 c1
+  imbi1i wcel cv hs0 cun c0 c2 wcel cv hs0 c1 wo wcel cv hs0 c0 wcel cv hs0 c2
+  elun cv hs0 c0 c2
+  jaob wcel cv hs0 c0 wcel cv hs0 c2 wcel cv hs0 c1
+  anbi12i wss c0 c1
+          wss c2 c1
+          wal hs0 wi wcel cv hs0 c0 wcel cv hs0 c1
+          wal hs0 wi wcel cv hs0 c2 wcel cv hs0 c1
+  dfss2 hs0 c0 c1
+  dfss2 hs0 c2 c1
+  diff.hs0.c cun c0 c2
+  diff.hs0.c c1
+  diff.hs0.c c0
+  diff.hs0.c c2
+}
+thm unssi(class c0, class c1, class c2) {
+  |- wss cun c0 c1 c2
+  -| wss c0 c2
+  -| wss c1 c2
+} = {
+  mpbi wss cun c0 c1 c2 wa wss c0 c2 wss c1 c2
+  pm3.2i wss c0 c2 wss c1 c2
+  unss c0 c2 c1
+}
+thm unssd(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wss cun c0 c1 c2
+  -| wi w0 wss c0 c2
+  -| wi w0 wss c1 c2
+} = {
+  syl2anc w0 wss cun c0 c1 c2 wss c0 c2 wss c1 c2
+  biimpi wa wss c0 c2 wss c1 c2 wss cun c0 c1 c2
+  unss c0 c2 c1
+}
+thm unssad(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wss c0 c1
+  -| wi w0 wss cun c0 c2 c1
+} = {
+  simpld w0 wss c0 c1 wss c2 c1
+  sylibr w0 wa wss c0 c1 wss c2 c1 wss cun c0 c2 c1
+  unss c0 c1 c2
+}
+thm unssbd(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wss c0 c1
+  -| wi w0 wss cun c2 c0 c1
+} = {
+  simprd w0 wss c0 c1 wss c2 c1
+  sylibr w0 wa wss c2 c1 wss c0 c1 wss cun c2 c0 c1
+  unss c2 c1 c0
+}
+thm ssun(class c0, class c1, class c2) {
+  |- wi wo wss c0 c1 wss c0 c2 wss c0 cun c1 c2
+} = {
+  jaoi wss c0 c1 wss c0 c2 wss c0 cun c1 c2
+  ssun3 c0 c1 c2
+  ssun4 c0 c2 c1
+}
+thm rexun(setvar s0, class c0, class c1, wff w0) {
+  |- wb wrex s0 cun c0 c1 w0 wo wrex s0 c0 w0 wrex s0 c1 w0
+} = {
+  bitri wrex s0 cun c0 c1 w0
+        wo wrex s0 c0 w0 wrex s0 c1 w0
+        wex s0 wa wcel cv s0 cun c0 c1 w0
+  df-rex s0 cun c0 c1 w0
+  3bitr4i wex s0 wa wcel cv s0 cun c0 c1 w0
+          wo wrex s0 c0 w0 wrex s0 c1 w0
+          wex s0 wo wa wcel cv s0 c0 w0 wa wcel cv s0 c1 w0
+          wo wex s0 wa wcel cv s0 c0 w0 wex s0 wa wcel cv s0 c1 w0
+  19.43 s0 wa wcel cv s0 c0 w0 wa wcel cv s0 c1 w0
+  exbii s0 wa wcel cv s0 cun c0 c1 w0 wo wa wcel cv s0 c0 w0 wa wcel cv s0 c1 w0
+  bitri wa wcel cv s0 cun c0 c1 w0
+        wo wa wcel cv s0 c0 w0 wa wcel cv s0 c1 w0
+        wa wo wcel cv s0 c0 wcel cv s0 c1 w0
+  anbi1i wcel cv s0 cun c0 c1 w0 wo wcel cv s0 c0 wcel cv s0 c1
+  elun cv s0 c0 c1
+  andir wcel cv s0 c0 wcel cv s0 c1 w0
+  orbi12i wrex s0 c0 w0
+          wrex s0 c1 w0
+          wex s0 wa wcel cv s0 c0 w0
+          wex s0 wa wcel cv s0 c1 w0
+  df-rex s0 c0 w0
+  df-rex s0 c1 w0
+}
+thm ralunb(setvar s0, class c0, class c1, wff w0) {
+  |- wb wral s0 cun c0 c1 w0 wa wral s0 c0 w0 wral s0 c1 w0
+} = {
+  3bitr4i wral s0 cun c0 c1 w0
+          wa wral s0 c0 w0 wral s0 c1 w0
+          wal s0 wi wcel cv s0 cun c0 c1 w0
+          wa wal s0 wi wcel cv s0 c0 w0 wal s0 wi wcel cv s0 c1 w0
+  bitri wal s0 wi wcel cv s0 cun c0 c1 w0
+        wa wal s0 wi wcel cv s0 c0 w0 wal s0 wi wcel cv s0 c1 w0
+        wal s0 wa wi wcel cv s0 c0 w0 wi wcel cv s0 c1 w0
+  albii s0 wi wcel cv s0 cun c0 c1 w0 wa wi wcel cv s0 c0 w0 wi wcel cv s0 c1 w0
+  bitri wi wcel cv s0 cun c0 c1 w0
+        wa wi wcel cv s0 c0 w0 wi wcel cv s0 c1 w0
+        wi wo wcel cv s0 c0 wcel cv s0 c1 w0
+  imbi1i wcel cv s0 cun c0 c1 w0 wo wcel cv s0 c0 wcel cv s0 c1
+  elun cv s0 c0 c1
+  jaob wcel cv s0 c0 wcel cv s0 c1 w0
+  19.26 s0 wi wcel cv s0 c0 w0 wi wcel cv s0 c1 w0
+  df-ral s0 cun c0 c1 w0
+  anbi12i wral s0 c0 w0
+          wral s0 c1 w0
+          wal s0 wi wcel cv s0 c0 w0
+          wal s0 wi wcel cv s0 c1 w0
+  df-ral s0 c0 w0
+  df-ral s0 c1 w0
+}
+thm ralun(setvar s0, class c0, class c1, wff w0) {
+  |- wi wa wral s0 c0 w0 wral s0 c1 w0 wral s0 cun c0 c1 w0
+} = {
+  biimpri wa wral s0 c0 w0 wral s0 c1 w0 wral s0 cun c0 c1 w0
+  ralunb s0 c0 c1 w0
+}

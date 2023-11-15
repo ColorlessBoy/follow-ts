@@ -1,0 +1,1980 @@
+import '28-ax11.fol'
+
+thm ax12v(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 wi w0 wal s0 wi wceq cv s0 cv s1 w0
+  -| diffss s0 s1
+  -| diffsw s1 w0
+} = {
+  a1ii wi wceq cv s0 cv s1 wi w0 wal s0 wi wceq cv s0 cv s1 w0
+       diffss s0 s1
+  syl5 wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 w0 wal s1 w0
+  ax-5 s1 w0
+  ax-12 s0 s1 w0
+}
+thm ax12v2(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 wi w0 wal s0 wi wceq cv s0 cv s1 w0
+  -| diffss s0 s1
+} = {
+  a1ii wi wceq cv s0 cv s1 wi w0 wal s0 wi wceq cv s0 cv s1 w0
+       diffss s0 s1
+  exlimiiv hs0
+           wi wceq cv s0 cv s1 wi w0 wal s0 wi wceq cv s0 cv s1 w0
+           wceq cv s1 cv hs0
+  syld wceq cv s1 cv hs0
+       wceq cv s0 cv s1
+       wi w0 wal s0 wi wceq cv s0 cv s1 w0
+       wceq cv s0 cv hs0
+  syl9r wceq cv s1 cv hs0
+        wceq cv s0 cv hs0
+        w0
+        wal s0 wi wceq cv s0 cv s1 w0
+        wal s0 wi wceq cv s0 cv hs0 w0
+  ax12v s0 hs0 w0
+  alimdv s0 wceq cv s1 cv hs0 wi wceq cv s0 cv hs0 w0 wi wceq cv s0 cv s1 w0
+  imim1d wceq cv s1 cv hs0 wceq cv s0 cv hs0 w0 wceq cv s0 cv s1
+  equtrr s1 hs0 s0
+  ax6evr hs0 s1
+  diff.hs0.w wi wceq cv s0 cv s1 wi w0 wal s0 wi wceq cv s0 cv s1 w0
+  diff.hs0.w w0
+  diff.wceq s0 cv s1 cv hs0
+  diff.cv s0 s1
+  diff.cv s0 hs0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diff.hs0.s s1
+}
+thm 19.8a(setvar s0, wff w0) {
+  |- wi w0 wex s0 w0
+} = {
+  exlimiiv hs0 wi w0 wex s0 w0 wceq cv s0 cv hs0
+  syl6mpi wceq cv s0 cv hs0
+          w0
+          wex s0 w0
+          wal s0 wi wceq cv s0 cv hs0 w0
+          wex s0 wceq cv s0 cv hs0
+  ax12v s0 hs0 w0
+  ax6ev s0 hs0
+  exim s0 wceq cv s0 cv hs0 w0
+  ax6evr hs0 s0
+  diff.hs0.w wi w0 wex s0 w0
+  diffss.ex s0 hs0
+  diff.hs0.w w0
+  diff.hs0.s s0
+}
+thm 19.8ad(setvar s0, wff w0, wff w1) {
+  |- wi w0 wex s0 w1
+  -| wi w0 w1
+} = {
+  syl w0 wex s0 w1 w1
+  19.8a s0 w1
+}
+thm sp(setvar s0, wff w0) {
+  |- wi wal s0 w0 w0
+} = {
+  sylbi wal s0 w0 w0 wn wex s0 wn w0
+  alex s0 w0
+  con1i wex s0 wn w0 w0
+  19.8a s0 wn w0
+}
+thm spi(setvar s0, wff w0) {
+  |- w0
+  -| wal s0 w0
+} = {
+  ax-mp w0 wal s0 w0
+  sp s0 w0
+}
+thm sps(setvar s0, wff w0, wff w1) {
+  |- wi wal s0 w0 w1
+  -| wi w0 w1
+} = {
+  syl wal s0 w0 w1 w0
+  sp s0 w0
+}
+thm 2sp(setvar s0, setvar s1, wff w0) {
+  |- wi wal s0 wal s1 w0 w0
+} = {
+  sps s0 wal s1 w0 w0
+  sp s1 w0
+}
+thm spsd(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wi wal s0 w1 w2
+  -| wi w0 wi w1 w2
+} = {
+  syl5 w0 wal s0 w1 w2 w1
+  sp s0 w1
+}
+thm 19.2g(setvar s0, setvar s1, wff w0) {
+  |- wi wal s0 w0 wex s1 w0
+} = {
+  sps s0 w0 wex s1 w0
+  19.8a s1 w0
+}
+thm 19.21bi(setvar s0, wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi w0 wal s0 w1
+} = {
+  syl w0 w1 wal s0 w1
+  sp s0 w1
+}
+thm 19.21bbi(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi w0 wal s0 wal s1 w1
+} = {
+  19.21bi s1 w0 w1
+  19.21bi s0 w0 wal s1 w1
+}
+thm 19.23bi(setvar s0, wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi wex s0 w0 w1
+} = {
+  syl w0 w1 wex s0 w0
+  19.8a s0 w0
+}
+thm nexr(setvar s0, wff w0) {
+  |- wn w0
+  -| wn wex s0 w0
+} = {
+  mto w0 wex s0 w0
+  19.8a s0 w0
+}
+thm qexmid(setvar s0, wff w0) {
+  |- wex s0 wi w0 wal s0 w0
+} = {
+  19.35ri s0 w0 wal s0 w0
+  19.8a s0 wal s0 w0
+}
+thm nf5r(setvar s0, wff w0) {
+  |- wi wnf s0 w0 wi w0 wal s0 w0
+} = {
+  syl5 wnf s0 w0 w0 wal s0 w0 wex s0 w0
+  19.8a s0 w0
+  biimpi wnf s0 w0 wi wex s0 w0 wal s0 w0
+  df-nf s0 w0
+}
+thm nf5ri(setvar s0, wff w0) {
+  |- wi w0 wal s0 w0
+  -| wnf s0 w0
+} = {
+  19.23bi s0 w0 wal s0 w0
+  nfri s0 w0
+}
+thm nf5riOLD(setvar s0, wff w0) {
+  |- wi w0 wal s0 w0
+  -| wnf s0 w0
+} = {
+  ax-mp wi w0 wal s0 w0 wnf s0 w0
+  nf5r s0 w0
+}
+thm nf5rd(setvar s0, wff w0, wff w1) {
+  |- wi w0 wi w1 wal s0 w1
+  -| wi w0 wnf s0 w1
+} = {
+  syl w0 wi w1 wal s0 w1 wnf s0 w1
+  nf5r s0 w1
+}
+thm nfim1(setvar s0, wff w0, wff w1) {
+  |- wnf s0 wi w0 w1
+  -| wnf s0 w0
+  -| wi w0 wnf s0 w1
+} = {
+  ax-mp wnf s0 wi w0 w1 wo wal s0 w0 wal s0 wn w0
+  mpbi wo wal s0 w0 wal s0 wn w0 wnf s0 w0
+  nf3 s0 w0
+  jaoi wal s0 w0 wal s0 wn w0 wnf s0 wi w0 w1
+  nfimd s0 wal s0 w0 w0 w1
+  nftht s0 w0
+  sps s0 w0 wnf s0 w1
+  syl wal s0 wn w0 wnf s0 wi w0 w1 wal s0 wi w0 w1
+  alimi s0 wn w0 wi w0 w1
+  pm2.21 w0 w1
+  nftht s0 wi w0 w1
+}
+thm nfan1(setvar s0, wff w0, wff w1) {
+  |- wnf s0 wa w0 w1
+  -| wnf s0 w0
+  -| wi w0 wnf s0 w1
+} = {
+  nfxfr s0 wa w0 w1 wn wi w0 wn w1
+  df-an w0 w1
+  nfn s0 wi w0 wn w1
+  nfim1 s0 w0 wn w1
+  nfnd s0 w0 w1
+}
+thm 19.3t(setvar s0, wff w0) {
+  |- wi wnf s0 w0 wb wal s0 w0 w0
+} = {
+  impbid2 wnf s0 w0 wal s0 w0 w0
+  sp s0 w0
+  nf5r s0 w0
+}
+thm 19.3(setvar s0, wff w0) {
+  |- wb wal s0 w0 w0
+  -| wnf s0 w0
+} = {
+  impbii wal s0 w0 w0
+  sp s0 w0
+  nf5ri s0 w0
+}
+thm 19.9d(setvar s0, wff w0, wff w1) {
+  |- wi w0 wi wex s0 w1 w1
+  -| wi w0 wnf s0 w1
+} = {
+  syl6 w0 wex s0 w1 w1 wal s0 w1
+  nfrd s0 w0 w1
+  sp s0 w1
+}
+thm 19.9t(setvar s0, wff w0) {
+  |- wi wnf s0 w0 wb wex s0 w0 w0
+} = {
+  impbid1 wnf s0 w0 wex s0 w0 w0
+  19.9d s0 wnf s0 w0 w0
+  id wnf s0 w0
+  19.8a s0 w0
+}
+thm 19.9(setvar s0, wff w0) {
+  |- wb wex s0 w0 w0
+  -| wnf s0 w0
+} = {
+  ax-mp wb wex s0 w0 w0 wnf s0 w0
+  19.9t s0 w0
+}
+thm 19.21t(setvar s0, wff w0, wff w1) {
+  |- wi wnf s0 w0 wb wal s0 wi w0 w1 wi w0 wal s0 w1
+} = {
+  bitr3d wnf s0 w0 wal s0 wi w0 w1 wi w0 wal s0 w1 wi wex s0 w0 wal s0 w1
+  19.38a s0 w0 w1
+  imbi1d wnf s0 w0 wex s0 w0 wal s0 w1 w0
+  19.9t s0 w0
+}
+thm 19.21(setvar s0, wff w0, wff w1) {
+  |- wb wal s0 wi w0 w1 wi w0 wal s0 w1
+  -| wnf s0 w0
+} = {
+  ax-mp wb wal s0 wi w0 w1 wi w0 wal s0 w1 wnf s0 w0
+  19.21t s0 w0 w1
+}
+thm stdpc5(setvar s0, wff w0, wff w1) {
+  |- wi wal s0 wi w0 w1 wi w0 wal s0 w1
+  -| wnf s0 w0
+} = {
+  biimpi wal s0 wi w0 w1 wi w0 wal s0 w1
+  19.21 s0 w0 w1
+}
+thm 19.21-2(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wal s0 wal s1 wi w0 w1 wi w0 wal s0 wal s1 w1
+  -| wnf s0 w0
+  -| wnf s1 w0
+} = {
+  bitri wal s0 wal s1 wi w0 w1 wi w0 wal s0 wal s1 w1 wal s0 wi w0 wal s1 w1
+  albii s0 wal s1 wi w0 w1 wi w0 wal s1 w1
+  19.21 s1 w0 w1
+  19.21 s0 w0 wal s1 w1
+}
+thm 19.23t(setvar s0, wff w0, wff w1) {
+  |- wi wnf s0 w0 wb wal s0 wi w1 w0 wi wex s0 w1 w0
+} = {
+  bitr3d wnf s0 w0 wal s0 wi w1 w0 wi wex s0 w1 w0 wi wex s0 w1 wal s0 w0
+  19.38b s0 w0 w1
+  imbi2d wnf s0 w0 wex s0 w1 wal s0 w0 w0
+  19.3t s0 w0
+}
+thm 19.23tOLD(setvar s0, wff w0, wff w1) {
+  |- wi wnf s0 w0 wb wal s0 wi w1 w0 wi wex s0 w1 w0
+} = {
+  3bitr4g wnf s0 w0
+          wal s0 wi w1 w0
+          wi wex s0 w1 w0
+          wal s0 wi wn w0 wn w1
+          wi wn w0 wal s0 wn w1
+  syl wnf s0 w0 wb wal s0 wi wn w0 wn w1 wi wn w0 wal s0 wn w1 wnf s0 wn w0
+  nfnt s0 w0
+  19.21t s0 wn w0 wn w1
+  albii s0 wi w1 w0 wi wn w0 wn w1
+  con34b w1 w0
+  eximal s0 w1 w0
+}
+thm 19.23(setvar s0, wff w0, wff w1) {
+  |- wb wal s0 wi w0 w1 wi wex s0 w0 w1
+  -| wnf s0 w1
+} = {
+  ax-mp wb wal s0 wi w0 w1 wi wex s0 w0 w1 wnf s0 w1
+  19.23t s0 w1 w0
+}
+thm alimd(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wi wal s0 w1 wal s0 w2
+  -| wnf s0 w0
+  -| wi w0 wi w1 w2
+} = {
+  alimdh s0 w0 w1 w2
+  nf5ri s0 w0
+}
+thm alrimi(setvar s0, wff w0, wff w1) {
+  |- wi w0 wal s0 w1
+  -| wnf s0 w0
+  -| wi w0 w1
+} = {
+  alrimih s0 w0 w1
+  nf5ri s0 w0
+}
+thm alrimdd(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wi w1 wal s0 w2
+  -| wnf s0 w0
+  -| wi w0 wnf s0 w1
+  -| wi w0 wi w1 w2
+} = {
+  syld w0 w1 wal s0 w2 wal s0 w1
+  nf5rd s0 w0 w1
+  alimd s0 w0 w1 w2
+}
+thm alrimd(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wi w1 wal s0 w2
+  -| wnf s0 w0
+  -| wnf s0 w1
+  -| wi w0 wi w1 w2
+} = {
+  alrimdd s0 w0 w1 w2
+  a1i w0 wnf s0 w1
+}
+thm eximd(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wi wex s0 w1 wex s0 w2
+  -| wnf s0 w0
+  -| wi w0 wi w1 w2
+} = {
+  eximdh s0 w0 w1 w2
+  nf5ri s0 w0
+}
+thm exlimi(setvar s0, wff w0, wff w1) {
+  |- wi wex s0 w0 w1
+  -| wnf s0 w1
+  -| wi w0 w1
+} = {
+  mpgbi s0 wi wex s0 w0 w1 wi w0 w1
+  19.23 s0 w0 w1
+}
+thm exlimd(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wi wex s0 w1 w2
+  -| wnf s0 w0
+  -| wnf s0 w2
+  -| wi w0 wi w1 w2
+} = {
+  syl6ib w0 wex s0 w1 w2 wex s0 w2
+  eximd s0 w0 w1 w2
+  19.9 s0 w2
+}
+thm exlimdd(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wnf s0 w0
+  -| wnf s0 w1
+  -| wi w0 wex s0 w2
+  -| wi wa w0 w2 w1
+} = {
+  mpd w0 w1 wex s0 w2
+  exlimd s0 w0 w2 w1
+  ex w0 w2 w1
+}
+thm exlimimdd(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wnf s0 w0
+  -| wnf s0 w1
+  -| wi w0 wex s0 w2
+  -| wi w0 wi w2 w1
+} = {
+  exlimdd s0 w0 w1 w2
+  imp w0 w2 w1
+}
+thm nexd(setvar s0, wff w0, wff w1) {
+  |- wi w0 wn wex s0 w1
+  -| wnf s0 w0
+  -| wi w0 wn w1
+} = {
+  nexdh s0 w0 w1
+  nf5ri s0 w0
+}
+thm albid(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wb wal s0 w1 wal s0 w2
+  -| wnf s0 w0
+  -| wi w0 wb w1 w2
+} = {
+  albidh s0 w0 w1 w2
+  nf5ri s0 w0
+}
+thm exbid(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wb wex s0 w1 wex s0 w2
+  -| wnf s0 w0
+  -| wi w0 wb w1 w2
+} = {
+  exbidh s0 w0 w1 w2
+  nf5ri s0 w0
+}
+thm nfbidf(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wb wnf s0 w1 wnf s0 w2
+  -| wnf s0 w0
+  -| wi w0 wb w1 w2
+} = {
+  3bitr4g w0 wnf s0 w1 wnf s0 w2 wi wex s0 w1 wal s0 w1 wi wex s0 w2 wal s0 w2
+  imbi12d w0 wex s0 w1 wal s0 w1 wex s0 w2 wal s0 w2
+  exbid s0 w0 w1 w2
+  albid s0 w0 w1 w2
+  df-nf s0 w1
+  df-nf s0 w2
+}
+thm 19.16(setvar s0, wff w0, wff w1) {
+  |- wi wal s0 wb w0 w1 wb w0 wal s0 w1
+  -| wnf s0 w0
+} = {
+  syl5bbr wal s0 wb w0 w1 w0 wal s0 w1 wal s0 w0
+  19.3 s0 w0
+  albi s0 w0 w1
+}
+thm 19.17(setvar s0, wff w0, wff w1) {
+  |- wi wal s0 wb w0 w1 wb wal s0 w0 w1
+  -| wnf s0 w1
+} = {
+  syl6bb wal s0 wb w0 w1 wal s0 w0 w1 wal s0 w1
+  albi s0 w0 w1
+  19.3 s0 w1
+}
+thm 19.27(setvar s0, wff w0, wff w1) {
+  |- wb wal s0 wa w0 w1 wa wal s0 w0 w1
+  -| wnf s0 w1
+} = {
+  bitri wal s0 wa w0 w1 wa wal s0 w0 w1 wa wal s0 w0 wal s0 w1
+  19.26 s0 w0 w1
+  anbi2i wal s0 w0 wal s0 w1 w1
+  19.3 s0 w1
+}
+thm 19.28(setvar s0, wff w0, wff w1) {
+  |- wb wal s0 wa w0 w1 wa w0 wal s0 w1
+  -| wnf s0 w0
+} = {
+  bitri wal s0 wa w0 w1 wa w0 wal s0 w1 wa wal s0 w0 wal s0 w1
+  19.26 s0 w0 w1
+  anbi1i wal s0 w0 wal s0 w1 w0
+  19.3 s0 w0
+}
+thm 19.19(setvar s0, wff w0, wff w1) {
+  |- wi wal s0 wb w0 w1 wb w0 wex s0 w1
+  -| wnf s0 w0
+} = {
+  syl5bbr wal s0 wb w0 w1 w0 wex s0 w1 wex s0 w0
+  19.9 s0 w0
+  exbi s0 w0 w1
+}
+thm 19.36(setvar s0, wff w0, wff w1) {
+  |- wb wex s0 wi w0 w1 wi wal s0 w0 w1
+  -| wnf s0 w1
+} = {
+  bitri wex s0 wi w0 w1 wi wal s0 w0 w1 wi wal s0 w0 wex s0 w1
+  19.35 s0 w0 w1
+  imbi2i wal s0 w0 wex s0 w1 w1
+  19.9 s0 w1
+}
+thm 19.36i(setvar s0, wff w0, wff w1) {
+  |- wi wal s0 w0 w1
+  -| wnf s0 w1
+  -| wex s0 wi w0 w1
+} = {
+  mpbi wi wal s0 w0 w1 wex s0 wi w0 w1
+  19.36 s0 w0 w1
+}
+thm 19.37(setvar s0, wff w0, wff w1) {
+  |- wb wex s0 wi w0 w1 wi w0 wex s0 w1
+  -| wnf s0 w0
+} = {
+  bitri wex s0 wi w0 w1 wi w0 wex s0 w1 wi wal s0 w0 wex s0 w1
+  19.35 s0 w0 w1
+  imbi1i wal s0 w0 wex s0 w1 w0
+  19.3 s0 w0
+}
+thm 19.32(setvar s0, wff w0, wff w1) {
+  |- wb wal s0 wo w0 w1 wo w0 wal s0 w1
+  -| wnf s0 w0
+} = {
+  3bitr4i wal s0 wo w0 w1 wo w0 wal s0 w1 wal s0 wi wn w0 w1 wi wn w0 wal s0 w1
+  19.21 s0 wn w0 w1
+  nfn s0 w0
+  albii s0 wo w0 w1 wi wn w0 w1
+  df-or w0 w1
+  df-or w0 wal s0 w1
+}
+thm 19.31(setvar s0, wff w0, wff w1) {
+  |- wb wal s0 wo w0 w1 wo wal s0 w0 w1
+  -| wnf s0 w1
+} = {
+  3bitr4i wal s0 wo w0 w1 wo wal s0 w0 w1 wal s0 wo w1 w0 wo w1 wal s0 w0
+  19.32 s0 w1 w0
+  albii s0 wo w0 w1 wo w1 w0
+  orcom w0 w1
+  orcom wal s0 w0 w1
+}
+thm 19.41(setvar s0, wff w0, wff w1) {
+  |- wb wex s0 wa w0 w1 wa wex s0 w0 w1
+  -| wnf s0 w1
+} = {
+  impbii wex s0 wa w0 w1 wa wex s0 w0 w1
+  sylib wex s0 wa w0 w1 wa wex s0 w0 w1 wa wex s0 w0 wex s0 w1
+  19.40 s0 w0 w1
+  anbi2i wex s0 w0 wex s0 w1 w1
+  19.9 s0 w1
+  impcom wex s0 w0 w1 wex s0 wa w0 w1
+  eximd s0 w1 w0 wa w0 w1
+  pm3.21 w1 w0
+}
+thm 19.42-1OLD(setvar s0, wff w0, wff w1) {
+  |- wi wa w0 wex s0 w1 wex s0 wa w0 w1
+  -| wnf s0 w0
+} = {
+  imp w0 wex s0 w1 wex s0 wa w0 w1
+  eximd s0 w0 w1 wa w0 w1
+  pm3.2 w0 w1
+}
+thm 19.42(setvar s0, wff w0, wff w1) {
+  |- wb wex s0 wa w0 w1 wa w0 wex s0 w1
+  -| wnf s0 w0
+} = {
+  3bitr4i wex s0 wa w0 w1 wa w0 wex s0 w1 wex s0 wa w1 w0 wa wex s0 w1 w0
+  19.41 s0 w1 w0
+  exancom s0 w0 w1
+  ancom w0 wex s0 w1
+}
+thm 19.44(setvar s0, wff w0, wff w1) {
+  |- wb wex s0 wo w0 w1 wo wex s0 w0 w1
+  -| wnf s0 w1
+} = {
+  bitri wex s0 wo w0 w1 wo wex s0 w0 w1 wo wex s0 w0 wex s0 w1
+  19.43 s0 w0 w1
+  orbi2i wex s0 w0 wex s0 w1 w1
+  19.9 s0 w1
+}
+thm 19.45(setvar s0, wff w0, wff w1) {
+  |- wb wex s0 wo w0 w1 wo w0 wex s0 w1
+  -| wnf s0 w0
+} = {
+  bitri wex s0 wo w0 w1 wo w0 wex s0 w1 wo wex s0 w0 wex s0 w1
+  19.43 s0 w0 w1
+  orbi1i wex s0 w0 wex s0 w1 w0
+  19.9 s0 w0
+}
+thm sbimd(setvar s0, setvar s1, wff w0, wff w1, wff w2) {
+  |- wi w0 wi wsb s0 s1 w1 wsb s0 s1 w2
+  -| wnf s0 w0
+  -| wi w0 wi w1 w2
+} = {
+  syl w0 wi wsb s0 s1 w1 wsb s0 s1 w2 wal s0 wi w1 w2
+  alrimi s0 w0 wi w1 w2
+  spsbim s0 s1 w1 w2
+}
+thm sbbid(setvar s0, setvar s1, wff w0, wff w1, wff w2) {
+  |- wi w0 wb wsb s0 s1 w1 wsb s0 s1 w2
+  -| wnf s0 w0
+  -| wi w0 wb w1 w2
+} = {
+  syl w0 wb wsb s0 s1 w1 wsb s0 s1 w2 wal s0 wb w1 w2
+  alrimi s0 w0 wb w1 w2
+  spsbbi s0 s1 w1 w2
+}
+thm 2sbbid(setvar s0, setvar s1, setvar s2, setvar s3, wff w0, wff w1, wff w2) {
+  |- wi w0 wb wsb s0 s1 wsb s2 s3 w1 wsb s0 s1 wsb s2 s3 w2
+  -| wnf s0 w0
+  -| wi w0 wb w1 w2
+  -| wnf s2 w0
+} = {
+  sbbid s0 s1 w0 wsb s2 s3 w1 wsb s2 s3 w2
+  sbbid s2 s3 w0 w1 w2
+}
+thm sbbidOLD(setvar s0, setvar s1, wff w0, wff w1, wff w2) {
+  |- wi w0 wb wsb s0 s1 w1 wsb s0 s1 w2
+  -| wnf s0 w0
+  -| wi w0 wb w1 w2
+} = {
+  impbid w0 wsb s0 s1 w1 wsb s0 s1 w2
+  sbimd s0 s1 w0 w1 w2
+  biimpd w0 w1 w2
+  sbimd s0 s1 w0 w2 w1
+  biimprd w0 w2 w1
+}
+thm sbequ1(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 wi w0 wsb s0 s1 w0
+} = {
+  syl6ibr wceq cv s0 cv s1
+          w0
+          wsb s0 s1 w0
+          wal hs0 wi wceq cv hs0 cv s1 wal s0 wi wceq cv s0 cv hs0 w0
+  alrimdv hs0
+          wceq cv s0 cv s1
+          w0
+          wi wceq cv hs0 cv s1 wal s0 wi wceq cv s0 cv hs0 w0
+  com23 wceq cv s0 cv s1 w0 wceq cv hs0 cv s1 wal s0 wi wceq cv s0 cv hs0 w0
+  syl6 wceq cv s0 cv s1
+       wceq cv hs0 cv s1
+       wi w0 wal s0 wi wceq cv s0 cv hs0 w0
+       wceq cv s0 cv hs0
+  equeucl s0 s1 hs0
+  ax12v s0 hs0 w0
+  df-sb s0 s1 hs0 w0
+  diff.hs0.w wceq cv s0 cv s1
+  diff.hs0.w w0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+}
+thm sbequ2(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 wi wsb s0 s1 w0 w0
+} = {
+  syl5com wceq cv s0 cv s1
+          wsb s0 s1 w0
+          w0
+          wex hs0 wa wceq cv s0 cv hs0 wceq cv s1 cv hs0
+  equvinva s0 s1 hs0
+  sylib wsb s0 s1 w0
+        wi wex hs0 wa wceq cv s0 cv hs0 wceq cv s1 cv hs0 w0
+        wal hs0 wi wa wceq cv s0 cv hs0 wceq cv s1 cv hs0 w0
+  sylbi wsb s0 s1 w0
+        wal hs0 wi wa wceq cv s0 cv hs0 wceq cv s1 cv hs0 w0
+        wal hs0 wi wceq cv hs0 cv s1 wal s0 wi wceq cv s0 cv hs0 w0
+  df-sb s0 s1 hs0 w0
+  alimi hs0
+        wi wceq cv hs0 cv s1 wal s0 wi wceq cv s0 cv hs0 w0
+        wi wa wceq cv s0 cv hs0 wceq cv s1 cv hs0 w0
+  impcomd wi wceq cv hs0 cv s1 wal s0 wi wceq cv s0 cv hs0 w0
+          wceq cv s0 cv hs0
+          wceq cv s1 cv hs0
+          w0
+  imim12i wceq cv hs0 cv s1
+          wal s0 wi wceq cv s0 cv hs0 w0
+          wceq cv s1 cv hs0
+          wi wceq cv s0 cv hs0 w0
+  equcomi s1 hs0
+  sp s0 wi wceq cv s0 cv hs0 w0
+  19.23v hs0 wa wceq cv s0 cv hs0 wceq cv s1 cv hs0 w0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diff.hs0.w w0
+}
+thm stdpc7(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 wi wsb s1 s0 w0 w0
+} = {
+  equcoms s0 s1 wi wsb s1 s0 w0 w0
+  sbequ2 s1 s0 w0
+}
+thm sbequ12(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 wb w0 wsb s0 s1 w0
+} = {
+  impbid wceq cv s0 cv s1 w0 wsb s0 s1 w0
+  sbequ1 s0 s1 w0
+  sbequ2 s0 s1 w0
+}
+thm sbequ12r(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 wb wsb s1 s0 w0 w0
+} = {
+  equcoms s0 s1 wb wsb s1 s0 w0 w0
+  bicomd wceq cv s1 cv s0 wsb s1 s0 w0 w0
+  sbequ12 s1 s0 w0
+}
+thm sbequ12a(setvar s0, setvar s1, wff w0) {
+  |- wi wceq cv s0 cv s1 wb wsb s0 s1 w0 wsb s1 s0 w0
+} = {
+  bitr2d wceq cv s0 cv s1 wsb s0 s1 w0 wsb s1 s0 w0 w0
+  sbequ12r s0 s1 w0
+  sbequ12 s0 s1 w0
+}
+thm sbid(setvar s0, wff w0) {
+  |- wb wsb s0 s0 w0 w0
+} = {
+  ax-mp wb wsb s0 s0 w0 w0 wceq cv s0 cv s0
+  equid s0
+  sbequ12r s0 s0 w0
+}
+thm sbcov(setvar s0, setvar s1, wff w0) {
+  |- wb wsb s0 s1 wsb s1 s0 w0 wsb s0 s1 w0
+  -| diffss s0 s1
+} = {
+  bitri wsb s0 s1 wsb s1 s0 w0 wsb s0 s1 w0 wsb s0 s1 wsb s1 s1 w0
+  sbcom3vv s0 s1 s1 w0
+  sbbii s0 s1 wsb s1 s1 w0 w0
+  sbid s1 w0
+}
+thm sb6a(setvar s0, setvar s1, wff w0) {
+  |- wb wsb s0 s1 w0 wal s0 wi wceq cv s0 cv s1 wsb s1 s0 w0
+  -| diffss s0 s1
+} = {
+  bitr3i wsb s0 s1 w0
+         wal s0 wi wceq cv s0 cv s1 wsb s1 s0 w0
+         wsb s0 s1 wsb s1 s0 w0
+  sbcov s0 s1 w0
+  sb6 s0 s1 wsb s1 s0 w0
+}
+thm sbid2vw(setvar s0, setvar s1, wff w0) {
+  |- wb wsb s0 s1 wsb s1 s0 w0 w0
+  -| diffss s0 s1
+  -| diffsw s0 w0
+} = {
+  bitri wsb s0 s1 wsb s1 s0 w0 w0 wsb s1 s1 w0
+  sbco2vv s0 s1 s1 w0
+  sbid s1 w0
+}
+thm axc16g(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wi wal s0 wceq cv s0 cv s1 wi w0 wal s2 w0
+  -| diffss s0 s1
+} = {
+  syl wal s0 wceq cv s0 cv s1 wi w0 wal s2 w0 wal s2 wceq cv s2 cv hs0
+  aevlem s0 s1 s2 hs0
+  syld wal s2 wceq cv s2 cv hs0 w0 wal s2 w0 wal s2 wi wceq cv s2 cv hs0 w0
+  sps s2 wceq cv s2 cv hs0 wi w0 wal s2 wi wceq cv s2 cv hs0 w0
+  ax12v s2 hs0 w0
+  al2imi s2 wceq cv s2 cv hs0 wi wceq cv s2 cv hs0 w0 w0
+  pm2.27 wceq cv s2 cv hs0 w0
+  diffss.ex s2 hs0
+  diff.hs0.s s2
+  diff.hs0.w w0
+}
+thm axc16(setvar s0, setvar s1, wff w0) {
+  |- wi wal s0 wceq cv s0 cv s1 wi w0 wal s0 w0
+  -| diffss s0 s1
+} = {
+  axc16g s0 s1 s0 w0
+}
+thm axc16gb(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wi wal s0 wceq cv s0 cv s1 wb w0 wal s2 w0
+  -| diffss s0 s1
+} = {
+  impbid1 wal s0 wceq cv s0 cv s1 w0 wal s2 w0
+  axc16g s0 s1 s2 w0
+  sp s2 w0
+}
+thm axc16nf(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wi wal s0 wceq cv s0 cv s1 wnf s2 w0
+  -| diffss s0 s1
+} = {
+  nfd s2 wal s0 wceq cv s0 cv s1 w0
+  syld wal s0 wceq cv s0 cv s1 wex s2 w0 wal s2 w0 w0
+  syl5bi wal s0 wceq cv s0 cv s1 wex s2 w0 w0 wn wal s2 wn w0
+  df-ex s2 w0
+  con1d wal s0 wceq cv s0 cv s1 wal s2 wn w0 w0
+  axc16g s0 s1 s2 wn w0
+  axc16g s0 s1 s2 w0
+}
+thm axc11v(setvar s0, setvar s1, wff w0) {
+  |- wi wal s0 wceq cv s0 cv s1 wi wal s0 w0 wal s1 w0
+  -| diffss s0 s1
+} = {
+  spsd s0 wal s0 wceq cv s0 cv s1 w0 wal s1 w0
+  axc16g s0 s1 s1 w0
+}
+thm axc11rv(setvar s0, setvar s1, wff w0) {
+  |- wi wal s0 wceq cv s0 cv s1 wi wal s1 w0 wal s0 w0
+  -| diffss s0 s1
+} = {
+  spsd s1 wal s0 wceq cv s0 cv s1 w0 wal s0 w0
+  axc16 s0 s1 w0
+}
+thm spimv1(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wal s0 w0 w1
+  -| wnf s0 w1
+  -| wi wceq cv s0 cv s1 wi w0 w1
+  -| diffss s0 s1
+} = {
+  19.36i s0 w0 w1
+  eximii s0 wi w0 w1 wceq cv s0 cv s1
+  ax6ev s0 s1
+}
+thm cbv3v2(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wal s0 w0 wal s1 w1
+  -| wnf s0 w1
+  -| wi wceq cv s0 cv s1 wi w0 w1
+  -| diffss s0 s1
+  -| diffsw s1 w0
+} = {
+  a1ii wi wal s0 w0 wal s1 w1
+       diffsw s1 w0
+  alrimiv s1 wal s0 w0 w1
+  spimv1 s0 s1 w0 w1
+  diff.wal s1 s0 w0
+  diffss.ex s1 s0
+}
+thm equsalv(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wal s0 wi wceq cv s0 cv s1 w0 w1
+  -| wnf s0 w1
+  -| wi wceq cv s0 cv s1 wb w0 w1
+  -| diffss s0 s1
+} = {
+  3bitr4i wal s0 wi wceq cv s0 cv s1 w0
+          w1
+          wal s0 wi wceq cv s0 cv s1 w1
+          wi wex s0 wceq cv s0 cv s1 w1
+  19.23 s0 wceq cv s0 cv s1 w1
+  albii s0 wi wceq cv s0 cv s1 w0 wi wceq cv s0 cv s1 w1
+  pm5.74i wceq cv s0 cv s1 w0 w1
+  a1bi w1 wex s0 wceq cv s0 cv s1
+  ax6ev s0 s1
+}
+thm equsexv(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wex s0 wa wceq cv s0 cv s1 w0 w1
+  -| wnf s0 w1
+  -| wi wceq cv s0 cv s1 wb w0 w1
+  -| diffss s0 s1
+} = {
+  bitri wex s0 wa wceq cv s0 cv s1 w0 w1 wex s0 wa wceq cv s0 cv s1 w1
+  exbii s0 wa wceq cv s0 cv s1 w0 wa wceq cv s0 cv s1 w1
+  pm5.32i wceq cv s0 cv s1 w0 w1
+  mpbiran wex s0 wa wceq cv s0 cv s1 w1 w1 wex s0 wceq cv s0 cv s1
+  ax6ev s0 s1
+  19.41 s0 wceq cv s0 cv s1 w1
+}
+thm sbft(setvar s0, setvar s1, wff w0) {
+  |- wi wnf s0 w0 wb wsb s0 s1 w0 w0
+} = {
+  impbid wnf s0 w0 wsb s0 s1 w0 w0
+  syl5ib wnf s0 w0 wsb s0 s1 w0 w0 wex s0 w0
+  spsbe s0 s1 w0
+  19.9t s0 w0
+  syl6 wnf s0 w0 w0 wsb s0 s1 w0 wal s0 w0
+  nf5r s0 w0
+  stdpc4 s0 s1 w0
+}
+thm sbf(setvar s0, setvar s1, wff w0) {
+  |- wb wsb s0 s1 w0 w0
+  -| wnf s0 w0
+} = {
+  ax-mp wb wsb s0 s1 w0 w0 wnf s0 w0
+  sbft s0 s1 w0
+}
+thm sb56(setvar s0, setvar s1, wff w0) {
+  |- wb wex s0 wa wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  -| diffss s0 s1
+} = {
+  equsexv s0 s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  nfa1 s0 wi wceq cv s0 cv s1 w0
+  impbid wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  ax12v2 s0 s1 w0
+  com12 wceq cv s0 cv s1 wal s0 wi wceq cv s0 cv s1 w0 w0
+  sp s0 wi wceq cv s0 cv s1 w0
+}
+thm sb6OLD(setvar s0, setvar s1, wff w0) {
+  |- wb wsb s0 s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  -| diffss s0 s1
+} = {
+  impbii wsb s0 s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  sb4vOLD s0 s1 w0
+  sb2vOLD s0 s1 w0
+}
+thm sb5(setvar s0, setvar s1, wff w0) {
+  |- wb wsb s0 s1 w0 wex s0 wa wceq cv s0 cv s1 w0
+  -| diffss s0 s1
+} = {
+  bitr4i wsb s0 s1 w0 wex s0 wa wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  sb6 s0 s1 w0
+  sb56 s0 s1 w0
+}
+thm 2sb5(setvar s0, setvar s1, setvar s2, setvar s3, wff w0) {
+  |- wb wsb s0 s1 wsb s2 s3 w0
+        wex s0 wex s2 wa wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffss s2 s3
+} = {
+  a1ii wb wsb s0 s1 wsb s2 s3 w0 wex s0 wex s2 wa wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+       diffss s0 s2
+  a1ii wb wsb s0 s1 wsb s2 s3 w0 wex s0 wex s2 wa wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+       diffss s1 s2
+  bitri wsb s0 s1 wsb s2 s3 w0
+        wex s0 wex s2 wa wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+        wex s0 wa wceq cv s0 cv s1 wsb s2 s3 w0
+  sb5 s0 s1 wsb s2 s3 w0
+  exbii s0
+        wa wceq cv s0 cv s1 wsb s2 s3 w0
+        wex s2 wa wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+  3bitr4ri wa wceq cv s0 cv s1 wsb s2 s3 w0
+           wex s2 wa wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+           wex s2 wa wceq cv s0 cv s1 wa wceq cv s2 cv s3 w0
+           wa wceq cv s0 cv s1 wex s2 wa wceq cv s2 cv s3 w0
+  19.42v s2 wceq cv s0 cv s1 wa wceq cv s2 cv s3 w0
+  exbii s2
+        wa wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+        wa wceq cv s0 cv s1 wa wceq cv s2 cv s3 w0
+  anass wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+  anbi2i wceq cv s0 cv s1 wsb s2 s3 w0 wex s2 wa wceq cv s2 cv s3 w0
+  sb5 s2 s3 w0
+  diff.wceq s2 cv s0 cv s1
+  diff.cv s2 s0
+  diffss.ex s2 s0
+  diff.cv s2 s1
+  diffss.ex s2 s1
+}
+thm 2sb6(setvar s0, setvar s1, setvar s2, setvar s3, wff w0) {
+  |- wb wsb s0 s1 wsb s2 s3 w0
+        wal s0 wal s2 wi wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffss s2 s3
+} = {
+  a1ii wb wsb s0 s1 wsb s2 s3 w0 wal s0 wal s2 wi wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+       diffss s0 s2
+  a1ii wb wsb s0 s1 wsb s2 s3 w0 wal s0 wal s2 wi wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+       diffss s1 s2
+  bitri wsb s0 s1 wsb s2 s3 w0
+        wal s0 wal s2 wi wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+        wal s0 wi wceq cv s0 cv s1 wsb s2 s3 w0
+  sb6 s0 s1 wsb s2 s3 w0
+  albii s0
+        wi wceq cv s0 cv s1 wsb s2 s3 w0
+        wal s2 wi wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+  3bitr4ri wi wceq cv s0 cv s1 wsb s2 s3 w0
+           wal s2 wi wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+           wal s2 wi wceq cv s0 cv s1 wi wceq cv s2 cv s3 w0
+           wi wceq cv s0 cv s1 wal s2 wi wceq cv s2 cv s3 w0
+  19.21v s2 wceq cv s0 cv s1 wi wceq cv s2 cv s3 w0
+  albii s2
+        wi wa wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+        wi wceq cv s0 cv s1 wi wceq cv s2 cv s3 w0
+  impexp wceq cv s0 cv s1 wceq cv s2 cv s3 w0
+  imbi2i wceq cv s0 cv s1 wsb s2 s3 w0 wal s2 wi wceq cv s2 cv s3 w0
+  sb6 s2 s3 w0
+  diff.wceq s2 cv s0 cv s1
+  diff.cv s2 s0
+  diffss.ex s2 s0
+  diff.cv s2 s1
+  diffss.ex s2 s1
+}
+thm dfsb7(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wb wsb s0 s1 w0 wex s2 wa wceq cv s2 cv s1 wex s0 wa wceq cv s0 cv s2 w0
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsw s2 w0
+} = {
+  3bitr2i wsb s0 s1 w0
+          wex s2 wa wceq cv s2 cv s1 wex s0 wa wceq cv s0 cv s2 w0
+          wal s2 wi wceq cv s2 cv s1 wal s0 wi wceq cv s0 cv s2 w0
+          wex s2 wa wceq cv s2 cv s1 wal s0 wi wceq cv s0 cv s2 w0
+  df-sb s0 s1 s2 w0
+  sb56 s2 s1 wal s0 wi wceq cv s0 cv s2 w0
+  exbii s2
+        wa wceq cv s2 cv s1 wal s0 wi wceq cv s0 cv s2 w0
+        wa wceq cv s2 cv s1 wex s0 wa wceq cv s0 cv s2 w0
+  anbi2i wceq cv s2 cv s1
+         wal s0 wi wceq cv s0 cv s2 w0
+         wex s0 wa wceq cv s0 cv s2 w0
+  bicomi wal s0 wi wceq cv s0 cv s2 w0 wex s0 wa wceq cv s0 cv s2 w0
+  sb56 s0 s2 w0
+  diffss.ex s2 s1
+}
+thm sbn(setvar s0, setvar s1, wff w0) {
+  |- wb wsb s0 s1 wn w0 wn wsb s0 s1 w0
+} = {
+  3bitri wsb s0 s1 wn w0
+         wn wsb s0 s1 w0
+         wal hs0 wi wceq cv hs0 cv s1 wal s0 wi wceq cv s0 cv hs0 wn w0
+         wal hs0 wi wceq cv hs0 cv s1 wn wex s0 wa wceq cv s0 cv hs0 w0
+  df-sb s0 s1 hs0 wn w0
+  albii hs0
+        wi wceq cv hs0 cv s1 wal s0 wi wceq cv s0 cv hs0 wn w0
+        wi wceq cv hs0 cv s1 wn wex s0 wa wceq cv s0 cv hs0 w0
+  imbi2i wceq cv hs0 cv s1
+         wal s0 wi wceq cv s0 cv hs0 wn w0
+         wn wex s0 wa wceq cv s0 cv hs0 w0
+  alinexa s0 wceq cv s0 cv hs0 w0
+  xchbinxr wal hs0 wi wceq cv hs0 cv s1 wn wex s0 wa wceq cv s0 cv hs0 w0
+           wsb s0 s1 w0
+           wex hs0 wa wceq cv hs0 cv s1 wex s0 wa wceq cv s0 cv hs0 w0
+  alinexa hs0 wceq cv hs0 cv s1 wex s0 wa wceq cv s0 cv hs0 w0
+  dfsb7 s0 s1 hs0 w0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diff.hs0.w wn w0
+  diff.hs0.w w0
+}
+thm nfs1v(setvar s0, setvar s1, wff w0) {
+  |- wnf s0 wsb s0 s1 w0
+  -| diffss s0 s1
+} = {
+  nfxfr s0 wsb s0 s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  sb6 s0 s1 w0
+  nfa1 s0 wi wceq cv s0 cv s1 w0
+}
+thm hbs1(setvar s0, setvar s1, wff w0) {
+  |- wi wsb s0 s1 w0 wal s0 wsb s0 s1 w0
+  -| diffss s0 s1
+} = {
+  nf5ri s0 wsb s0 s1 w0
+  nfs1v s0 s1 w0
+}
+thm nf5(setvar s0, wff w0) {
+  |- wb wnf s0 w0 wal s0 wi w0 wal s0 w0
+} = {
+  bitr4i wnf s0 w0 wal s0 wi w0 wal s0 w0 wi wex s0 w0 wal s0 w0
+  df-nf s0 w0
+  19.23 s0 w0 wal s0 w0
+  nfa1 s0 w0
+}
+thm nf6(setvar s0, wff w0) {
+  |- wb wnf s0 w0 wal s0 wi wex s0 w0 w0
+} = {
+  bitr4i wnf s0 w0 wal s0 wi wex s0 w0 w0 wi wex s0 w0 wal s0 w0
+  df-nf s0 w0
+  19.21 s0 wex s0 w0 w0
+  nfe1 s0 w0
+}
+thm nf5d(setvar s0, wff w0, wff w1) {
+  |- wi w0 wnf s0 w1
+  -| wnf s0 w0
+  -| wi w0 wi w1 wal s0 w1
+} = {
+  syl w0 wnf s0 w1 wal s0 wi w1 wal s0 w1
+  alrimi s0 w0 wi w1 wal s0 w1
+  nf5-1 s0 w1
+}
+thm nf5di(setvar s0, wff w0) {
+  |- wnf s0 w0
+  -| wi w0 wnf s0 w0
+} = {
+  nf5i s0 w0
+  pm2.43i w0 wal s0 w0
+  nf5rd s0 w0 w0
+}
+thm 19.9h(setvar s0, wff w0) {
+  |- wb wex s0 w0 w0
+  -| wi w0 wal s0 w0
+} = {
+  19.9 s0 w0
+  nf5i s0 w0
+}
+thm 19.21h(setvar s0, wff w0, wff w1) {
+  |- wb wal s0 wi w0 w1 wi w0 wal s0 w1
+  -| wi w0 wal s0 w0
+} = {
+  19.21 s0 w0 w1
+  nf5i s0 w0
+}
+thm 19.23h(setvar s0, wff w0, wff w1) {
+  |- wb wal s0 wi w0 w1 wi wex s0 w0 w1
+  -| wi w1 wal s0 w1
+} = {
+  19.23 s0 w0 w1
+  nf5i s0 w1
+}
+thm exlimih(setvar s0, wff w0, wff w1) {
+  |- wi wex s0 w0 w1
+  -| wi w1 wal s0 w1
+  -| wi w0 w1
+} = {
+  exlimi s0 w0 w1
+  nf5i s0 w1
+}
+thm exlimdh(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wi wex s0 w1 w2
+  -| wi w0 wal s0 w0
+  -| wi w2 wal s0 w2
+  -| wi w0 wi w1 w2
+} = {
+  exlimd s0 w0 w1 w2
+  nf5i s0 w0
+  nf5i s0 w2
+}
+thm equsalhw(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wal s0 wi wceq cv s0 cv s1 w0 w1
+  -| wi w1 wal s0 w1
+  -| wi wceq cv s0 cv s1 wb w0 w1
+  -| diffss s0 s1
+} = {
+  equsalv s0 s1 w0 w1
+  nf5i s0 w1
+}
+thm equsexhv(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wex s0 wa wceq cv s0 cv s1 w0 w1
+  -| wi w1 wal s0 w1
+  -| wi wceq cv s0 cv s1 wb w0 w1
+  -| diffss s0 s1
+} = {
+  equsexv s0 s1 w0 w1
+  nf5i s0 w1
+}
+thm hba1(setvar s0, wff w0) {
+  |- wi wal s0 w0 wal s0 wal s0 w0
+} = {
+  nf5ri s0 wal s0 w0
+  nfa1 s0 w0
+}
+thm hbnt(setvar s0, wff w0) {
+  |- wi wal s0 wi w0 wal s0 w0 wi wn w0 wal s0 wn w0
+} = {
+  nf5rd s0 wal s0 wi w0 wal s0 w0 wn w0
+  nfnd s0 wal s0 wi w0 wal s0 w0 w0
+  nf5-1 s0 w0
+}
+thm hbn(setvar s0, wff w0) {
+  |- wi wn w0 wal s0 wn w0
+  -| wi w0 wal s0 w0
+} = {
+  mpg s0 wi wn w0 wal s0 wn w0 wi w0 wal s0 w0
+  hbnt s0 w0
+}
+thm hbnd(setvar s0, wff w0, wff w1) {
+  |- wi w0 wi wn w1 wal s0 wn w1
+  -| wi w0 wal s0 w0
+  -| wi w0 wi w1 wal s0 w1
+} = {
+  syl w0 wi wn w1 wal s0 wn w1 wal s0 wi w1 wal s0 w1
+  alrimih s0 w0 wi w1 wal s0 w1
+  hbnt s0 w1
+}
+thm hbim1(setvar s0, wff w0, wff w1) {
+  |- wi wi w0 w1 wal s0 wi w0 w1
+  -| wi w0 wal s0 w0
+  -| wi w0 wi w1 wal s0 w1
+} = {
+  sylibr wi w0 w1 wal s0 wi w0 w1 wi w0 wal s0 w1
+  a2i w0 w1 wal s0 w1
+  19.21h s0 w0 w1
+}
+thm hbimd(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w0 wi wi w1 w2 wal s0 wi w1 w2
+  -| wi w0 wal s0 w0
+  -| wi w0 wi w1 wal s0 w1
+  -| wi w0 wi w2 wal s0 w2
+} = {
+  nf5rd s0 w0 wi w1 w2
+  nfimd s0 w0 w1 w2
+  nf5dh s0 w0 w1
+  nf5dh s0 w0 w2
+}
+thm hbim(setvar s0, wff w0, wff w1) {
+  |- wi wi w0 w1 wal s0 wi w0 w1
+  -| wi w0 wal s0 w0
+  -| wi w1 wal s0 w1
+} = {
+  hbim1 s0 w0 w1
+  a1i w0 wi w1 wal s0 w1
+}
+thm hban(setvar s0, wff w0, wff w1) {
+  |- wi wa w0 w1 wal s0 wa w0 w1
+  -| wi w0 wal s0 w0
+  -| wi w1 wal s0 w1
+} = {
+  nf5ri s0 wa w0 w1
+  nfan s0 w0 w1
+  nf5i s0 w0
+  nf5i s0 w1
+}
+thm hb3an(setvar s0, wff w0, wff w1, wff w2) {
+  |- wi w3a w0 w1 w2 wal s0 w3a w0 w1 w2
+  -| wi w0 wal s0 w0
+  -| wi w1 wal s0 w1
+  -| wi w2 wal s0 w2
+} = {
+  nf5ri s0 w3a w0 w1 w2
+  nf3an s0 w0 w1 w2
+  nf5i s0 w0
+  nf5i s0 w1
+  nf5i s0 w2
+}
+thm sbi2(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wi wsb s0 s1 w0 wsb s0 s1 w1 wsb s0 s1 wi w0 w1
+} = {
+  ja wsb s0 s1 w0 wsb s0 s1 w1 wsb s0 s1 wi w0 w1
+  sylbir wn wsb s0 s1 w0 wsb s0 s1 wi w0 w1 wsb s0 s1 wn w0
+  sbn s0 s1 w0
+  sbimi s0 s1 wn w0 wi w0 w1
+  pm2.21 w0 w1
+  sbimi s0 s1 w1 wi w0 w1
+  ax-1 w1 w0
+}
+thm sbnvOLD(setvar s0, setvar s1, wff w0) {
+  |- wb wsb s0 s1 wn w0 wn wsb s0 s1 w0
+  -| diffss s0 s1
+} = {
+  3bitr4i wsb s0 s1 wn w0
+          wn wsb s0 s1 w0
+          wex s0 wa wceq cv s0 cv s1 wn w0
+          wn wal s0 wi wceq cv s0 cv s1 w0
+  exanali s0 wceq cv s0 cv s1 w0
+  sb5 s0 s1 wn w0
+  notbii wsb s0 s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  sb6 s0 s1 w0
+}
+thm sbi1vOLD(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wsb s0 s1 wi w0 w1 wi wsb s0 s1 w0 wsb s0 s1 w1
+  -| diffss s0 s1
+} = {
+  syl wsb s0 s1 wi w0 w1
+      wi wsb s0 s1 w0 wsb s0 s1 w1
+      wal s0 wi wceq cv s0 cv s1 wi w0 w1
+  sb4vOLD s0 s1 wi w0 w1
+  syl56 wal s0 wi wceq cv s0 cv s1 wi w0 w1
+        wsb s0 s1 w0
+        wsb s0 s1 w1
+        wal s0 wi wceq cv s0 cv s1 w0
+        wal s0 wi wceq cv s0 cv s1 w1
+  sb4vOLD s0 s1 w0
+  al2imi s0
+         wi wceq cv s0 cv s1 wi w0 w1
+         wi wceq cv s0 cv s1 w0
+         wi wceq cv s0 cv s1 w1
+  ax-2 wceq cv s0 cv s1 w0 w1
+  sb2vOLD s0 s1 w1
+}
+thm sbi2vOLD(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wi wsb s0 s1 w0 wsb s0 s1 w1 wsb s0 s1 wi w0 w1
+  -| diffss s0 s1
+} = {
+  ja wsb s0 s1 w0 wsb s0 s1 w1 wsb s0 s1 wi w0 w1
+  sylbir wn wsb s0 s1 w0 wsb s0 s1 wi w0 w1 wsb s0 s1 wn w0
+  sbnvOLD s0 s1 w0
+  sbimi s0 s1 wn w0 wi w0 w1
+  pm2.21 w0 w1
+  sbimi s0 s1 w1 wi w0 w1
+  ax-1 w1 w0
+}
+thm sbimvOLD(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wsb s0 s1 wi w0 w1 wi wsb s0 s1 w0 wsb s0 s1 w1
+  -| diffss s0 s1
+} = {
+  impbii wsb s0 s1 wi w0 w1 wi wsb s0 s1 w0 wsb s0 s1 w1
+  sbi1vOLD s0 s1 w0 w1
+  sbi2 s0 s1 w0 w1
+}
+thm sbanvOLD(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wsb s0 s1 wa w0 w1 wa wsb s0 s1 w0 wsb s0 s1 w1
+  -| diffss s0 s1
+} = {
+  3bitr4i wsb s0 s1 wa w0 w1
+          wa wsb s0 s1 w0 wsb s0 s1 w1
+          wsb s0 s1 wn wi w0 wn w1
+          wn wi wsb s0 s1 w0 wn wsb s0 s1 w1
+  xchbinx wsb s0 s1 wn wi w0 wn w1
+          wi wsb s0 s1 w0 wn wsb s0 s1 w1
+          wsb s0 s1 wi w0 wn w1
+  sbn s0 s1 wi w0 wn w1
+  bitri wsb s0 s1 wi w0 wn w1
+        wi wsb s0 s1 w0 wn wsb s0 s1 w1
+        wi wsb s0 s1 w0 wsb s0 s1 wn w1
+  sbimvOLD s0 s1 w0 wn w1
+  imbi2i wsb s0 s1 w0 wsb s0 s1 wn w1 wn wsb s0 s1 w1
+  sbn s0 s1 w1
+  sbbii s0 s1 wa w0 w1 wn wi w0 wn w1
+  df-an w0 w1
+  df-an wsb s0 s1 w0 wsb s0 s1 w1
+}
+thm sbbivOLD(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wsb s0 s1 wb w0 w1 wb wsb s0 s1 w0 wsb s0 s1 w1
+  -| diffss s0 s1
+} = {
+  bitri wsb s0 s1 wb w0 w1
+        wb wsb s0 s1 w0 wsb s0 s1 w1
+        wsb s0 s1 wa wi w0 w1 wi w1 w0
+  sbbii s0 s1 wb w0 w1 wa wi w0 w1 wi w1 w0
+  dfbi2 w0 w1
+  3bitr4i wsb s0 s1 wa wi w0 w1 wi w1 w0
+          wb wsb s0 s1 w0 wsb s0 s1 w1
+          wa wsb s0 s1 wi w0 w1 wsb s0 s1 wi w1 w0
+          wa wi wsb s0 s1 w0 wsb s0 s1 w1 wi wsb s0 s1 w1 wsb s0 s1 w0
+  anbi12i wsb s0 s1 wi w0 w1
+          wsb s0 s1 wi w1 w0
+          wi wsb s0 s1 w0 wsb s0 s1 w1
+          wi wsb s0 s1 w1 wsb s0 s1 w0
+  sbimvOLD s0 s1 w0 w1
+  sbimvOLD s0 s1 w1 w0
+  sbanvOLD s0 s1 wi w0 w1 wi w1 w0
+  dfbi2 wsb s0 s1 w0 wsb s0 s1 w1
+}
+thm spsbimvOLD(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wal s0 wi w0 w1 wi wsb s0 s1 w0 wsb s0 s1 w1
+  -| diffss s0 s1
+} = {
+  a1ii wi wal s0 wi w0 w1 wi wsb s0 s1 w0 wsb s0 s1 w1
+       diffss s0 s1
+  sbimd s0 s1 wal s0 wi w0 w1 w0 w1
+  nfa1 s0 wi w0 w1
+  sp s0 wi w0 w1
+}
+thm sblbisvOLD(setvar s0, setvar s1, wff w0, wff w1, wff w2) {
+  |- wb wsb s0 s1 wb w0 w1 wb wsb s0 s1 w0 w2
+  -| wb wsb s0 s1 w1 w2
+  -| diffss s0 s1
+} = {
+  bitri wsb s0 s1 wb w0 w1 wb wsb s0 s1 w0 w2 wb wsb s0 s1 w0 wsb s0 s1 w1
+  sbbivOLD s0 s1 w0 w1
+  bibi2i wsb s0 s1 w0 wsb s0 s1 w1 w2
+}
+thm sbiev(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wsb s0 s1 w0 w1
+  -| wnf s0 w1
+  -| wi wceq cv s0 cv s1 wb w0 w1
+  -| diffss s0 s1
+} = {
+  bitri wsb s0 s1 w0 w1 wal s0 wi wceq cv s0 cv s1 w0
+  sb6 s0 s1 w0
+  equsalv s0 s1 w0 w1
+}
+thm sbievOLD(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wsb s0 s1 w0 w1
+  -| wnf s0 w1
+  -| wi wceq cv s0 cv s1 wb w0 w1
+  -| diffss s0 s1
+} = {
+  mpbi wb wsb s0 s1 w0 w1 wsb s0 s1 wb w0 w1
+  ax-mp wsb s0 s1 wb w0 w1 wsb s0 s1 wceq cv s0 cv s1
+  equsb1v s0 s1
+  sbimi s0 s1 wceq cv s0 cv s1 wb w0 w1
+  sblbisvOLD s0 s1 w0 w1 w1
+  sbf s0 s1 w1
+}
+thm sbequivvOLD(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wi wceq cv s0 cv s1 wi wsb s2 s0 w0 wsb s2 s1 w0
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  a1ii wi wceq cv s0 cv s1 wi wsb s2 s0 w0 wsb s2 s1 w0
+       diffss s0 s2
+  a1ii wi wceq cv s0 cv s1 wi wsb s2 s0 w0 wsb s2 s1 w0
+       diffss s1 s2
+  3imtr4g wceq cv s0 cv s1
+          wsb s2 s0 w0
+          wsb s2 s1 w0
+          wal s2 wi wceq cv s2 cv s0 w0
+          wal s2 wi wceq cv s2 cv s1 w0
+  alimdv s2 wceq cv s0 cv s1 wi wceq cv s2 cv s0 w0 wi wceq cv s2 cv s1 w0
+  imim1d wceq cv s0 cv s1 wceq cv s2 cv s0 w0 wceq cv s2 cv s1
+  equeuclr s0 s1 s2
+  sb6 s2 s0 w0
+  sb6 s2 s1 w0
+  diff.wceq s2 cv s0 cv s1
+  diff.cv s2 s0
+  diff.cv s2 s1
+  diffss.ex s2 s0
+  diffss.ex s2 s1
+}
+thm sbequvvOLD(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wi wceq cv s0 cv s1 wb wsb s2 s0 w0 wsb s2 s1 w0
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  impbid wceq cv s0 cv s1 wsb s2 s0 w0 wsb s2 s1 w0
+  sbequivvOLD s0 s1 s2 w0
+  equcoms s0 s1 wi wsb s2 s1 w0 wsb s2 s0 w0
+  sbequivvOLD s1 s0 s2 w0
+}
+thm axc7(setvar s0, wff w0) {
+  |- wi wn wal s0 wn wal s0 w0 w0
+} = {
+  nsyl4 wal s0 wn wal s0 w0 w0 wal s0 w0
+  sp s0 w0
+  hbn1 s0 w0
+}
+thm axc7e(setvar s0, wff w0) {
+  |- wi wex s0 wal s0 w0 w0
+} = {
+  19.21bi s0 wex s0 wal s0 w0 w0
+  hbe1a s0 w0
+}
+thm modal-b(setvar s0, wff w0) {
+  |- wi w0 wal s0 wn wal s0 wn w0
+} = {
+  con4i w0 wal s0 wn wal s0 wn w0
+  axc7 s0 wn w0
+}
+thm 19.9ht(setvar s0, wff w0) {
+  |- wi wal s0 wi w0 wal s0 w0 wi wex s0 w0 w0
+} = {
+  syl6 wal s0 wi w0 wal s0 w0 wex s0 w0 w0 wex s0 wal s0 w0
+  exim s0 w0 wal s0 w0
+  axc7e s0 w0
+}
+thm axc4(setvar s0, wff w0, wff w1) {
+  |- wi wal s0 wi wal s0 w0 w1 wi wal s0 w0 wal s0 w1
+} = {
+  syl5 wal s0 wi wal s0 w0 w1 wal s0 w0 wal s0 w1 wal s0 wal s0 w0
+  3syl wal s0 w0
+       wal s0 wal s0 w0
+       wn wal s0 wn wal s0 w0
+       wal s0 wn wal s0 wn wal s0 w0
+  con2i wal s0 w0 wal s0 wn wal s0 w0
+  sp s0 wn wal s0 w0
+  hbn1 s0 wn wal s0 w0
+  alimi s0 wn wal s0 wn wal s0 w0 wal s0 w0
+  con1i wal s0 wn wal s0 w0 wal s0 w0
+  hbn1 s0 w0
+  alim s0 wal s0 w0 w1
+}
+thm axc4i(setvar s0, wff w0, wff w1) {
+  |- wi wal s0 w0 wal s0 w1
+  -| wi wal s0 w0 w1
+} = {
+  alrimi s0 wal s0 w0 w1
+  nfa1 s0 w0
+}
+thm nfal(setvar s0, setvar s1, wff w0) {
+  |- wnf s0 wal s1 w0
+  -| wnf s0 w0
+} = {
+  nf5i s0 wal s1 w0
+  hbal s1 s0 w0
+  nf5ri s0 w0
+}
+thm nfex(setvar s0, setvar s1, wff w0) {
+  |- wnf s0 wex s1 w0
+  -| wnf s0 w0
+} = {
+  nfxfr s0 wex s1 w0 wn wal s1 wn w0
+  df-ex s1 w0
+  nfn s0 wal s1 wn w0
+  nfal s0 s1 wn w0
+  nfn s0 w0
+}
+thm hbex(setvar s0, setvar s1, wff w0) {
+  |- wi wex s0 w0 wal s1 wex s0 w0
+  -| wi w0 wal s1 w0
+} = {
+  nf5ri s1 wex s0 w0
+  nfex s1 s0 w0
+  nf5i s1 w0
+}
+thm nfnf(setvar s0, setvar s1, wff w0) {
+  |- wnf s0 wnf s1 w0
+  -| wnf s0 w0
+} = {
+  nfxfr s0 wnf s1 w0 wi wex s1 w0 wal s1 w0
+  df-nf s1 w0
+  nfim s0 wex s1 w0 wal s1 w0
+  nfex s0 s1 w0
+  nfal s0 s1 w0
+}
+thm 19.12(setvar s0, setvar s1, wff w0) {
+  |- wi wex s0 wal s1 w0 wal s1 wex s0 w0
+} = {
+  alrimi s1 wex s0 wal s1 w0 wex s0 w0
+  nfex s1 s0 wal s1 w0
+  nfa1 s1 w0
+  eximi s0 wal s1 w0 w0
+  sp s1 w0
+}
+thm nfald(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi w0 wnf s0 wal s1 w1
+  -| wnf s1 w0
+  -| wi w0 wnf s0 w1
+} = {
+  nfd s0 w0 wal s1 w1
+  syl56 w0 wex s0 wal s1 w1 wal s0 wal s1 w1 wal s1 wex s0 w1 wal s1 wal s0 w1
+  19.12 s0 s1 w1
+  alimd s1 w0 wex s0 w1 wal s0 w1
+  nfrd s0 w0 w1
+  ax-11 s1 s0 w1
+}
+thm nfexd(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi w0 wnf s0 wex s1 w1
+  -| wnf s1 w0
+  -| wi w0 wnf s0 w1
+} = {
+  nfxfrd s0 w0 wex s1 w1 wn wal s1 wn w1
+  df-ex s1 w1
+  nfnd s0 w0 wal s1 wn w1
+  nfald s0 s1 w0 wn w1
+  nfnd s0 w0 w1
+}
+thm nfsbv(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wnf s0 wsb s1 s2 w0
+  -| wnf s0 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  a1ii wnf s0 wsb s1 s2 w0
+       diffss s0 s1
+  a1ii wnf s0 wsb s1 s2 w0
+       diffss s0 s2
+  nfxfr s0 wsb s1 s2 w0 wal s1 wi wceq cv s1 cv s2 w0
+  sb6 s1 s2 w0
+  nfal s0 s1 wi wceq cv s1 cv s2 w0
+  nfim s0 wceq cv s1 cv s2 w0
+  nfv s0 wceq cv s1 cv s2
+  diff.wceq s0 cv s1 cv s2
+  diff.cv s0 s1
+  diff.cv s0 s2
+}
+thm sbco2v(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wb wsb s0 s1 wsb s2 s0 w0 wsb s2 s1 w0
+  -| wnf s0 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  a1ii wb wsb s0 s1 wsb s2 s0 w0 wsb s2 s1 w0
+       diffss s1 s2
+  sbiev s0 s1 wsb s2 s0 w0 wsb s2 s1 w0
+  nfsbv s0 s2 s1 w0
+  sbequ s0 s1 s2 w0
+  diffss.ex s2 s1
+}
+thm aaan(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wal s0 wal s1 wa w0 w1 wa wal s0 w0 wal s1 w1
+  -| wnf s1 w0
+  -| wnf s0 w1
+} = {
+  bitri wal s0 wal s1 wa w0 w1 wa wal s0 w0 wal s1 w1 wal s0 wa w0 wal s1 w1
+  albii s0 wal s1 wa w0 w1 wa w0 wal s1 w1
+  19.28 s1 w0 w1
+  19.27 s0 w0 wal s1 w1
+  nfal s0 s1 w1
+}
+thm eeor(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wex s0 wex s1 wo w0 w1 wo wex s0 w0 wex s1 w1
+  -| wnf s1 w0
+  -| wnf s0 w1
+} = {
+  bitri wex s0 wex s1 wo w0 w1 wo wex s0 w0 wex s1 w1 wex s0 wo w0 wex s1 w1
+  exbii s0 wex s1 wo w0 w1 wo w0 wex s1 w1
+  19.45 s1 w0 w1
+  19.44 s0 w0 wex s1 w1
+  nfex s0 s1 w1
+}
+thm cbv3v(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wal s0 w0 wal s1 w1
+  -| wnf s1 w0
+  -| wnf s0 w1
+  -| wi wceq cv s0 cv s1 wi w0 w1
+  -| diffss s0 s1
+} = {
+  alrimih s1 wal s0 w0 w1
+  hbal s0 s1 w0
+  nf5ri s1 w0
+  spimv1 s0 s1 w0 w1
+}
+thm cbv3hv(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wi wal s0 w0 wal s1 w1
+  -| wi w0 wal s1 w0
+  -| wi w1 wal s0 w1
+  -| wi wceq cv s0 cv s1 wi w0 w1
+  -| diffss s0 s1
+} = {
+  cbv3v s0 s1 w0 w1
+  nf5i s1 w0
+  nf5i s0 w1
+}
+thm cbvalv1(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wal s0 w0 wal s1 w1
+  -| wnf s1 w0
+  -| wnf s0 w1
+  -| wi wceq cv s0 cv s1 wb w0 w1
+  -| diffss s0 s1
+} = {
+  impbii wal s0 w0 wal s1 w1
+  cbv3v s0 s1 w0 w1
+  biimpd wceq cv s0 cv s1 w0 w1
+  cbv3v s1 s0 w1 w0
+  equcoms s1 s0 wi w1 w0
+  biimprd wceq cv s0 cv s1 w1 w0
+  diffss.ex s1 s0
+}
+thm cbvexv1(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wex s0 w0 wex s1 w1
+  -| wnf s1 w0
+  -| wnf s0 w1
+  -| wi wceq cv s0 cv s1 wb w0 w1
+  -| diffss s0 s1
+} = {
+  3bitr4i wex s0 w0 wex s1 w1 wn wal s0 wn w0 wn wal s1 wn w1
+  notbii wal s0 wn w0 wal s1 wn w1
+  cbvalv1 s0 s1 wn w0 wn w1
+  nfn s1 w0
+  nfn s0 w1
+  notbid wceq cv s0 cv s1 w0 w1
+  df-ex s0 w0
+  df-ex s1 w1
+}
+thm dvelimhw(setvar s0, setvar s1, setvar s2, wff w0, wff w1) {
+  |- wi wn wal s0 wceq cv s0 cv s1 wi w0 wal s0 w0
+  -| wi w1 wal s0 w1
+  -| wi w0 wal s2 w0
+  -| wi wceq cv s2 cv s1 wb w1 w0
+  -| wi wn wal s0 wceq cv s0 cv s1 wi wceq cv s1 cv s2 wal s0 wceq cv s1 cv s2
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  a1ii wi wn wal s0 wceq cv s0 cv s1 wi w0 wal s0 w0
+       diffss s0 s2
+  a1ii wi wn wal s0 wceq cv s0 cv s1 wi w0 wal s0 w0
+       diffss s1 s2
+  nf5rd s0 wn wal s0 wceq cv s0 cv s1 w0
+  sylib wn wal s0 wceq cv s0 cv s1 wnf s0 w0 wnf s0 wal s2 wi wceq cv s2 cv s1 w1
+  nfald s0 s2 wn wal s0 wceq cv s0 cv s1 wi wceq cv s2 cv s1 w1
+  nfv s2 wn wal s0 wceq cv s0 cv s1
+  nfimd s0 wn wal s0 wceq cv s0 cv s1 wceq cv s2 cv s1 w1
+  nfxfrd s0 wn wal s0 wceq cv s0 cv s1 wceq cv s2 cv s1 wceq cv s1 cv s2
+  equcom s2 s1
+  nf5d s0 wn wal s0 wceq cv s0 cv s1 wceq cv s1 cv s2
+  nfna1 s0 wceq cv s0 cv s1
+  a1i wn wal s0 wceq cv s0 cv s1 wnf s0 w1
+  nf5i s0 w1
+  nfbii s0 wal s2 wi wceq cv s2 cv s1 w1 w0
+  equsalhw s2 s1 w1 w0
+  diff.wn s2 wal s0 wceq cv s0 cv s1
+  diff.wal s2 s0 wceq cv s0 cv s1
+  diff.wceq s2 cv s0 cv s1
+  diff.cv s2 s0
+  diffss.ex s2 s0
+  diff.cv s2 s1
+  diffss.ex s2 s1
+}
+thm pm11.53(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wal s0 wal s1 wi w0 w1 wi wex s0 w0 wal s1 w1
+  -| diffsw s0 w1
+  -| diffsw s1 w0
+} = {
+  bitri wal s0 wal s1 wi w0 w1 wi wex s0 w0 wal s1 w1 wal s0 wi w0 wal s1 w1
+  albii s0 wal s1 wi w0 w1 wi w0 wal s1 w1
+  19.21v s1 w0 w1
+  19.23 s0 w0 wal s1 w1
+  nfal s0 s1 w1
+  nfv s0 w1
+}
+thm 19.12vv(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wex s0 wal s1 wi w0 w1 wal s1 wex s0 wi w0 w1
+  -| diffsw s0 w1
+  -| diffsw s1 w0
+} = {
+  3bitri wex s0 wal s1 wi w0 w1
+         wal s1 wex s0 wi w0 w1
+         wex s0 wi w0 wal s1 w1
+         wi wal s0 w0 wal s1 w1
+  exbii s0 wal s1 wi w0 w1 wi w0 wal s1 w1
+  19.21v s1 w0 w1
+  19.36 s0 w0 wal s1 w1
+  nfal s0 s1 w1
+  nfv s0 w1
+  bitr2i wi wal s0 w0 wal s1 w1 wal s1 wex s0 wi w0 w1 wal s1 wi wal s0 w0 w1
+  albii s1 wex s0 wi w0 w1 wi wal s0 w0 w1
+  19.36v s0 w0 w1
+  19.21 s1 wal s0 w0 w1
+  nfal s1 s0 w0
+  nfv s1 w0
+}
+thm eean(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wex s0 wex s1 wa w0 w1 wa wex s0 w0 wex s1 w1
+  -| wnf s1 w0
+  -| wnf s0 w1
+} = {
+  bitri wex s0 wex s1 wa w0 w1 wa wex s0 w0 wex s1 w1 wex s0 wa w0 wex s1 w1
+  exbii s0 wex s1 wa w0 w1 wa w0 wex s1 w1
+  19.42 s1 w0 w1
+  19.41 s0 w0 wex s1 w1
+  nfex s0 s1 w1
+}
+thm eeanv(setvar s0, setvar s1, wff w0, wff w1) {
+  |- wb wex s0 wex s1 wa w0 w1 wa wex s0 w0 wex s1 w1
+  -| diffsw s0 w1
+  -| diffsw s1 w0
+} = {
+  eean s0 s1 w0 w1
+  nfv s1 w0
+  nfv s0 w1
+}
+thm eeeanv(setvar s0, setvar s1, setvar s2, wff w0, wff w1, wff w2) {
+  |- wb wex s0 wex s1 wex s2 w3a w0 w1 w2 w3a wex s0 w0 wex s1 w1 wex s2 w2
+  -| diffsw s0 w1
+  -| diffsw s0 w2
+  -| diffsw s1 w0
+  -| diffsw s1 w2
+  -| diffsw s2 w0
+  -| diffsw s2 w1
+} = {
+  a1ii wb wex s0 wex s1 wex s2 w3a w0 w1 w2 w3a wex s0 w0 wex s1 w1 wex s2 w2
+       diffsw s2 w0
+  a1ii wb wex s0 wex s1 wex s2 w3a w0 w1 w2 w3a wex s0 w0 wex s1 w1 wex s2 w2
+       diffsw s2 w1
+  3bitr4i wex s0 wex s1 wex s2 w3a w0 w1 w2
+          w3a wex s0 w0 wex s1 w1 wex s2 w2
+          wa wex s0 wex s1 wa w0 w1 wex s2 w2
+          wa wa wex s0 w0 wex s1 w1 wex s2 w2
+  anbi1i wex s0 wex s1 wa w0 w1 wex s2 w2 wa wex s0 w0 wex s1 w1
+  eeanv s0 s1 w0 w1
+  3bitri wex s0 wex s1 wex s2 w3a w0 w1 w2
+         wa wex s0 wex s1 wa w0 w1 wex s2 w2
+         wex s0 wex s1 wa wa w0 w1 wex s2 w2
+         wex s0 wa wex s1 wa w0 w1 wex s2 w2
+  2exbii s0 s1 wex s2 w3a w0 w1 w2 wa wa w0 w1 wex s2 w2
+  bitri wex s2 w3a w0 w1 w2 wa wa w0 w1 wex s2 w2 wex s2 wa wa w0 w1 w2
+  exbii s2 w3a w0 w1 w2 wa wa w0 w1 w2
+  df-3an w0 w1 w2
+  19.42v s2 wa w0 w1 w2
+  exbii s0 wex s1 wa wa w0 w1 wex s2 w2 wa wex s1 wa w0 w1 wex s2 w2
+  19.41 s1 wa w0 w1 wex s2 w2
+  nfex s1 s2 w2
+  nfv s1 w2
+  19.41 s0 wex s1 wa w0 w1 wex s2 w2
+  nfex s0 s2 w2
+  nfv s0 w2
+  df-3an wex s0 w0 wex s1 w1 wex s2 w2
+  diff.wa s2 w0 w1
+}
+thm ee4anv(setvar s0, setvar s1, setvar s2, setvar s3, wff w0, wff w1) {
+  |- wb wex s0 wex s1 wex s2 wex s3 wa w0 w1 wa wex s0 wex s1 w0 wex s2 wex s3 w1
+  -| diffss s0 s3
+  -| diffss s1 s2
+  -| diffsw s0 w1
+  -| diffsw s1 w1
+  -| diffsw s2 w0
+  -| diffsw s3 w0
+} = {
+  a1ii wb wex s0 wex s1 wex s2 wex s3 wa w0 w1 wa wex s0 wex s1 w0 wex s2 wex s3 w1
+       diffss s0 s3
+  a1ii wb wex s0 wex s1 wex s2 wex s3 wa w0 w1 wa wex s0 wex s1 w0 wex s2 wex s3 w1
+       diffss s1 s2
+  a1ii wb wex s0 wex s1 wex s2 wex s3 wa w0 w1 wa wex s0 wex s1 w0 wex s2 wex s3 w1
+       diffsw s0 w1
+  a1ii wb wex s0 wex s1 wex s2 wex s3 wa w0 w1 wa wex s0 wex s1 w0 wex s2 wex s3 w1
+       diffsw s2 w0
+  3bitri wex s0 wex s1 wex s2 wex s3 wa w0 w1
+         wa wex s0 wex s1 w0 wex s2 wex s3 w1
+         wex s0 wex s2 wex s1 wex s3 wa w0 w1
+         wex s0 wex s2 wa wex s1 w0 wex s3 w1
+  exbii s0 wex s1 wex s2 wex s3 wa w0 w1 wex s2 wex s1 wex s3 wa w0 w1
+  excom s1 s2 wex s3 wa w0 w1
+  2exbii s0 s2 wex s1 wex s3 wa w0 w1 wa wex s1 w0 wex s3 w1
+  eeanv s1 s3 w0 w1
+  eeanv s0 s2 wex s1 w0 wex s3 w1
+  diff.wex s0 s3 w1
+  diff.wex s2 s1 w0
+  diffss.ex s2 s1
+}
+thm sb8v(setvar s0, setvar s1, wff w0) {
+  |- wb wal s0 w0 wal s1 wsb s0 s1 w0
+  -| wnf s1 w0
+  -| diffss s0 s1
+} = {
+  cbvalv1 s0 s1 w0 wsb s0 s1 w0
+  nfs1v s0 s1 w0
+  sbequ12 s0 s1 w0
+}
+thm sb8ev(setvar s0, setvar s1, wff w0) {
+  |- wb wex s0 w0 wex s1 wsb s0 s1 w0
+  -| wnf s1 w0
+  -| diffss s0 s1
+} = {
+  cbvexv1 s0 s1 w0 wsb s0 s1 w0
+  nfs1v s0 s1 w0
+  sbequ12 s0 s1 w0
+}
+thm 2sb8ev(setvar s0, setvar s1, setvar s2, setvar s3, wff w0) {
+  |- wb wex s0 wex s1 w0 wex s2 wex s3 wsb s0 s2 wsb s1 s3 w0
+  -| wnf s3 w0
+  -| wnf s2 w0
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffss s1 s3
+  -| diffss s2 s3
+} = {
+  a1ii wb wex s0 wex s1 w0 wex s2 wex s3 wsb s0 s2 wsb s1 s3 w0
+       diffss s1 s2
+  3bitri wex s0 wex s1 w0
+         wex s2 wex s3 wsb s0 s2 wsb s1 s3 w0
+         wex s3 wex s0 wsb s1 s3 w0
+         wex s3 wex s2 wsb s0 s2 wsb s1 s3 w0
+  bitri wex s0 wex s1 w0 wex s3 wex s0 wsb s1 s3 w0 wex s0 wex s3 wsb s1 s3 w0
+  exbii s0 wex s1 w0 wex s3 wsb s1 s3 w0
+  sb8ev s1 s3 w0
+  excom s0 s3 wsb s1 s3 w0
+  exbii s3 wex s0 wsb s1 s3 w0 wex s2 wsb s0 s2 wsb s1 s3 w0
+  sb8ev s0 s2 wsb s1 s3 w0
+  nfsbv s2 s1 s3 w0
+  excom s3 s2 wsb s0 s2 wsb s1 s3 w0
+  diffss.ex s2 s1
+}
+thm 2sb8evOLD(setvar s0, setvar s1, setvar s2, setvar s3, wff w0) {
+  |- wb wex s0 wex s1 w0 wex s2 wex s3 wsb s0 s2 wsb s1 s3 w0
+  -| wnf s3 w0
+  -| wnf s2 w0
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffss s1 s3
+  -| diffss s2 s3
+} = {
+  a1ii wb wex s0 wex s1 w0 wex s2 wex s3 wsb s0 s2 wsb s1 s3 w0
+       diffss s1 s2
+  a1ii wb wex s0 wex s1 w0 wex s2 wex s3 wsb s0 s2 wsb s1 s3 w0
+       diffss s2 s3
+  3bitri wex s0 wex s1 w0
+         wex s2 wex s3 wsb s0 s2 wsb s1 s3 w0
+         wex s3 wex s0 wsb s1 s3 w0
+         wex s3 wex s2 wsb s0 s2 wsb s1 s3 w0
+  bitri wex s0 wex s1 w0 wex s3 wex s0 wsb s1 s3 w0 wex s0 wex s3 wsb s1 s3 w0
+  exbii s0 wex s1 w0 wex s3 wsb s1 s3 w0
+  sb8ev s1 s3 w0
+  excom s0 s3 wsb s1 s3 w0
+  exbii s3 wex s0 wsb s1 s3 w0 wex s2 wsb s0 s2 wsb s1 s3 w0
+  sb8ev s0 s2 wsb s1 s3 w0
+  nfxfr s2 wsb s1 s3 w0 wal s1 wi wceq cv s1 cv s3 w0
+  sb6 s1 s3 w0
+  nfal s2 s1 wi wceq cv s1 cv s3 w0
+  nfim s2 wceq cv s1 cv s3 w0
+  nfv s2 wceq cv s1 cv s3
+  excom s3 s2 wsb s0 s2 wsb s1 s3 w0
+  diff.wceq s2 cv s1 cv s3
+  diff.cv s2 s1
+  diffss.ex s2 s1
+  diff.cv s2 s3
+}
+thm sb6rfv(setvar s0, setvar s1, wff w0) {
+  |- wb w0 wal s0 wi wceq cv s0 cv s1 wsb s1 s0 w0
+  -| wnf s0 w0
+  -| diffss s0 s1
+} = {
+  bicomi w0 wal s0 wi wceq cv s0 cv s1 wsb s1 s0 w0
+  equsalv s0 s1 wsb s1 s0 w0 w0
+  sbequ12r s0 s1 w0
+}
+thm sbnf2(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wb wnf s0 w0 wal s1 wal s2 wb wsb s0 s1 w0 wsb s0 s2 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsw s1 w0
+  -| diffsw s2 w0
+} = {
+  3bitr4i wnf s0 w0
+          wal s1 wal s2 wb wsb s0 s1 w0 wsb s0 s2 w0
+          wa wnf s0 w0 wnf s0 w0
+          wa wal s1 wal s2 wi wsb s0 s1 w0 wsb s0 s2 w0 wal s1 wal s2 wi wsb s0 s2 w0 wsb s0 s1 w0
+  anbi12i wnf s0 w0
+          wnf s0 w0
+          wal s1 wal s2 wi wsb s0 s1 w0 wsb s0 s2 w0
+          wal s1 wal s2 wi wsb s0 s2 w0 wsb s0 s1 w0
+  3bitr4i wnf s0 w0
+          wal s1 wal s2 wi wsb s0 s1 w0 wsb s0 s2 w0
+          wi wex s0 w0 wal s0 w0
+          wi wex s1 wsb s0 s1 w0 wal s2 wsb s0 s2 w0
+  imbi12i wex s0 w0 wal s0 w0 wex s1 wsb s0 s1 w0 wal s2 wsb s0 s2 w0
+  sb8ev s0 s1 w0
+  sb8v s0 s2 w0
+  pm11.53v s1 s2 wsb s0 s1 w0 wsb s0 s2 w0
+  3bitri wnf s0 w0
+         wal s1 wal s2 wi wsb s0 s2 w0 wsb s0 s1 w0
+         wi wex s0 w0 wal s0 w0
+         wal s2 wal s1 wi wsb s0 s2 w0 wsb s0 s1 w0
+  df-nf s0 w0
+  bitr4i wi wex s0 w0 wal s0 w0
+         wal s2 wal s1 wi wsb s0 s2 w0 wsb s0 s1 w0
+         wi wex s2 wsb s0 s2 w0 wal s1 wsb s0 s1 w0
+  imbi12i wex s0 w0 wal s0 w0 wex s2 wsb s0 s2 w0 wal s1 wsb s0 s1 w0
+  sb8ev s0 s2 w0
+  nfv s2 w0
+  sb8v s0 s1 w0
+  nfv s1 w0
+  pm11.53v s2 s1 wsb s0 s2 w0 wsb s0 s1 w0
+  alcom s2 s1 wi wsb s0 s2 w0 wsb s0 s1 w0
+  pm4.24 wnf s0 w0
+  2albiim s1 s2 wsb s0 s1 w0 wsb s0 s2 w0
+  diff.wsb s1 s0 s2 w0
+  diffss.ex s1 s0
+  diff.wsb s2 s0 s1 w0
+  diffss.ex s2 s0
+  diffss.ex s2 s1
+}
+thm exsb(setvar s0, setvar s1, wff w0) {
+  |- wb wex s0 w0 wex s1 wal s0 wi wceq cv s0 cv s1 w0
+  -| diffss s0 s1
+  -| diffsw s1 w0
+} = {
+  cbvexv1 s0 s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  nfv s1 w0
+  nfa1 s0 wi wceq cv s0 cv s1 w0
+  impbid wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  ax12v s0 s1 w0
+  com12 wceq cv s0 cv s1 wal s0 wi wceq cv s0 cv s1 w0 w0
+  sp s0 wi wceq cv s0 cv s1 w0
+}
+thm 2exsb(setvar s0, setvar s1, setvar s2, setvar s3, wff w0) {
+  |- wb wex s0 wex s1 w0
+        wex s2 wex s3 wal s0 wal s1 wi wa wceq cv s0 cv s2 wceq cv s1 cv s3 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffss s1 s3
+  -| diffss s2 s3
+  -| diffsw s2 w0
+  -| diffsw s3 w0
+} = {
+  bitri wex s0 wex s1 w0
+        wex s2 wex s3 wal s0 wal s1 wi wa wceq cv s0 cv s2 wceq cv s1 cv s3 w0
+        wex s2 wex s3 wsb s0 s2 wsb s1 s3 w0
+  2sb8ev s0 s1 s2 s3 w0
+  nfv s3 w0
+  nfv s2 w0
+  2exbii s2
+         s3
+         wsb s0 s2 wsb s1 s3 w0
+         wal s0 wal s1 wi wa wceq cv s0 cv s2 wceq cv s1 cv s3 w0
+  2sb6 s0 s2 s1 s3 w0
+  diffss.ex s2 s1
+}
+thm cleljustALT(setvar s0, setvar s1, setvar s2) {
+  |- wb wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  a1ii wb wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+       diffss s0 s2
+  a1ii wb wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+       diffss s1 s2
+  bicomi wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+  equsexhv s2 s0 wcel cv s2 cv s1 wcel cv s0 cv s1
+  ax-5 s2 wcel cv s0 cv s1
+  elequ1 s2 s0 s1
+  diff.wcel s2 cv s0 cv s1
+  diff.cv s2 s0
+  diffss.ex s2 s0
+  diff.cv s2 s1
+  diffss.ex s2 s1
+}
+thm cleljustALT2(setvar s0, setvar s1, setvar s2) {
+  |- wb wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+} = {
+  a1ii wb wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+       diffss s0 s2
+  a1ii wb wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+       diffss s1 s2
+  bicomi wcel cv s0 cv s1 wex s2 wa wceq cv s2 cv s0 wcel cv s2 cv s1
+  equsexv s2 s0 wcel cv s2 cv s1 wcel cv s0 cv s1
+  nfv s2 wcel cv s0 cv s1
+  elequ1 s2 s0 s1
+  diff.wcel s2 cv s0 cv s1
+  diff.cv s2 s0
+  diffss.ex s2 s0
+  diff.cv s2 s1
+  diffss.ex s2 s1
+}
+thm equs5aALT(setvar s0, setvar s1, wff w0) {
+  |- wi wex s0 wa wceq cv s0 cv s1 wal s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+} = {
+  exlimi s0 wa wceq cv s0 cv s1 wal s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  nfa1 s0 wi wceq cv s0 cv s1 w0
+  imp wceq cv s0 cv s1 wal s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  ax-12 s0 s1 w0
+}
+thm equs5eALT(setvar s0, setvar s1, wff w0) {
+  |- wi wex s0 wa wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 wex s1 w0
+} = {
+  exlimi s0 wa wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 wex s1 w0
+  nfa1 s0 wi wceq cv s0 cv s1 wex s1 w0
+  imp wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 wex s1 w0
+  syl5 wceq cv s0 cv s1 w0 wal s0 wi wceq cv s0 cv s1 wex s1 w0 wal s1 wex s1 w0
+  19.23bi s1 w0 wal s1 wex s1 w0
+  hbe1 s1 w0
+  ax-12 s0 s1 wex s1 w0
+}
+thm axc11r(setvar s0, setvar s1, wff w0) {
+  |- wi wal s0 wceq cv s0 cv s1 wi wal s1 w0 wal s0 w0
+} = {
+  syld wal s0 wceq cv s0 cv s1 wal s1 w0 wal s0 w0 wal s0 wi wceq cv s0 cv s1 w0
+  sps s0 wceq cv s0 cv s1 wi wal s1 w0 wal s0 wi wceq cv s0 cv s1 w0
+  ax-12 s0 s1 w0
+  al2imi s0 wceq cv s0 cv s1 wi wceq cv s0 cv s1 w0 w0
+  pm2.27 wceq cv s0 cv s1 w0
+}

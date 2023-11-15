@@ -1,0 +1,251 @@
+import '68-zfc-replacement.fol'
+
+thm axsep(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsw s0 w0
+  -| diffsw s2 w0
+} = {
+  a1ii wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+       diffss s0 s2
+  a1ii wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+       diffss s1 s2
+  a1ii wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+       diffsw s0 w0
+  a1ii wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+       diffsw s2 w0
+  mpbi wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+       wex s0 wal s1 wb wcel cv s1 cv s0 wex hs0 wa wcel cv hs0 cv s2 wa wceq cv hs0 cv s1 w0
+  mpg hs0
+      wex s0 wal s1 wb wcel cv s1 cv s0 wex hs0 wa wcel cv hs0 cv s2 wa wceq cv hs0 cv s1 w0
+      wi wcel cv hs0 cv s2 wex s0 wal s1 wi wa wceq cv hs0 cv s1 w0 wceq cv s1 cv s0
+  axrep5 hs0 s2 s0 s1 wa wceq cv hs0 cv s1 w0
+  nfv s0 wa wceq cv hs0 cv s1 w0
+  spimev s0 hs0 wcel cv hs0 cv s2 wal s1 wi wa wceq cv hs0 cv s1 w0 wceq cv s1 cv s0
+  a1d wceq cv s0 cv hs0
+      wcel cv hs0 cv s2
+      wal s1 wi wa wceq cv hs0 cv s1 w0 wceq cv s1 cv s0
+  alrimiv s1 wceq cv s0 cv hs0 wi wa wceq cv hs0 cv s1 w0 wceq cv s1 cv s0
+  adantrd wceq cv s0 cv hs0 wceq cv hs0 cv s1 w0 wceq cv s1 cv s0
+  syl6 wceq cv s0 cv hs0 wceq cv hs0 cv s1 wceq cv s1 cv s0 wceq cv s0 cv s1
+  equtr s0 hs0 s1
+  equcomi s0 s1
+  exbii s0
+        wal s1 wb wcel cv s1 cv s0 wex hs0 wa wcel cv hs0 cv s2 wa wceq cv hs0 cv s1 w0
+        wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+  albii s1
+        wb wcel cv s1 cv s0 wex hs0 wa wcel cv hs0 cv s2 wa wceq cv hs0 cv s1 w0
+        wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+  bibi2i wcel cv s1 cv s0
+         wex hs0 wa wcel cv hs0 cv s2 wa wceq cv hs0 cv s1 w0
+         wa wcel cv s1 cv s2 w0
+  bitr3i wex hs0 wa wcel cv hs0 cv s2 wa wceq cv hs0 cv s1 w0
+         wa wcel cv s1 cv s2 w0
+         wex hs0 wa wceq cv hs0 cv s1 wa wcel cv hs0 cv s2 w0
+  exbii hs0
+        wa wceq cv hs0 cv s1 wa wcel cv hs0 cv s2 w0
+        wa wcel cv hs0 cv s2 wa wceq cv hs0 cv s1 w0
+  an12 wceq cv hs0 cv s1 wcel cv hs0 cv s2 w0
+  equsexvw hs0 s1 wa wcel cv hs0 cv s2 w0 wa wcel cv s1 cv s2 w0
+  anbi1d wceq cv hs0 cv s1 wcel cv hs0 cv s2 w0 wcel cv s1 cv s2
+  elequ1 hs0 s1 s2
+  diff.hs0.s s2
+  diffss.ex s2 s0
+  diffss.ex s2 s1
+  diff.wa s0 wceq cv hs0 cv s1 w0
+  diff.wceq s0 cv hs0 cv s1
+  diff.cv s0 s1
+  diff.wcel s0 cv hs0 cv s2
+  diff.cv s0 hs0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diff.cv s0 s2
+  diff.wceq s1 cv s0 cv hs0
+  diff.cv s1 s0
+  diffss.ex s1 s0
+  diff.cv s1 hs0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diff.hs0.w wa wcel cv s1 cv s2 w0
+}
+thm axsep2(setvar s0, setvar s1, setvar s2, wff w0) {
+  |- wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+  -| diffss s0 s1
+  -| diffss s0 s2
+  -| diffss s1 s2
+  -| diffsw s0 w0
+} = {
+  a1ii wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+       diffss s0 s2
+  a1ii wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+       diffss s1 s2
+  a1ii wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+       diffsw s0 w0
+  chvarv hs0
+         s2
+         wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+         wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 wa wcel cv s1 cv s2 w0
+  exbidv s0
+         wceq cv hs0 cv s2
+         wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 wa wcel cv s1 cv s2 w0
+         wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+  albidv s1
+         wceq cv hs0 cv s2
+         wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 wa wcel cv s1 cv s2 w0
+         wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+  bibi2d wceq cv hs0 cv s2
+         wcel cv s1 cv s0
+         wa wcel cv s1 cv hs0 wa wcel cv s1 cv s2 w0
+         wa wcel cv s1 cv s2 w0
+  syl6bb wceq cv hs0 cv s2
+         wa wcel cv s1 cv hs0 wa wcel cv s1 cv s2 w0
+         wa wcel cv s1 cv s2 w0
+         wa wcel cv s1 cv s2 wa wcel cv s1 cv s2 w0
+  anbi1d wceq cv hs0 cv s2 wcel cv s1 cv hs0 wa wcel cv s1 cv s2 w0 wcel cv s1 cv s2
+  elequ2 hs0 s2 s1
+  anabs5 wcel cv s1 cv s2 w0
+  ax-sep s0 s1 hs0 wa wcel cv s1 cv s2 w0
+  diff.hs0.w wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
+  diff.wceq s0 cv hs0 cv s2
+  diff.cv s0 hs0
+  diff.wceq s1 cv hs0 cv s2
+  diff.cv s1 hs0
+  diff.cv s1 s2
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diff.wa s0 wcel cv s1 cv s2 w0
+  diff.wcel s0 cv s1 cv s2
+  diff.cv s0 s1
+  diff.cv s0 s2
+  diff.hs0.w wa wcel cv s1 cv s2 w0
+}
+thm zfauscl(setvar s0, setvar s1, class c0, wff w0) {
+  |- wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 c0 w0
+  -| wcel c0 universe
+  -| diffss s0 s1
+  -| diffsc s0 c0
+  -| diffsc s1 c0
+  -| diffsw s0 w0
+} = {
+  a1ii wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 c0 w0
+       diffsc s0 c0
+  a1ii wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 c0 w0
+       diffsc s1 c0
+  vtocl hs0
+        c0
+        wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 c0 w0
+        wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+  exbidv s0
+         wceq cv hs0 c0
+         wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+         wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 c0 w0
+  albidv s1
+         wceq cv hs0 c0
+         wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+         wb wcel cv s1 cv s0 wa wcel cv s1 c0 w0
+  bibi2d wceq cv hs0 c0 wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0 wa wcel cv s1 c0 w0
+  anbi1d wceq cv hs0 c0 wcel cv s1 cv hs0 w0 wcel cv s1 c0
+  eleq2 cv hs0 c0 cv s1
+  ax-sep s0 s1 hs0 w0
+  diff.hs0.c c0
+  diff.hs0.w wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 c0 w0
+  diff.wceq s0 cv hs0 c0
+  diff.cv s0 hs0
+  diff.wceq s1 cv hs0 c0
+  diff.cv s1 hs0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diff.hs0.w w0
+}
+thm bm1.3ii(setvar s0, setvar s1, wff w0) {
+  |- wex s0 wal s1 wb wcel cv s1 cv s0 w0
+  -| wex s0 wal s1 wi w0 wcel cv s1 cv s0
+  -| diffss s0 s1
+  -| diffsw s0 w0
+} = {
+  exlimiiv hs0
+           wex s0 wal s1 wb wcel cv s1 cv s0 w0
+           wa wal s1 wi w0 wcel cv s1 cv hs0 wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+  sylbir wa wal s1 wi w0 wcel cv s1 cv hs0 wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+         wex s0 wal s1 wb wcel cv s1 cv s0 w0
+         wex s0 wa wal s1 wi w0 wcel cv s1 cv hs0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+  19.42v s0
+         wal s1 wi w0 wcel cv s1 cv hs0
+         wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+  eximi s0
+        wa wal s1 wi w0 wcel cv s1 cv hs0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+        wal s1 wb wcel cv s1 cv s0 w0
+  alanimi s1
+          wi w0 wcel cv s1 cv hs0
+          wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+          wb wcel cv s1 cv s0 w0
+  bimsc1 w0 wcel cv s1 cv hs0 wcel cv s1 cv s0
+  exan hs0
+       wal s1 wi w0 wcel cv s1 cv hs0
+       wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv hs0 w0
+  mpbi wex hs0 wal s1 wi w0 wcel cv s1 cv hs0 wex s0 wal s1 wi w0 wcel cv s1 cv s0
+  cbvexvw s0 hs0 wal s1 wi w0 wcel cv s1 cv s0 wal s1 wi w0 wcel cv s1 cv hs0
+  albidv s1 wceq cv s0 cv hs0 wi w0 wcel cv s1 cv s0 wi w0 wcel cv s1 cv hs0
+  imbi2d wceq cv s0 cv hs0 w0 wcel cv s1 cv s0 wcel cv s1 cv hs0
+  elequ2 s0 hs0 s1
+  ax-sep s0 s1 hs0 w0
+  diff.hs0.w wex s0 wal s1 wb wcel cv s1 cv s0 w0
+  diff.wal s0 s1 wi w0 wcel cv s1 cv hs0
+  diff.wi s0 w0 wcel cv s1 cv hs0
+  diff.wcel s0 cv s1 cv hs0
+  diff.cv s0 s1
+  diff.cv s0 hs0
+  diffss.ex s0 hs0
+  diff.hs0.s s0
+  diff.hs0.w wal s1 wi w0 wcel cv s1 cv s0
+  diff.wceq s1 cv s0 cv hs0
+  diff.cv s1 s0
+  diffss.ex s1 s0
+  diff.cv s1 hs0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diff.hs0.w w0
+}
+thm ax6vsep(setvar s0, setvar s1) {
+  |- wn wal s0 wn wceq cv s0 cv s1
+  -| diffss s0 s1
+} = {
+  mpbi wn wal s0 wn wceq cv s0 cv s1 wex s0 wceq cv s0 cv s1
+  ax-mp wex s0 wceq cv s0 cv s1
+        wex s0 wal hs0 wb wcel cv hs0 cv s0 wa wcel cv hs0 cv s1 wi wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+  ax-sep s0 hs0 s1 wi wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+  eximi s0
+        wal hs0 wb wcel cv hs0 cv s0 wa wcel cv hs0 cv s1 wi wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+        wceq cv s0 cv s1
+  syl wal hs0 wb wcel cv hs0 cv s0 wa wcel cv hs0 cv s1 wi wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+      wceq cv s0 cv s1
+      wal hs0 wb wcel cv hs0 cv s0 wcel cv hs0 cv s1
+  alimi hs0
+        wb wcel cv hs0 cv s0 wa wcel cv hs0 cv s1 wi wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+        wb wcel cv hs0 cv s0 wcel cv hs0 cv s1
+  biimpri wb wcel cv hs0 cv s0 wa wcel cv hs0 cv s1 wi wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+          wb wcel cv hs0 cv s0 wcel cv hs0 cv s1
+  bibi2i wcel cv hs0 cv s0
+         wcel cv hs0 cv s1
+         wa wcel cv hs0 cv s1 wi wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+  biantru wcel cv hs0 cv s1 wi wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+  id wceq cv hs0 cv hs0
+  ax-ext hs0 s0 s1
+  df-ex s0 wceq cv s0 cv s1
+  diff.wi s0 wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+  diff.wceq s0 cv hs0 cv hs0
+  diff.cv s0 hs0
+  diffss.ex s0 hs0
+  diff.wi s1 wceq cv hs0 cv hs0 wceq cv hs0 cv hs0
+  diff.wceq s1 cv hs0 cv hs0
+  diff.cv s1 hs0
+  diffss.ex s1 hs0
+  diff.hs0.s s1
+  diff.hs0.s s0
+}

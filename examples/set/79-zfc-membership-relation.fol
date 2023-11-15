@@ -1,0 +1,104 @@
+import '78-zfc-identity-relation.fol'
+
+thm epelg(class c0, class c1, class c2) {
+  |- wi wcel c0 c1 wb wbr c2 c0 cep wcel c2 c0
+} = {
+  pm5.21ndd wcel c0 c1 wbr c2 c0 cep wcel c2 c0 wcel c2 universe
+  a1i wcel c0 c1 wi wbr c2 c0 cep wcel c2 universe
+  sylbi wbr c2 c0 cep wcel c2 universe wcel cop c2 c0 cep
+  df-br c2 c0 cep
+  nsyl2 wcel cop c2 c0 cep wcel c2 universe wceq cop c2 c0 emptycls
+  con2i wcel cop c2 c0 cep wceq cop c2 c0 emptycls
+  mtbiri wceq cop c2 c0 emptycls wcel cop c2 c0 cep wcel emptycls cep
+  mtbi wcel emptycls cep wcel emptycls copab hs0 hs1 wcel cv hs0 cv hs1
+  0nelopab hs0 hs1 wcel cv hs0 cv hs1
+  eleq2i emptycls copab hs0 hs1 wcel cv hs0 cv hs1 cep
+  eqcomi copab hs0 hs1 wcel cv hs0 cv hs1 cep
+  eleq1 cop c2 c0 emptycls cep
+  opprc1 c2 c0
+  a1i wcel c0 c1 wi wcel c2 c0 wcel c2 universe
+  elex c2 c0
+  expcom wcel c0 c1 wcel c2 universe wb wbr c2 c0 cep wcel c2 c0
+  brabga hs0 hs1 c2 universe c0 c1 cep wcel c2 c0 wcel cv hs0 cv hs1
+  eleq12 cv hs0 c2 cv hs1 c0
+  df-eprel hs0 hs1
+  diff.hs0.s hs1
+  diff.hs0.c c2
+  diff.hs0.c c0
+  diff.hs1.c c2
+  diff.hs1.c c0
+  diff.hs0.w wcel c2 c0
+  diff.hs1.w wcel c2 c0
+}
+thm epelgOLD(class c0, class c1, class c2) {
+  |- wi wcel c0 c1 wb wbr c2 c0 cep wcel c2 c0
+} = {
+  pm5.21ndd wcel c0 c1 wbr c2 c0 cep wcel c2 c0 wcel c2 universe
+  a1i wcel c0 c1 wi wbr c2 c0 cep wcel c2 universe
+  sylbi wbr c2 c0 cep wcel c2 universe wcel cop c2 c0 cep
+  df-br c2 c0 cep
+  eleq2s cop c2 c0 cep copab hs0 hs1 wcel cv hs0 cv hs1 wcel c2 universe
+  sylbi wcel cop c2 c0 copab hs0 hs1 wcel cv hs0 cv hs1
+        wcel c2 universe
+        wex hs0 wex hs1 wa wceq cop c2 c0 cop cv hs0 cv hs1 wcel cv hs0 cv hs1
+  elopab hs0 hs1 cop c2 c0 wcel cv hs0 cv hs1
+  exlimivv hs0
+           hs1
+           wa wceq cop c2 c0 cop cv hs0 cv hs1 wcel cv hs0 cv hs1
+           wcel c2 universe
+  adantr wceq cop c2 c0 cop cv hs0 cv hs1 wcel cv hs0 cv hs1 wcel c2 universe
+  simpld wceq cop c2 c0 cop cv hs0 cv hs1 wcel c2 universe wcel c0 universe
+  mpbiri wceq cop c2 c0 cop cv hs0 cv hs1
+         wa wcel c2 universe wcel c0 universe
+         wa wcel cv hs0 universe wcel cv hs1 universe
+  pm3.2i wcel cv hs0 universe wcel cv hs1 universe
+  vex hs0
+  vex hs1
+  opeqex c2 c0 cv hs0 cv hs1
+  a1i wcel c0 c1 wi wcel c2 c0 wcel c2 universe
+  elex c2 c0
+  expcom wcel c0 c1 wcel c2 universe wb wbr c2 c0 cep wcel c2 c0
+  brabga hs0 hs1 c2 universe c0 c1 cep wcel c2 c0 wcel cv hs0 cv hs1
+  eleq12 cv hs0 c2 cv hs1 c0
+  df-eprel hs0 hs1
+  diff.hs0.c cop c2 c0
+  diff.hs1.c cop c2 c0
+  diff.hs0.w wcel c2 universe
+  diff.hs1.w wcel c2 universe
+  diff.hs0.s hs1
+  diff.hs0.c c2
+  diff.hs0.c c0
+  diff.hs1.c c2
+  diff.hs1.c c0
+  diff.hs0.w wcel c2 c0
+  diff.hs1.w wcel c2 c0
+}
+thm epeli(class c0, class c1) {
+  |- wb wbr c0 c1 cep wcel c0 c1
+  -| wcel c1 universe
+} = {
+  ax-mp wb wbr c0 c1 cep wcel c0 c1 wcel c1 universe
+  epelg c1 universe c0
+}
+thm epel(setvar s0, class c0) {
+  |- wb wbr c0 cv s0 cep wcel c0 cv s0
+} = {
+  epeli c0 cv s0
+  vex s0
+}
+thm 0sn0ep() {
+  |- wbr emptycls csn emptycls cep
+} = {
+  mpbir wbr emptycls csn emptycls cep wcel emptycls csn emptycls
+  snid emptycls
+  0ex
+  epeli emptycls csn emptycls
+  snex emptycls
+}
+thm epn0() {
+  |- wne cep emptycls
+} = {
+  ax-mp wne cep emptycls wbr emptycls csn emptycls cep
+  0sn0ep
+  brne0 emptycls csn emptycls cep
+}

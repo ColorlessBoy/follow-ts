@@ -1,0 +1,298 @@
+import '56-zfc-condif.fol'
+
+thm dedth(class c0, class c1, wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi wceq c0 cif c0 c1 w0 wb w1 w2
+  -| w2
+} = {
+  mpbiri w0 w1 w2
+  syl w0 wb w1 w2 wceq c0 cif c0 c1 w0
+  eqcomd c0 cif c0 c1 w0 w0
+  iftrue c0 c1 w0
+}
+thm dedth2h(class c0, class c1, class c2, class c3, wff w0, wff w1, wff w2, wff w3, wff w4) {
+  |- wi wa w0 w1 w2
+  -| wi wceq c0 cif c0 c1 w0 wb w2 w3
+  -| wi wceq c2 cif c2 c3 w1 wb w3 w4
+  -| w4
+} = {
+  imp w0 w1 w2
+  dedth c0 c1 w0 wi w1 w2 wi w1 w3
+  imbi2d wceq c0 cif c0 c1 w0 w1 w2 w3
+  dedth c2 c3 w1 w3 w4
+}
+thm dedth3h(class c0, class c1, class c2, class c3, class c4, class c5, wff w0, wff w1, wff w2, wff w3, wff w4, wff w5, wff w6) {
+  |- wi w3a w0 w1 w2 w3
+  -| wi wceq c0 cif c0 c1 w0 wb w3 w4
+  -| wi wceq c2 cif c2 c3 w1 wb w4 w5
+  -| wi wceq c4 cif c4 c5 w2 wb w5 w6
+  -| w6
+} = {
+  3impib w0 w1 w2 w3
+  dedth c0 c1 w0 wi wa w1 w2 w3 wi wa w1 w2 w4
+  imbi2d wceq c0 cif c0 c1 w0 wa w1 w2 w3 w4
+  dedth2h c2 c3 c4 c5 w1 w2 w4 w5 w6
+}
+thm dedth4h(class c0, class c1, class c2, class c3, class c4, class c5, class c6, class c7, wff w0, wff w1, wff w2, wff w3, wff w4, wff w5, wff w6, wff w7, wff w8) {
+  |- wi wa wa w0 w1 wa w2 w3 w4
+  -| wi wceq c0 cif c0 c1 w0 wb w4 w5
+  -| wi wceq c2 cif c2 c3 w1 wb w5 w6
+  -| wi wceq c4 cif c4 c5 w2 wb w6 w7
+  -| wi wceq c6 cif c6 c7 w3 wb w7 w8
+  -| w8
+} = {
+  imp wa w0 w1 wa w2 w3 w4
+  dedth2h c0 c1 c2 c3 w0 w1 wi wa w2 w3 w4 wi wa w2 w3 w5 wi wa w2 w3 w6
+  imbi2d wceq c0 cif c0 c1 w0 wa w2 w3 w4 w5
+  imbi2d wceq c2 cif c2 c3 w1 wa w2 w3 w5 w6
+  dedth2h c4 c5 c6 c7 w2 w3 w6 w7 w8
+}
+thm dedth2v(class c0, class c1, class c2, class c3, wff w0, wff w1, wff w2, wff w3) {
+  |- wi w0 w1
+  -| wi wceq c0 cif c0 c1 w0 wb w1 w2
+  -| wi wceq c2 cif c2 c3 w0 wb w2 w3
+  -| w3
+} = {
+  anidms w0 w1
+  dedth2h c0 c1 c2 c3 w0 w0 w1 w2 w3
+}
+thm dedth3v(class c0, class c1, class c2, class c3, class c4, class c5, wff w0, wff w1, wff w2, wff w3, wff w4) {
+  |- wi w0 w1
+  -| wi wceq c0 cif c0 c1 w0 wb w1 w2
+  -| wi wceq c2 cif c2 c3 w0 wb w2 w3
+  -| wi wceq c4 cif c4 c5 w0 wb w3 w4
+  -| w4
+} = {
+  anidms w0 w1
+  3anidm12 w0 w0 w1
+  dedth3h c0 c1 c2 c3 c4 c5 w0 w0 w0 w1 w2 w3 w4
+}
+thm dedth4v(class c0, class c1, class c2, class c3, class c4, class c5, class c6, class c7, wff w0, wff w1, wff w2, wff w3, wff w4, wff w5) {
+  |- wi w0 w1
+  -| wi wceq c0 cif c0 c1 w0 wb w1 w2
+  -| wi wceq c2 cif c2 c3 w0 wb w2 w3
+  -| wi wceq c4 cif c4 c5 w0 wb w3 w4
+  -| wi wceq c6 cif c6 c7 w0 wb w4 w5
+  -| w5
+} = {
+  anidms w0 w1
+  anidms wa w0 w0 w1
+  dedth4h c0 c1 c2 c3 c4 c5 c6 c7 w0 w0 w0 w0 w1 w2 w3 w4 w5
+}
+thm elimhyp(class c0, class c1, wff w0, wff w1, wff w2) {
+  |- w0
+  -| wi wceq c0 cif c0 c1 w1 wb w1 w0
+  -| wi wceq c1 cif c0 c1 w1 wb w2 w0
+  -| w2
+} = {
+  pm2.61i w0 w1
+  ibi w1 w0
+  syl w1 wb w1 w0 wceq c0 cif c0 c1 w1
+  eqcomd c0 cif c0 c1 w1 w1
+  iftrue c0 c1 w1
+  mpbii wn w1 w0 w2
+  syl wn w1 wb w2 w0 wceq c1 cif c0 c1 w1
+  eqcomd c1 cif c0 c1 w1 wn w1
+  iffalse c0 c1 w1
+}
+thm elimhyp2v(class c0, class c1, class c2, class c3, wff w0, wff w1, wff w2, wff w3, wff w4) {
+  |- w0
+  -| wi wceq c0 cif c0 c1 w1 wb w1 w2
+  -| wi wceq c2 cif c2 c3 w1 wb w2 w0
+  -| wi wceq c1 cif c0 c1 w1 wb w3 w4
+  -| wi wceq c3 cif c2 c3 w1 wb w4 w0
+  -| w3
+} = {
+  pm2.61i w0 w1
+  ibi w1 w0
+  bitrd w1 w1 w0 w2
+  syl w1 wb w1 w2 wceq c0 cif c0 c1 w1
+  eqcomd c0 cif c0 c1 w1 w1
+  iftrue c0 c1 w1
+  syl w1 wb w2 w0 wceq c2 cif c2 c3 w1
+  eqcomd c2 cif c2 c3 w1 w1
+  iftrue c2 c3 w1
+  mpbii wn w1 w0 w3
+  bitrd wn w1 w3 w0 w4
+  syl wn w1 wb w3 w4 wceq c1 cif c0 c1 w1
+  eqcomd c1 cif c0 c1 w1 wn w1
+  iffalse c0 c1 w1
+  syl wn w1 wb w4 w0 wceq c3 cif c2 c3 w1
+  eqcomd c3 cif c2 c3 w1 wn w1
+  iffalse c2 c3 w1
+}
+thm elimhyp3v(class c0, class c1, class c2, class c3, class c4, class c5, wff w0, wff w1, wff w2, wff w3, wff w4, wff w5, wff w6) {
+  |- w0
+  -| wi wceq c0 cif c0 c1 w1 wb w1 w2
+  -| wi wceq c2 cif c2 c3 w1 wb w2 w3
+  -| wi wceq c4 cif c4 c5 w1 wb w3 w0
+  -| wi wceq c1 cif c0 c1 w1 wb w4 w5
+  -| wi wceq c3 cif c2 c3 w1 wb w5 w6
+  -| wi wceq c5 cif c4 c5 w1 wb w6 w0
+  -| w4
+} = {
+  pm2.61i w0 w1
+  ibi w1 w0
+  3bitrd w1 w1 w0 w2 w3
+  syl w1 wb w1 w2 wceq c0 cif c0 c1 w1
+  eqcomd c0 cif c0 c1 w1 w1
+  iftrue c0 c1 w1
+  syl w1 wb w2 w3 wceq c2 cif c2 c3 w1
+  eqcomd c2 cif c2 c3 w1 w1
+  iftrue c2 c3 w1
+  syl w1 wb w3 w0 wceq c4 cif c4 c5 w1
+  eqcomd c4 cif c4 c5 w1 w1
+  iftrue c4 c5 w1
+  mpbii wn w1 w0 w4
+  3bitrd wn w1 w4 w0 w5 w6
+  syl wn w1 wb w4 w5 wceq c1 cif c0 c1 w1
+  eqcomd c1 cif c0 c1 w1 wn w1
+  iffalse c0 c1 w1
+  syl wn w1 wb w5 w6 wceq c3 cif c2 c3 w1
+  eqcomd c3 cif c2 c3 w1 wn w1
+  iffalse c2 c3 w1
+  syl wn w1 wb w6 w0 wceq c5 cif c4 c5 w1
+  eqcomd c5 cif c4 c5 w1 wn w1
+  iffalse c4 c5 w1
+}
+thm elimhyp4v(class c0, class c1, class c2, class c3, class c4, class c5, class c6, class c7, wff w0, wff w1, wff w2, wff w3, wff w4, wff w5, wff w6, wff w7, wff w8) {
+  |- w0
+  -| wi wceq c0 cif c0 c1 w1 wb w1 w2
+  -| wi wceq c2 cif c2 c3 w1 wb w2 w3
+  -| wi wceq c4 cif c4 c5 w1 wb w3 w4
+  -| wi wceq c6 cif c6 c7 w1 wb w4 w0
+  -| wi wceq c1 cif c0 c1 w1 wb w5 w6
+  -| wi wceq c3 cif c2 c3 w1 wb w6 w7
+  -| wi wceq c5 cif c4 c5 w1 wb w7 w8
+  -| wi wceq c7 cif c6 c7 w1 wb w8 w0
+  -| w5
+} = {
+  pm2.61i w0 w1
+  ibi w1 w0
+  3bitrd w1 w1 w0 w3 w4
+  bitrd w1 w1 w3 w2
+  syl w1 wb w1 w2 wceq c0 cif c0 c1 w1
+  eqcomd c0 cif c0 c1 w1 w1
+  iftrue c0 c1 w1
+  syl w1 wb w2 w3 wceq c2 cif c2 c3 w1
+  eqcomd c2 cif c2 c3 w1 w1
+  iftrue c2 c3 w1
+  syl w1 wb w3 w4 wceq c4 cif c4 c5 w1
+  eqcomd c4 cif c4 c5 w1 w1
+  iftrue c4 c5 w1
+  syl w1 wb w4 w0 wceq c6 cif c6 c7 w1
+  eqcomd c6 cif c6 c7 w1 w1
+  iftrue c6 c7 w1
+  mpbii wn w1 w0 w5
+  3bitrd wn w1 w5 w0 w7 w8
+  bitrd wn w1 w5 w7 w6
+  syl wn w1 wb w5 w6 wceq c1 cif c0 c1 w1
+  eqcomd c1 cif c0 c1 w1 wn w1
+  iffalse c0 c1 w1
+  syl wn w1 wb w6 w7 wceq c3 cif c2 c3 w1
+  eqcomd c3 cif c2 c3 w1 wn w1
+  iffalse c2 c3 w1
+  syl wn w1 wb w7 w8 wceq c5 cif c4 c5 w1
+  eqcomd c5 cif c4 c5 w1 wn w1
+  iffalse c4 c5 w1
+  syl wn w1 wb w8 w0 wceq c7 cif c6 c7 w1
+  eqcomd c7 cif c6 c7 w1 wn w1
+  iffalse c6 c7 w1
+}
+thm elimel(class c0, class c1, class c2) {
+  |- wcel cif c0 c1 wcel c0 c2 c2
+  -| wcel c1 c2
+} = {
+  elimhyp c0 c1 wcel cif c0 c1 wcel c0 c2 c2 wcel c0 c2 wcel c1 c2
+  eleq1 c0 cif c0 c1 wcel c0 c2 c2
+  eleq1 c1 cif c0 c1 wcel c0 c2 c2
+}
+thm elimdhyp(class c0, class c1, wff w0, wff w1, wff w2, wff w3) {
+  |- w0
+  -| wi w1 w2
+  -| wi wceq c0 cif c0 c1 w1 wb w2 w0
+  -| wi wceq c1 cif c0 c1 w1 wb w3 w0
+  -| w3
+} = {
+  pm2.61i w0 w1
+  mpbid w1 w0 w2
+  syl w1 wb w2 w0 wceq c0 cif c0 c1 w1
+  eqcomd c0 cif c0 c1 w1 w1
+  iftrue c0 c1 w1
+  mpbii wn w1 w0 w3
+  syl wn w1 wb w3 w0 wceq c1 cif c0 c1 w1
+  eqcomd c1 cif c0 c1 w1 wn w1
+  iffalse c0 c1 w1
+}
+thm keephyp(class c0, class c1, wff w0, wff w1, wff w2, wff w3) {
+  |- w0
+  -| wi wceq c0 cif c0 c1 w1 wb w2 w0
+  -| wi wceq c1 cif c0 c1 w1 wb w3 w0
+  -| w2
+  -| w3
+} = {
+  mp2an w0 w2 w3
+  ifboth c0 c1 w2 w3 w0 w1
+}
+thm keephyp2v(class c0, class c1, class c2, class c3, wff w0, wff w1, wff w2, wff w3, wff w4, wff w5) {
+  |- w0
+  -| wi wceq c0 cif c0 c1 w1 wb w2 w3
+  -| wi wceq c2 cif c2 c3 w1 wb w3 w0
+  -| wi wceq c1 cif c0 c1 w1 wb w4 w5
+  -| wi wceq c3 cif c2 c3 w1 wb w5 w0
+  -| w2
+  -| w4
+} = {
+  pm2.61i w0 w1
+  mpbii w1 w0 w2
+  bitrd w1 w2 w0 w3
+  syl w1 wb w2 w3 wceq c0 cif c0 c1 w1
+  eqcomd c0 cif c0 c1 w1 w1
+  iftrue c0 c1 w1
+  syl w1 wb w3 w0 wceq c2 cif c2 c3 w1
+  eqcomd c2 cif c2 c3 w1 w1
+  iftrue c2 c3 w1
+  mpbii wn w1 w0 w4
+  bitrd wn w1 w4 w0 w5
+  syl wn w1 wb w4 w5 wceq c1 cif c0 c1 w1
+  eqcomd c1 cif c0 c1 w1 wn w1
+  iffalse c0 c1 w1
+  syl wn w1 wb w5 w0 wceq c3 cif c2 c3 w1
+  eqcomd c3 cif c2 c3 w1 wn w1
+  iffalse c2 c3 w1
+}
+thm keephyp3v(class c0, class c1, class c2, class c3, class c4, class c5, wff w0, wff w1, wff w2, wff w3, wff w4, wff w5, wff w6, wff w7) {
+  |- w0
+  -| wi wceq c0 cif c0 c1 w1 wb w2 w3
+  -| wi wceq c2 cif c2 c3 w1 wb w3 w4
+  -| wi wceq c4 cif c4 c5 w1 wb w4 w0
+  -| wi wceq c1 cif c0 c1 w1 wb w5 w6
+  -| wi wceq c3 cif c2 c3 w1 wb w6 w7
+  -| wi wceq c5 cif c4 c5 w1 wb w7 w0
+  -| w2
+  -| w5
+} = {
+  pm2.61i w0 w1
+  mpbii w1 w0 w2
+  3bitrd w1 w2 w0 w3 w4
+  syl w1 wb w2 w3 wceq c0 cif c0 c1 w1
+  eqcomd c0 cif c0 c1 w1 w1
+  iftrue c0 c1 w1
+  syl w1 wb w3 w4 wceq c2 cif c2 c3 w1
+  eqcomd c2 cif c2 c3 w1 w1
+  iftrue c2 c3 w1
+  syl w1 wb w4 w0 wceq c4 cif c4 c5 w1
+  eqcomd c4 cif c4 c5 w1 w1
+  iftrue c4 c5 w1
+  mpbii wn w1 w0 w5
+  3bitrd wn w1 w5 w0 w6 w7
+  syl wn w1 wb w5 w6 wceq c1 cif c0 c1 w1
+  eqcomd c1 cif c0 c1 w1 wn w1
+  iffalse c0 c1 w1
+  syl wn w1 wb w6 w7 wceq c3 cif c2 c3 w1
+  eqcomd c3 cif c2 c3 w1 wn w1
+  iffalse c2 c3 w1
+  syl wn w1 wb w7 w0 wceq c5 cif c4 c5 w1
+  eqcomd c5 cif c4 c5 w1 wn w1
+  iffalse c4 c5 w1
+}

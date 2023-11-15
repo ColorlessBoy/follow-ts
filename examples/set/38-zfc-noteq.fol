@@ -1,0 +1,826 @@
+import '37-zfc-notfree.fol'
+
+thm neii(class c0, class c1) {
+  |- wn wceq c0 c1
+  -| wne c0 c1
+} = {
+  mpbi wn wceq c0 c1 wne c0 c1
+  df-ne c0 c1
+}
+thm neir(class c0, class c1) {
+  |- wne c0 c1
+  -| wn wceq c0 c1
+} = {
+  mpbir wne c0 c1 wn wceq c0 c1
+  df-ne c0 c1
+}
+thm nne(class c0, class c1) {
+  |- wb wn wne c0 c1 wceq c0 c1
+} = {
+  bicomi wn wne c0 c1 wceq c0 c1
+  con2bii wceq c0 c1 wne c0 c1
+  df-ne c0 c1
+}
+thm neneqd(class c0, class c1, wff w0) {
+  |- wi w0 wn wceq c0 c1
+  -| wi w0 wne c0 c1
+} = {
+  sylib w0 wn wceq c0 c1 wne c0 c1
+  df-ne c0 c1
+}
+thm neneq(class c0, class c1) {
+  |- wi wne c0 c1 wn wceq c0 c1
+} = {
+  neneqd c0 c1 wne c0 c1
+  id wne c0 c1
+}
+thm neqned(class c0, class c1, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wn wceq c0 c1
+} = {
+  sylibr w0 wne c0 c1 wn wceq c0 c1
+  df-ne c0 c1
+}
+thm neqne(class c0, class c1) {
+  |- wi wn wceq c0 c1 wne c0 c1
+} = {
+  neqned c0 c1 wn wceq c0 c1
+  id wn wceq c0 c1
+}
+thm neirr(class c0) {
+  |- wn wne c0 c0
+} = {
+  mpbir wn wne c0 c0 wceq c0 c0
+  eqid c0
+  nne c0 c0
+}
+thm exmidne(class c0, class c1) {
+  |- wo wceq c0 c1 wne c0 c1
+} = {
+  orri wceq c0 c1 wne c0 c1
+  neqne c0 c1
+}
+thm eqneqall(class c0, class c1, wff w0) {
+  |- wi wceq c0 c1 wi wne c0 c1 w0
+} = {
+  syl5bi wceq c0 c1 wne c0 c1 w0 wn wceq c0 c1
+  df-ne c0 c1
+  pm2.24 wceq c0 c1 w0
+}
+thm nonconne(class c0, class c1) {
+  |- wn wa wceq c0 c1 wne c0 c1
+} = {
+  mto wa wceq c0 c1 wne c0 c1 wfal
+  fal
+  imp wceq c0 c1 wne c0 c1 wfal
+  eqneqall c0 c1 wfal
+}
+thm necon3ad(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wi wne c0 c1 wn w1
+  -| wi w0 wi w1 wceq c0 c1
+} = {
+  nsyli w0 wne c0 c1 w1 wceq c0 c1
+  neneq c0 c1
+}
+thm necon3bd(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wi wn w1 wne c0 c1
+  -| wi w0 wi wceq c0 c1 w1
+} = {
+  con1d w0 w1 wne c0 c1
+  syl5bi w0 wn wne c0 c1 w1 wceq c0 c1
+  nne c0 c1
+}
+thm necon2ad(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wi w1 wne c0 c1
+  -| wi w0 wi wceq c0 c1 wn w1
+} = {
+  syl5 w0 w1 wne c0 c1 wn wn w1
+  notnot w1
+  necon3bd c0 c1 w0 wn w1
+}
+thm necon2bd(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wi wceq c0 c1 wn w1
+  -| wi w0 wi w1 wne c0 c1
+} = {
+  con2d w0 wceq c0 c1 w1
+  syl6ib w0 w1 wn wceq c0 c1 wne c0 c1
+  df-ne c0 c1
+}
+thm necon1ad(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wi wne c0 c1 w1
+  -| wi w0 wi wn w1 wceq c0 c1
+} = {
+  syl6 w0 wne c0 c1 w1 wn wn w1
+  necon3ad c0 c1 w0 wn w1
+  notnotr w1
+}
+thm necon1bd(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wi wn w1 wceq c0 c1
+  -| wi w0 wi wne c0 c1 w1
+} = {
+  con1d w0 w1 wceq c0 c1
+  syl5bir w0 wn wceq c0 c1 w1 wne c0 c1
+  df-ne c0 c1
+}
+thm necon4ad(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wi w1 wceq c0 c1
+  -| wi w0 wi wne c0 c1 wn w1
+} = {
+  syl5 w0 w1 wceq c0 c1 wn wn w1
+  notnot w1
+  necon1bd c0 c1 w0 wn w1
+}
+thm necon4bd(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wi wceq c0 c1 w1
+  -| wi w0 wi wn w1 wne c0 c1
+} = {
+  syl6 w0 wceq c0 c1 w1 wn wn w1
+  necon2bd c0 c1 w0 wn w1
+  notnotr w1
+}
+thm necon3d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wi wne c0 c1 wne c2 c3
+  -| wi w0 wi wceq c2 c3 wceq c0 c1
+} = {
+  syl6ibr w0 wne c0 c1 wne c2 c3 wn wceq c2 c3
+  necon3ad c0 c1 w0 wceq c2 c3
+  df-ne c2 c3
+}
+thm necon1d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wi wne c0 c1 wceq c2 c3
+  -| wi w0 wi wne c2 c3 wceq c0 c1
+} = {
+  necon4ad c2 c3 w0 wne c0 c1
+  syl6ibr w0 wne c2 c3 wn wne c0 c1 wceq c0 c1
+  nne c0 c1
+}
+thm necon2d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wi wceq c0 c1 wne c2 c3
+  -| wi w0 wi wceq c2 c3 wne c0 c1
+} = {
+  necon2ad c2 c3 w0 wceq c0 c1
+  syl6ib w0 wceq c2 c3 wn wceq c0 c1 wne c0 c1
+  df-ne c0 c1
+}
+thm necon4d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wi wceq c0 c1 wceq c2 c3
+  -| wi w0 wi wne c2 c3 wne c0 c1
+} = {
+  syl6ib w0 wceq c0 c1 wceq c2 c3 wn wne c2 c3
+  necon2bd c0 c1 w0 wne c2 c3
+  nne c2 c3
+}
+thm necon3ai(class c0, class c1, wff w0) {
+  |- wi wne c0 c1 wn w0
+  -| wi w0 wceq c0 c1
+} = {
+  con2i wne c0 c1 w0
+  sylibr w0 wn wne c0 c1 wceq c0 c1
+  nne c0 c1
+}
+thm necon3bi(class c0, class c1, wff w0) {
+  |- wi wn w0 wne c0 c1
+  -| wi wceq c0 c1 w0
+} = {
+  neqned c0 c1 wn w0
+  con3i w0 wceq c0 c1
+}
+thm necon1ai(class c0, class c1, wff w0) {
+  |- wi wne c0 c1 w0
+  -| wi wn w0 wceq c0 c1
+} = {
+  notnotrd wne c0 c1 w0
+  necon3ai c0 c1 wn w0
+}
+thm necon1bi(class c0, class c1, wff w0) {
+  |- wi wn w0 wceq c0 c1
+  -| wi wne c0 c1 w0
+} = {
+  con1i w0 wceq c0 c1
+  sylbir wn wceq c0 c1 w0 wne c0 c1
+  df-ne c0 c1
+}
+thm necon2ai(class c0, class c1, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi wceq c0 c1 wn w0
+} = {
+  neqned c0 c1 w0
+  con2i w0 wceq c0 c1
+}
+thm necon2bi(class c0, class c1, wff w0) {
+  |- wi wceq c0 c1 wn w0
+  -| wi w0 wne c0 c1
+} = {
+  con2i wceq c0 c1 w0
+  neneqd c0 c1 w0
+}
+thm necon4ai(class c0, class c1, wff w0) {
+  |- wi w0 wceq c0 c1
+  -| wi wne c0 c1 wn w0
+} = {
+  syl w0 wceq c0 c1 wn wn w0
+  notnot w0
+  necon1bi c0 c1 wn w0
+}
+thm necon3i(class c0, class c1, class c2, class c3) {
+  |- wi wne c0 c1 wne c2 c3
+  -| wi wceq c2 c3 wceq c0 c1
+} = {
+  neqned c2 c3 wne c0 c1
+  necon3ai c0 c1 wceq c2 c3
+}
+thm necon1i(class c0, class c1, class c2, class c3) {
+  |- wi wne c0 c1 wceq c2 c3
+  -| wi wne c2 c3 wceq c0 c1
+} = {
+  necon1ai c0 c1 wceq c2 c3
+  sylbir wn wceq c2 c3 wceq c0 c1 wne c2 c3
+  df-ne c2 c3
+}
+thm necon2i(class c0, class c1, class c2, class c3) {
+  |- wi wceq c0 c1 wne c2 c3
+  -| wi wceq c2 c3 wne c0 c1
+} = {
+  necon2ai c2 c3 wceq c0 c1
+  neneqd c0 c1 wceq c2 c3
+}
+thm necon4i(class c0, class c1, class c2, class c3) {
+  |- wi wceq c0 c1 wceq c2 c3
+  -| wi wne c2 c3 wne c0 c1
+} = {
+  necon4ai c2 c3 wceq c0 c1
+  neneqd c0 c1 wne c2 c3
+}
+thm necon3abid(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wb wne c0 c1 wn w1
+  -| wi w0 wb wceq c0 c1 w1
+} = {
+  syl5bb w0 wne c0 c1 wn w1 wn wceq c0 c1
+  df-ne c0 c1
+  notbid w0 wceq c0 c1 w1
+}
+thm necon3bbid(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wb wn w1 wne c0 c1
+  -| wi w0 wb w1 wceq c0 c1
+} = {
+  bicomd w0 wn w1 wne c0 c1
+  necon3abid c0 c1 w0 w1
+  bicomd w0 wceq c0 c1 w1
+}
+thm necon1abid(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wb wne c0 c1 w1
+  -| wi w0 wb wn w1 wceq c0 c1
+} = {
+  syl5rbb w0 wne c0 c1 w1 wn wn w1
+  notnotb w1
+  necon3bbid c0 c1 w0 wn w1
+}
+thm necon1bbid(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wb wn w1 wceq c0 c1
+  -| wi w0 wb wne c0 c1 w1
+} = {
+  con1bid w0 w1 wceq c0 c1
+  syl5bbr w0 wn wceq c0 c1 w1 wne c0 c1
+  df-ne c0 c1
+}
+thm necon4abid(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wb wceq c0 c1 w1
+  -| wi w0 wb wne c0 c1 wn w1
+} = {
+  syl5rbb w0 wceq c0 c1 w1 wn wn w1
+  notnotb w1
+  necon1bbid c0 c1 w0 wn w1
+}
+thm necon4bbid(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wb w1 wceq c0 c1
+  -| wi w0 wb wn w1 wne c0 c1
+} = {
+  bicomd w0 w1 wceq c0 c1
+  necon4abid c0 c1 w0 w1
+  bicomd w0 wne c0 c1 wn w1
+}
+thm necon2abid(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wb w1 wne c0 c1
+  -| wi w0 wb wceq c0 c1 wn w1
+} = {
+  syl6rbbr w0 w1 wne c0 c1 wn wn w1
+  necon3abid c0 c1 w0 wn w1
+  notnotb w1
+}
+thm necon2bbid(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 wb wceq c0 c1 wn w1
+  -| wi w0 wb w1 wne c0 c1
+} = {
+  necon4abid c0 c1 w0 wn w1
+  syl5rbbr w0 wne c0 c1 wn wn w1 w1
+  notnotb w1
+}
+thm necon3bid(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wb wne c0 c1 wne c2 c3
+  -| wi w0 wb wceq c0 c1 wceq c2 c3
+} = {
+  syl5bb w0 wne c0 c1 wne c2 c3 wn wceq c0 c1
+  df-ne c0 c1
+  necon3bbid c2 c3 w0 wceq c0 c1
+}
+thm necon4bid(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wb wceq c0 c1 wceq c2 c3
+  -| wi w0 wb wne c0 c1 wne c2 c3
+} = {
+  syl6rbb w0 wceq c0 c1 wceq c2 c3 wn wne c0 c1
+  necon2bbid c2 c3 w0 wne c0 c1
+  nne c0 c1
+}
+thm necon3abii(class c0, class c1, wff w0) {
+  |- wb wne c0 c1 wn w0
+  -| wb wceq c0 c1 w0
+} = {
+  xchbinx wne c0 c1 w0 wceq c0 c1
+  df-ne c0 c1
+}
+thm necon3bbii(class c0, class c1, wff w0) {
+  |- wb wn w0 wne c0 c1
+  -| wb w0 wceq c0 c1
+} = {
+  bicomi wn w0 wne c0 c1
+  necon3abii c0 c1 w0
+  bicomi wceq c0 c1 w0
+}
+thm necon1abii(class c0, class c1, wff w0) {
+  |- wb wne c0 c1 w0
+  -| wb wn w0 wceq c0 c1
+} = {
+  bitr2i wne c0 c1 w0 wn wn w0
+  notnotb w0
+  necon3bbii c0 c1 wn w0
+}
+thm necon1bbii(class c0, class c1, wff w0) {
+  |- wb wn w0 wceq c0 c1
+  -| wb wne c0 c1 w0
+} = {
+  xchnxbi w0 wceq c0 c1 wne c0 c1
+  nne c0 c1
+}
+thm necon2abii(class c0, class c1, wff w0) {
+  |- wb w0 wne c0 c1
+  -| wb wceq c0 c1 wn w0
+} = {
+  bicomi w0 wne c0 c1
+  necon1abii c0 c1 w0
+  bicomi wn w0 wceq c0 c1
+}
+thm necon2bbii(class c0, class c1, wff w0) {
+  |- wb wceq c0 c1 wn w0
+  -| wb w0 wne c0 c1
+} = {
+  bicomi wceq c0 c1 wn w0
+  necon1bbii c0 c1 w0
+  bicomi wne c0 c1 w0
+}
+thm necon3bii(class c0, class c1, class c2, class c3) {
+  |- wb wne c0 c1 wne c2 c3
+  -| wb wceq c0 c1 wceq c2 c3
+} = {
+  bitr4i wne c0 c1 wne c2 c3 wn wceq c2 c3
+  necon3abii c0 c1 wceq c2 c3
+  df-ne c2 c3
+}
+thm necom(class c0, class c1) {
+  |- wb wne c0 c1 wne c1 c0
+} = {
+  necon3bii c0 c1 c1 c0
+  eqcom c0 c1
+}
+thm necomi(class c0, class c1) {
+  |- wne c0 c1
+  -| wne c1 c0
+} = {
+  mpbi wne c0 c1 wne c1 c0
+  necom c1 c0
+}
+thm necomd(class c0, class c1, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wne c1 c0
+} = {
+  sylib w0 wne c0 c1 wne c1 c0
+  necom c1 c0
+}
+thm nesym(class c0, class c1) {
+  |- wb wne c0 c1 wn wceq c1 c0
+} = {
+  necon3abii c0 c1 wceq c1 c0
+  eqcom c0 c1
+}
+thm nesymi(class c0, class c1) {
+  |- wn wceq c0 c1
+  -| wne c1 c0
+} = {
+  neii c0 c1
+  necomi c0 c1
+}
+thm nesymir(class c0, class c1) {
+  |- wne c0 c1
+  -| wn wceq c1 c0
+} = {
+  necomi c0 c1
+  neir c1 c0
+}
+thm neeq1d(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wb wne c0 c1 wne c2 c1
+  -| wi w0 wceq c0 c2
+} = {
+  necon3bid c0 c1 c2 c1 w0
+  eqeq1d c0 c1 c2 w0
+}
+thm neeq2d(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wb wne c0 c1 wne c0 c2
+  -| wi w0 wceq c1 c2
+} = {
+  necon3bid c0 c1 c0 c2 w0
+  eqeq2d c0 c1 c2 w0
+}
+thm neeq12d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wb wne c0 c1 wne c2 c3
+  -| wi w0 wceq c0 c2
+  -| wi w0 wceq c1 c3
+} = {
+  necon3bid c0 c1 c2 c3 w0
+  eqeq12d c0 c1 c2 c3 w0
+}
+thm neeq1(class c0, class c1, class c2) {
+  |- wi wceq c0 c1 wb wne c0 c2 wne c1 c2
+} = {
+  neeq1d c0 c2 c1 wceq c0 c1
+  id wceq c0 c1
+}
+thm neeq2(class c0, class c1, class c2) {
+  |- wi wceq c0 c1 wb wne c2 c0 wne c2 c1
+} = {
+  neeq2d c2 c0 c1 wceq c0 c1
+  id wceq c0 c1
+}
+thm neeq1i(class c0, class c1, class c2) {
+  |- wb wne c0 c1 wne c2 c1
+  -| wceq c0 c2
+} = {
+  necon3bii c0 c1 c2 c1
+  eqeq1i c0 c1 c2
+}
+thm neeq2i(class c0, class c1, class c2) {
+  |- wb wne c0 c1 wne c0 c2
+  -| wceq c1 c2
+} = {
+  necon3bii c0 c1 c0 c2
+  eqeq2i c0 c1 c2
+}
+thm neeq12i(class c0, class c1, class c2, class c3) {
+  |- wb wne c0 c1 wne c2 c3
+  -| wceq c0 c2
+  -| wceq c1 c3
+} = {
+  necon3bii c0 c1 c2 c3
+  eqeq12i c0 c1 c2 c3
+}
+thm eqnetrd(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wceq c0 c2
+  -| wi w0 wne c2 c1
+} = {
+  mpbird w0 wne c0 c1 wne c2 c1
+  neeq1d c0 c1 c2 w0
+}
+thm eqnetrrd(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wceq c2 c0
+  -| wi w0 wne c2 c1
+} = {
+  eqnetrd c0 c1 c2 w0
+  eqcomd c0 c2 w0
+}
+thm neeqtrd(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wne c0 c2
+  -| wi w0 wceq c2 c1
+} = {
+  mpbid w0 wne c0 c1 wne c0 c2
+  neeq2d c0 c2 c1 w0
+}
+thm eqnetri(class c0, class c1, class c2) {
+  |- wne c0 c1
+  -| wceq c0 c2
+  -| wne c2 c1
+} = {
+  mpbir wne c0 c1 wne c2 c1
+  neeq1i c0 c1 c2
+}
+thm eqnetrri(class c0, class c1, class c2) {
+  |- wne c0 c1
+  -| wceq c2 c0
+  -| wne c2 c1
+} = {
+  eqnetri c0 c1 c2
+  eqcomi c0 c2
+}
+thm neeqtri(class c0, class c1, class c2) {
+  |- wne c0 c1
+  -| wne c0 c2
+  -| wceq c2 c1
+} = {
+  mpbi wne c0 c1 wne c0 c2
+  neeq2i c0 c2 c1
+}
+thm neeqtrri(class c0, class c1, class c2) {
+  |- wne c0 c1
+  -| wne c0 c2
+  -| wceq c1 c2
+} = {
+  neeqtri c0 c1 c2
+  eqcomi c2 c1
+}
+thm neeqtrrd(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wne c0 c2
+  -| wi w0 wceq c1 c2
+} = {
+  neeqtrd c0 c1 c2 w0
+  eqcomd c2 c1 w0
+}
+thm syl5eqner(class c0, class c1, class c2, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wceq c2 c0
+  -| wi w0 wne c2 c1
+} = {
+  eqnetrrd c0 c1 c2 w0
+  a1i w0 wceq c2 c0
+}
+thm 3netr3d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wne c2 c3
+  -| wi w0 wceq c2 c0
+  -| wi w0 wceq c3 c1
+} = {
+  eqnetrrd c0 c1 c2 w0
+  neeqtrd c2 c1 c3 w0
+}
+thm 3netr4d(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wne c2 c3
+  -| wi w0 wceq c0 c2
+  -| wi w0 wceq c1 c3
+} = {
+  neeqtrrd c0 c1 c3 w0
+  eqnetrd c0 c3 c2 w0
+}
+thm 3netr3g(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wne c2 c3
+  -| wceq c2 c0
+  -| wceq c3 c1
+} = {
+  sylib w0 wne c0 c1 wne c2 c3
+  neeq12i c2 c3 c0 c1
+}
+thm 3netr4g(class c0, class c1, class c2, class c3, wff w0) {
+  |- wi w0 wne c0 c1
+  -| wi w0 wne c2 c3
+  -| wceq c0 c2
+  -| wceq c1 c3
+} = {
+  sylibr w0 wne c0 c1 wne c2 c3
+  neeq12i c0 c1 c2 c3
+}
+thm nebi(class c0, class c1, class c2, class c3) {
+  |- wb wb wceq c0 c1 wceq c2 c3 wb wne c0 c1 wne c2 c3
+} = {
+  impbii wb wceq c0 c1 wceq c2 c3 wb wne c0 c1 wne c2 c3
+  necon3bid c0 c1 c2 c3 wb wceq c0 c1 wceq c2 c3
+  id wb wceq c0 c1 wceq c2 c3
+  necon4bid c0 c1 c2 c3 wb wne c0 c1 wne c2 c3
+  id wb wne c0 c1 wne c2 c3
+}
+thm pm13.18(class c0, class c1, class c2) {
+  |- wi wa wceq c0 c1 wne c0 c2 wne c1 c2
+} = {
+  imp wceq c0 c1 wne c0 c2 wne c1 c2
+  biimpd wceq c0 c1 wne c0 c2 wne c1 c2
+  neeq1 c0 c1 c2
+}
+thm pm13.18OLD(class c0, class c1, class c2) {
+  |- wi wa wceq c0 c1 wne c0 c2 wne c1 c2
+} = {
+  imp wceq c0 c1 wne c0 c2 wne c1 c2
+  necon3d c0 c2 c1 c2 wceq c0 c1
+  biimprd wceq c0 c1 wceq c1 c2 wceq c0 c2
+  eqeq1 c0 c1 c2
+}
+thm pm13.181(class c0, class c1, class c2) {
+  |- wi wa wceq c0 c1 wne c1 c2 wne c0 c2
+} = {
+  sylanb wceq c0 c1 wne c1 c2 wne c0 c2 wceq c1 c0
+  eqcom c0 c1
+  pm13.18 c1 c0 c2
+}
+thm pm2.61ine(class c0, class c1, wff w0) {
+  |- w0
+  -| wi wceq c0 c1 w0
+  -| wi wne c0 c1 w0
+} = {
+  pm2.61i w0 wne c0 c1
+  sylbi wn wne c0 c1 w0 wceq c0 c1
+  nne c0 c1
+}
+thm pm2.21ddne(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi w0 wceq c0 c1
+  -| wi w0 wne c0 c1
+} = {
+  pm2.21dd w0 w1 wceq c0 c1
+  neneqd c0 c1 w0
+}
+thm pm2.61ne(class c0, class c1, wff w0, wff w1, wff w2) {
+  |- wi w0 w1
+  -| wi wceq c0 c1 wb w1 w2
+  -| wi wa w0 wne c0 c1 w1
+  -| wi w0 w2
+} = {
+  pm2.61ine c0 c1 wi w0 w1
+  syl5ibr wceq c0 c1 w0 w1 w2
+  expcom wne c0 c1 w0 w1
+}
+thm pm2.61dne(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi w0 wi wceq c0 c1 w1
+  -| wi w0 wi wne c0 c1 w1
+} = {
+  pm2.61d w0 w1 wne c0 c1
+  syl5bi w0 wn wne c0 c1 w1 wceq c0 c1
+  nne c0 c1
+}
+thm pm2.61dane(class c0, class c1, wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi wa w0 wceq c0 c1 w1
+  -| wi wa w0 wne c0 c1 w1
+} = {
+  pm2.61dne c0 c1 w0 w1
+  ex w0 wceq c0 c1 w1
+  ex w0 wne c0 c1 w1
+}
+thm pm2.61da2ne(class c0, class c1, class c2, class c3, wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi wa w0 wceq c0 c1 w1
+  -| wi wa w0 wceq c2 c3 w1
+  -| wi wa w0 wa wne c0 c1 wne c2 c3 w1
+} = {
+  pm2.61dane c0 c1 w0 w1
+  pm2.61dane c2 c3 wa w0 wne c0 c1 w1
+  adantlr w0 wne c0 c1 wceq c2 c3 w1
+  anassrs w0 wne c0 c1 wne c2 c3 w1
+}
+thm pm2.61da3ne(class c0, class c1, class c2, class c3, class c4, class c5, wff w0, wff w1) {
+  |- wi w0 w1
+  -| wi wa w0 wceq c0 c1 w1
+  -| wi wa w0 wceq c2 c3 w1
+  -| wi wa w0 wceq c4 c5 w1
+  -| wi wa w0 w3a wne c0 c1 wne c2 c3 wne c4 c5 w1
+} = {
+  pm2.61da2ne c2 c3 c4 c5 w0 w1
+  imp w0 wa wne c2 c3 wne c4 c5 w1
+  pm2.61dane c0 c1 w0 wi wa wne c2 c3 wne c4 c5 w1
+  a1d wa w0 wceq c0 c1 wa wne c2 c3 wne c4 c5 w1
+  imp4b w0 wne c0 c1 wne c2 c3 wne c4 c5 w1
+  3exp2 w0 wne c0 c1 wne c2 c3 wne c4 c5 w1
+}
+thm pm2.61iine(class c0, class c1, class c2, class c3, wff w0) {
+  |- w0
+  -| wi wa wne c0 c1 wne c2 c3 w0
+  -| wi wceq c0 c1 w0
+  -| wi wceq c2 c3 w0
+} = {
+  pm2.61ine c0 c1 w0
+  pm2.61dane c2 c3 wne c0 c1 w0
+  adantl wne c0 c1 wceq c2 c3 w0
+}
+thm neor(class c0, class c1, wff w0) {
+  |- wb wo wceq c0 c1 w0 wi wne c0 c1 w0
+} = {
+  bitr4i wo wceq c0 c1 w0 wi wne c0 c1 w0 wi wn wceq c0 c1 w0
+  df-or wceq c0 c1 w0
+  imbi1i wne c0 c1 w0 wn wceq c0 c1
+  df-ne c0 c1
+}
+thm neanior(class c0, class c1, class c2, class c3) {
+  |- wb wa wne c0 c1 wne c2 c3 wn wo wceq c0 c1 wceq c2 c3
+} = {
+  bitri wa wne c0 c1 wne c2 c3
+        wn wo wceq c0 c1 wceq c2 c3
+        wa wn wceq c0 c1 wn wceq c2 c3
+  anbi12i wne c0 c1 wne c2 c3 wn wceq c0 c1 wn wceq c2 c3
+  df-ne c0 c1
+  df-ne c2 c3
+  pm4.56 wceq c0 c1 wceq c2 c3
+}
+thm ne3anior(class c0, class c1, class c2, class c3, class c4, class c5) {
+  |- wb w3a wne c0 c1 wne c2 c3 wne c4 c5 wn w3o wceq c0 c1 wceq c2 c3 wceq c4 c5
+} = {
+  xchbinx w3a wne c0 c1 wne c2 c3 wne c4 c5
+          w3o wceq c0 c1 wceq c2 c3 wceq c4 c5
+          w3o wn wne c0 c1 wn wne c2 c3 wn wne c4 c5
+  3anor wne c0 c1 wne c2 c3 wne c4 c5
+  3orbi123i wn wne c0 c1 wn wne c2 c3 wn wne c4 c5 wceq c0 c1 wceq c2 c3 wceq c4 c5
+  nne c0 c1
+  nne c2 c3
+  nne c4 c5
+}
+thm neorian(class c0, class c1, class c2, class c3) {
+  |- wb wo wne c0 c1 wne c2 c3 wn wa wceq c0 c1 wceq c2 c3
+} = {
+  bitr4i wo wne c0 c1 wne c2 c3
+         wn wa wceq c0 c1 wceq c2 c3
+         wo wn wceq c0 c1 wn wceq c2 c3
+  orbi12i wne c0 c1 wne c2 c3 wn wceq c0 c1 wn wceq c2 c3
+  df-ne c0 c1
+  df-ne c2 c3
+  ianor wceq c0 c1 wceq c2 c3
+}
+thm nemtbir(class c0, class c1, wff w0) {
+  |- wn w0
+  -| wne c0 c1
+  -| wb w0 wceq c0 c1
+} = {
+  mtbir w0 wceq c0 c1
+  neii c0 c1
+}
+thm nelne1(class c0, class c1, class c2) {
+  |- wi wa wcel c0 c1 wn wcel c0 c2 wne c1 c2
+} = {
+  neqned c1 c2 wa wcel c0 c1 wn wcel c0 c2
+  nelneq2 c0 c1 c2
+}
+thm nelne1OLD(class c0, class c1, class c2) {
+  |- wi wa wcel c0 c1 wn wcel c0 c2 wne c1 c2
+} = {
+  imp wcel c0 c1 wn wcel c0 c2 wne c1 c2
+  necon3bd c1 c2 wcel c0 c1 wcel c0 c2
+  biimpcd wcel c0 c1 wceq c1 c2 wcel c0 c2
+  eleq2 c1 c2 c0
+}
+thm nelne2(class c0, class c1, class c2) {
+  |- wi wa wcel c0 c1 wn wcel c2 c1 wne c0 c2
+} = {
+  neqned c0 c2 wa wcel c0 c1 wn wcel c2 c1
+  nelneq c0 c1 c2
+}
+thm nelne2OLD(class c0, class c1, class c2) {
+  |- wi wa wcel c0 c1 wn wcel c2 c1 wne c0 c2
+} = {
+  imp wcel c0 c1 wn wcel c2 c1 wne c0 c2
+  necon3bd c0 c2 wcel c0 c1 wcel c2 c1
+  biimpcd wcel c0 c1 wceq c0 c2 wcel c2 c1
+  eleq1 c0 c2 c1
+}
+thm nelelne(class c0, class c1, class c2) {
+  |- wi wn wcel c0 c1 wi wcel c2 c1 wne c2 c0
+} = {
+  expcom wn wcel c0 c1 wcel c2 c1 wne c2 c0
+  nelne2 c2 c1 c0
+}
+thm neneor(class c0, class c1, class c2) {
+  |- wi wne c0 c1 wo wne c0 c2 wne c1 c2
+} = {
+  sylibr wne c0 c1 wo wne c0 c2 wne c1 c2 wn wa wceq c0 c2 wceq c1 c2
+  necon3ai c0 c1 wa wceq c0 c2 wceq c1 c2
+  eqtr3 c0 c2 c1
+  neorian c0 c2 c1 c2
+}
+thm nfne(setvar s0, class c0, class c1) {
+  |- wnf s0 wne c0 c1
+  -| wnfc s0 c0
+  -| wnfc s0 c1
+} = {
+  nfxfr s0 wne c0 c1 wn wceq c0 c1
+  df-ne c0 c1
+  nfn s0 wceq c0 c1
+  nfeq s0 c0 c1
+}
+thm nfned(setvar s0, class c0, class c1, wff w0) {
+  |- wi w0 wnf s0 wne c0 c1
+  -| wi w0 wnfc s0 c0
+  -| wi w0 wnfc s0 c1
+} = {
+  nfxfrd s0 w0 wne c0 c1 wn wceq c0 c1
+  df-ne c0 c1
+  nfnd s0 w0 wceq c0 c1
+  nfeqd s0 c0 c1 w0
+}
+thm nabbi(setvar s0, wff w0, wff w1) {
+  |- wb wex s0 wb w0 wn w1 wne cab s0 w0 cab s0 w1
+} = {
+  bitr2i wex s0 wb w0 wn w1 wne cab s0 w0 cab s0 w1 wn wceq cab s0 w0 cab s0 w1
+  df-ne cab s0 w0 cab s0 w1
+  xchnxbi wceq cab s0 w0 cab s0 w1 wex s0 wb w0 wn w1 wal s0 wb w0 w1
+  bitr3i wn wal s0 wb w0 w1 wex s0 wb w0 wn w1 wex s0 wn wb w0 w1
+  exnal s0 wb w0 w1
+  exbii s0 wn wb w0 w1 wb w0 wn w1
+  xor3 w0 w1
+  abbi s0 w0 w1
+}
