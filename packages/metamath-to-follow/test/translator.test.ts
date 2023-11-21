@@ -14,3 +14,10 @@ test('#2 translate set_part2.mm', () => {
   metamathToFollow(filename, output);
   expect(1 + 1).toBe(2);
 });
+
+test('#3 translate set.mm', () => {
+  const filename = './examples/set.mm';
+  const output = './examples/set.fol';
+  metamathToFollow(filename, output);
+  expect(1 + 1).toBe(2);
+});

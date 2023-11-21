@@ -111,7 +111,17 @@ export default class Compiler {
     const contents: Array<string> = [];
     const typeSet: Set<string> = new Set();
     const constMap: Map<string, Set<string>> = new Map();
+    const comments = compileInfo.parse.comments;
+    let commentIdx = 0;
     for (const defNode of compileInfo.parse.defNodes) {
+      const defNodeStartLine = defNode.keyword?.range.start.line || 0;
+      while (commentIdx < comments.length && comments[commentIdx].range.end.line <= defNodeStartLine) {
+        const value = comments[commentIdx].value;
+        if (value) {
+          contents.push(value);
+        }
+        commentIdx++;
+      }
       if (defNode.nodeType === NodeType.TYPE_DEF) {
         if (defNode.type?.value) {
           typeSet.add(defNode.type.value);

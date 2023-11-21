@@ -41,6 +41,34 @@ export function metamathToFollow(filename: string, output: string) {
     }
   }
   */
+  const comments = parser.comments.filter((comment) => {
+    return (
+      comment.value.includes('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=') ||
+      comment.value.includes('-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-') ||
+      comment.value.includes('#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#')
+    );
+  });
+  const truncComments = comments.map((comment) => {
+    if (comment.value.includes('-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-')) {
+      const tmp = comment.value.split(
+        '\n-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-\n',
+      );
+      return '// ' + tmp[1].trim();
+    } else if (
+      comment.value.includes('#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#')
+    ) {
+      const tmp = comment.value.split(
+        '\n#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#\n',
+      );
+      return '// ' + tmp[1].trim();
+    }
+    const tmp = comment.value.split(
+      '\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n',
+    );
+    return '// ' + tmp[1].trim();
+  });
+  let commentIdx = 0;
+
   if (frame?.axioms) {
     const typeSet: Set<string> = new Set();
     frame.floats.forEach((float) => {
@@ -119,6 +147,11 @@ export function metamathToFollow(filename: string, output: string) {
       if (prove.type?.value === '|-') {
         if (prove.label?.value === undefined) {
           continue;
+        }
+        const proveStartLine = prove.keyword.range.start.line;
+        while (commentIdx < comments.length && comments[commentIdx].range.end.line <= proveStartLine) {
+          contents.push(truncComments[commentIdx]);
+          commentIdx++;
         }
         let s = prove.bodyOpTreeStrRename;
         if (s === undefined) {

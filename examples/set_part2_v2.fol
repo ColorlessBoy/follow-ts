@@ -946,6 +946,15 @@ axiom df-iota(setvar s0, setvar s1, wff w0) {
   -| diffss s0 s1
   -| diffsw s1 w0
 }
+// Metamath source file for logic and set theory
+// Contents of this header
+// Other notes
+// Pre-logic
+// Inferences for assisting proof development
+// Propositional calculus
+// Recursively define primitive wffs for propositional calculus
+// The axioms of propositional calculus
+// Logical implication
 thm mp2(wff w0, wff w1, wff w2) {
   |- w0
   -| w1
@@ -1744,6 +1753,7 @@ thm loowoz(wff w0, wff w1, wff w2) {
   a2d wi wi w0 w1 wi w0 w2 w1 w0 w2
   jarr w0 w1 wi w0 w2
 }
+// Logical negation
 thm con4(wff w0, wff w1) {
   |- wi wi wn w0 wn w1 wi w1 w0
 } = {
@@ -2367,6 +2377,7 @@ thm bijust(wff w0, wff w1) {
 } = {
   bijust0 wn wi wi w0 w1 wn wi w1 w0
 }
+// Logical equivalence
 thm impbi(wff w0, wff w1) {
   |- wi wi w0 w1 wi wi w1 w0 wb w0 w1
 } = {
@@ -3908,6 +3919,7 @@ thm imim21b(wff w0, wff w1, wff w2, wff w3) {
   imbi1d w1 wi w1 w2 w3 w2
   pm5.5 w1 w2
 }
+// Logical conjunction
 thm pm4.63(wff w0, wff w1) {
   |- wb wn wi w0 wn w1 wa w0 w1
 } = {
@@ -7235,6 +7247,7 @@ thm animpimp2impd(wff w0, wff w1, wff w2, wff w3, wff w4, wff w5) {
   a2d wa w1 w0 w3 w5 w4
   expr w1 w0 w3 wi w5 w4
 }
+// Logical disjunction
 thm pm4.64(wff w0, wff w1) {
   |- wb wi wn w0 w1 wo w0 w1
 } = {
@@ -7987,6 +8000,7 @@ thm pm5.7(wff w0, wff w1, wff w2) {
   orcom w1 w0
   orcom w1 w2
 }
+// Mixed connectives
 thm jaao(wff w0, wff w1, wff w2, wff w3, wff w4) {
   |- wi wa w0 w1 wi wo w2 w3 w4
   -| wi w0 wi w2 w4
@@ -8946,6 +8960,7 @@ thm ornld(wff w0, wff w1, wff w2) {
   ord wa w0 wi w0 wo w1 w2 w1 w2
   pm3.35 w0 wo w1 w2
 }
+// The conditional operator for propositions
 thm dfifp2(wff w0, wff w1, wff w2) {
   |- wb wif w0 w1 w2 wa wi w0 w1 wi wn w0 w2
 } = {
@@ -9099,6 +9114,7 @@ thm 1fpid3(wff w0, wff w1, wff w2) {
   jaoi wa w0 w1 wa wn w0 w2 w2
   simpr wn w0 w2
 }
+// The weak deduction theorem for propositional calculus
 thm elimh(wff w0, wff w1, wff w2, wff w3, wff w4) {
   |- w0
   -| wi wb wif w1 w2 w3 w2 wb w0 w1
@@ -9172,6 +9188,7 @@ thm con3ALTOLD(wff w0, wff w1) {
   bicom1 wif wi w0 w1 w1 w0 w0
   id w0
 }
+// Abbreviated conjunction and disjunction of three wff's
 thm 3orass(wff w0, wff w1, wff w2) {
   |- wb w3o w0 w1 w2 wo w0 wo w1 w2
 } = {
@@ -12270,6 +12287,7 @@ thm an33rean(wff w0, wff w1, wff w2, wff w3, wff w4, wff w5, wff w6, wff w7, wff
   3an6 w1 w3 w2 w7 w5 w6
   3an6 w1 w3 w5 w7 w2 w6
 }
+// Logical "nand" (Sheffer stroke)
 thm nanan(wff w0, wff w1) {
   |- wb wa w0 w1 wn wnan w0 w1
 } = {
@@ -12527,6 +12545,7 @@ thm nanassOLD(wff w0, wff w1, wff w2) {
   nancom w2 w0
   nancom w1 wnan w0 w2
 }
+// Logical "xor"
 thm xnor(wff w0, wff w1) {
   |- wb wb w0 w1 wn wxo w0 w1
 } = {
@@ -12662,6 +12681,10 @@ thm xorexmid(wff w0) {
   pm5.19 w0
   df-xor w0 wn w0
 }
+// True and false constants
+// Universal quantifier for use by df-tru
+// Equality predicate for use by df-tru
+// The true constant
 thm trujust(setvar s0, setvar s1) {
   |- wb wi wal s0 wceq cv s0 cv s0 wal s0 wceq cv s0 cv s0
         wi wal s1 wceq cv s1 cv s1 wal s1 wceq cv s1 cv s1
@@ -12730,6 +12753,7 @@ thm truan(wff w0) {
   biantrur w0 wtru
   tru
 }
+// The false constant
 thm fal() {
   |- wn wfal
 } = {
@@ -12792,6 +12816,8 @@ thm pm2.21fal(wff w0, wff w1) {
 } = {
   pm2.21dd w0 wfal w1
 }
+// Truth tables
+// Implication
 thm truimtru() {
   |- wb wi wtru wtru wtru
 } = {
@@ -12816,6 +12842,7 @@ thm falimfal() {
   bitru wi wfal wfal
   id wfal
 }
+// Negation
 thm nottru() {
   |- wb wn wtru wfal
 } = {
@@ -12828,6 +12855,7 @@ thm notfal() {
   bitru wn wfal
   fal
 }
+// Equivalence
 thm trubitru() {
   |- wb wb wtru wtru wtru
 } = {
@@ -12853,6 +12881,7 @@ thm falbifal() {
   bitru wb wfal wfal
   biid wfal
 }
+// Conjunction
 thm truantru() {
   |- wb wa wtru wtru wtru
 } = {
@@ -12875,6 +12904,7 @@ thm falanfal() {
 } = {
   anidm wfal
 }
+// Disjunction
 thm truortru() {
   |- wb wo wtru wtru wtru
 } = {
@@ -12899,6 +12929,7 @@ thm falorfal() {
 } = {
   oridm wfal
 }
+// Alternative denial
 thm trunantru() {
   |- wb wnan wtru wtru wfal
 } = {
@@ -12929,6 +12960,7 @@ thm falnanfal() {
   nannot wfal
   notfal
 }
+// Exclusive disjunction
 thm truxortru() {
   |- wb wxo wtru wtru wfal
 } = {
@@ -12963,6 +12995,8 @@ thm falxorfal() {
   falbifal
   nottru
 }
+// Half adder and full adder in propositional calculus
+// Full adder: sum
 thm hadbi123d(wff w0, wff w1, wff w2, wff w3, wff w4, wff w5, wff w6) {
   |- wi w0 wb whad w1 w2 w3 whad w4 w5 w6
   -| wi w0 wb w1 w4
@@ -13074,6 +13108,7 @@ thm hadifp(wff w0, wff w1, wff w2) {
   had1 w0 w1 w2
   had0 w0 w1 w2
 }
+// Full adder: carry
 thm cador(wff w0, wff w1, wff w2) {
   |- wb wcad w0 w1 w2 w3o wa w0 w1 wa w0 w2 wa w1 w2
 } = {
@@ -13264,6 +13299,8 @@ thm cadtru(wff w0) {
   tru
   cad11 wtru wtru w0
 }
+// Other axiomatizations related to classical propositional calculus
+// Minimal implicational calculus
 thm minimp(wff w0, wff w1, wff w2, wff w3, wff w4) {
   |- wi w0 wi wi w1 w2 wi wi wi w3 w1 wi w2 w4 wi w1 w4
 } = {
@@ -13510,6 +13547,7 @@ thm minimp-pm2.43(wff w0, wff w1) {
   minimp-ax2 w0 wi w0 w1 w0
   minimp-ax2 wi w0 wi w0 w1 wi w0 w0 wi w0 w1
 }
+// Implicational Calculus
 thm impsingle(wff w0, wff w1, wff w2, wff w3) {
   |- wi wi wi w0 w1 w2 wi wi w2 w0 wi w3 w0
 } = {
@@ -13958,6 +13996,7 @@ thm tarski-bernays-ax2(wff w0, wff w1, wff w2) {
         wi wi wi wi wi w0 wi w1 w2 wi w0 w2 wi w0 w2 wi wi w0 w1 wi w0 w2 wi wi w0 wi w1 w2 wi wi w0 w1 wi w0 w2
         wi wi wi w0 w1 wi wi w0 wi w1 w2 wi w0 w2 wi wi w0 wi w1 w2 wi wi w0 w1 wi w0 w2
 }
+// Derive the Lukasiewicz axioms from Meredith's sole axiom
 thm meredith(wff w0, wff w1, wff w2, wff w3, wff w4) {
   |- wi wi wi wi wi w0 w1 wi wn w2 wn w3 w2 w4 wi wi w4 w0 wi w3 w0
 } = {
@@ -14225,6 +14264,7 @@ thm luk-3(wff w0, wff w1) {
   merlem11 wn w0 w1
   merlem1 wn w0 w0 w1 wi wn w0 w1
 }
+// Derive the standard axioms from the Lukasiewicz axioms
 thm luklem1(wff w0, wff w1, wff w2) {
   |- wi w0 w1
   -| wi w0 w2
@@ -14338,6 +14378,7 @@ thm ax3(wff w0, wff w1) {
   luklem2 wn w0 w1 w0 w0
   luklem4 w0 wi w1 w0
 }
+// Derive Nicod's axiom from the standard axioms
 thm nic-dfim(wff w0, wff w1) {
   |- wnan wnan wnan w0 wnan w1 w1 wi w0 w1
           wnan wnan wnan w0 wnan w1 w1 wnan w0 wnan w1 w1 wnan wi w0 w1 wi w0 w1
@@ -14490,6 +14531,7 @@ thm nic-axALT(wff w0, wff w1, wff w2, wff w3, wff w4) {
   df-nan wnan w0 wnan w1 w2
          wnan wnan w3 wnan w3 w3 wnan wnan w4 w1 wnan wnan w0 w4 wnan w0 w4
 }
+// Derive the Lukasiewicz axioms from Nicod's axiom
 thm nic-imp(wff w0, wff w1, wff w2, wff w3) {
   |- wnan wnan w0 w1 wnan wnan w2 w0 wnan w2 w0
   -| wnan w2 wnan w1 w3
@@ -14723,6 +14765,7 @@ thm nic-luk3(wff w0, wff w1) {
   nic-bi1 wnan w0 wnan wi wn w0 w1 wi wn w0 w1 wi w0 wi wn w0 w1
   nic-dfim w0 wi wn w0 w1
 }
+// Derive Nicod's Axiom from Lukasiewicz's First Sheffer Stroke Axiom
 thm lukshef-ax1(wff w0, wff w1, wff w2, wff w3) {
   |- wnan wnan w0 wnan w1 w2
           wnan wnan w3 wnan w3 w3 wnan wnan w3 w1 wnan wnan w0 w3 wnan w0 w3
@@ -14814,6 +14857,7 @@ thm renicax(wff w0, wff w1, wff w2, wff w3, wff w4) {
   lukshefth2 wnan wnan w3 wnan w3 w3 wnan wnan w4 w1 wnan wnan w0 w4 wnan w0 w4
              wnan w0 wnan w1 w2
 }
+// Derive the Lukasiewicz Axioms from the Tarski-Bernays-Wajsberg Axioms
 thm tbw-bijust(wff w0, wff w1) {
   |- wb wb w0 w1 wi wi wi w0 w1 wi wi w1 w0 wfal wfal
 } = {
@@ -15012,6 +15056,7 @@ thm re1luk3(wff w0, wff w1) {
   tbwlem1 wi w0 wfal w0 w1
   tbw-ax1 wn w0 wi w0 wfal w1
 }
+// Derive the Tarski-Bernays-Wajsberg axioms from Meredith's First CO Axiom
 thm merco1(wff w0, wff w1, wff w2, wff w3, wff w4) {
   |- wi wi wi wi wi w0 w1 wi w2 wfal w3 w4 wi wi w4 w0 wi w2 w0
 } = {
@@ -15518,6 +15563,7 @@ thm retbwax1(wff w0, wff w1, wff w2) {
               wi wi w1 w2 wi wi wi w1 w2 wi wi w0 w1 wi w0 w2 wi wi w0 w1 wi wi w1 w2 wi w0 w2
               wi wi wi w1 w2 wi wi wi w1 w2 wi wi w0 w1 wi w0 w2 wi wi w0 w1 wi wi w1 w2 wi w0 w2 wi wi wi w1 w2 wi wi w0 w1 wi w0 w2 wi wi w0 w1 wi wi w1 w2 wi w0 w2
 }
+// Derive the Tarski-Bernays-Wajsberg axioms from Meredith's Second CO Axiom
 thm merco2(wff w0, wff w1, wff w2, wff w3, wff w4, wff w5) {
   |- wi wi wi w0 w1 wi wi wfal w2 w3 wi wi w3 w0 wi w4 wi w5 w0
 } = {
@@ -15877,6 +15923,7 @@ thm re1tbw4(wff w0) {
   mercolem3 wi wfal w0 w0 wfal
   merco2 wi wfal w0 w0 w0 wi wfal w0 wi w0 w0 wi w0 w0
 }
+// Derive the Lukasiewicz axioms from the Russell-Bernays Axioms
 thm rb-bijust(wff w0, wff w1) {
   |- wb wb w0 w1 wn wo wn wo wn w0 w1 wn wo wn w1 w0
 } = {
@@ -16167,6 +16214,7 @@ thm re2luk3(wff w0, wff w1) {
   rblem7 wo wn w0 wi wn w0 w1 wi w0 wi wn w0 w1
   rb-imdf w0 wi wn w0 w1
 }
+// Stoic logic non-modal portion (Chrysippus of Soli)
 thm mptnan(wff w0, wff w1) {
   |- wn w0
   -| w1
@@ -16258,6 +16306,9 @@ thm stoic4b(wff w0, wff w1, wff w2, wff w3, wff w4) {
   simp2 w0 w1 w2
   simp3 w0 w1 w2
 }
+// Predicate calculus with equality:  Tarski's system S2 (1 rule, 6 schemes)
+// Universal quantifier (continued); define "exists" and "not free"
+// Existential quantifier
 thm alnex(setvar s0, wff w0) {
   |- wb wal s0 wn w0 wn wex s0 w0
 } = {
@@ -16272,6 +16323,7 @@ thm eximal(setvar s0, wff w0, wff w1) {
   df-ex s0 w0
   con1b wal s0 wn w0 w1
 }
+// Non-freeness predicate
 thm nf2(setvar s0, wff w0) {
   |- wb wnf s0 w0 wo wal s0 w0 wn wex s0 w0
 } = {
@@ -16345,6 +16397,7 @@ thm nfntht2(setvar s0, wff w0) {
   alnex s0 w0
   nfntht s0 w0
 }
+// Rule scheme ax-gen (Generalization)
 thm gen2(setvar s0, setvar s1, wff w0) {
   |- wal s0 wal s1 w0
   -| w0
@@ -16434,6 +16487,7 @@ thm alfal(setvar s0) {
   ax-gen s0 wn wfal
   fal
 }
+// Axiom scheme ax-4 (Quantified Implication)
 thm alim(setvar s0, wff w0, wff w1) {
   |- wi wal s0 wi w0 w1 wi wal s0 w0 wal s0 w1
 } = {
@@ -17270,6 +17324,7 @@ thm nf3or(setvar s0, wff w0, wff w1, wff w2) {
   nfor s0 wo w0 w1 w2
   nfor s0 w0 w1
 }
+// Axiom scheme ax-5 (Distinctness) - first use of $d
 thm ax5d(setvar s0, wff w0, wff w1) {
   |- wi w0 wi w1 wal s0 w1
   -| diffsw s0 w1
@@ -17813,6 +17868,7 @@ thm 4exdistr(setvar s0, setvar s1, setvar s2, setvar s3, wff w0, wff w1, wff w2,
   3exdistr s0 s1 s2 w0 w1 wa w2 wex s3 w3
   diff.wa s3 w0 w1
 }
+// Equality predicate (continued)
 thm equs3OLD(setvar s0, setvar s1, wff w0) {
   |- wb wex s0 wa wceq cv s0 cv s1 w0 wn wal s0 wi wceq cv s0 cv s1 wn w0
 } = {
@@ -17861,6 +17917,7 @@ thm ax12i(setvar s0, setvar s1, wff w0, wff w1) {
   alrimih s0 w1 wi wceq cv s0 cv s1 w0
   biimprcd w1 wceq cv s0 cv s1 w0
 }
+// Axiom scheme ax-6 (Existence)
 thm ax6v(setvar s0, setvar s1) {
   |- wn wal s0 wn wceq cv s0 cv s1
   -| diffss s0 s1
@@ -18190,6 +18247,7 @@ thm cbvalivw(setvar s0, setvar s1, wff w0, wff w1) {
   diff.wal s1 s0 w0
   diffss.ex s1 s0
 }
+// Axiom scheme ax-7 (Equality)
 thm ax7v(setvar s0, setvar s1, setvar s2) {
   |- wi wceq cv s0 cv s1 wi wceq cv s0 cv s2 wceq cv s1 cv s2
   -| diffss s0 s1
@@ -18861,6 +18919,7 @@ thm aev2ALT(setvar s0, setvar s1, setvar s2, setvar s3, setvar s4, setvar s5) {
   diff.hs1.s s2
   diff.hs0.s hs1
 }
+// Define proper substitution
 thm sbjustlem(setvar s0, setvar s1, setvar s2, setvar s3, wff w0) {
   |- wb wal s0 wi wceq cv s0 cv s1 wal s2 wi wceq cv s2 cv s0 w0
         wal s3 wi wceq cv s3 cv s1 wal s2 wi wceq cv s2 cv s3 w0
@@ -19342,6 +19401,8 @@ thm equsb1vOLD(setvar s0, setvar s1) {
   sb2vOLD s0 s1 wceq cv s0 cv s1
   id wceq cv s0 cv s1
 }
+// Membership predicate
+// Axiom scheme ax-8 (Left Equality for Binary Predicate)
 thm ax8v(setvar s0, setvar s1, setvar s2) {
   |- wi wceq cv s0 cv s1 wi wcel cv s0 cv s2 wcel cv s1 cv s2
   -| diffss s0 s1
@@ -19419,6 +19480,7 @@ thm cleljust(setvar s0, setvar s1, setvar s2) {
   diff.cv s2 s1
   diffss.ex s2 s1
 }
+// Axiom scheme ax-9 (Right Equality for Binary Predicate)
 thm ax9v(setvar s0, setvar s1, setvar s2) {
   |- wi wceq cv s0 cv s1 wi wcel cv s2 cv s0 wcel cv s2 cv s1
   -| diffss s0 s1
@@ -19478,6 +19540,7 @@ thm elequ2(setvar s0, setvar s1, setvar s2) {
   equcoms s0 s1 wi wcel cv s2 cv s1 wcel cv s2 cv s0
   ax9 s1 s0 s2
 }
+// Logical redundancy of ax-10 , ax-11 , ax-12 , ax-13
 thm ax6dgen(setvar s0) {
   |- wn wal s0 wn wceq cv s0 cv s0
 } = {
@@ -19667,6 +19730,8 @@ thm ax13dgen4(setvar s0) {
 } = {
   pm2.21 wceq cv s0 cv s0 wal s0 wceq cv s0 cv s0
 }
+// Predicate calculus with equality:  Auxiliary axiom schemes (4 schemes)
+// Axiom scheme ax-10 (Quantified Negation)
 thm hbn1(setvar s0, wff w0) {
   |- wi wn wal s0 w0 wal s0 wn wal s0 w0
 } = {
@@ -19760,6 +19825,7 @@ thm modal5(setvar s0, wff w0) {
 } = {
   hbn1 s0 wn w0
 }
+// Axiom scheme ax-11 (Quantifier Commutation)
 thm alcoms(setvar s0, setvar s1, wff w0, wff w1) {
   |- wi wal s0 wal s1 w0 w1
   -| wi wal s1 wal s0 w0 w1
@@ -19863,6 +19929,7 @@ thm nfa2(setvar s0, setvar s1, wff w0) {
   alcom s1 s0 w0
   nfa1 s0 wal s1 w0
 }
+// Axiom scheme ax-12 (Substitution)
 thm ax12v(setvar s0, setvar s1, wff w0) {
   |- wi wceq cv s0 cv s1 wi w0 wal s0 wi wceq cv s0 cv s1 w0
   -| diffss s0 s1
@@ -21841,6 +21908,7 @@ thm axc11r(setvar s0, setvar s1, wff w0) {
   al2imi s0 wceq cv s0 cv s1 wi wceq cv s0 cv s1 w0 w0
   pm2.27 wceq cv s0 cv s1 w0
 }
+// Axiom scheme ax-13 (Quantified Equality)
 thm ax13v(setvar s0, setvar s1, setvar s2) {
   |- wi wn wceq cv s0 cv s1 wi wceq cv s1 cv s2 wal s0 wceq cv s1 cv s2
   -| diffss s0 s2
@@ -25424,6 +25492,7 @@ thm sbbibvv(setvar s0, setvar s1, wff w0, wff w1) {
   nfv s0 w0
   nfv s1 w1
 }
+// Alternate definition of substitution
 thm sbimiALT(setvar s0, setvar s1, wff w0, wff w1, wff w2, wff w3) {
   |- wi w0 w1
   -| wb w0 wa wi wceq cv s0 cv s1 w2 wex s0 wa wceq cv s0 cv s1 w2
@@ -26092,6 +26161,8 @@ thm dfsb7ALT(setvar s0, setvar s1, setvar s2, wff w0, wff w1) {
   sb7fALT s0 s1 s2 w0 w1
   nfv s0 w1
 }
+// Uniqueness and unique existence
+// Uniqueness: the at-most-one quantifier
 thm mojust(setvar s0, setvar s1, setvar s2, wff w0) {
   |- wb wex s0 wal s1 wi w0 wceq cv s1 cv s0 wex s2 wal s1 wi w0 wceq cv s1 cv s2
   -| diffss s0 s1
@@ -26732,6 +26803,7 @@ thm mo4(setvar s0, setvar s1, wff w0, wff w1) {
   mo4f s0 s1 w0 w1
   nfv s0 w1
 }
+// Unique existence: the unique existential quantifier
 thm eu3v(setvar s0, setvar s1, wff w0) {
   |- wb weu s0 w0 wa wex s0 w0 wex s1 wal s0 wi w0 wceq cv s0 cv s1
   -| diffss s0 s1
@@ -29064,6 +29136,8 @@ thm exists2OLD(setvar s0, wff w0) {
   diffss.ex s0 hs0
   diff.hs0.s s0
 }
+// Other axiomatizations related to classical predicate calculus
+// Aristotelian logic: Assertic syllogisms
 thm barbara(setvar s0, wff w0, wff w1, wff w2) {
   |- wal s0 wi w0 w1
   -| wal s0 wi w2 w1
@@ -29484,6 +29558,7 @@ thm bamalipOLD(setvar s0, wff w0, wff w1, wff w2) {
   spi s0 wi w1 w2
   spi s0 wi w2 w0
 }
+// Intuitionistic logic
 thm axia1(wff w0, wff w1) {
   |- wi wa w0 w1 w0
 } = {
@@ -29671,6 +29746,9 @@ thm axbndOLD(setvar s0, setvar s1, setvar s2) {
       wi wceq cv s1 cv s2 wal s0 wceq cv s1 cv s2
   axc9 s0 s1 s2
 }
+// Zermelo-Fraenkel Set Theory
+// ZF Set Theory - start with the Axiom of Extensionality
+// Introduce the Axiom of Extensionality
 thm axext2(setvar s0, setvar s1, setvar s2) {
   |- wex s0 wi wb wcel cv s0 cv s1 wcel cv s0 cv s2 wceq cv s1 cv s2
   -| diffss s0 s1
@@ -29883,6 +29961,7 @@ thm nulmoOLD(setvar s0, setvar s1) {
   nbfal wcel cv s1 cv s0
   diff.wfal.s s0
 }
+// Class abstractions (a.k.a. class builders)
 thm abid(setvar s0, wff w0) {
   |- wb wcel cv s0 cab s0 w0 w0
 } = {
@@ -31435,6 +31514,7 @@ thm sbab(setvar s0, setvar s1, setvar s2, class c0) {
   diff.cv s2 s1
   diffss.ex s2 s1
 }
+// Class form not-free predicate
 thm nfcjust(setvar s0, setvar s1, setvar s2, class c0) {
   |- wb wal s0 wnf s1 wcel cv s0 c0 wal s2 wnf s1 wcel cv s2 c0
   -| diffss s0 s1
@@ -32141,6 +32221,8 @@ thm sbabel(setvar s0, setvar s1, setvar s2, class c0, wff w0) {
   diff.hs0.w w0
   diff.hs0.w wsb s0 s1 w0
 }
+// Negated equality and membership
+// Negated equality
 thm neii(class c0, class c1) {
   |- wn wceq c0 c1
   -| wne c0 c1
@@ -32965,6 +33047,7 @@ thm nabbi(setvar s0, wff w0, wff w1) {
   xor3 w0 w1
   abbi s0 w0 w1
 }
+// Negated membership
 thm neli(class c0, class c1) {
   |- wn wcel c0 c1
   -| wnel c0 c1
@@ -33070,6 +33153,7 @@ thm pm2.61danel(class c0, class c1, wff w0, wff w1) {
   sylan2br w0 wn wcel c0 c1 w1 wnel c0 c1
   df-nel c0 c1
 }
+// Restricted quantification
 thm rgen(setvar s0, class c0, wff w0) {
   |- wral s0 c0 w0
   -| wi wcel cv s0 c0 w0
@@ -37469,6 +37553,7 @@ thm rabrabi(setvar s0, setvar s1, class c0, wff w0, wff w1, wff w2) {
   diff.crab s0 s1 c0 w0
   diffss.ex s1 s0
 }
+// The universal class
 thm vjust(setvar s0, setvar s1) {
   |- wceq cab s0 wceq cv s0 cv s0 cab s1 wceq cv s1 cv s1
 } = {
@@ -45129,6 +45214,7 @@ thm 2rexreu(setvar s0, setvar s1, class c0, class c1, wff w0) {
   reu5 s0 c0 wreu s1 c1 w0
   diffss.ex s1 s0
 }
+// Conditional equality (experimental)
 thm cdeqi(setvar s0, setvar s1, wff w0) {
   |- wcdeq s0 s1 w0
   -| wi wceq cv s0 cv s1 w0
@@ -45297,6 +45383,7 @@ thm nfccdeq(setvar s0, setvar s1, class c0, class c1) {
   diffss.ex s0 hs0
   diff.hs0.s s0
 }
+// Russell's Paradox
 thm rru(setvar s0, class c0) {
   |- wn wcel crab s0 c0 wn wcel cv s0 cv s0 c0
   -| diffsc s0 c0
@@ -45371,6 +45458,7 @@ thm ru(setvar s0) {
   diff.hs0.s s0
   diff.hs0.c cab s0 wnel cv s0 cv s0
 }
+// Proper substitution of classes for sets
 thm dfsbcq(setvar s0, class c0, class c1, wff w0) {
   |- wi wceq c0 c1 wb wsbc s0 c0 w0 wsbc s0 c1 w0
 } = {
@@ -47506,6 +47594,7 @@ thm 2reu2(setvar s0, setvar s1, class c0, class c1, wff w0) {
   2rexreu s1 s0 c1 c0 w0
   diffss.ex s1 s0
 }
+// Proper substitution of classes for sets into classes
 thm csb2(setvar s0, setvar s1, class c0, class c1) {
   |- wceq csb s0 c0 c1 cab s1 wex s0 wa wceq cv s0 c0 wcel cv s1 c1
   -| diffss s0 s1
@@ -48375,6 +48464,7 @@ thm cbvrexv2(setvar s0, setvar s1, class c0, class c1, wff w0, wff w1) {
   nfv s1 w0
   nfv s0 w1
 }
+// Define basic set operations and relations
 thm difjust(setvar s0, setvar s1, class c0, class c1) {
   |- wceq cab s0 wa wcel cv s0 c0 wn wcel cv s0 c1
           cab s1 wa wcel cv s1 c0 wn wcel cv s1 c1
@@ -48586,6 +48676,7 @@ thm eldifbd(class c0, class c1, class c2, wff w0) {
   sylib w0 wa wcel c0 c2 wn wcel c0 c1 wcel c0 cdif c2 c1
   eldif c0 c2 c1
 }
+// Subclasses and subsets
 thm dfss(class c0, class c1) {
   |- wb wss c0 c1 wceq c0 cin c0 c1
 } = {
@@ -50027,6 +50118,8 @@ thm ssexnelpss(setvar s0, class c0, class c1) {
   diff.wss s0 c0 c1
   diff.wpss s0 c0 c1
 }
+// The difference, union, and intersection of two classes
+// The difference of two classes
 thm dfdif3(setvar s0, setvar s1, class c0, class c1) {
   |- wceq cdif c0 c1 crab s0 c0 wral s1 c1 wne cv s0 cv s1
   -| diffss s0 s1
@@ -50454,6 +50547,7 @@ thm compleq(class c0, class c1) {
   eqss c0 c1
   eqss cdif universe c0 cdif universe c1
 }
+// The union of two classes
 thm elun(class c0, class c1, class c2) {
   |- wb wcel c0 cun c1 c2 wo wcel c0 c1 wcel c0 c2
 } = {
@@ -50929,6 +51023,7 @@ thm ralun(setvar s0, class c0, class c1, wff w0) {
   biimpri wa wral s0 c0 w0 wral s0 c1 w0 wral s0 cun c0 c1 w0
   ralunb s0 c0 c1 w0
 }
+// The intersection of two classes
 thm elin(class c0, class c1, class c2) {
   |- wb wcel c0 cin c1 c2 wa wcel c0 c1 wcel c0 c2
 } = {
@@ -51401,6 +51496,7 @@ thm dfss7(setvar s0, class c0, class c1) {
   incom c0 c1
   dfin5 s0 c1 c0
 }
+// The symmetric difference of two classes
 thm symdifcom(class c0, class c1) {
   |- wceq csymdif c0 c1 csymdif c1 c0
 } = {
@@ -51616,6 +51712,7 @@ thm symdif2OLD(setvar s0, class c0, class c1) {
   diff.cdif s0 c0 c1
   diff.cdif s0 c1 c0
 }
+// Combinations of difference, union, and intersection of two classes
 thm unabs(class c0, class c1) {
   |- wceq cun c0 cin c0 c1 c0
 } = {
@@ -52305,6 +52402,7 @@ thm dfsymdif3(class c0, class c1) {
   difundir c0 c1 cin c0 c1
   df-symdif c0 c1
 }
+// Class abstractions with difference, union, and intersection of two classes
 thm unab(setvar s0, wff w0, wff w1) {
   |- wceq cun cab s0 w0 cab s0 w1 cab s0 wo w0 w1
 } = {
@@ -52575,6 +52673,7 @@ thm rabun2(setvar s0, class c0, class c1, wff w0) {
   andir wcel cv s0 c0 wcel cv s0 c1 w0
   unab s0 wa wcel cv s0 c0 w0 wa wcel cv s0 c1 w0
 }
+// Restricted uniqueness with difference, union, and intersection
 thm reuss2(setvar s0, class c0, class c1, wff w0, wff w1) {
   |- wi wa wa wss c0 c1 wral s0 c0 wi w0 w1 wa wrex s0 c0 w0 wreu s0 c1 w1
         wreu s0 c0 w0
@@ -52841,6 +52940,7 @@ thm euelss(setvar s0, class c0, class c1) {
   truan wcel cv s0 c0
   ancom wtru wcel cv s0 c0
 }
+// The empty set
 thm dfnul2(setvar s0) {
   |- wceq emptycls cab s0 wn wceq cv s0 cv s0
 } = {
@@ -56036,6 +56136,7 @@ thm 2reu4(setvar s0, setvar s1, setvar s2, setvar s3, class c0, class c1, wff w0
   diff.wne s1 c1 emptycls
   diff.emptycls.s s1
 }
+// The conditional operator for classes
 thm dfif2(setvar s0, class c0, class c1, wff w0) {
   |- wceq cif c0 c1 w0 cab s0 wi wi wcel cv s0 c1 w0 wa wcel cv s0 c0 w0
   -| diffsc s0 c0
@@ -56813,6 +56914,7 @@ thm csbif(setvar s0, class c0, class c1, class c2, wff w0) {
   diffss.ex s0 hs0
   diff.hs0.s s0
 }
+// The weak deduction theorem for set theory
 thm dedth(class c0, class c1, wff w0, wff w1, wff w2) {
   |- wi w0 w1
   -| wi wceq c0 cif c0 c1 w0 wb w1 w2
@@ -57109,6 +57211,7 @@ thm keephyp3v(class c0, class c1, class c2, class c3, class c4, class c5, wff w0
   eqcomd c5 cif c4 c5 w1 wn w1
   iffalse c4 c5 w1
 }
+// Power classes
 thm pwjust(setvar s0, setvar s1, class c0) {
   |- wceq cab s0 wss cv s0 c0 cab s1 wss cv s1 c0
   -| diffsc s0 c0
@@ -57270,6 +57373,7 @@ thm pwss(setvar s0, class c0, class c1) {
   selpw s0 c0
   diff.cpw s0 c0
 }
+// Unordered and ordered pairs
 thm snjust(setvar s0, setvar s1, class c0) {
   |- wceq cab s0 wceq cv s0 c0 cab s1 wceq cv s1 c0
   -| diffsc s0 c0
@@ -62609,6 +62713,7 @@ thm 3elpr2eq(class c0, class c1, class c2, class c3, class c4) {
   eqtr3 c4 c2 c0
   eqneqall c4 c0 wceq c3 c4
 }
+// The union of a class
 thm dfuni2(setvar s0, setvar s1, class c0) {
   |- wceq cuni c0 cab s0 wrex s1 c0 wcel cv s0 cv s1
   -| diffss s0 s1
@@ -63436,6 +63541,7 @@ thm pwuni(class c0) {
   diff.hs0.c cpw cuni c0
   diff.hs0.c cuni c0
 }
+// The intersection of a class
 thm dfint2(setvar s0, setvar s1, class c0) {
   |- wceq cint c0 cab s0 wral s1 c0 wcel cv s0 cv s1
   -| diffss s0 s1
@@ -64367,6 +64473,7 @@ thm elrint2(setvar s0, class c0, class c1, class c2) {
   baib wcel c0 c1 wcel c0 cin c1 cint c2 wral s0 c2 wcel c0 cv s0
   elrint s0 c0 c1 c2
 }
+// Indexed union and intersection
 thm eliun(setvar s0, class c0, class c1, class c2) {
   |- wb wcel c0 ciun s0 c1 c2 wrex s0 c1 wcel c0 c2
   -| diffsc s0 c0
@@ -66706,6 +66813,7 @@ thm rintn0(class c0, class c1) {
   sspwuni cpw c1 c1
   sseqin2 cint c0 c1
 }
+// Disjointness
 thm dfdisj2(setvar s0, setvar s1, class c0, class c1) {
   |- wb wdisj s0 c0 c1 wal s1 wmo s0 wa wcel cv s0 c0 wcel cv s1 c1
   -| diffss s0 s1
@@ -68541,6 +68649,7 @@ thm disjss3(setvar s0, class c0, class c1, class c2) {
   diff.hs0.c c2
   diff.hs0.c c1
 }
+// Binary relations
 thm breq(class c0, class c1, class c2, class c3) {
   |- wi wceq c0 c1 wb wbr c2 c3 c0 wbr c2 c3 c1
 } = {
@@ -69185,6 +69294,7 @@ thm brimralrspcev(setvar s0, setvar s1, class c0, class c1, class c2, class c3, 
   diff.wa s1 w0 wbr c3 c0 c4
   diff.wbr s1 c3 c0 c4
 }
+// Ordered-pair class abstractions (class builders)
 thm opabss(setvar s0, setvar s1, class c0) {
   |- wss copab s0 s1 wbr cv s0 cv s1 c0 c0
   -| diffsc s0 c0
@@ -69788,6 +69898,7 @@ thm unopab(setvar s0, setvar s1, wff w0, wff w1) {
   diff.hs0.w w1
   diff.hs0.w wo w0 w1
 }
+// Functions in maps-to notation
 thm mpteq12f(setvar s0, class c0, class c1, class c2, class c3) {
   |- wi wa wal s0 wceq c0 c1 wral s0 c0 wceq c2 c3
         wceq cmpt s0 c0 c2 cmpt s0 c1 c3
@@ -70194,6 +70305,7 @@ thm mptv(setvar s0, setvar s1, class c0) {
   vex s0
   diff.universe.s s1
 }
+// Transitive classes
 thm dftr2(setvar s0, setvar s1, class c0) {
   |- wb wtr c0 wal s0 wal s1 wi wa wcel cv s0 cv s1 wcel cv s1 c0 wcel cv s0 c0
   -| diffss s0 s1
@@ -70551,6 +70663,8 @@ thm trintss(class c0) {
   diff.hs0.c c0
   diff.hs0.w wi wtr c0 wss cint c0 c0
 }
+// ZF Set Theory - add the Axiom of Replacement
+// Introduce the Axiom of Replacement
 thm axrep1(setvar s0, setvar s1, setvar s2, wff w0) {
   |- wex s0
          wi wex s1 wal s2 wi w0 wceq cv s2 cv s1 wal s2 wb wcel cv s2 cv s0 wex s0 wa wcel cv s0 cv s1 w0
@@ -71092,6 +71206,7 @@ thm zfrep4(setvar s0, setvar s1, setvar s2, wff w0, wff w1) {
   diff.cab s0 s1 w0
   diff.cv s0 s2
 }
+// Derive the Axiom of Separation
 thm axsep(setvar s0, setvar s1, setvar s2, wff w0) {
   |- wex s0 wal s1 wb wcel cv s1 cv s0 wa wcel cv s1 cv s2 w0
   -| diffss s0 s1
@@ -71341,6 +71456,7 @@ thm ax6vsep(setvar s0, setvar s1) {
   diff.hs0.s s1
   diff.hs0.s s0
 }
+// Derive the Null Set Axiom
 thm zfnuleuOLD(setvar s0, setvar s1) {
   |- weu s0 wal s1 wn wcel cv s1 cv s0
   -| wex s0 wal s1 wn wcel cv s1 cv s0
@@ -71584,6 +71700,7 @@ thm unisn2(class c0) {
   prid1 emptycls c0
   0ex
 }
+// Theorems requiring subset and intersection existence
 thm nalset(setvar s0, setvar s1) {
   |- wn wex s0 wal s1 wcel cv s1 cv s0
   -| diffss s0 s1
@@ -72120,6 +72237,7 @@ thm pwne(class c0, class c1) {
   necon3bi cpw c0 c0 wss cpw c0 c0
   eqimss cpw c0 c0
 }
+// Theorems requiring empty set existence
 thm class2set(setvar s0, class c0) {
   |- wcel crab s0 c0 wcel c0 universe universe
   -| diffsc s0 c0
@@ -72325,6 +72443,8 @@ thm axpweq(setvar s0, setvar s1, setvar s2, class c0) {
   diff.cv s2 s1
   diffss.ex s2 s1
 }
+// ZF Set Theory - add the Axiom of Power Sets
+// Introduce the Axiom of Power Sets
 thm zfpow(setvar s0, setvar s1, setvar s2) {
   |- wex s0 wal s1 wi wal s0 wi wcel cv s0 cv s1 wcel cv s0 cv s2 wcel cv s1 cv s0
   -| diffss s0 s1
@@ -74467,6 +74587,7 @@ thm axprALT(setvar s0, setvar s1, setvar s2, setvar s3) {
   diff.cv s1 s2
   diff.cv s1 s3
 }
+// Derive the Axiom of Pairing
 thm axprlem1(setvar s0, setvar s1, setvar s2) {
   |- wex s0 wal s1 wb wcel cv s1 cv s0 wal s2 wn wcel cv s2 cv s1
   -| diffss s0 s1
@@ -75644,6 +75765,7 @@ thm brv(class c0, class c1) {
   opex c0 c1
   df-br c0 c1 universe
 }
+// Ordered pair theorem
 thm opnz(class c0, class c1) {
   |- wb wne cop c0 c1 emptycls wa wcel c0 universe wcel c1 universe
 } = {
@@ -78407,6 +78529,7 @@ thm iunopeqop(setvar s0, setvar s1, class c0, class c1, class c2, class c3) {
   diffss.ex s0 hs0
   diff.hs0.s s0
 }
+// Ordered-pair class abstractions (cont.)
 thm opabid(setvar s0, setvar s1, wff w0) {
   |- wb wcel cop cv s0 cv s1 copab s0 s1 w0 w0
 } = {
@@ -79599,6 +79722,7 @@ thm brabv(setvar s0, setvar s1, class c0, class c1, wff w0) {
   0nelopab s0 s1 w0
   eleq1 cop c0 c1 emptycls copab s0 s1 w0
 }
+// Power class of union and intersection
 thm pwin(class c0, class c1) {
   |- wceq cpw cin c0 c1 cin cpw c0 cpw c1
 } = {
@@ -79783,6 +79907,7 @@ thm pwun(class c0, class c1) {
   pwssun c0 c1
   eqss cpw cun c0 c1 cun cpw c0 cpw c1
 }
+// The identity relation
 thm dfid3(setvar s0, setvar s1) {
   |- wceq cid copab s0 s1 wceq cv s0 cv s1
 } = {
@@ -79916,6 +80041,7 @@ thm dfid2(setvar s0) {
 } = {
   dfid3 s0 s0
 }
+// The membership relation (or epsilon relation)
 thm epelg(class c0, class c1, class c2) {
   |- wi wcel c0 c1 wb wbr c2 c0 cep wcel c2 c0
 } = {
@@ -80018,6 +80144,7 @@ thm epn0() {
   0sn0ep
   brne0 emptycls csn emptycls cep
 }
+// Partial and complete ordering
 thm poss(class c0, class c1, class c2) {
   |- wi wss c0 c1 wi wpo c1 c2 wpo c0 c2
 } = {
@@ -81427,6 +81554,7 @@ thm somo(setvar s0, setvar s1, class c0, class c1) {
   diffss.ex s1 hs0
   diff.hs0.s s1
 }
+// Founded and well-ordering relations
 thm fri(setvar s0, setvar s1, class c0, class c1, class c2, class c3) {
   |- wi wa wa wcel c0 c1 wfr c2 c3 wa wss c0 c2 wne c0 emptycls
         wrex s0 c0 wral s1 c0 wn wbr cv s1 cv s0 c3
@@ -82771,6 +82899,7 @@ thm wereu2(setvar s0, setvar s1, class c0, class c1, class c2) {
   diffss.ex s1 hs0
   diff.hs0.s s1
 }
+// Relations
 thm xpeq1(class c0, class c1, class c2) {
   |- wi wceq c0 c1 wceq cxp c0 c2 cxp c1 c2
 } = {
@@ -98941,6 +99070,7 @@ thm opreu2reu(setvar s0, setvar s1, setvar s2, class c0, class c1, wff w0, wff w
   opreu2reurex s0 s1 s2 c0 c1 w0 w1
   2rexreu s1 s2 c0 c1 w1
 }
+// The Predecessor Class
 thm predeq123(class c0, class c1, class c2, class c3, class c4, class c5) {
   |- wi w3a wceq c0 c1 wceq c2 c3 wceq c4 c5 wceq cpred c2 c0 c4 cpred c3 c1 c5
 } = {
@@ -99579,6 +99709,7 @@ thm pred0(class c0, class c1) {
   df-pred emptycls c0 c1
   0in cima ccnv c0 csn c1
 }
+// Well-founded induction
 thm tz6.26(setvar s0, class c0, class c1, class c2) {
   |- wi wa wa wwe c0 c1 wse c0 c1 wa wss c2 c0 wne c2 emptycls
         wrex s0 c2 wceq cpred c2 c1 cv s0 emptycls
@@ -99933,6 +100064,7 @@ thm wfis3(setvar s0, setvar s1, class c0, class c1, class c2, wff w0, wff w1, wf
   vtoclga s0 c0 c1 w0 w1
   wfis2 s0 s1 c1 c2 w1 w2
 }
+// Ordinals
 thm ordeq(class c0, class c1) {
   |- wi wceq c0 c1 wb word c0 word c1
 } = {
@@ -101842,6 +101974,7 @@ thm onnev() {
   snex csn emptycls
   id wceq con0 universe
 }
+// Definite description binder (inverted iota)
 thm iotajust(setvar s0, setvar s1, setvar s2, wff w0) {
   |- wceq cuni cab s0 wceq cab s1 w0 csn cv s0
           cuni cab s2 wceq cab s1 w0 csn cv s2

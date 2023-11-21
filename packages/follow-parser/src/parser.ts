@@ -24,7 +24,7 @@ import {
 
 export default class Parser {
   private scanner: Scanner;
-  private comments: Array<Token> = [];
+  public comments: Array<Token> = [];
   nodes: Array<Node> = [];
   currentNodeIdx: number = -1;
   importNodes: Array<ImportNode> = [];

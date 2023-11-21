@@ -22,7 +22,7 @@ export default class Parser {
   public frameStack: FrameStack = new FrameStack();
   private scanner: Scanner;
   private parserOptions?: ParserOptions;
-  private comments: Array<Token> = [];
+  public comments: Array<Token> = [];
 
   constructor(input: string, parserOptions?: ParserOptions) {
     this.scanner = new Scanner(input, parserOptions?.scannerOptions);
