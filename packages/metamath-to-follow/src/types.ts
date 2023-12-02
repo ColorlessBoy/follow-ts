@@ -130,6 +130,7 @@ export type ScannerOptions = {
 
 export type ParserOptions = {
   scannerOptions?: ScannerOptions;
+  verifyProof?: boolean;
 };
 
 export interface Frame {

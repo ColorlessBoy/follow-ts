@@ -8,10 +8,12 @@
     "watch": "pnpm --stream -r run watch",
     "clean": "pnpm --stream -r run clean",
     "test": "pnpm --stream -r run test",
+    "tofollow": "pnpm --stream -r run tofollow",
     "lint": "eslint .",
     "format": "prettier --write .",
     "prepare": "husky install",
-    "follow-parser": "pnpm --filter follow-parser"
+    "follow-parser": "pnpm --filter follow-parser",
+    "antlr": "pnpm --stream -r run antlr"
   },
   "keywords": [
     "follow",
@@ -39,6 +41,6 @@
     "**/*.{js,ts,tsx}": [
       "eslint --fix"
     ],
-    "**/*": "prettier --write --ignore-unknown"
+    "**/*.{js,ts,tsx,json}": "prettier --write --ignore-unknown"
   }
 }

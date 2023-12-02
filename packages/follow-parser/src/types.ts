@@ -169,6 +169,7 @@ export type Node =
 export interface NodeBase {
   nodeType: NodeType;
 
+  keyword?: Token;
   type?: Token;
   name?: Token;
   params?: Array<ArgDefNode>;

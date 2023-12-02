@@ -22,14 +22,14 @@ export default class Parser {
   public frameStack: FrameStack = new FrameStack();
   private scanner: Scanner;
   private parserOptions?: ParserOptions;
-  private comments: Array<Token> = [];
+  public comments: Array<Token> = [];
 
   constructor(input: string, parserOptions?: ParserOptions) {
     this.scanner = new Scanner(input, parserOptions?.scannerOptions);
     this.parserOptions = parserOptions;
   }
 
-  public nextFrame(): Frame | undefined {
+  public getAllFrames(): Frame | undefined {
     this.frameStack.pushEmpty();
 
     let label: Token | undefined;
@@ -57,13 +57,13 @@ export default class Parser {
       } else if (keywordToken.tokenType === TokenType.PROVE) {
         const statement = this.nextStatement();
         const proof = this.nextStatement();
-        this.frameStack.addProve(keywordToken, statement, proof, label);
+        this.frameStack.addProve(keywordToken, statement, proof, label, this.parserOptions?.verifyProof);
       } else if (keywordToken.tokenType === TokenType.DISJOINT) {
         const tokens = this.nextStatement();
         this.frameStack.addDisjoint(keywordToken, tokens);
       } else if (keywordToken.tokenType === TokenType.BSTART) {
         // TODO: fix this.
-        const nextFrame = this.nextFrame();
+        const nextFrame = this.getAllFrames();
         if (nextFrame) {
           this.frameStack.update(nextFrame);
         }
@@ -74,6 +74,68 @@ export default class Parser {
     }
 
     const frame = this.frameStack.pop();
+    return frame;
+  }
+
+  public nextFrame(): Frame | undefined {
+    let label: Token | undefined;
+    let keywordToken = this.nextToken();
+    if (keywordToken.tokenType === TokenType.EOF) {
+      return;
+    }
+    this.frameStack.pushEmpty();
+    while (keywordToken.tokenType !== TokenType.EOF && keywordToken.tokenType !== TokenType.BEND) {
+      if (keywordToken.tokenType === TokenType.CONST) {
+        const consts = this.nextStatement();
+        for (const c of consts) {
+          this.frameStack.addConst(c);
+        }
+        break;
+      } else if (keywordToken.tokenType === TokenType.VAR) {
+        const vars = this.nextStatement();
+        for (const v of vars) {
+          this.frameStack.addVar(v);
+        }
+        break;
+      } else if (keywordToken.tokenType === TokenType.FLOAT) {
+        const statement = this.nextStatement();
+        this.frameStack.addFloat(keywordToken, statement, label);
+        break;
+      } else if (keywordToken.tokenType === TokenType.AXIOM) {
+        const statement = this.nextStatement();
+        this.frameStack.addAxiom(keywordToken, statement, label);
+        break;
+      } else if (keywordToken.tokenType === TokenType.ESSENTIAL) {
+        const statement = this.nextStatement();
+        this.frameStack.addEssential(keywordToken, statement, label);
+        break;
+      } else if (keywordToken.tokenType === TokenType.PROVE) {
+        const statement = this.nextStatement();
+        const proof = this.nextStatement();
+        this.frameStack.addProve(keywordToken, statement, proof, label, this.parserOptions?.verifyProof);
+        break;
+      } else if (keywordToken.tokenType === TokenType.DISJOINT) {
+        const tokens = this.nextStatement();
+        this.frameStack.addDisjoint(keywordToken, tokens);
+        break;
+      } else if (keywordToken.tokenType === TokenType.BSTART) {
+        // TODO: fix this.
+        const nextFrame = this.getAllFrames();
+        if (nextFrame) {
+          this.frameStack.update(nextFrame);
+        }
+        break;
+      } else {
+        label = keywordToken;
+      }
+      keywordToken = this.nextToken();
+    }
+
+    const frame = this.frameStack.pop();
+    if (frame) {
+      // global frame
+      this.frameStack.update(frame);
+    }
     return frame;
   }
 
@@ -391,7 +453,13 @@ export class FrameStack {
     }
   }
 
-  public addProve(keyword: Token, statement: Array<Token>, proof: Array<Token>, label?: Token) {
+  public addProve(
+    keyword: Token,
+    statement: Array<Token>,
+    proof: Array<Token>,
+    label?: Token,
+    isVerifyProof?: boolean,
+  ) {
     if (this.stack.length === 0) {
       this.pushEmpty();
     }
@@ -464,7 +532,9 @@ export class FrameStack {
     if (proveNode.error === undefined) {
       this.makeAssertion(proveNode);
       this.decompressProof(proveNode);
-      this.verifyProof(proveNode);
+      if (isVerifyProof) {
+        this.verifyProof(proveNode);
+      }
       const bodyStr: string = stmtNodeToString(proveNode);
       if (!frame.proveStrMap.has(bodyStr)) {
         frame.proveStrMap.set(bodyStr, proveNode);

@@ -1,0 +1,50 @@
+
+type wff real fn
+
+const real hx hy
+
+prop real fn.run(fn f0, real n0)
+prop real real.add(real n0, real n1)
+prop fn fn.add(fn f, fn g)
+prop wff fn.ub(fn f0, real n0)
+prop wff fn.lb(fn f0, real n0)
+prop wff real.le(real n0, real n1)
+prop wff real.eq(real n0, real n1)
+
+axiom df-fnub(fn f, real a, real x) {
+    |- fn.ub f a
+    -| real.le fn.run f x a
+}
+axiom df-fnub2(fn f, real a, real x) {
+    |- real.le fn.run f x a
+    -| fn.ub f a
+}
+axiom df-fnlb(fn f, real a, real x) {
+    |- fn.ub f a
+    -| real.le a fn.run f x
+}
+axiom df-addf(fn f, fn g, real x) {
+    |- real.eq (fn.run fn.add f g x) (real.add fn.run f x fn.run g x)
+}
+axiom real.le.left.replace(real x, real y, real z) {
+    |- real.le x y
+    -| real.le z y
+    -| real.eq x z
+}
+axiom real.le.add.split(real x, real y, real a, real b) {
+    |- real.le real.add x y real.add a b
+    -| real.le x a
+    -| real.le y b
+}
+thm fn.ub.add(fn f, fn g, real a, real b) {
+    |- fn.ub (fn.add f g) (real.add a b)
+    -| fn.ub f a
+    -| fn.ub g b
+} = {
+    df-fnub (fn.add f g) (real.add a b) hx
+    real.le.left.replace(fn.run fn.add f g hx) (real.add a b) (real.add fn.run f hx fn.run g hx)
+    df-addf f g hx
+    real.le.add.split (fn.run f hx) (fn.run g hx) a b
+    df-fnub2 f a hx
+    df-fnub2 g b hx
+}
