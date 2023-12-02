@@ -1,2 +1,6 @@
 *.config.js
 **.umd.cjs
+antlr/
+*.log
+*.g4
+examples/

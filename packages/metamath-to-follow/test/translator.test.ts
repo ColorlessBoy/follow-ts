@@ -21,3 +21,10 @@ test('#3 translate set.mm', () => {
   metamathToFollow(filename, output);
   expect(1 + 1).toBe(2);
 });
+
+test('#4 translate set_part3.mm', () => {
+  const filename = './examples/set_part3.mm';
+  const output = './examples/set_part3.fol0';
+  metamathToFollow(filename, output);
+  expect(1 + 1).toBe(2);
+});

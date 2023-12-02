@@ -1,5 +1,5 @@
 import path from 'path';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, appendFile } from 'node:fs';
 import Parser from './parser';
 import { AxiomNode, FloatNode, Frame, NodeType, OpNode, ProveNode, Token, createOpNode } from './types';
 import { writeFileSync } from 'fs';
@@ -10,14 +10,147 @@ export const globalAliasMap: Map<string, string> = new Map([
   ['df-v', 'df-universe'],
 ]);
 
-export function metamathToFollow(filename: string, output: string) {
+export function metamathToFollowV2(filename: string, output: string) {
   const absPath = path.resolve(filename);
   if (!existsSync(absPath)) {
     return;
   }
   const input = readFileSync(absPath, 'utf-8');
   const parser = new Parser(input);
-  const frame = parser.nextFrame();
+  let frame = parser.nextFrame();
+  const typeSet: Set<string> = new Set();
+  while (frame) {
+    initAllBodyTrees(frame);
+    const frameContent = frameTranslator(frame, typeSet);
+    if (frameContent.length > 0) {
+      appendFile(output, frameContent.join('\n'), function (err) {
+        if (err) throw err;
+      });
+    }
+    frame = parser.nextFrame();
+  }
+}
+
+function frameTranslator(frame: Frame, typeSet: Set<string>) {
+  const contents: string[] = [];
+  if (frame.floats.length > 0) {
+    frame.floats.forEach((float) => {
+      if (float.type?.value && !typeSet.has(float.type.value)) {
+        typeSet.add(float.type.value);
+        contents.push(`type ${float.type.value}`);
+      }
+    });
+  }
+  if (frame.axioms.length > 0) {
+    for (const axiom of frame.axioms) {
+      if (axiom.type?.value !== '|-' && (axiom.floatsReordered === undefined || axiom.floatsReordered.length === 0)) {
+        if (axiom.label?.value === undefined) {
+          continue;
+        }
+        const mainName = globalAliasMap.get(axiom.label.value) || axiom.label.value;
+        contents.push(`const ${axiom.type?.value} ${mainName}`);
+      }
+    }
+    for (const axiom of frame.axioms) {
+      if (axiom.type?.value !== '|-' && axiom.floatsReordered && axiom.floatsReordered.length > 0) {
+        if (axiom.label?.value === undefined) {
+          continue;
+        }
+        const args = axiom.floatsReordered
+          ?.map((float) => {
+            return `${float.type?.value} ${axiom.floatsAliasMap?.get(float.label?.value || '')}`;
+          })
+          .join(', ');
+        const mainName = globalAliasMap.get(axiom.label.value) || axiom.label.value;
+        contents.push(`prop ${axiom.type?.value} ${mainName}(${args})`);
+      }
+    }
+    for (const axiom of frame.axioms) {
+      if (axiom.type?.value === '|-') {
+        if (axiom.label?.value === undefined) {
+          continue;
+        }
+        let s = axiom.bodyOpTreeStrRename;
+        if (s === undefined) {
+          s = '*****' + axiom.body.map((e) => e.value).join(' ');
+        }
+        const args = axiom.floatsReordered
+          ?.map((float) => {
+            return `${float.type?.value} ${axiom.floatsAliasMap?.get(float.label?.value || '')}`;
+          })
+          .join(', ');
+        const mainName = globalAliasMap.get(axiom.label.value) || axiom.label.value;
+        if ((axiom.essentialsStrRename && axiom.essentialsStrRename.length > 0) || axiom.disjointMap.size > 0) {
+          contents.push(`axiom ${mainName}(${args}) {`);
+          contents.push(`  |- ${s}`);
+          if (axiom.essentialsStrRename) {
+            for (const essential of axiom.essentialsStrRename) {
+              contents.push(`  -| ${essential}`);
+            }
+          }
+          if (axiom.diffVarsRename) {
+            for (const s of axiom.diffVarsRename) {
+              contents.push(`  -| ${s}`);
+            }
+          }
+          contents.push('}');
+        } else {
+          contents.push(`axiom ${mainName}(${args}) { |- ${s} }`);
+        }
+      }
+    }
+  }
+  if (frame.proves.length > 0) {
+    for (const prove of frame.proves) {
+      if (prove.label?.value === 'idi' || prove.label?.value === 'a1ii' || prove.label?.value === 'pm11.07') {
+        continue;
+      }
+      if (prove.type?.value === '|-') {
+        if (prove.label?.value === undefined) {
+          continue;
+        }
+        let s = prove.bodyOpTreeStrRename;
+        if (s === undefined) {
+          s = '*****' + prove.body.map((e) => e.value).join(' ');
+        }
+        const args = prove.floatsReordered
+          ?.map((float) => {
+            return `${float.type?.value} ${prove.floatsAliasMap?.get(float.label?.value || '')}`;
+          })
+          .join(', ');
+
+        const mainName = globalAliasMap.get(prove.label.value) || prove.label.value;
+        contents.push(`thm ${mainName}(${args}) {`);
+        contents.push(`  |- ${s}`);
+        if (prove.essentialsStrRename) {
+          for (const essential of prove.essentialsStrRename) {
+            contents.push(`  -| ${essential}`);
+          }
+        }
+        if (prove.diffVarsRename) {
+          for (const s of prove.diffVarsRename) {
+            contents.push(`  -| ${s}`);
+          }
+        }
+        contents.push('} = {');
+        if (prove.opTree) {
+          contents.push(`  ${proofToStringRename(prove.opTree, prove, frame)}`);
+        }
+        contents.push('}');
+      }
+    }
+  }
+  return contents;
+}
+
+export function metamathToFollow(filename: string, output: string) {
+  const absPath = path.resolve(filename);
+  if (!existsSync(absPath)) {
+    return;
+  }
+  const input = readFileSync(absPath, 'utf-8');
+  const parser = new Parser(input, { verifyProof: true });
+  const frame = parser.getAllFrames();
   if (frame === undefined) {
     return;
   }
