@@ -20,3 +20,4 @@ axiom df-iff(wff w0, wff w1) {
 }
 axiom df-and(wff w0, wff w1) {|- iff and w0 w1 not imp w0 not w1}
 axiom df-or(wff w0, wff w1) {|- iff or w0 w1 imp not w0 w1}
+

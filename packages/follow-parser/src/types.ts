@@ -251,17 +251,17 @@ export interface OpNode extends NodeBase {
 }
 
 export function opNodeToString(opNode: OpNode): string {
-  const stringList: Array<string> = [];
-  const name = opNode.definition?.name?.value;
-  if (name) {
-    stringList.push(name);
+  const name = opNode.definition?.name?.value || '';
+  const args =
+    opNode.children
+      ?.map((child) => {
+        return opNodeToString(child);
+      })
+      .join(', ') || '';
+  if (args.length > 0) {
+    return `${name}(${args})`;
   }
-  if (opNode.children) {
-    for (const child of opNode.children) {
-      stringList.push(opNodeToString(child));
-    }
-  }
-  return stringList.join(' ');
+  return name;
 }
 
 export function opNodeToStringFormat(opNode: OpNode, prefix: string): Array<string> {
@@ -274,19 +274,24 @@ export function opNodeToStringFormat(opNode: OpNode, prefix: string): Array<stri
   const spaceHead = ' '.repeat(head.length);
   let totalLength = head.length;
   if (opNode.children) {
-    for (const child of opNode.children) {
+    for (let i = 0; i < opNode.children.length; i++) {
+      const child = opNode.children[i];
       const childStr = opNodeToString(child);
-      if (stringList.length === 0) {
-        stringList.push(`${head} ${childStr}`);
+      if (opNode.children.length === 1) {
+        stringList.push(`${head}(${childStr})`);
+      } else if (i === 0) {
+        stringList.push(`${head}(${childStr},`);
+      } else if (i < opNode.children.length - 1) {
+        stringList.push(`${childStr},`);
       } else {
-        stringList.push(`${childStr}`);
+        stringList.push(`${childStr})`);
       }
       totalLength += childStr.length;
     }
   } else {
     stringList.push(head);
   }
-  if (totalLength <= 80) {
+  if (totalLength <= 160) {
     return [stringList.join(' ')];
   }
   return stringList.map((e, idx) => {

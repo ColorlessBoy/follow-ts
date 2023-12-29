@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest';
 import Compiler from '../src/compiler';
 import { opNodeToString } from '../src/types';
+import { writeFileSync, readFileSync, appendFileSync } from 'node:fs';
 
 test('#1 buildCompileGraph', () => {
   const compiler = new Compiler();
@@ -44,5 +45,22 @@ test('#3 set_part2.fol', () => {
   const filePath = './examples/set_part2.fol';
   const output = './examples/set_part2_v2.fol';
   compiler.translate(filePath, output);
+  expect(6 + 1).toBe(7);
+});
+
+test('#4 set.fol', () => {
+  const compiler = new Compiler();
+  const inputPath = './examples/set.fol0';
+  const input = readFileSync(inputPath, 'utf-8');
+  const outputPath = './examples/set.fol1';
+  writeFileSync(outputPath, '', {
+    encoding: 'utf-8',
+    flag: 'w',
+  });
+  for (const content of compiler.translateV2(input)) {
+    appendFileSync(outputPath, content + '\n', {
+      encoding: 'utf-8',
+    });
+  }
   expect(6 + 1).toBe(7);
 });

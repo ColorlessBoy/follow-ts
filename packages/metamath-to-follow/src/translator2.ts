@@ -38,9 +38,9 @@ export class Translator {
           content.push('}');
         } else {
           if (args.length > 0) {
-            content.push(`prop ${axiom.type} ${axiom.label}(${args}) // ${axiom.value}`);
+            content.push(`prop ${axiom.type} ${axiom.label}(${args}) { ${axiom.replaceToFollowV2(axiom.value)} }`);
           } else {
-            content.push(`const ${axiom.type} ${axiom.label} // ${axiom.value}`);
+            content.push(`const ${axiom.type} ${axiom.label} { ${axiom.value} }`);
           }
         }
       } else {
@@ -50,8 +50,19 @@ export class Translator {
             theorem.label === 'weq' ||
             theorem.label === 'wel' ||
             theorem.label === 'idi' ||
-            theorem.label === 'a1ii'
+            theorem.label === 'a1ii' ||
+            theorem.label === 'pm11.07' ||
+            theorem.label === 'bj-0'
           ) {
+            continue;
+          } else if (theorem.label === 'bj-1') {
+            content.push(
+              'thm bj-1(wff w0, wff w1, wff w2) {',
+              '  |- wi(wi(wi(w0, w1), w2), wi(wi(w0, w1), w2))',
+              '} = {',
+              '  id(wi(wi(w0, w1), w2))',
+              '}',
+            );
             continue;
           }
           const args = theorem.getFollowArgs();
@@ -60,6 +71,21 @@ export class Translator {
           content.push('} = {');
           content.push(theorem.proof);
           content.push('}');
+
+          if (theorem.label === 'a1i') {
+            content.push(
+              'thm a1ii(wff w0, wff w1) {',
+              '  |- w0',
+              '  -| w0',
+              '  -| w1',
+              '} = {',
+              '  ax-mp(w0, w1)',
+              '  a1i(w1, w0)',
+              '}',
+            );
+          } else if (theorem.label === 'id') {
+            content.push('thm idi(wff w0) {', '  |- w0', '  -| w0', '} = {', '  ax-mp(w0, w0)', '  id(w0)', '}');
+          }
         }
       }
       yield content.join('\n') + '\n';

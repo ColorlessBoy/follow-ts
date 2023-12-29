@@ -1,0 +1,102 @@
+[
+  {
+    "name": "syl311anc",
+    "args": [
+      "w0",
+      "w1",
+      "w2",
+      "w3",
+      "w4",
+      "wa ( w5 , w6 )",
+      "w7"
+    ],
+    "target": "wi ( w0 , w1 )",
+    "assumptions": [
+      "wi ( w0 , w2 )",
+      "wi ( w0 , w3 )",
+      "wi ( w0 , w4 )",
+      "wi ( w0 , wa ( w5 , w6 ) )",
+      "wi ( w0 , w7 )",
+      "wi ( w3a ( w3a ( w2 , w3 , w4 ) , wa ( w5 , w6 ) , w7 ) , w1 )"
+    ],
+    "cumulatedTarget": "wi ( w0 , w1 )",
+    "cumulatedAssumptions": [
+      "wi ( w0 , w2 )",
+      "wi ( w0 , w3 )",
+      "wi ( w0 , w4 )",
+      "wi ( w0 , wa ( w5 , w6 ) )",
+      "wi ( w0 , w7 )",
+      "wi ( w3a ( w3a ( w2 , w3 , w4 ) , wa ( w5 , w6 ) , w7 ) , w1 )"
+    ],
+    "propArgs": [
+      "w0",
+      "w1",
+      "w2",
+      "w3",
+      "w4",
+      "( w5 /\\ w6 )",
+      "w7"
+    ],
+    "propTarget": "( w0 -> w1 )",
+    "propAssumptions": [
+      "( w0 -> w2 )",
+      "( w0 -> w3 )",
+      "( w0 -> w4 )",
+      "( w0 -> ( w5 /\\ w6 ) )",
+      "( w0 -> w7 )",
+      "( ( ( w2 /\\ w3 /\\ w4 ) /\\ ( w5 /\\ w6 ) /\\ w7 ) -> w1 )"
+    ],
+    "cumulatedPropTarget": "( w0 -> w1 )",
+    "cumulatedPropAssumptions": [
+      "( w0 -> w2 )",
+      "( w0 -> w3 )",
+      "( w0 -> w4 )",
+      "( w0 -> ( w5 /\\ w6 ) )",
+      "( w0 -> w7 )",
+      "( ( ( w2 /\\ w3 /\\ w4 ) /\\ ( w5 /\\ w6 ) /\\ w7 ) -> w1 )"
+    ]
+  },
+  {
+    "name": "jca",
+    "args": [
+      "w0",
+      "w5",
+      "w6"
+    ],
+    "target": "wi ( w0 , wa ( w5 , w6 ) )",
+    "assumptions": [
+      "wi ( w0 , w5 )",
+      "wi ( w0 , w6 )"
+    ],
+    "cumulatedTarget": "wi ( w0 , w1 )",
+    "cumulatedAssumptions": [
+      "wi ( w0 , w2 )",
+      "wi ( w0 , w3 )",
+      "wi ( w0 , w4 )",
+      "wi ( w0 , w7 )",
+      "wi ( w3a ( w3a ( w2 , w3 , w4 ) , wa ( w5 , w6 ) , w7 ) , w1 )",
+      "wi ( w0 , w5 )",
+      "wi ( w0 , w6 )"
+    ],
+    "propArgs": [
+      "w0",
+      "w5",
+      "w6"
+    ],
+    "propTarget": "( w0 -> ( w5 /\\ w6 ) )",
+    "propAssumptions": [
+      "( w0 -> w5 )",
+      "( w0 -> w6 )"
+    ],
+    "cumulatedPropTarget": "( w0 -> w1 )",
+    "cumulatedPropAssumptions": [
+      "( w0 -> w2 )",
+      "( w0 -> w3 )",
+      "( w0 -> w4 )",
+      "( w0 -> w7 )",
+      "( ( ( w2 /\\ w3 /\\ w4 ) /\\ ( w5 /\\ w6 ) /\\ w7 ) -> w1 )",
+      "( w0 -> w5 )",
+      "( w0 -> w6 )"
+    ]
+  }
+]

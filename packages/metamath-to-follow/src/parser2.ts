@@ -17,6 +17,10 @@ export const globalAliasMap: Map<string, string> = new Map([
   ['c7', 'nat7'],
   ['c8', 'nat8'],
   ['c9', 'nat9'],
+  ['vx', 'x'],
+  ['vy', 'y'],
+  ['vf', 'f'],
+  ['vg', 'g'],
 ]);
 
 export class Parser {
@@ -354,6 +358,16 @@ class Axiom {
     return args;
   }
 
+  public replaceToFollowV2(input: string): string {
+    const output = input
+      .split(' ')
+      .map((e) => {
+        return this.floatToFollowMap.get(e) || e;
+      })
+      .join(' ');
+    return output;
+  }
+
   public replaceToFollow(input: string): string {
     const output = input
       .split(' ')
@@ -385,21 +399,21 @@ class Axiom {
         const floatvalue1 = this.floatToFollowMap.get(float1.value) || float1.value;
         if (float0.type === 'setvar' && float1.type === 'setvar') {
           if (floatvalue0 < floatvalue1) {
-            diffssContent.push(`  -| diffss ${floatvalue0} ${floatvalue1}`);
+            diffssContent.push(`  -| diffss(${floatvalue0}, ${floatvalue1})`);
           } else {
-            diffssContent.push(`  -| diffss ${floatvalue1} ${floatvalue0}`);
+            diffssContent.push(`  -| diffss(${floatvalue1}, ${floatvalue0})`);
           }
         } else if (float1.type === 'setvar') {
           if (float0.type === 'class') {
-            diffscContent.push(`  -| diffsc ${floatvalue1} ${floatvalue0}`);
+            diffscContent.push(`  -| diffsc(${floatvalue1}, ${floatvalue0})`);
           } else if (float0.type === 'wff') {
-            diffswContent.push(`  -| diffsw ${floatvalue1} ${floatvalue0}`);
+            diffswContent.push(`  -| diffsw(${floatvalue1}, ${floatvalue0})`);
           }
         } else {
           if (float1.type === 'class') {
-            diffscContent.push(`  -| diffsc ${floatvalue0} ${floatvalue1}`);
+            diffscContent.push(`  -| diffsc(${floatvalue0}, ${floatvalue1})`);
           } else if (float1.type === 'wff') {
-            diffswContent.push(`  -| diffsw ${floatvalue0} ${floatvalue1}`);
+            diffswContent.push(`  -| diffsw(${floatvalue0}, ${floatvalue1})`);
           }
         }
       }
@@ -660,12 +674,15 @@ class Theorem {
   public getFollowBody(): string[] {
     const content: string[] = [];
     content.push(`  |- ${this.replaceToFollow(this.parseValue)}`);
+    const essentialSet: Set<string> = new Set();
     for (const essential of this.essentials) {
-      content.push(`  -| ${this.replaceToFollow(essential.parseValue)}`);
+      const s = this.replaceToFollow(essential.parseValue);
+      if (!essentialSet.has(s)) {
+        content.push(`  -| ${s}`);
+        essentialSet.add(s);
+      }
     }
-    const diffssContent: string[] = [];
-    const diffscContent: string[] = [];
-    const diffswContent: string[] = [];
+    const diffContents: string[][] = [[], [], [], [], [], []];
     for (const disjoint of this.disjoints) {
       const variables = disjoint.split(' ');
       const float0 = this.floatMap.get(variables[0]);
@@ -673,31 +690,36 @@ class Theorem {
       if (float0 && float1) {
         const floatvalue0 = this.floatToFollowMap.get(float0.value) || float0.value;
         const floatvalue1 = this.floatToFollowMap.get(float1.value) || float1.value;
-        if (float0.type === 'setvar' && float1.type === 'setvar') {
+        const typeCode0 = float0.type === 'setvar' ? 0 : float0.type === 'class' ? 1 : 2;
+        const typeCode1 = float1.type === 'setvar' ? 0 : float1.type === 'class' ? 1 : 2;
+        const compareFunction = () => {
+          if (typeCode0 < typeCode1) {
+            return true;
+          } else if (typeCode0 > typeCode1) {
+            return false;
+          }
           if (floatvalue0 < floatvalue1) {
-            diffssContent.push(`  -| diffss ${floatvalue0} ${floatvalue1}`);
-          } else {
-            diffssContent.push(`  -| diffss ${floatvalue1} ${floatvalue0}`);
+            return true;
           }
-        } else if (float1.type === 'setvar') {
-          if (float0.type === 'class') {
-            diffscContent.push(`  -| diffsc ${floatvalue1} ${floatvalue0}`);
-          } else if (float0.type === 'wff') {
-            diffswContent.push(`  -| diffsw ${floatvalue1} ${floatvalue0}`);
-          }
+          return false;
+        };
+        const isFromFloat0ToFloat1: boolean = compareFunction();
+        if (isFromFloat0ToFloat1) {
+          const code = typeCode0 * 2 + typeCode1;
+          const diffContent = diffContents[code];
+          diffContent.push(`  -| diff${float0.type[0]}${float1.type[0]}(${floatvalue0}, ${floatvalue1})`);
         } else {
-          if (float1.type === 'class') {
-            diffscContent.push(`  -| diffsc ${floatvalue0} ${floatvalue1}`);
-          } else if (float1.type === 'wff') {
-            diffswContent.push(`  -| diffsw ${floatvalue0} ${floatvalue1}`);
-          }
+          const code = typeCode1 * 2 + typeCode0;
+          const diffContent = diffContents[code];
+          diffContent.push(`  -| diff${float1.type[0]}${float0.type[0]}(${floatvalue1}, ${floatvalue0})`);
         }
       }
     }
-    diffscContent.sort();
-    diffscContent.sort();
-    diffswContent.sort();
-    return [...content, ...diffssContent, ...diffscContent, ...diffswContent];
+    for (const arr of diffContents) {
+      arr.sort();
+      content.push(...arr);
+    }
+    return content;
   }
 }
 

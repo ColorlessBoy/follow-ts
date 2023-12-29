@@ -167,16 +167,16 @@ import { WirreflexiveContext } from './AntlrMetamathParser';
 import { WalsiContext } from './AntlrMetamathParser';
 import { WalscContext } from './AntlrMetamathParser';
 import { WffContext } from './AntlrMetamathParser';
-import { VxContext } from './AntlrMetamathParser';
-import { VyContext } from './AntlrMetamathParser';
+import { XContext } from './AntlrMetamathParser';
+import { YContext } from './AntlrMetamathParser';
 import { VzContext } from './AntlrMetamathParser';
 import { VwContext } from './AntlrMetamathParser';
 import { VvContext } from './AntlrMetamathParser';
 import { VuContext } from './AntlrMetamathParser';
 import { VtContext } from './AntlrMetamathParser';
 import { VeContext } from './AntlrMetamathParser';
-import { VfContext } from './AntlrMetamathParser';
-import { VgContext } from './AntlrMetamathParser';
+import { FContext } from './AntlrMetamathParser';
+import { GContext } from './AntlrMetamathParser';
 import { VhContext } from './AntlrMetamathParser';
 import { ViContext } from './AntlrMetamathParser';
 import { VjContext } from './AntlrMetamathParser';
@@ -3522,26 +3522,26 @@ export interface AntlrMetamathListener extends ParseTreeListener {
   exitWff?: (ctx: WffContext) => void;
 
   /**
-   * Enter a parse tree produced by `AntlrMetamathParser.vx`.
+   * Enter a parse tree produced by `AntlrMetamathParser.x`.
    * @param ctx the parse tree
    */
-  enterVx?: (ctx: VxContext) => void;
+  enterX?: (ctx: XContext) => void;
   /**
-   * Exit a parse tree produced by `AntlrMetamathParser.vx`.
+   * Exit a parse tree produced by `AntlrMetamathParser.x`.
    * @param ctx the parse tree
    */
-  exitVx?: (ctx: VxContext) => void;
+  exitX?: (ctx: XContext) => void;
 
   /**
-   * Enter a parse tree produced by `AntlrMetamathParser.vy`.
+   * Enter a parse tree produced by `AntlrMetamathParser.y`.
    * @param ctx the parse tree
    */
-  enterVy?: (ctx: VyContext) => void;
+  enterY?: (ctx: YContext) => void;
   /**
-   * Exit a parse tree produced by `AntlrMetamathParser.vy`.
+   * Exit a parse tree produced by `AntlrMetamathParser.y`.
    * @param ctx the parse tree
    */
-  exitVy?: (ctx: VyContext) => void;
+  exitY?: (ctx: YContext) => void;
 
   /**
    * Enter a parse tree produced by `AntlrMetamathParser.vz`.
@@ -3610,26 +3610,26 @@ export interface AntlrMetamathListener extends ParseTreeListener {
   exitVe?: (ctx: VeContext) => void;
 
   /**
-   * Enter a parse tree produced by `AntlrMetamathParser.vf`.
+   * Enter a parse tree produced by `AntlrMetamathParser.f`.
    * @param ctx the parse tree
    */
-  enterVf?: (ctx: VfContext) => void;
+  enterF?: (ctx: FContext) => void;
   /**
-   * Exit a parse tree produced by `AntlrMetamathParser.vf`.
+   * Exit a parse tree produced by `AntlrMetamathParser.f`.
    * @param ctx the parse tree
    */
-  exitVf?: (ctx: VfContext) => void;
+  exitF?: (ctx: FContext) => void;
 
   /**
-   * Enter a parse tree produced by `AntlrMetamathParser.vg`.
+   * Enter a parse tree produced by `AntlrMetamathParser.g`.
    * @param ctx the parse tree
    */
-  enterVg?: (ctx: VgContext) => void;
+  enterG?: (ctx: GContext) => void;
   /**
-   * Exit a parse tree produced by `AntlrMetamathParser.vg`.
+   * Exit a parse tree produced by `AntlrMetamathParser.g`.
    * @param ctx the parse tree
    */
-  exitVg?: (ctx: VgContext) => void;
+  exitG?: (ctx: GContext) => void;
 
   /**
    * Enter a parse tree produced by `AntlrMetamathParser.vh`.

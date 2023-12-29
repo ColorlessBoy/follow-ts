@@ -7,14 +7,6 @@ thm mojust(setvar s0, setvar s1, setvar s2, wff w0) {
   -| diffsw s0 w0
   -| diffsw s2 w0
 } = {
-  a1ii wb wex s0 wal s1 wi w0 wceq cv s1 cv s0 wex s2 wal s1 wi w0 wceq cv s1 cv s2
-       diffss s0 s1
-  a1ii wb wex s0 wal s1 wi w0 wceq cv s1 cv s0 wex s2 wal s1 wi w0 wceq cv s1 cv s2
-       diffss s1 s2
-  a1ii wb wex s0 wal s1 wi w0 wceq cv s1 cv s0 wex s2 wal s1 wi w0 wceq cv s1 cv s2
-       diffsw s0 w0
-  a1ii wb wex s0 wal s1 wi w0 wceq cv s1 cv s0 wex s2 wal s1 wi w0 wceq cv s1 cv s2
-       diffsw s2 w0
   bitri wex s0 wal s1 wi w0 wceq cv s1 cv s0
         wex s2 wal s1 wi w0 wceq cv s1 cv s2
         wex hs0 wal s1 wi w0 wceq cv s1 cv hs0

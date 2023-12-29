@@ -1,21 +1,14 @@
-import './first-order-logic/0_definitions.fol'
+type wff // well formed formula
 
-thm ex1(wff w0, wff w1, wff w2) {
-  |- and w0 or w1 w2
-  -| w0 w2
-  -| w1 w2
-} = {
-  jaod and w0 w1 w2
+const wff hw0 hw1 hw2
+prop wff not(wff w0)
+prop wff imply(wff w0, wff w1)
+
+axiom ax-1(wff w0, wff w1) {
+    |- imply(w0, imply(w1, w0))
 }
-
-axiom ax-mp2(wff w0, wff w1) {|- w0 -| w1 -| imp w1 w0}
-
-thm mp2(wff w0, wff w1, wff w2) {
-  |- w0
-  -| w1
-  -| w2
-  -| imp w2 imp w1 w0
-} = {
-  ax-mp2 w0 w1
-  ax-mp2 imp w1 w0 w2
+axiom ax-mp(wff w0, wff w1) {
+    -| w0
+    -| imply w0 w1
+    |- w1
 }
