@@ -1858,16 +1858,16 @@ export class AntlrMetamathParser extends Parser {
   public static readonly RULE_walsi = 162;
   public static readonly RULE_walsc = 163;
   public static readonly RULE_wff = 164;
-  public static readonly RULE_vx = 165;
-  public static readonly RULE_vy = 166;
+  public static readonly RULE_x = 165;
+  public static readonly RULE_y = 166;
   public static readonly RULE_vz = 167;
   public static readonly RULE_vw = 168;
   public static readonly RULE_vv = 169;
   public static readonly RULE_vu = 170;
   public static readonly RULE_vt = 171;
   public static readonly RULE_ve = 172;
-  public static readonly RULE_vf = 173;
-  public static readonly RULE_vg = 174;
+  public static readonly RULE_f = 173;
+  public static readonly RULE_g = 174;
   public static readonly RULE_vh = 175;
   public static readonly RULE_vi = 176;
   public static readonly RULE_vj = 177;
@@ -3558,16 +3558,16 @@ export class AntlrMetamathParser extends Parser {
     'walsi',
     'walsc',
     'wff',
-    'vx',
-    'vy',
+    'x',
+    'y',
     'vz',
     'vw',
     'vv',
     'vu',
     'vt',
     've',
-    'vf',
-    'vg',
+    'f',
+    'g',
     'vh',
     'vi',
     'vj',
@@ -14476,9 +14476,9 @@ export class AntlrMetamathParser extends Parser {
     return _localctx;
   }
   // @RuleVersion(0)
-  public vx(): VxContext {
-    let _localctx: VxContext = new VxContext(this._ctx, this.state);
-    this.enterRule(_localctx, 330, AntlrMetamathParser.RULE_vx);
+  public x(): XContext {
+    let _localctx: XContext = new XContext(this._ctx, this.state);
+    this.enterRule(_localctx, 330, AntlrMetamathParser.RULE_x);
     try {
       this.enterOuterAlt(_localctx, 1);
       {
@@ -14499,9 +14499,9 @@ export class AntlrMetamathParser extends Parser {
     return _localctx;
   }
   // @RuleVersion(0)
-  public vy(): VyContext {
-    let _localctx: VyContext = new VyContext(this._ctx, this.state);
-    this.enterRule(_localctx, 332, AntlrMetamathParser.RULE_vy);
+  public y(): YContext {
+    let _localctx: YContext = new YContext(this._ctx, this.state);
+    this.enterRule(_localctx, 332, AntlrMetamathParser.RULE_y);
     try {
       this.enterOuterAlt(_localctx, 1);
       {
@@ -14660,9 +14660,9 @@ export class AntlrMetamathParser extends Parser {
     return _localctx;
   }
   // @RuleVersion(0)
-  public vf(): VfContext {
-    let _localctx: VfContext = new VfContext(this._ctx, this.state);
-    this.enterRule(_localctx, 346, AntlrMetamathParser.RULE_vf);
+  public f(): FContext {
+    let _localctx: FContext = new FContext(this._ctx, this.state);
+    this.enterRule(_localctx, 346, AntlrMetamathParser.RULE_f);
     try {
       this.enterOuterAlt(_localctx, 1);
       {
@@ -14683,9 +14683,9 @@ export class AntlrMetamathParser extends Parser {
     return _localctx;
   }
   // @RuleVersion(0)
-  public vg(): VgContext {
-    let _localctx: VgContext = new VgContext(this._ctx, this.state);
-    this.enterRule(_localctx, 348, AntlrMetamathParser.RULE_vg);
+  public g(): GContext {
+    let _localctx: GContext = new GContext(this._ctx, this.state);
+    this.enterRule(_localctx, 348, AntlrMetamathParser.RULE_g);
     try {
       this.enterOuterAlt(_localctx, 1);
       {
@@ -17477,14 +17477,14 @@ export class AntlrMetamathParser extends Parser {
           this.enterOuterAlt(_localctx, 1);
           {
             this.state = 4604;
-            this.vx();
+            this.x();
           }
           break;
         case AntlrMetamathParser.T__148:
           this.enterOuterAlt(_localctx, 2);
           {
             this.state = 4605;
-            this.vy();
+            this.y();
           }
           break;
         case AntlrMetamathParser.T__149:
@@ -17533,14 +17533,14 @@ export class AntlrMetamathParser extends Parser {
           this.enterOuterAlt(_localctx, 9);
           {
             this.state = 4612;
-            this.vf();
+            this.f();
           }
           break;
         case AntlrMetamathParser.T__156:
           this.enterOuterAlt(_localctx, 10);
           {
             this.state = 4613;
-            this.vg();
+            this.g();
           }
           break;
         case AntlrMetamathParser.T__157:
@@ -72969,46 +72969,46 @@ export class WffContext extends ParserRuleContext {
   }
 }
 
-export class VxContext extends ParserRuleContext {
+export class XContext extends ParserRuleContext {
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState);
   }
   // @Override
   public get ruleIndex(): number {
-    return AntlrMetamathParser.RULE_vx;
+    return AntlrMetamathParser.RULE_x;
   }
   // @Override
   public enterRule(listener: AntlrMetamathListener): void {
-    if (listener.enterVx) {
-      listener.enterVx(this);
+    if (listener.enterX) {
+      listener.enterX(this);
     }
   }
   // @Override
   public exitRule(listener: AntlrMetamathListener): void {
-    if (listener.exitVx) {
-      listener.exitVx(this);
+    if (listener.exitX) {
+      listener.exitX(this);
     }
   }
 }
 
-export class VyContext extends ParserRuleContext {
+export class YContext extends ParserRuleContext {
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState);
   }
   // @Override
   public get ruleIndex(): number {
-    return AntlrMetamathParser.RULE_vy;
+    return AntlrMetamathParser.RULE_y;
   }
   // @Override
   public enterRule(listener: AntlrMetamathListener): void {
-    if (listener.enterVy) {
-      listener.enterVy(this);
+    if (listener.enterY) {
+      listener.enterY(this);
     }
   }
   // @Override
   public exitRule(listener: AntlrMetamathListener): void {
-    if (listener.exitVy) {
-      listener.exitVy(this);
+    if (listener.exitY) {
+      listener.exitY(this);
     }
   }
 }
@@ -73145,46 +73145,46 @@ export class VeContext extends ParserRuleContext {
   }
 }
 
-export class VfContext extends ParserRuleContext {
+export class FContext extends ParserRuleContext {
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState);
   }
   // @Override
   public get ruleIndex(): number {
-    return AntlrMetamathParser.RULE_vf;
+    return AntlrMetamathParser.RULE_f;
   }
   // @Override
   public enterRule(listener: AntlrMetamathListener): void {
-    if (listener.enterVf) {
-      listener.enterVf(this);
+    if (listener.enterF) {
+      listener.enterF(this);
     }
   }
   // @Override
   public exitRule(listener: AntlrMetamathListener): void {
-    if (listener.exitVf) {
-      listener.exitVf(this);
+    if (listener.exitF) {
+      listener.exitF(this);
     }
   }
 }
 
-export class VgContext extends ParserRuleContext {
+export class GContext extends ParserRuleContext {
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState);
   }
   // @Override
   public get ruleIndex(): number {
-    return AntlrMetamathParser.RULE_vg;
+    return AntlrMetamathParser.RULE_g;
   }
   // @Override
   public enterRule(listener: AntlrMetamathListener): void {
-    if (listener.enterVg) {
-      listener.enterVg(this);
+    if (listener.enterG) {
+      listener.enterG(this);
     }
   }
   // @Override
   public exitRule(listener: AntlrMetamathListener): void {
-    if (listener.exitVg) {
-      listener.exitVg(this);
+    if (listener.exitG) {
+      listener.exitG(this);
     }
   }
 }
@@ -75830,11 +75830,11 @@ export class Bnjvz1Context extends ParserRuleContext {
 }
 
 export class SetvarContext extends ParserRuleContext {
-  public vx(): VxContext | undefined {
-    return this.tryGetRuleContext(0, VxContext);
+  public x(): XContext | undefined {
+    return this.tryGetRuleContext(0, XContext);
   }
-  public vy(): VyContext | undefined {
-    return this.tryGetRuleContext(0, VyContext);
+  public y(): YContext | undefined {
+    return this.tryGetRuleContext(0, YContext);
   }
   public vz(): VzContext | undefined {
     return this.tryGetRuleContext(0, VzContext);
@@ -75854,11 +75854,11 @@ export class SetvarContext extends ParserRuleContext {
   public ve(): VeContext | undefined {
     return this.tryGetRuleContext(0, VeContext);
   }
-  public vf(): VfContext | undefined {
-    return this.tryGetRuleContext(0, VfContext);
+  public f(): FContext | undefined {
+    return this.tryGetRuleContext(0, FContext);
   }
-  public vg(): VgContext | undefined {
-    return this.tryGetRuleContext(0, VgContext);
+  public g(): GContext | undefined {
+    return this.tryGetRuleContext(0, GContext);
   }
   public vh(): VhContext | undefined {
     return this.tryGetRuleContext(0, VhContext);

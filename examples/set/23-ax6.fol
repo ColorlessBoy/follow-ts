@@ -13,8 +13,8 @@ thm ax6ev(setvar s0, setvar s1) {
   -| diffss s0 s1
 } = {
   mpbir wex s0 wceq cv s0 cv s1 wn wal s0 wn wceq cv s0 cv s1
-  ax6v s0 s1
   df-ex s0 wceq cv s0 cv s1
+  ax6v s0 s1
 }
 thm exgen(setvar s0, wff w0) {
   |- wex s0 w0

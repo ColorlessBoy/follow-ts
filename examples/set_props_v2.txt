@@ -1,0 +1,1357 @@
+diffss @ d ( s0 , s1 )
+diffsc @ d ( s0 , c0 )
+diffsw @ d ( s0 , w0 )
+diffcc @ d ( c0 , c1 )
+diffcw @ d ( c0 , w0 )
+diffww @ d ( w0 , w1 )
+wn @ ¬ w0
+wi @ ( w0 → w1 )
+wb @ ( w0 ↔ w1 )
+wa @ ( w0 ∧ w1 )
+wo @ ( w0 ∨ w1 )
+wif @ if ( w0 , w1 , w2 )
+w3o @ ( w0 ∨ w1 ∨ w2 )
+w3a @ ( w0 ∧ w1 ∧ w2 )
+wnan @ ( w0 ⊼ w1 )
+wxo @ ( w0 ⊻ w1 )
+wal @ ∀ ( s0 , w0 )
+cv @ s0
+wceq @ c0 = c1
+whad @ hadd ( w0 , w1 , w2 )
+wcad @ cadd ( w0 , w1 , w2 )
+wex @ ∃ ( s0 , w0 )
+wnf @ F/ ( s0 , w0 )
+wsb @ [ s0 / s1 ] w0
+wcel @ c0 ∈ c1
+wmo @ ∃* ( s0 , w0 )
+weu @ ∃! ( s0 , w0 )
+cab @ { s0 | w0 }
+wnfc @ F/ ( s0 , c0 )
+wne @ c0 ≠ c1
+wnel @ c0 ∉ c1
+wral @ ∀ ( s0 ∈ c0 , w0 )
+wrex @ ∃ ( s0 ∈ c0 , w0 )
+wreu @ ∃! ( s0 ∈ c0 , w0 )
+wrmo @ ∃* ( s0 ∈ c0 , w0 )
+crab @ { s0 ∈ c0 | w0 }
+wcdeq @ CondEq ( s0 = s1 → w0 )
+wsbc @ [ c0 / s0 ] w0
+csb @ [ c0 / s0 ] c1
+cdif @ ( c0 \ c1 )
+cun @ ( c0 ⋃ c1 )
+cin @ ( c0 ⋂ c1 )
+wss @ c0 ⊆ c1
+wpss @ c0 ⊊ c1
+csymdif @ ( c0 ∆ c1 )
+cif @ if ( w0 , c0 , c1 )
+cpw @ P ( c0 )
+csn @ { c0 }
+cpr @ { c0 , c1 }
+ctp @ { c0 , c1 , c2 }
+cop @ < c0 , c1 >
+cotp @ < c0 , c1 , c2 >
+cuni @ ⋃ c0
+cint @ ⋂ c0
+ciun @ ⋃ ( s0 ∈ c0 , c1 )
+ciin @ ⋂ ( s0 ∈ c0 , c1 )
+wdisj @ ⊔ ( s0 ∈ c0 , c1 )
+wbr @ c0 [ c1 ] c2
+copab @ { < s0 , s1 > | w0 }
+cmpt @ ( s0 ∈ c0 ↦ c1 )
+wtr @ Tr ( c0 )
+wpo @ c0 ⪯ c1
+wor @ c0 ≺ c1
+wfr @ c0 [Fr] c1
+wse @ c0 [Se] c1
+wwe @ c0 ≤ c1
+cxp @ ( c0 × c1 )
+ccnv @ `' c0
+cdm @ dom ( c0 )
+crn @ ran ( c0 )
+cres @ ( c0 |` c1 )
+cima @ ( c0 " c1 )
+ccom @ ( c0 ∘ c1 )
+wrel @ Rel ( c0 )
+cpred @ Pred ( c0 , c1 , c2 )
+word @ Ord ( c0 )
+wlim @ Lim ( c0 )
+csuc @ suc ( c0 )
+cio @ iota ( s0 , w0 )
+wfun @ Fun ( c0 )
+wfn @ c0 [Fn] c1
+wf @ ( c0 : c1 → c2 )
+wf1 @ ( c0 : c1 ↣ c2 )
+wfo @ ( c0 : c1 ↠ c2 )
+wf1o @ ( c0 : c1 ↔ c2 )
+cfv @ ( c0 ` c1 )
+wiso @ ( c0 ≅ c1 , c2 ( c3 , c4 ) )
+crio @ iota ( s0 ∈ c0 , w0 )
+co @ ( c0 [ c1 ] c2 )
+coprab @ { < < s0 , s1 > , s2 > | w0 }
+cmpo @ ( s0 ∈ c0 , s1 ∈ c1 ↦ c2 )
+cof @ oF ( c0 )
+cofr @ oR ( c0 )
+ctpos @ tpos ( c0 )
+ccur @ curry ( c0 )
+cunc @ uncurry ( c0 )
+cwrecs @ wrecs ( c0 , c1 , c2 )
+wsmo @ Smo ( c0 )
+crecs @ recs ( c0 )
+crdg @ rec ( c0 , c1 )
+cseqom @ seqom ( c0 , c1 )
+wer @ c0 [Er] c1
+cec @ [ c0 ] c1
+cqs @ ( c0 /. c1 )
+cixp @ × ( s0 ∈ c0 , c1 )
+csup @ sup ( c0 , c1 , c2 )
+cinf @ inf ( c0 , c1 , c2 )
+coi @ OrdIso ( c0 , c1 )
+cdju @ ( c0 ⊔ c1 )
+wacn @ AC ( c0 )
+cneg @ -u ( c0 )
+cdc @ cdc ( c0 , c1 )
+cxne @ -e ( c0 )
+cseq @ seq ( c0 ( c1 , c2 ) )
+cword @ Word ( c0 )
+cs1 @ <" c0 ">
+cs2 @ <" c0 . c1 ">
+cs3 @ <" c0 . c1 . c2 ">
+cs4 @ <" c0 . c1 . c2 . c3 ">
+cs5 @ <" c0 . c1 . c2 . c3 . c4 ">
+cs6 @ <" c0 . c1 . c2 . c3 . c4 . c5 ">
+cs7 @ <" c0 . c1 . c2 . c3 . c4 . c5 . c6 ">
+cs8 @ <" c0 . c1 . c2 . c3 . c4 . c5 . c6 . c7 ">
+csu @ sum ( s0 ∈ c0 , c1 )
+cprod @ prod ( s0 ∈ c0 , c1 )
+cslot @ Slot ( c0 )
+clly @ Locally ( c0 )
+cnlly @ N-Locally ( c0 )
+citg @ S. ( c0 , c1 , s0 )
+cdit @ S_ [ c0 → c1 ] ( c2 , s0 )
+w2reu @ ∃! ( s0 ∈ c0 , s1 ∈ c1 , w0 )
+cdp2 @ _ ( c0 , c1 )
+ccref @ CovHasRef ( c0 )
+cesum @ sum* ( s0 ∈ c0 , c1 )
+cofc @ oFC ( c0 )
+corvc @ oRVC ( c0 )
+w-bnj17 @ ( w0 ∧ w1 ∧ w2 ∧ w3 )
+c-bnj14 @ _pred ( c0 , c1 , c2 )
+w-bnj13 @ c0 [_Se] c1
+w-bnj15 @ c0 [_FrSe] c1
+c-bnj18 @ _trCl ( c0 , c1 , c2 )
+w-bnj19 @ _TrFo ( c0 , c1 , c2 )
+cgol @ ∀ ( c0 , c1 )
+cgon @ ¬ ( c0 )
+cgox @ ∃ ( c0 , c1 )
+ctrpred @ TrPred ( c0 , c1 , c2 )
+cwsuc @ wsuc ( c0 , c1 , c2 )
+cwlim @ WLim ( c0 , c1 )
+cfrecs @ frecs ( c0 , c1 , c2 )
+ctxp @ ( c0 ( × ) c1 )
+cpprod @ pprod ( c0 , c1 )
+cfix @ Fix ( c0 )
+cimage @ Image ( c0 )
+cfunpart @ Funpart ( c0 )
+cfullfn @ FullFun ( c0 )
+cub @ UB ( c0 )
+clb @ LB ( c0 )
+caltop @ << c0 , c1 >>
+caltxp @ ( c0 XX. c1 )
+w3nand @ ( w0 ⊼ w1 ⊼ w2 )
+cgcdOLD @ gcdOLD ( c0 , c1 )
+cprvb @ Prv ( w0 )
+wmoo @ ∃** ( s0 , w0 )
+wrnf @ F/ ( s0 ∈ c0 , w0 )
+wnnf @ F/ ( s0 , w0 )
+bj-csngl @ sngl ( c0 )
+bj-ctag @ tag ( c0 )
+bj-cproj @ ( c0 [Proj] c1 )
+bj-c1upl @ ( | c0 | )
+bj-cpr1 @ pr1 ( c0 )
+bj-c2uple @ ( | c0 , , c1 | )
+bj-cpr2 @ pr2 ( c0 )
+cmpt3 @ ( s0 ∈ c0 , s1 ∈ c1 , s2 ∈ c2 ↦ c3 )
+cstrset @ [ c0 / c1 ] c2
+cfinxp @ ( c0 ^^ c1 )
+wl-ral @ ∀ ( s0 ∈ c0 , w0 )
+wl-rex @ ∃ ( s0 ∈ c0 , w0 )
+wl-rmo @ ∃! ( s0 ∈ c0 , w0 )
+wl-reu @ ∃* ( s0 ∈ c0 , w0 )
+wl-crab @ { s0 ∈ c0 | w0 }
+cxrn @ ( c0 |X. c1 )
+ccoss @ ,~ ( c0 )
+ccoels @ ~ ( c0 )
+wrefrel @ RefRel ( c0 )
+wcnvrefrel @ CnvRefRel ( c0 )
+wsymrel @ SymRel ( c0 )
+wtrrel @ TrRel ( c0 )
+weqvrel @ EqvRel ( c0 )
+wcoeleqvrel @ CoElEqvRel ( c0 )
+wredund @ Redund ( c0  , < c1 , c2 > )
+wredundp @ redund ( w0 , w1 , w2 )
+wdmqs @ c0 [DomainQs] c1
+werALTV @ c0 [ErALTV] c1
+wmember @ MembEr ( c0 )
+wfunALTV @ FunALTV ( c0 )
+wdisjALTV @ ⊔ c0
+weldisj @ ElDisj ( c0 )
+wprt @ Prt ( c0 )
+whe @ c0 [hereditary] c1
+cptdfc @ PtDf ( c0 , c1 )
+wvd1 @ ( w0 → w1 )
+wvd2 @ ( w0 , w1 → w2 )
+wvhc2 @ ( w0 , w1 )
+wvd3 @ ( w0 , w1 , w2 → w3 )
+wvhc3 @ ( w0 , w1 , w2 )
+wvhc4 @ ( w0 , w1 , w2 , w3 )
+wvhc5 @ ( w0 , w1 , w2 , w3 , w4 )
+wvhc6 @ ( w0 , w1 , w2 , w3 , w4 , w5 )
+wvhc7 @ ( w0 , w1 , w2 , w3 , w4 , w5 , w6 )
+wvhc8 @ ( w0 , w1 , w2 , w3 , w4 , w5 , w6 , w7 )
+wvhc9 @ ( w0 , w1 , w2 , w3 , w4 , w5 , w6 , w7 , w8 )
+wvhc10 @ ( w0 , w1 , w2 , w3 , w4 , w5 , w6 , w7 , w8 , w9 )
+wvhc11 @ ( w0 , w1 , w2 , w3 , w4 , w5 , w6 , w7 , w8 , w9 , w10 )
+wvhc12 @ ( w0 , w1 , w2 , w3 , w4 , w5 , w6 , w7 , w8 , w9 , w10 , w11 )
+caiota @ iota' ( s0 , w0 )
+wdfat @ c0 [defAt] c1
+cafv @ ( c0 ''' c1 )
+caov @ ( ( c0 c1 c2 ) )
+cafv2 @ ( c0 '''' c1 )
+wich @ [ s0 <> s1 ] w0
+csetrecs @ setrecs ( c0 )
+wreflexive @ c0 [Reflexive] c1
+wirreflexive @ c0 [Irreflexive] c1
+walsi @ ∀! ( s0 , w0 → w1 )
+walsc @ ∀! ( s0 ∈ c0 , w0 )
+wtru @ T
+wfal @ F
+universe @ 𝕌
+emptycls @ ∅
+cid @ =
+cep @ ∈
+con0 @ On
+crpss @ ⊊
+com @ _om
+c1st @ 1st
+c2nd @ 2nd
+csupp @ supp
+cund @ Undef
+c1o @ 1o
+c2o @ 2o
+c3o @ 3o
+c4o @ 4o
+coa @ +o
+comu @ ×o
+coe @ ^o
+cmap @ ↦
+cpm @ p↦
+cen @ ≅
+cdom @ ≼
+csdm @ ≺
+cfn @ Fin
+cfsupp @ finSupp
+cfi @ fi
+char @ har
+cwdom @ ≼*
+ccnf @ CNF
+ctc @ TC
+cr1 @ R1
+crnk @ rank
+cinl @ inl
+cinr @ inr
+ccrd @ card
+cale @ aleph
+ccf @ cf
+wac @ CHOICE
+ccda @ +
+cfin1a @ Fin1a
+cfin2 @ Fin2
+cfin4 @ Fin4
+cfin3 @ Fin3
+cfin5 @ Fin5
+cfin6 @ Fin6
+cfin7 @ Fin7
+cgch @ GCH
+cwina @ InaccW
+cina @ Inacc
+cwun @ WUni
+cwunm @ wUniCl
+ctsk @ Tarski
+cgru @ Univ
+ctskm @ tarskiMap
+cnpi @ ℕ+
+cpli @ +ℕ
+cmi @ ×
+clti @ <
+cplpq @ +
+cmpq @ ×
+cltpq @ <
+ceq @ ~
+cnq @ ℚ+
+c1q @ 1
+cerq @ /ℚ
+cplq @ +
+cmq @ ×
+crq @ *
+cltq @ <
+cnp @ ℝ+
+c1p @ 1
+cpp @ +
+cmp @ ×
+cltp @ <
+cer @ ~
+cnr @ ℝ±
+c0r @ 0
+c1r @ 1
+cm1r @ -1
+cplr @ +
+cmr @ ×
+cltr @ <
+cc @ ℂ
+cr @ ℝ
+nat0 @ 0
+nat1 @ 1
+ci @ i
+caddc @ +
+cltrr @ <
+cmul @ ×
+cpnf @ +∞
+cmnf @ -∞
+cxr @ ℝ*
+clt @ <
+cle @ ≤
+cmin @ -
+cdiv @ ÷
+cn @ ℕ
+nat2 @ 2
+nat3 @ 3
+nat4 @ 4
+nat5 @ 5
+nat6 @ 6
+nat7 @ 7
+nat8 @ 8
+nat9 @ 9
+cn0 @ ℕ0
+cxnn0 @ ℕ0*
+cz @ ℤ
+cuz @ ℤ≥
+cq @ ℚ
+crp @ ℝ+
+cxad @ +
+cxmu @ ×
+cioo @ (,)
+cioc @ (,]
+cico @ [,)
+cicc @ [,]
+cfz @ ...
+cfzo @ ..^
+cfl @ ⌊
+cceil @ ⌈
+cmo @ mod
+cexp @ ^
+cfa @ !
+cbc @ _C
+chash @ #
+clsw @ lastS
+cconcat @ ++
+csubstr @ substr
+cpfx @ prefix
+csplice @ splice
+cspliceOLD @ spliceOLD
+creverse @ reverse
+creps @ repeatS
+ccsh @ cyclShift
+ccshOLD @ cyclShiftOLD
+ctcl @ t+
+crtcl @ t*
+crelexp @ ^r
+crtrcl @ t*rec
+cshi @ shift
+csgn @ sgn
+ccj @ *
+cre @ Re
+cim @ Im
+csqrt @ sqrt
+cabs @ abs
+clsp @ limsup
+cli @ ~~>
+crli @ ~~>r
+co1 @ O(1)
+clo1 @ ≤O(1)
+cfallfac @ FallFac
+crisefac @ RiseFac
+cbp @ BernPoly
+ce @ exp
+ceu @ e
+csin @ sin
+ccos @ cos
+ctan @ tan
+cpi @ π
+ctau @ τ
+cdvds @ ||
+cbits @ bits
+csad @ sadd
+csmu @ smul
+cgcd @ gcd
+clcm @ lcm
+clcmf @ _lcm
+cprime @ Prime
+cnumer @ numer
+cdenom @ denom
+codz @ odZ
+cphi @ φ
+cpc @ pCnt
+cgz @ Z[i]
+cvdwa @ AP
+cvdwm @ MonoAP
+cvdwp @ PolyAP
+cram @ Ramsey
+cprmo @ #p
+cstr @ Struct
+cnx @ ndx
+csts @ sSet
+cbs @ Base
+cress @ |`s
+cplusg @ +
+cmulr @ ×
+cstv @ *r
+csca @ Scalar
+cvsca @ ×
+cip @ ·
+cts @ TopSet
+cple @ le
+coc @ oc
+cds @ dist
+cunif @ UnifSet
+chom @ Hom
+cco @ comp
+crest @ |`t
+ctopn @ TopOpen
+ctg @ topGen
+cpt @ Xt_
+c0g @ 0
+cgsu @ gsum
+cprds @ ×
+cpws @ ^
+cordt @ ordTop
+cxrs @ ℝ*
+cqtop @ qTop
+cimas @ "s
+cqus @ /s
+cxps @ ×
+cmre @ Moore
+cmrc @ mrCls
+cmri @ mrInd
+cacs @ ACS
+ccat @ Cat
+ccid @ Id
+chomf @ Homf
+ccomf @ comf
+coppc @ oppCat
+cmon @ Mono
+cepi @ Epi
+csect @ Sect
+cinv @ Inv
+ciso @ Iso
+ccic @ ≡
+cssc @ C_cat
+cresc @ |`cat
+csubc @ Subcat
+cfunc @ Func
+cidfu @ idFunc
+ccofu @ o.func
+cresf @ |`f
+cful @ Full
+cfth @ Faith
+cnat @ Nat
+cfuc @ FuncCat
+cinito @ InitO
+ctermo @ TermO
+czeroo @ ZeroO
+cdoma @ domA
+ccoda @ codA
+carw @ Arrow
+choma @ HomA
+cida @ IdA
+ccoa @ compA
+csetc @ SetCat
+ccatc @ CatCat
+cestrc @ ExtStrCat
+cxpc @ ×
+c1stf @ 1stF
+c2ndf @ 2ndF
+cprf @ pairF
+cevlf @ evalF
+ccurf @ curryF
+cuncf @ uncurryF
+cdiag @ DiagFunc
+chof @ HomF
+cyon @ Yon
+cproset @ Proset
+cdrs @ Dirset
+cpo @ Poset
+cplt @ lt
+club @ lub
+cglb @ glb
+cjn @ join
+cmee @ meet
+ctos @ Toset
+cp0 @ 0.
+cp1 @ 1.
+clat @ Lat
+ccla @ CLat
+codu @ ODual
+cipo @ toInc
+cdlat @ DLat
+cps @ PosetRel
+ctsr @ TosetRel
+cdir @ DirRel
+ctail @ tail
+cplusf @ +f
+cmgm @ Mgm
+csgrp @ SGrp
+cmnd @ Mnd
+cmhm @ MndHom
+csubmnd @ SubMnd
+cfrmd @ freeMnd
+cvrmd @ varFMnd
+cgrp @ Grp
+cminusg @ invg
+csg @ -g
+cmg @ .g
+csubg @ SubGrp
+cnsg @ NrmSGrp
+cqg @ ~QG
+cghm @ GrpHom
+cgim @ GrpIso
+cgic @ ~=g
+cga @ GrpAct
+ccntz @ Cntz
+ccntr @ Cntr
+coppg @ oppG
+csymg @ SymGrp
+cpmtr @ pmTrsp
+cpsgn @ pmSgn
+cevpm @ pmEven
+cod @ od
+cgex @ gEx
+cpgp @ pGrp
+cslw @ pSyl
+clsm @ LSSum
+cpj1 @ proj1
+cefg @ ~FG
+cfrgp @ freeGrp
+cvrgp @ varFGrp
+ccmn @ CMnd
+cabl @ Abel
+ccyg @ CycGrp
+cdprd @ DProd
+cdpj @ dProj
+cmgp @ mulGrp
+cur @ 1r
+csrg @ SRing
+crg @ Ring
+ccrg @ CRing
+coppr @ oppR
+cdsr @ ||r
+cui @ Unit
+cir @ Irred
+cinvr @ invr
+cdvr @ /r
+crpm @ RPrime
+crh @ RingHom
+crs @ RingIso
+cric @ ~=r
+cdr @ DivRing
+cfield @ Field
+csubrg @ SubRing
+crgspn @ RingSpan
+cabv @ AbsVal
+cstf @ *rf
+csr @ *Ring
+clmod @ LMod
+cscaf @ .sf
+clss @ LSubSp
+clspn @ LSpan
+clmhm @ LMHom
+clmim @ LMIso
+clmic @ ~=m
+clbs @ LBasis
+clvec @ LVec
+csra @ subringAlg
+crglmod @ ringLMod
+clidl @ LIdeal
+crsp @ RSpan
+c2idl @ 2Ideal
+clpidl @ LPIdeal
+clpir @ LPIR
+cnzr @ NzRing
+crlreg @ RLReg
+cdomn @ Domn
+cidom @ IDomn
+cpid @ PID
+casa @ AssAlg
+casp @ AlgSpan
+cascl @ algSc
+cmps @ mPwSer
+cmvr @ mVar
+cmpl @ mPoly
+cltb @ <bag
+copws @ ordPwSer
+ces @ evalSub
+cevl @ eval
+cmhp @ mHomP
+cpsd @ mPSDer
+cslv @ selectVars
+cai @ AlgInd
+cps1 @ PwSer1
+cv1 @ var1
+cpl1 @ Poly1
+cco1 @ coe1
+ctp1 @ toPoly1
+ces1 @ evalSub1
+ce1 @ eval1
+cpsmet @ PsMet
+cxmet @ *Met
+cmet @ Met
+cbl @ ball
+cfbas @ fBas
+cfg @ filGen
+cmopn @ MetOpen
+cmetu @ metUnif
+ccnfld @ CCfld
+zring @ ZZring
+czrh @ ZRHom
+czlm @ ZMod
+cchr @ chr
+czn @ Z/nZ
+crefld @ RRfld
+cphl @ PreHil
+cipf @ .if
+cocv @ ocv
+ccss @ ClSubSp
+cthl @ toHL
+cpj @ proj
+chil @ Hil
+cobs @ OBasis
+cdsmm @ (+)m
+cfrlm @ freeLMod
+cuvc @ unitVec
+clindf @ LIndF
+clinds @ LIndS
+cmmul @ maMul
+cmat @ Mat
+cdmat @ DMat
+cscmat @ ScMat
+cmvmul @ maVecMul
+cmarrep @ matRRep
+cmatrepV @ matRepV
+csubma @ subMat
+cmdat @ maDet
+cmadu @ maAdju
+cminmar1 @ minMatR1
+ccpmat @ ConstPolyMat
+cmat2pmat @ matToPolyMat
+ccpmat2mat @ cPolyMatToMat
+cdecpmat @ decompPMat
+cpm2mp @ pMatToMatPoly
+cchpmat @ CharPlyMat
+ctop @ Top
+ctopon @ TopOn
+ctps @ TopSp
+ctb @ TopBases
+ccld @ Clsd
+cnt @ int
+ccl @ cls
+cnei @ nei
+clp @ limPt
+cperf @ Perf
+ccn @ Cn
+ccnp @ CnP
+clm @ ~~>t
+ct0 @ Kol2
+ct1 @ Fre
+cha @ Haus
+creg @ Reg
+cnrm @ Nrm
+ccnrm @ CNrm
+cpnrm @ PNrm
+ccmp @ Comp
+cconn @ Conn
+c1stc @ 1stc
+c2ndc @ 2ndc
+cref @ Ref
+cptfin @ PtFin
+clocfin @ LocFin
+ckgen @ kGen
+ctx @ tX
+cxko @ ^ko
+ckq @ KQ
+chmeo @ Homeo
+chmph @ ~=
+cfil @ Fil
+cufil @ UFil
+cufl @ UFL
+cfm @ FilMap
+cflim @ fLim
+cflf @ fLimf
+cfcls @ fClus
+cfcf @ fClusf
+ccnext @ CnExt
+ctmd @ TopMnd
+ctgp @ TopGrp
+ctsu @ tsums
+ctrg @ TopRing
+ctdrg @ TopDRing
+ctlm @ TopMod
+ctvc @ TopVec
+cust @ UnifOn
+cutop @ unifTop
+cuss @ UnifSt
+cusp @ UnifSp
+ctus @ toUnifSp
+cucn @ uCn
+ccfilu @ CauFilU
+ccusp @ CUnifSp
+cxms @ *MetSp
+cms @ MetSp
+ctms @ toMetSp
+cnm @ norm
+cngp @ NrmGrp
+ctng @ toNrmGrp
+cnrg @ NrmRing
+cnlm @ NrmMod
+cnvc @ NrmVec
+cnmo @ normOp
+cnghm @ NGHom
+cnmhm @ NMHom
+cii @ II
+ccncf @ -cn->
+chtpy @ Htpy
+cphtpy @ PHtpy
+cphtpc @ ~=ph
+cpco @ *p
+comi @ Om1
+comn @ OmN
+cpi1 @ pi1
+cpin @ piN
+cclm @ CMod
+ccvs @ CVec
+ccph @ CPreHil
+ctcph @ toCPreHil
+ccfil @ CauFil
+ccau @ Cau
+ccmet @ CMet
+ccms @ CMetSp
+cbn @ Ban
+chl @ CHil
+crrx @ RR^
+cehl @ EEhil
+covol @ vol*
+cvol @ vol
+cmbf @ MblFn
+citg1 @ S.1
+citg2 @ S.2
+cibl @ L^1
+c0p @ 0p
+climc @ limCC
+cdv @ _D
+cdvn @ Dn
+ccpn @ C^n
+cmdg @ mDeg
+cdg1 @ deg1
+cmn1 @ Monic1p
+cuc1p @ Unic1p
+cq1p @ quot1p
+cr1p @ rem1p
+cig1p @ idlGen1p
+cply @ Poly
+cidp @ Xp
+ccoe @ coeff
+cdgr @ deg
+cquot @ quot
+caa @ AA
+ctayl @ Tayl
+cana @ Ana
+culm @ ~~>u
+clog @ log
+ccxp @ ^c
+clogb @ logb
+casin @ arcsin
+cacos @ arccos
+catan @ arctan
+carea @ area
+cem @ γ
+czeta @ ζ
+clgam @ log_G
+cgam @ _G
+cigam @ 1/_G
+ccht @ θ
+cvma @ Lam
+cchp @ ψ
+cppi @ ppi
+cmu @ mmu
+csgm @ σ
+cdchr @ DChr
+clgs @ /L
+cstrkg @ TarskiG
+cstrkgc @ TarskiGC
+cstrkgb @ TarskiGB
+cstrkgcb @ TarskiGCB
+cstrkgld @ TarskiGDim>=
+cstrkge @ TarskiGE
+citv @ Itv
+clng @ LineG
+ccgrg @ cgrG
+cismt @ Ismt
+cleg @ leG
+chlg @ hlG
+cmir @ pInvG
+crag @ raG
+cperpg @ perpG
+chpg @ hpG
+cmid @ midG
+clmi @ lInvG
+ccgra @ cgrA
+cinag @ inA
+cleag @ leA
+ceqlg @ eqltrG
+cttg @ toTG
+cee @ EE
+cbtwn @ Btwn
+ccgr @ Cgr
+ceeng @ EEG
+cedgf @ .ef
+cvtx @ Vtx
+ciedg @ iEdg
+cedg @ Edg
+cuhgr @ UHGraph
+cushgr @ USHGraph
+cupgr @ UPGraph
+cumgr @ UMGraph
+cuspgr @ USPGraph
+cusgr @ USGraph
+csubgr @ SubGraph
+cfusgr @ FinUSGraph
+cnbgr @ NeighbVtx
+cuvtx @ UnivVtx
+ccplgr @ ComplGraph
+ccusgr @ ComplUSGraph
+cvtxdg @ VtxDeg
+crgr @ RegGraph
+crusgr @ RegUSGraph
+cewlks @ EdgWalks
+cwlks @ Walks
+cwlkson @ WalksOn
+ctrls @ Trails
+ctrlson @ TrailsOn
+cpths @ Paths
+cspths @ SPaths
+cpthson @ PathsOn
+cspthson @ SPathsOn
+cclwlks @ ClWalks
+ccrcts @ Circuits
+ccycls @ Cycles
+cwwlks @ WWalks
+cwwlksn @ WWalksN
+cwwlksnon @ WWalksNOn
+cwwspthsn @ WSPathsN
+cwwspthsnon @ WSPathsNOn
+cclwwlk @ ClWWalks
+cclwwlkn @ ClWWalksN
+cclwwlknon @ ClWWalksNOn
+cconngr @ ConnGraph
+ceupth @ EulerPaths
+cfrgr @ FriendGraph
+cplig @ Plig
+cgr @ GrpOp
+cgi @ GId
+cgn @ inv
+cgs @ /g
+cablo @ AbelOp
+cvc @ CVecOLD
+cnv @ NrmCVec
+cpv @ +v
+cba @ BaseSet
+cns @ .sOLD
+cn0v @ 0vec
+cnsb @ -v
+cnmcv @ normCV
+cims @ IndMet
+cdip @ .iOLD
+css @ SubSp
+clno @ LnOp
+cnmoo @ normOpOLD
+cblo @ BLnOp
+c0o @ 0op
+caj @ adj
+chmo @ HmOp
+ccphlo @ CPreHilOLD
+ccbn @ CBan
+chlo @ CHilOLD
+chba @ ~H
+cva @ +h
+csm @ .h
+csp @ .ih
+cno @ normh
+c0v @ 0h
+cmv @ -h
+ccauold @ Cauchy
+chli @ ~~>v
+csh @ SH
+cch @ CH
+cort @ _|_
+cph @ +H
+cspn @ span
+chj @ vH
+chsup @ \/H
+c0h @ 0H
+ccm @ C_H
+cpjh @ projh
+chos @ +op
+chot @ .op
+chod @ -op
+chfs @ +fn
+chft @ .fn
+ch0o @ 0hop
+chio @ Iop
+cnop @ normop
+ccop @ ContOp
+clo @ LinOp
+cbo @ BndLinOp
+cuo @ UniOp
+cho @ HrmOp
+cnmf @ normfn
+cnl @ null
+ccnfn @ ContFn
+clf @ LinFn
+cado @ adjh
+cbr @ bra
+ck @ ketbra
+cleo @ <_op
+cei @ eigvec
+cel @ eigval
+cspc @ Lambda
+cst @ States
+chst @ CHStates
+ccv @ <oH
+cat @ HAtoms
+cmd @ MH
+cdmd @ MH*
+cdp @ .
+cxdiv @ /e
+comnd @ oMnd
+cogrp @ oGrp
+csgns @ sgns
+cinftm @ <<<
+carchi @ Archi
+cslmd @ SLMod
+corng @ oRing
+cofld @ oField
+cresv @ |`v
+cldim @ dim
+cfldext @ /FldExt
+cfinext @ /FinExt
+calgext @ /AlgExt
+cextdg @ [:]
+csmat @ subMat1
+clmat @ litMat
+cldlf @ Ldlf
+cpcmp @ Paracomp
+cmetid @ ~Met
+cpstm @ pstoMet
+chcmp @ HCmp
+cqqh @ QQHom
+crrh @ RRHom
+crrext @ RRExt
+cxrh @ RR*Hom
+cmntop @ ManTop
+cind @ _Ind
+csiga @ sigAlgebra
+csigagen @ sigaGen
+cbrsiga @ BrSiga
+csx @ sX
+cmeas @ measures
+cdde @ Ddelta
+cae @ ae
+cfae @ ~ae
+cmbfm @ MblFnM
+coms @ toOMeas
+ccarsg @ toCaraSiga
+citgm @ itgm
+csitm @ sitm
+csitg @ sitg
+csseq @ seqstr
+cfib @ Fibci
+cprb @ Prob
+ccprob @ cprob
+crrv @ rRndVar
+crepr @ repr
+cvts @ vts
+cstrkg2d @ TarskiG2D
+cafs @ AFS
+clpad @ leftpad
+cretr @ Retr
+cpconn @ PConn
+csconn @ SConn
+ccvm @ CovMap
+cgoe @ e.g
+cgna @ |g
+csat @ Sat
+cfmla @ Fmla
+csate @ SatE
+cprv @ ⊨
+cgoa @ ∧g
+cgoi @ →g
+cgoo @ ∨g
+cgob @ ↔g
+cgoq @ =g
+cgze @ AxExt
+cgzr @ AxRep
+cgzp @ AxPow
+cgzu @ AxUn
+cgzg @ AxReg
+cgzi @ AxInf
+cgzf @ ZF
+cmcn @ mCN
+cmvar @ mVR
+cmty @ mType
+cmvt @ mVT
+cmtc @ mTC
+cmax @ mAx
+cmrex @ mREx
+cmex @ mEx
+cmdv @ mDV
+cmvrs @ mVars
+cmrsub @ mRSubst
+cmsub @ mSubst
+cmvh @ mVH
+cmpst @ mPreSt
+cmsr @ mStRed
+cmsta @ mStat
+cmfs @ mFS
+cmcls @ mCls
+cmpps @ mPPSt
+cmthm @ mThm
+cm0s @ m0St
+cmsa @ mSA
+cmwgfs @ mWGFS
+cmsy @ mSyn
+cmesy @ mESyn
+cmgfs @ mGFS
+cmtree @ mTree
+cmst @ mST
+cmsax @ mSAX
+cmufs @ mUFS
+cmuv @ mUV
+cmvl @ mVL
+cmvsb @ mVSubst
+cmfsh @ mFresh
+cmfr @ mFRel
+cmevl @ mEval
+cmdl @ mMdl
+cusyn @ mUSyn
+cgmdl @ mGMdl
+cmitp @ mItp
+cmfitp @ mFromItp
+citr @ IntgRing
+ccpms @ cplMetSp
+chlb @ HomLimB
+chlim @ HomLim
+cpfl @ polyFld
+csf1 @ splitFld1
+csf @ splitFld
+cpsl @ polySplitLim
+czr @ ZRing
+cgf @ GF
+cgfo @ GF_oo
+ceqp @ ~Qp
+crqp @ /Qp
+cqp @ Qp
+cqpOLD @ QpOLD
+czp @ Zp
+cqpa @ _Qp
+ccp @ Cp
+csur @ No
+cslt @ <s
+cbday @ bday
+csle @ ≤s
+csslt @ <<s
+cscut @ |s
+cmade @ _M
+cold @ _Old
+cnew @ _N
+cleft @ _L
+cright @ _R
+csset @ SSet
+ctrans @ Trans
+cbigcup @ Bigcup
+climits @ Limits
+cfuns @ Funs
+csingle @ Singleton
+csingles @ Singletons
+ccart @ Cart
+cimg @ Img
+cdomain @ Domain
+crange @ Range
+capply @ Apply
+ccup @ Cup
+ccap @ Cap
+csuccf @ Succ
+crestrict @ Restrict
+cofs @ OuterFiveSeg
+ctransport @ TransportTo
+cifs @ InnerFiveSeg
+ccgr3 @ Cgr3
+ccolin @ Colinear
+cfs @ FiveSeg
+csegle @ Seg<_
+coutsideof @ OutsideOf
+cline2 @ Line
+cray @ Ray
+clines2 @ LinesEE
+cfwddif @ _/_\
+cfwddifn @ _/_\^n
+chf @ Hf
+cfne @ Fne
+celwise @ elwise
+cmoore @ Moore_
+csethom @ -Set->
+ctophom @ -Top->
+cmgmhom @ -Mgm->
+ctopmgmhom @ -TopMgm->
+ccur- @ curry_
+cunc- @ uncurry_
+cdiag2 @ Diag
+cfractemp @ {R
+cinftyexpitau @ inftyexpitau
+cccinftyN @ CCinftyN
+chalf @ 1/2
+cinftyexpi @ inftyexpi
+cccinfty @ CCinfty
+cccbar @ CCbar
+cpinfty @ pinfty
+cminfty @ minfty
+crrbar @ RRbar
+cinfty @ infty
+ccchat @ CChat
+crrhat @ RRhat
+caddcc @ +cc
+coppcc @ -cc
+cltxr @ <rr
+carg @ Arg
+cmulc @ .cc
+cinvc @ invc
+ciomnn @ iomnn
+cnnbar @ NNbar
+czzbar @ ZZbar
+czzhat @ ZZhat
+cdivc @ ||C
+cfinsum @ FinSum
+crrvec @ RRVec
+ctotbnd @ TotBnd
+cbnd @ Bnd
+cismty @ Ismty
+crrn @ Rn
+cass @ Ass
+cexid @ ExId
+cmagm @ Magma
+csem @ SemiGrp
+cmndo @ MndOp
+cghomOLD @ GrpOpHom
+crngo @ RingOps
+cdrng @ DivRingOps
+crnghom @ RngHom
+crngiso @ RngIso
+crisc @ ~=R
+ccm2 @ Com2
+cfld @ Fld
+ccring @ CRingOps
+cidl @ Idl
+cpridl @ PrIdl
+cmaxidl @ MaxIdl
+cprrng @ PrRing
+cdmn @ Dmn
+cigen @ IdlGen
+crels @ Rels
+cssr @ _S
+crefs @ Refs
+crefrels @ RefRels
+ccnvrefs @ CnvRefs
+ccnvrefrels @ CnvRefRels
+csyms @ Syms
+csymrels @ SymRels
+ctrs @ Trs
+ctrrels @ TrRels
+ceqvrels @ EqvRels
+ccoeleqvrels @ CoElEqvRels
+credunds @ Redunds
+cdmqss @ DomainQss
+cers @ Ers
+cmembers @ MembErs
+cfunss @ Funss
+cfunsALTV @ FunsALTV
+cdisjss @ Disjss
+cdisjs @ Disjs
+celdisjs @ ElDisjs
+clsa @ LSAtoms
+clsh @ LSHyp
+clcv @ <oL
+clfn @ LFnl
+clk @ LKer
+cld @ LDual
+cops @ OP
+ccmtN @ cm
+col @ OL
+coml @ OML
+ccvr @ <o
+catm @ Atoms
+cal @ AtLat
+clc @ CvLat
+chlt @ HL
+clln @ LLines
+clpl @ LPlanes
+clvol @ LVols
+clines @ Lines
+cpointsN @ Points
+cpsubsp @ PSubSp
+cpmap @ pmap
+cpadd @ +P
+cpclN @ PCl
+cpolN @ _|_P
+cpscN @ PSubCl
+clh @ LHyp
+claut @ LAut
+cwpointsN @ WAtoms
+cpautN @ PAut
+cldil @ LDil
+cltrn @ LTrn
+cdilN @ Dil
+ctrnN @ Trn
+ctrl @ trL
+ctgrp @ TGrp
+ctendo @ TEndo
+cedring @ EDRing
+cedring-rN @ EDRingR
+cdveca @ DVecA
+cdia @ DIsoA
+cdvh @ DVecH
+cocaN @ ocA
+cdjaN @ vA
+cdib @ DIsoB
+cdic @ DIsoC
+cdih @ DIsoH
+coch @ ocH
+cdjh @ joinH
+clpoN @ LPol
+clcd @ LCDual
+cmpd @ mapd
+chvm @ HVMap
+chdma1 @ HDMap1
+chdma @ HDMap
+chg @ HGMap
+chlh @ HLHil
+cresub @ -R
+cprjsp @ PrjSp
+cprjspn @ PrjSpn
+cnacs @ NoeACS
+cmzpcl @ mzPolyCld
+cmzp @ mzPoly
+cdioph @ Dioph
+csquarenn @ []NN
+cpell1qr @ Pell1QR
+cpell1234qr @ Pell1234QR
+cpell14qr @ Pell14QR
+cpellfund @ PellFund
+crmx @ rmX
+crmy @ rmY
+clfig @ LFinGen
+clnm @ LNoeM
+clnr @ LNoeR
+cldgis @ ldgIdlSeq
+cmnc @ Monic
+cplylt @ Poly<
+cdgraa @ degAA
+cmpaa @ minPolyAA
+citgo @ IntgOver
+cza @ _ZZ
+cmend @ MEndo
+csdrg @ SubDRing
+ccytp @ CytP
+ctopsep @ TopSep
+ctoplnd @ TopLnd
+crcl @ r*
+csimpg @ SimpGrp
+cbcc @ _Cc
+cplusr @ +r
+cminusr @ -r
+ctimesr @ .v
+crr3c @ RR3
+cline3 @ line3
+clsi @ liminf
+clsxlim @ ~~>*
+csalg @ SAlg
+csalon @ SalOn
+csalgen @ SalGen
+csumge0 @ sum^
+cmea @ Meas
+come @ OutMeas
+ccaragen @ CaraGen
+covoln @ voln*
+cvoln @ voln
+csmblfn @ SMblFn
+cnelbr @ e/
+ciccp @ RePart
+cspr @ Pairs
+cprpr @ PrPairs
+cfmtno @ FermatNo
+ceven @ Even
+codd @ Odd
+cfppr @ FPPr
+cgbe @ GoldbachEven
+cgbow @ GoldbachOddW
+cgbo @ GoldbachOdd
+cgrisom @ GrIsom
+cisomgr @ IsomGr
+cupwlks @ UPWalks
+cmgmhm @ MgmHom
+csubmgm @ SubMgm
+ccllaw @ clLaw
+casslaw @ assLaw
+ccomlaw @ comLaw
+cintop @ intOp
+cclintop @ clIntOp
+cassintop @ assIntOp
+cmgm2 @ MgmALT
+ccmgm2 @ CMgmALT
+csgrp2 @ SGrpALT
+ccsgrp2 @ CSGrpALT
+crng @ Rng
+crngh @ RngHomo
+crngs @ RngIsom
+crngc @ RngCat
+crngcALTV @ RngCatALTV
+cringc @ RingCat
+cringcALTV @ RingCatALTV
+cdmatalt @ DMatALT
+cscmatalt @ ScMatALT
+clinc @ linC
+clinco @ LinCo
+clininds @ linIndS
+clindeps @ linDepS
+cfdiv @ /_f
+cbigo @ _O
+cblen @ #b
+cdig @ digit
+cline @ LineM
+csph @ Sphere
+cpg @ Pg
+cge-real @ ≥
+cgt @ >
+csinh @ sinh
+ccosh @ cosh
+ctanh @ tanh
+csec @ sec
+ccsc @ csc
+ccot @ cot
+clog- @ log_

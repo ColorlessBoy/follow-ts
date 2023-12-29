@@ -11,8 +11,6 @@ thm hbab1(setvar s0, setvar s1, wff w0) {
   |- wi wcel cv s0 cab s1 w0 wal s1 wcel cv s0 cab s1 w0
   -| diffss s0 s1
 } = {
-  a1ii wi wcel cv s0 cab s1 w0 wal s1 wcel cv s0 cab s1 w0
-       diffss s0 s1
   hbxfrbi s1 wcel cv s0 cab s1 w0 wsb s1 s0 w0
   df-clab s0 s1 w0
   hbs1 s1 s0 w0
@@ -22,8 +20,6 @@ thm nfsab1(setvar s0, setvar s1, wff w0) {
   |- wnf s0 wcel cv s1 cab s0 w0
   -| diffss s0 s1
 } = {
-  a1ii wnf s0 wcel cv s1 cab s0 w0
-       diffss s0 s1
   nf5i s0 wcel cv s1 cab s0 w0
   hbab1 s1 s0 w0
   diffss.ex s1 s0

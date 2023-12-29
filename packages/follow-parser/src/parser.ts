@@ -40,14 +40,14 @@ export default class Parser {
 
   public lookAhead(): Node {
     if (this.currentNodeIdx + 1 >= this.nodes.length) {
-      this.nodes.push(this.nextNode());
+      this.nodes.push(this.nextNodeV2());
     }
     return this.nodes[this.currentNodeIdx + 1];
   }
 
   public peek(): Node {
     if (this.currentNodeIdx >= this.nodes.length) {
-      this.nodes.push(this.nextNode());
+      this.nodes.push(this.nextNodeV2());
     }
     return this.nodes[this.currentNodeIdx];
   }
@@ -64,23 +64,34 @@ export default class Parser {
 
   public getNodes(): Array<Node> {
     while (this.currentNodeIdx < 0 || this.nodes[this.currentNodeIdx].nodeType !== NodeType.EOF) {
-      this.next();
+      this.nextNode();
     }
     return this.nodes;
   }
 
-  public next(): Node {
+  public *defNodeIterator() {
+    let idx = 0;
+    while (this.nodes[this.nodes.length - 1]?.nodeType !== NodeType.EOF) {
+      this.nodes.push(this.nextNodeV2());
+      while (idx < this.defNodes.length) {
+        yield this.defNodes[idx];
+        idx++;
+      }
+    }
+  }
+
+  public nextNode(): Node {
     if (this.currentNodeIdx >= 0 && this.nodes[this.currentNodeIdx].nodeType === NodeType.EOF) {
       return this.nodes[this.currentNodeIdx];
     }
     if (this.currentNodeIdx + 1 >= this.nodes.length) {
-      this.nodes.push(this.nextNode());
+      this.nodes.push(this.nextNodeV2());
     }
     this.currentNodeIdx++;
     return this.nodes[this.currentNodeIdx];
   }
 
-  private nextNode(): Node {
+  private nextNodeV2(): Node {
     // eslint-disable-next-line no-constant-condition
     while (!this.scanner.eof()) {
       const currentToken = this.scanNext();

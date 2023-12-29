@@ -1,0 +1,22 @@
+{
+  "name": "follow-prisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setfol1": "vitest setfol1 --test-timeout=3600000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Lingwei Peng <penglingwei@zju.edu.cn>",
+  "license": "MIT",
+  "devDependencies": {
+    "@prisma/client": "5.7.1",
+    "@types/charcodes": "^0.2.0",
+    "@types/node": "^20.8.2",
+    "charcodes": "^0.2.0",
+    "prisma": "^5.7.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
+  }
+}

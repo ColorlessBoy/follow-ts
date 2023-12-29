@@ -1,7 +1,7 @@
 import '4-not.fol'
 
 thm impbi(wff w0, wff w1) {
-  |- wi wi w0 w1 wi wi w1 w0 wb w0 w1
+  |- wi (wi w0 w1) wi (wi w1 w0) (wb w0 w1)
 } = {
   expi wi w0 w1 wi w1 w0 wb w0 w1
   ax-mp wi wn wi wi w0 w1 wn wi w1 w0 wb w0 w1

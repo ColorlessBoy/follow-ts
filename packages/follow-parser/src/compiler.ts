@@ -17,7 +17,7 @@ import { writeFileSync } from 'fs';
 
 interface CompileNode {
   absPath: string;
-  parse: Parser;
+  parser: Parser;
   parents?: Set<CompileNode>;
   children?: Set<CompileNode>;
   defNodeMap?: Map<string, DefNode>;
@@ -52,7 +52,7 @@ export default class Compiler {
     const parse = new Parser(input, parserOptions);
     const compileNode: CompileNode = {
       absPath: absPath,
-      parse: parse,
+      parser: parse,
     };
     parse.getNodes();
     this.documentMap.set(absPath, compileNode);
@@ -102,6 +102,136 @@ export default class Compiler {
     return compileNode;
   }
 
+  public buildOpTreeV2(defNode: DefNode, compileInfo: CompileNode) {
+    this.checkDefNode(compileInfo, defNode);
+    if (defNode.error === undefined) {
+      const name = defNode.name?.value;
+      if (name) {
+        if (compileInfo.defNodeMap) {
+          compileInfo.defNodeMap.set(name, defNode);
+        } else {
+          compileInfo.defNodeMap = new Map([[name, defNode]]);
+        }
+      }
+    }
+    const params = defNode.params;
+    if (params) {
+      for (const param of params) {
+        this.checkDefNode(compileInfo, param);
+      }
+    }
+    const body = defNode.body;
+    if (body) {
+      this.parseAssumeOrTargetTokens(compileInfo, defNode, body.target);
+      if (body.assumes) {
+        for (const assume of body.assumes) {
+          this.parseAssumeOrTargetTokens(compileInfo, defNode, assume);
+        }
+      }
+    }
+    this.parseProofTokens(compileInfo, defNode, defNode.proof);
+    this.generateSuggestions(defNode);
+  }
+
+  public *translateV2(input: string) {
+    const compileInfo: CompileNode = {
+      absPath: '',
+      parser: new Parser(input),
+    };
+    const typeSet: Set<string> = new Set();
+    const constMap: Map<string, Set<string>> = new Map();
+    for (const defNode of compileInfo.parser.defNodeIterator()) {
+      this.buildOpTreeV2(defNode, compileInfo);
+      if (defNode.nodeType === NodeType.TYPE_DEF) {
+        if (defNode.type?.value && !typeSet.has(defNode.type.value)) {
+          typeSet.add(defNode.type.value);
+          yield `type ${defNode.type.value}`;
+          const diffaxiom = this.generateDiffAxiomsV2(defNode);
+          yield diffaxiom;
+        }
+      } else if (defNode.nodeType === NodeType.CONST_DEF) {
+        if (defNode.type?.value && defNode.name?.value) {
+          const constTypeSet = constMap.get(defNode.type.value) || new Set();
+          constMap.set(defNode.type.value, constTypeSet);
+          if (constTypeSet.has(defNode.name.value)) {
+            constTypeSet.add(defNode.name.value);
+            yield `const ${defNode.type.value} ${defNode.name.value}`;
+            const diffaxiom = this.generateDiffAxiomsV2(defNode);
+            yield diffaxiom;
+          }
+        }
+      } else if (defNode.nodeType === NodeType.PROP_DEF) {
+        const argStr = defNode.params
+          ?.map((param) => {
+            return `${param.type?.value} ${param.name?.value}`;
+          })
+          .join(', ');
+        yield `prop ${defNode.type?.value} ${defNode.name?.value}(${argStr})`;
+        const diffaxiom = this.generateDiffAxiomsV2(defNode);
+        yield diffaxiom;
+      } else if (defNode.nodeType === NodeType.AXIOM_DEF || defNode.nodeType === NodeType.THEOREM_DEF) {
+        const contents: string[] = [];
+        const argStr =
+          defNode.params
+            ?.map((param) => {
+              return `${param.type?.value} ${param.name?.value}`;
+            })
+            .join(', ') || '';
+        if (defNode.nodeType === NodeType.AXIOM_DEF) {
+          const axiomStr = `axiom ${defNode.name?.value}(${argStr}) {`;
+          contents.push(axiomStr);
+        } else {
+          const thmStr = `thm ${defNode.name?.value}(${argStr}) {`;
+          contents.push(thmStr);
+        }
+        if (defNode.body && defNode.body.target?.opTrees) {
+          const targetOpTree = defNode.body.target.opTrees[0];
+          const targetStr = opNodeToStringFormat(targetOpTree, '  |- ');
+          contents.push(...targetStr);
+          defNode.body.assumes?.forEach((assume) => {
+            if (assume.opTrees && assume.opTrees.length > 0) {
+              const assumeStr = opNodeToStringFormat(assume.opTrees[0], '  -| ');
+              contents.push(...assumeStr);
+            }
+          });
+        }
+        if (defNode.nodeType === NodeType.THEOREM_DEF) {
+          contents.push('} = {');
+          const preSuggestions = defNode.preSuggestions?.map((e) => {
+            return `  ${e}`;
+          });
+          if (preSuggestions && preSuggestions.length > 0) {
+            contents.push(...preSuggestions);
+          }
+          const proofOpTrees = defNode.proof?.opTrees;
+          if (proofOpTrees) {
+            for (const opTree of proofOpTrees) {
+              const opTreeStr = opNodeToStringFormat(opTree, '  ');
+              contents.push(...opTreeStr);
+            }
+          }
+          if (defNode.suggestions) {
+            for (const op of defNode.suggestions) {
+              contents.push(`  ${op}`);
+            }
+          }
+        }
+        contents.push('}');
+        if (defNode.name?.value === 'a1i') {
+          contents.push('thm a1ii(wff w0, wff w1) {');
+          contents.push('  |- w0');
+          contents.push('  -| w0');
+          contents.push('  -| w1');
+          contents.push('} = {');
+          contents.push('  ax-mp(w0, w1)');
+          contents.push('  a1i(w1, w0)');
+          contents.push('}');
+        }
+        yield contents.join('\n');
+      }
+    }
+  }
+
   public translate(input: string, output: string) {
     const compileInfo = this.buildOpTree(input);
     if (compileInfo === undefined) {
@@ -111,9 +241,9 @@ export default class Compiler {
     const contents: Array<string> = [];
     const typeSet: Set<string> = new Set();
     const constMap: Map<string, Set<string>> = new Map();
-    const comments = compileInfo.parse.comments;
+    const comments = compileInfo.parser.comments;
     let commentIdx = 0;
-    for (const defNode of compileInfo.parse.defNodes) {
+    for (const defNode of compileInfo.parser.defNodes) {
       const defNodeStartLine = defNode.keyword?.range.start.line || 0;
       while (commentIdx < comments.length && comments[commentIdx].range.end.line <= defNodeStartLine) {
         const value = comments[commentIdx].value;
@@ -205,7 +335,7 @@ export default class Compiler {
       const s = `const ${key} ` + [...value].join(' ');
       constStr.push(s);
     });
-    const diffAxioms = this.generateDiffAxioms(compileInfo.parse.defNodes);
+    const diffAxioms = this.generateDiffAxioms(compileInfo.parser.defNodes);
     writeFileSync(output, [typeStr, ...constStr, ...propContents, ...diffAxioms, ...contents].join('\n'), {
       encoding: 'utf8',
       flag: 'w',
@@ -235,7 +365,7 @@ export default class Compiler {
       }
     }
 
-    const defNodes = compileInfo.parse.defNodes;
+    const defNodes = compileInfo.parser.defNodes;
     for (const defNode of defNodes) {
       this.checkDefNode(compileInfo, defNode);
       if (defNode.error === undefined) {
@@ -312,10 +442,16 @@ export default class Compiler {
           if (!(head === 'diffss' || head === 'diffsw' || head === 'diffsc')) {
             continue;
           }
-          const targetStr = node.body?.target?.tokens?.map((e) => e.value).join(' ');
-          const assumeStr = value.tokens?.map((e) => e.value).join(' ');
-          preSuggestions.push(`a1ii ${targetStr}`);
-          preSuggestions.push(`     ${assumeStr}`);
+          let targetStr = node.body?.target?.tokens?.map((e) => e.value).join(' ');
+          if (node.body?.target?.opTrees) {
+            targetStr = opNodeToString(node.body.target.opTrees[0]);
+          }
+          let assumeStr = value.tokens?.map((e) => e.value).join(' ');
+          if (value.opTrees) {
+            assumeStr = opNodeToString(value.opTrees[0]);
+          }
+          preSuggestions.push(`a1ii(${targetStr},`);
+          preSuggestions.push(`     ${assumeStr})`);
         }
       }
       if (preSuggestions.length > 0) {
@@ -394,6 +530,55 @@ export default class Compiler {
       }
     }
   }
+
+  private generateDiffAxiomsV2(defNode: DefNode): string {
+    const content: string[] = [];
+    if (defNode.nodeType === NodeType.TYPE_DEF && defNode.name?.value === 'setvar') {
+      content.push('axiom diffss.ex (setvar s0, setvar s1) { |- diffss(s0, s1) -| diffss(s1, s0) }');
+    }
+    if (defNode.nodeType === NodeType.CONST_DEF) {
+      if (defNode.type?.value && defNode.name?.value) {
+        if (defNode.type.value === 'setvar') {
+          content.push(`axiom diff.${defNode.name.value}.s (setvar s0) { |- diffss(${defNode.name.value}, s0) }`);
+          content.push(`axiom diff.${defNode.name.value}.c (class c0) { |- diffsc(${defNode.name.value}, c0) }`);
+          content.push(`axiom diff.${defNode.name.value}.w (wff w0) { |- diffsw(${defNode.name.value}, w0) }`);
+        } else {
+          content.push(
+            `axiom diff.${defNode.name.value}.s (setvar s0) { |- diffs${defNode.type.value[0]}(s0, ${defNode.name.value}) }`,
+          );
+        }
+      }
+    } else if (defNode.nodeType === NodeType.PROP_DEF) {
+      if (
+        defNode.type?.value &&
+        defNode.name?.value &&
+        defNode.name.value !== 'diffss' &&
+        defNode.name.value !== 'diffsw' &&
+        defNode.name.value !== 'diffsc'
+      ) {
+        const argDefStr = defNode.params
+          ?.map((param) => {
+            return `${param.type?.value} ${param.name?.value}`;
+          })
+          .join(', ');
+        content.push(`axiom diff.${defNode.name?.value} (setvar sBase, ${argDefStr}) {`);
+        const argStr = defNode.params
+          ?.map((param) => {
+            return param.name?.value;
+          })
+          .join(' ');
+        content.push(`  |- diffs${defNode.type.value[0]}(sBase, ${defNode.name.value}(${argStr}))`);
+        defNode.params?.forEach((param) => {
+          if (param.type?.value && param.name?.value) {
+            content.push(`  -| diffs${param.type?.value[0]}(sBase, ${param.name.value})`);
+          }
+        });
+        content.push('}');
+      }
+    }
+    return content.join('\n');
+  }
+
   private generateDiffAxioms(defNodes: Array<DefNode>): Array<string> {
     const diffAxioms: Array<string> = [];
     diffAxioms.push('axiom diffss.ex (setvar s0, setvar s1) { |- diffss s0 s1 -| diffss s1 s0 }');

@@ -8,14 +8,6 @@ thm nfcjust(setvar s0, setvar s1, setvar s2, class c0) {
   -| diffsc s0 c0
   -| diffsc s2 c0
 } = {
-  a1ii wb wal s0 wnf s1 wcel cv s0 c0 wal s2 wnf s1 wcel cv s2 c0
-       diffss s0 s1
-  a1ii wb wal s0 wnf s1 wcel cv s0 c0 wal s2 wnf s1 wcel cv s2 c0
-       diffss s1 s2
-  a1ii wb wal s0 wnf s1 wcel cv s0 c0 wal s2 wnf s1 wcel cv s2 c0
-       diffsc s0 c0
-  a1ii wb wal s0 wnf s1 wcel cv s0 c0 wal s2 wnf s1 wcel cv s2 c0
-       diffsc s2 c0
   cbvalvw s0 s2 wnf s1 wcel cv s0 c0 wnf s1 wcel cv s2 c0
   nfbidv s1 wceq cv s0 cv s2 wcel cv s0 c0 wcel cv s2 c0
   eleq1w s0 s2 c0

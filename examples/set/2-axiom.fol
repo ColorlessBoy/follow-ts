@@ -74,7 +74,7 @@ axiom ax-7(setvar s0, setvar s1, setvar s2) {
   |- wi wceq cv s0 cv s1 wi wceq cv s0 cv s2 wceq cv s1 cv s2
 }
 axiom df-sb(setvar s0, setvar s1, setvar s2, wff w0) {
-  |- wb wsb s0 s1 w0 wal s2 wi wceq cv s2 cv s1 wal s0 wi wceq cv s0 cv s2 w0
+  |- wb (wsb s0 s1 w0) wal s2 wi (wceq cv s2 cv s1) (wal s0 wi wceq cv s0 cv s2 w0)
   -| diffss s0 s2
   -| diffss s1 s2
   -| diffsw s2 w0
@@ -106,13 +106,13 @@ axiom df-eu(setvar s0, wff w0) {
   |- wb weu s0 w0 wa wex s0 w0 wmo s0 w0
 }
 axiom ax-ext(setvar s0, setvar s1, setvar s2) {
-  |- wi wal s0 wb wcel cv s0 cv s1 wcel cv s0 cv s2 wceq cv s1 cv s2
+  |- wi (wal s0 wb (wcel cv s0 cv s1) (wcel cv s0 cv s2)) (wceq cv s1 cv s2)
   -| diffss s0 s1
   -| diffss s0 s2
   -| diffss s1 s2
 }
 axiom df-clab(setvar s0, setvar s1, wff w0) {
-  |- wb wcel cv s0 cab s1 w0 wsb s1 s0 w0
+  |- wb((wcel(cv s0, cab s1 w0)), wsb(s1,s0,w0))
 }
 axiom df-cleq(setvar s0, setvar s1, setvar s2, class c0, class c1) {
   |- wb wceq c0 c1 wal s0 wb wcel cv s0 c0 wcel cv s0 c1

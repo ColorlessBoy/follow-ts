@@ -8,7 +8,8 @@
     "watch": "pnpm --stream -r run watch",
     "clean": "pnpm --stream -r run clean",
     "test": "pnpm --stream -r run test",
-    "tofollow": "pnpm --stream -r run tofollow",
+    "setfol0": "pnpm --stream -r run setfol0",
+    "setfol1": "pnpm --stream -r run setfol1",
     "lint": "eslint .",
     "format": "prettier --write .",
     "prepare": "husky install",
@@ -35,7 +36,8 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "3.0.3",
-    "vitest": "^0.34.4"
+    "prettier-plugin-prisma": "^5.0.0",
+    "vitest": "^0.34.6"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": [

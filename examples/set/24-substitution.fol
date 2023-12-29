@@ -288,6 +288,8 @@ thm sbequ(setvar s0, setvar s1, setvar s2, wff w0) {
           wsb s2 s1 w0
           wal hs0 wi wceq cv hs0 cv s0 wal s2 wi wceq cv s2 cv hs0 w0
           wal hs0 wi wceq cv hs0 cv s1 wal s2 wi wceq cv s2 cv hs0 w0
+  df-sb s2 s0 hs0 w0
+  df-sb s2 s1 hs0 w0
   albidv hs0
          wceq cv s0 cv s1
          wi wceq cv hs0 cv s0 wal s2 wi wceq cv s2 cv hs0 w0
@@ -297,8 +299,6 @@ thm sbequ(setvar s0, setvar s1, setvar s2, wff w0) {
          wal s2 wi wceq cv s2 cv hs0 w0
          wceq cv hs0 cv s1
   equequ2 s0 s1 hs0
-  df-sb s2 s0 hs0 w0
-  df-sb s2 s1 hs0 w0
   diff.hs0.w wceq cv s0 cv s1
   diffss.ex s2 hs0
   diff.hs0.s s2

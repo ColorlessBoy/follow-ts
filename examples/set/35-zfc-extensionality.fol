@@ -19,8 +19,6 @@ thm axext3(setvar s0, setvar s1, setvar s2) {
   -| diffss s0 s1
   -| diffss s0 s2
 } = {
-  a1ii wi wal s0 wb wcel cv s0 cv s1 wcel cv s0 cv s2 wceq cv s1 cv s2
-       diffss s0 s1
   exlimiiv hs0
            wi wal s0 wb wcel cv s0 cv s1 wcel cv s0 cv s2 wceq cv s1 cv s2
            wceq cv hs0 cv s1
@@ -55,8 +53,6 @@ thm axext3ALT(setvar s0, setvar s1, setvar s2) {
   -| diffss s0 s1
   -| diffss s0 s2
 } = {
-  a1ii wi wal s0 wb wcel cv s0 cv s1 wcel cv s0 cv s2 wceq cv s1 cv s2
-       diffss s0 s1
   chvarv hs0
          s1
          wi wal s0 wb wcel cv s0 cv s1 wcel cv s0 cv s2 wceq cv s1 cv s2
@@ -87,10 +83,6 @@ thm axext4(setvar s0, setvar s1, setvar s2) {
   -| diffss s0 s2
   -| diffss s1 s2
 } = {
-  a1ii wb wceq cv s0 cv s1 wal s2 wb wcel cv s2 cv s0 wcel cv s2 cv s1
-       diffss s0 s2
-  a1ii wb wceq cv s0 cv s1 wal s2 wb wcel cv s2 cv s0 wcel cv s2 cv s1
-       diffss s1 s2
   impbii wceq cv s0 cv s1 wal s2 wb wcel cv s2 cv s0 wcel cv s2 cv s1
   alrimiv s2 wceq cv s0 cv s1 wb wcel cv s2 cv s0 wcel cv s2 cv s1
   elequ2 s0 s1 s2
@@ -106,8 +98,6 @@ thm axextmo(setvar s0, setvar s1, wff w0) {
   -| wnf s0 w0
   -| diffss s0 s1
 } = {
-  a1ii wmo s0 wal s1 wb wcel cv s1 cv s0 w0
-       diffss s0 s1
   mpbir wmo s0 wal s1 wb wcel cv s1 cv s0 w0
         wal s0 wal hs0 wi wa wal s1 wb wcel cv s1 cv s0 w0 wal s1 wb wcel cv s1 cv hs0 w0 wceq cv s0 cv hs0
   gen2 s0

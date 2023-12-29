@@ -5,4 +5,5 @@ build
 .env
 .antlr/
 *.log
-set.fol0
+set.fol*
+dev.*
