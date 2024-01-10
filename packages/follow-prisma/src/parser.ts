@@ -9,6 +9,87 @@ export async function read(filePath: string, callback: (arg0: string) => void, h
   }
 }
 
+export class Absurd {
+  name: string;
+  params: string[];
+  stmt: string[];
+  paramNames: string[];
+  propStmt: string;
+  constructor(tokens: string[], propMap: Map<string, Prop>) {
+    this.name = tokens[1];
+    this.params = [];
+    this.stmt = [];
+    for (let i = 3; i < tokens.length; i++) {
+      if (tokens[i] === ')') {
+        if (i > 3) {
+          this.params = tokens
+            .slice(3, i)
+            .join(' ')
+            .split(/[(,)]/)
+            .map((e) => e.trim());
+        }
+        if (i + 3 < tokens.length - 1) {
+          this.stmt = tokens
+            .slice(i + 3, tokens.length - 1)
+            .map((e) => e.trim())
+            .filter((e) => e.length > 0);
+        }
+        break;
+      }
+    }
+    this.paramNames = this.params.map((e) => e.split(' ')[1]);
+    this.propStmt = this.stmtToPropTarget(this.stmt.join(' '), propMap);
+  }
+
+  public stmtToPropTarget(stmt: string, propMap: Map<string, Prop>): string {
+    const words = stmt.split(' ');
+    const preStacks: string[][] = [];
+    let stack: string[] = [];
+    for (const word of words) {
+      if (word === '(') {
+        preStacks.push(stack);
+        stack = [];
+      } else if (word === ')') {
+        const args: string[] = [];
+        let buffer: string[] = [];
+        for (const w of stack) {
+          if (w === ',') {
+            args.push(buffer.join(' '));
+            buffer = [];
+          } else {
+            buffer.push(propMap.get(w)?.stmt.join('') || w);
+          }
+        }
+        if (buffer.length > 0) {
+          args.push(buffer.join(' '));
+        }
+        const prestack = preStacks.pop();
+        if (!prestack) {
+          continue;
+        }
+        stack = prestack;
+        const propname = stack.pop();
+        if (!propname) {
+          continue;
+        }
+        const prop = propMap.get(propname);
+        if (!prop) {
+          continue;
+        }
+        stack.push(prop.replace(args));
+      } else {
+        stack.push(word);
+      }
+    }
+    return stack[0] || stmt;
+  }
+
+  toString(constPropMap?: Map<string, string>): string {
+    const stmt = constPropMap?.get(this.name) || this.stmt.join(' ').trim();
+    return `absurd ${this.name}(${this.params.join(', ')}) { |-| ${stmt} }`;
+  }
+}
+
 export class Prop {
   type: string;
   name: string;
@@ -228,16 +309,26 @@ export class ProofNode {
   public toJSON(): object {
     const jsonData = {
       name: this.name,
-      args: this.args,
-      target: this.target,
-      assumptions: this.assumptions,
-      cumulatedTarget: this.cumulatedTarget,
-      cumulatedAssumptions: this.cumulatedAssumptions,
-      propArgs: this.propArgs,
-      propTarget: this.propTarget,
-      propAssumptions: this.propAssumptions,
-      cumulatedPropTarget: this.cumulatedPropTarget,
-      cumulatedPropAssumptions: this.cumulatedPropAssumptions,
+      args: this.args.map((arg, idx) => {
+        return {
+          origin: arg,
+          pretty: this.propArgs[idx],
+        };
+      }),
+      target: { origin: this.target, pretty: this.propTarget },
+      assumptions: this.assumptions.map((ass, idx) => {
+        return {
+          origin: ass,
+          pretty: this.propAssumptions[idx],
+        };
+      }),
+      cumulatedTarget: { origin: this.cumulatedTarget, pretty: this.cumulatedPropTarget },
+      cumulatedAssumptions: this.cumulatedAssumptions.map((ass, idx) => {
+        return {
+          origin: ass,
+          pretty: this.cumulatedPropAssumptions[idx],
+        };
+      }),
     };
     return jsonData;
   }
@@ -696,6 +787,7 @@ export class Parser {
   public typeSet: Set<string>;
   public constMap: Map<string, string>;
   public propMap: Map<string, Prop>;
+  public absurdMap: Map<string, Absurd>;
   public axiomTheoremMap: Map<string, AxiomTheorem>;
   public blockOrder: string[];
   public startParseProofBIdx: number;
@@ -708,6 +800,7 @@ export class Parser {
     this.typeSet = new Set();
     this.constMap = new Map();
     this.propMap = new Map();
+    this.absurdMap = new Map();
     this.axiomTheoremMap = new Map();
     this.blockOrder = [];
     this.startParseProofBIdx = startParseProofIdx;
@@ -778,6 +871,12 @@ export class Parser {
           enableDiffFix,
         );
         this.parseBlock(
+          `absurd absurd.diffss ( setvar s0 ) { |-| diffss ( s0 , s0 ) }`.split(' '),
+          enableBlockStr,
+          enableCleanProofNodes,
+          enableDiffFix,
+        );
+        this.parseBlock(
           `prop wff diffsc ( setvar s0 , class c0 ) { d ( s0 , c0 ) }`.split(' '),
           enableBlockStr,
           enableCleanProofNodes,
@@ -796,6 +895,12 @@ export class Parser {
           enableDiffFix,
         );
         this.parseBlock(
+          `absurd absurd.diffcc ( class c0 ) { |-| diffcc ( c0 , c0 ) }`.split(' '),
+          enableBlockStr,
+          enableCleanProofNodes,
+          enableDiffFix,
+        );
+        this.parseBlock(
           `prop wff diffcw ( class c0 , wff w0 ) { d ( c0 , w0 ) }`.split(' '),
           enableBlockStr,
           enableCleanProofNodes,
@@ -803,6 +908,12 @@ export class Parser {
         );
         this.parseBlock(
           `prop wff diffww ( wff w0 , wff w1 ) { d ( w0 , w1 ) }`.split(' '),
+          enableBlockStr,
+          enableCleanProofNodes,
+          enableDiffFix,
+        );
+        this.parseBlock(
+          `absurd absurd.diffww ( wff w0 ) { |-| diffww ( w0 , w0 ) }`.split(' '),
           enableBlockStr,
           enableCleanProofNodes,
           enableDiffFix,
@@ -851,6 +962,14 @@ export class Parser {
         this.addBlockStrBuffer(`const ${type} ${value}`, enableBlockStr);
       }
       if (enableDiffFix) {
+        if (value === 'wtru') {
+          this.parseBlock(
+            `absurd absurd.wtru ( ) { |-| wn ( wtru ) }`.split(' '),
+            enableBlockStr,
+            enableCleanProofNodes,
+            enableDiffFix,
+          );
+        }
         if (type === 'setvar') {
           this.parseBlock(
             `axiom diff.${value}.s ( setvar s0 ) { |- diffss ( ${value} , s0 ) }`.split(' '),
@@ -959,6 +1078,11 @@ export class Parser {
           this.parseBlock(axiomBodys.join(' ').split(' '), enableBlockStr, enableCleanProofNodes, enableDiffFix);
         }
       }
+    } else if (tokens[0] === 'absurd') {
+      const absurd = new Absurd(tokens, this.propMap);
+      this.absurdMap.set(absurd.name, absurd);
+      this.blockOrder.push(absurd.name);
+      this.addBlockStrBuffer(absurd.toString(this.constPropMap), enableBlockStr);
     } else if (tokens[0] === 'axiom') {
       const axiom = new AxiomTheorem(
         tokens,
@@ -993,7 +1117,14 @@ export class Parser {
   }
 
   private isKeyword(token: string) {
-    return token === 'type' || token === 'const' || token === 'prop' || token === 'axiom' || token === 'thm';
+    return (
+      token === 'type' ||
+      token === 'const' ||
+      token === 'prop' ||
+      token === 'axiom' ||
+      token === 'thm' ||
+      token === 'absurd'
+    );
   }
 }
 

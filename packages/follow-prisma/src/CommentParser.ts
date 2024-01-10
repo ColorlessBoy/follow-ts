@@ -74,12 +74,14 @@ class CommentBlock {
 export class MarkdownBlock {
   type: number;
   title: string;
+  content: string;
   theorems: string[];
   children: MarkdownBlock[];
 
   constructor(commentBlock?: CommentBlock, defaultType: number = -1, defaultTitle: string = '') {
     this.type = commentBlock?.type || defaultType;
     this.title = commentBlock?.title || defaultTitle;
+    this.content = commentBlock?.content || '';
     this.theorems = [];
     this.children = [];
   }

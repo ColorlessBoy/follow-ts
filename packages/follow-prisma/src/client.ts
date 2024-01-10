@@ -1,7 +1,13 @@
-import { PrismaClient } from '@prisma/client';
-import { AxiomTheorem, Parser, Prop, Scanner, read } from './parser';
+import { PrismaClient, setmm_followblock } from '@prisma/client';
+import { Absurd, AxiomTheorem, Parser, Prop, Scanner, read } from './parser';
 import { randomUUID } from 'node:crypto';
 import { CommentParser, MarkdownBlock } from './CommentParser';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+
+type Content = {
+  title: string;
+  children: Content[];
+};
 
 export class FollowPrismaClient {
   private client: PrismaClient;
@@ -58,6 +64,109 @@ export class FollowPrismaClient {
     return [...propStrList, ...constStrList].join('\n');
   }
 
+  private formatName(str: string) {
+    return str.toLowerCase().replace(/[. /-]+/g, '-');
+  }
+
+  private followBlockToJson(block: setmm_followblock) {
+    const assumePair: {
+      origin: string;
+      pretty: string;
+    }[] = [];
+    if (block.assumptions.length > 0) {
+      const arr1 = block.assumptions.split(';');
+      const arr2 = block.propAssumptions.split(';');
+      arr1.forEach((a, idx) => {
+        assumePair.push({
+          origin: a,
+          pretty: arr2[idx],
+        });
+      });
+    }
+    const obj = {
+      bIdx: block.bIdx,
+      bType: block.bType,
+      type: block.type,
+      name: block.name,
+      params:
+        block.params.length > 0
+          ? block.params.split(',').map((e) => {
+              const paramPair = e.split(' ');
+              return {
+                type: paramPair[0],
+                name: paramPair[1],
+              };
+            })
+          : [],
+      target: {
+        origin: block.target,
+        pretty: block.propTarget,
+      },
+      assumptions: assumePair,
+      proofStmts: block.proofStmts ? JSON.parse(block.proofStmts) : null,
+      parent: block.parent.length > 0 ? block.parent.split(',') : [],
+      children: block.children.length > 0 ? block.children.split(',') : [],
+      comment: block.comment,
+    };
+    return obj;
+  }
+
+  public generateMdFiles(
+    book: MarkdownBlock,
+    baseDir: string,
+    outputDir: string,
+    index: number = 1,
+    blockPathMap: Map<string, string>,
+  ): Content {
+    const bookName = `${index}-` + this.formatName(book.title);
+    const bookDir = outputDir + bookName + '/';
+    const absBookDir = baseDir + bookDir;
+    if (!existsSync(absBookDir)) {
+      mkdirSync(absBookDir);
+    }
+
+    const absFilePath = absBookDir + `${bookName}.md`;
+    const fileContent = [
+      '# ' + book.title,
+      book.content,
+      ...book.theorems.map((e) => `## ${e} \n <FollowBlock name='${e}' \\>`),
+    ];
+    writeFileSync(absFilePath, fileContent.join('\n'));
+
+    if (book.theorems.length > 0) {
+      const absTheoremDir = absBookDir + 'theorems/';
+      if (!existsSync(absTheoremDir)) {
+        mkdirSync(absTheoremDir);
+      }
+      book.theorems.forEach((name) => {
+        blockPathMap.set(name, bookDir);
+        this.client.setmm_followblock
+          .findFirst({
+            where: {
+              name: name,
+            },
+          })
+          .then((block) => {
+            if (block) {
+              const absBlockFileName = (absTheoremDir + block.name + '.json') as string;
+              writeFileSync(absBlockFileName, JSON.stringify(this.followBlockToJson(block)));
+            }
+          });
+      });
+    }
+
+    const content: Content = {
+      title: bookName,
+      children: [],
+    };
+
+    book.children.forEach((subBook, idx) => {
+      const nextContent = this.generateMdFiles(subBook, baseDir, bookDir, idx + 1, blockPathMap);
+      content.children.push(nextContent);
+    });
+    return content;
+  }
+
   public async toMarkdown(input: string, bookName: string): Promise<MarkdownBlock> {
     try {
       await this.client.$connect();
@@ -70,7 +179,7 @@ export class FollowPrismaClient {
     commentParser.parseInput(input);
     const markdownBlockOrigin = commentParser.toMarkdown(bookName);
     const stack: MarkdownBlock[] = [markdownBlockOrigin];
-    let lastBIdx: number = 0;
+    let lastBIdx: number = -1;
     while (stack.length > 0) {
       const markdownBlock = stack.pop();
       if (markdownBlock && markdownBlock.theorems.length > 0) {
@@ -175,6 +284,11 @@ export class FollowPrismaClient {
           if (prop) {
             await this.addProp(idx, prop);
           }
+        } else if (parser.absurdMap.has(name)) {
+          const absurd = parser.absurdMap.get(name);
+          if (absurd) {
+            await this.addAbsurd(idx, absurd);
+          }
         } else if (parser.axiomTheoremMap.has(name)) {
           const block = parser.axiomTheoremMap.get(name);
           if (block) {
@@ -245,6 +359,27 @@ export class FollowPrismaClient {
       });
       console.log(info);
     }
+  }
+
+  public async addAbsurd(blockIdx: number, absurd: Absurd) {
+    await this.client.setmm_followblock.create({
+      data: {
+        id: randomUUID().replace(/-/g, ''),
+        bIdx: blockIdx,
+        bType: 'absurd',
+        type: '',
+        name: absurd.name,
+        params: absurd.params.join(','),
+        target: absurd.stmt.join(' '),
+        assumptions: '',
+        propTarget: absurd.propStmt,
+        propAssumptions: '',
+        proofStmts: '',
+        parent: '',
+        children: '',
+        comment: '',
+      },
+    });
   }
 
   public async addProp(blockIdx: number, prop: Prop) {
