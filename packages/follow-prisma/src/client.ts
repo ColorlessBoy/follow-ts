@@ -125,13 +125,13 @@ export class FollowPrismaClient {
       mkdirSync(absBookDir);
     }
 
-    const absFilePath = absBookDir + `${bookName}.md`;
-    const fileContent = [
-      '# ' + book.title,
-      book.content,
-      ...book.theorems.map((e) => `## ${e} \n <FollowBlock name='${e}' \\>`),
-    ];
-    writeFileSync(absFilePath, fileContent.join('\n'));
+    const absFilePath = absBookDir + `index.json`;
+    const fileContent = {
+      title: book.title,
+      content: book.content,
+      theorems: book.theorems,
+    };
+    writeFileSync(absFilePath, JSON.stringify(fileContent));
 
     if (book.theorems.length > 0) {
       const absTheoremDir = absBookDir + 'theorems/';
