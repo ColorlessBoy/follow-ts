@@ -4,11 +4,19 @@ import { randomUUID } from 'node:crypto';
 import { CommentParser, MarkdownBlock } from './CommentParser';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 
-type Content = {
-  title: string;
-  children: Content[];
+type StmtBlock = {
+  origin: string;
+  pretty: string;
 };
 
+type JsonProofNodeItem = {
+  name: string;
+  args: StmtBlock[];
+  target: StmtBlock;
+  assumptions: StmtBlock[];
+  cumulatedTarget: StmtBlock;
+  cumulatedAssumptions: StmtBlock[];
+};
 export class FollowPrismaClient {
   private client: PrismaClient;
 
@@ -65,106 +73,276 @@ export class FollowPrismaClient {
   }
 
   private formatName(str: string) {
-    return str.toLowerCase().replace(/[. /-]+/g, '-');
+    return str
+      .toLowerCase()
+      .replace(/[:. /-]+/g, '-')
+      .replace(/["',()]+/g, '');
   }
 
-  private followBlockToJson(block: setmm_followblock) {
-    const assumePair: {
-      origin: string;
-      pretty: string;
-    }[] = [];
-    if (block.assumptions.length > 0) {
-      const arr1 = block.assumptions.split(';');
-      const arr2 = block.propAssumptions.split(';');
-      arr1.forEach((a, idx) => {
-        assumePair.push({
-          origin: a,
-          pretty: arr2[idx],
+  private followBlockToMarkdown(block: setmm_followblock): string {
+    if (block.bType === 'type') {
+      return ['```follow', `type ${block.name}`, '```'].join('\n');
+    } else if (block.bType === 'const') {
+      const content = [`const ${block.type} ${block.name}`];
+      if (block.target) {
+        const stmt = ' { ' + block.target.replace(/ /g, '') + ' }';
+        content.push(stmt);
+      }
+      return ['```follow', content.join(''), '```'].join('\n');
+    } else if (block.bType === 'prop') {
+      const params = block.params.replace(/,/g, ', ');
+      const content = [`prop ${block.type} ${block.name}(${params})`];
+      if (block.target) {
+        const stmt = ' { ' + block.target.replace(/\[ /g, '[').replace(/ \]/g, ']') + ' }';
+        content.push(stmt);
+      }
+      return ['```follow', content.join(''), '```'].join('\n');
+    } else if (block.bType === 'absurd') {
+      const params = block.params.replace(/,/g, ', ');
+      const head = [`absurd ${block.type} ${block.name}(${params})`];
+      const targetOrigin = '|-| ' + block.target.replace(/ /g, '').replace(/,/g, ', ');
+      const targetPretty = 'ʜ ' + block.propTarget.replace(/\[ /g, '[').replace(/ \]/g, ']');
+      const content = [
+        '::: code-tabs#follow',
+        '@tab:active pretty',
+        '```follow',
+        head + ' { ' + targetPretty + ' }',
+        '```',
+        '@tab:active origin',
+        '```follow',
+        head + ' { ' + targetOrigin + ' }',
+        '```',
+        ':::',
+      ];
+      return content.join('\n');
+    } else if (block.bType === 'axiom') {
+      const params = block.params.replace(/,/g, ', ');
+      const head = `axiom ${block.name}(${params})`;
+      const bodyOrigin = ['  |- ' + block.target.replace(/ /g, '').replace(/,/g, ', ')];
+      const bodyPretty = ['  ⊢ ' + block.propTarget.replace(/\[ /g, '[').replace(/ \]/g, ']')];
+      if (block.assumptions.length > 0) {
+        const assumeOrigin = block.assumptions.split(';').map((a) => {
+          return '  -| ' + a.replace(/ /g, '').replace(/,/g, ', ');
         });
-      });
+        bodyOrigin.push(...assumeOrigin);
+        const assumePretty = block.propAssumptions.split(';').map((a) => {
+          return '  ⊣ ' + a.replace(/\[ /g, '[').replace(/ \]/g, ']');
+        });
+        bodyPretty.push(...assumePretty);
+      }
+      const content = [
+        '::: code-tabs#follow',
+        '@tab:active pretty',
+        '```follow',
+        head + ' {',
+        ...bodyPretty,
+        '}',
+        '```',
+        '@tab origin',
+        '```follow',
+        head + ' {',
+        ...bodyOrigin,
+        '}',
+        ':::',
+      ];
+      return content.join('\n');
+    } else if (block.bType === 'thm') {
+      const params = block.params.replace(/,/g, ', ');
+      const head = `thm ${block.name}(${params})`;
+      const bodyOrigin = ['  |- ' + block.target.replace(/ /g, '').replace(/,/g, ', ')];
+      const bodyPretty = ['  ⊢ ' + block.propTarget.replace(/\[ /g, '[').replace(/ \]/g, ']')];
+      if (block.assumptions.length > 0) {
+        const assumeOrigin = block.assumptions.split(';').map((a) => {
+          return '  -| ' + a.replace(/ /g, '').replace(/,/g, ', ');
+        });
+        bodyOrigin.push(...assumeOrigin);
+        const assumePretty = block.propAssumptions.split(';').map((a) => {
+          return '  ⊣ ' + a.replace(/\[ /g, '[').replace(/ \]/g, ']');
+        });
+        bodyPretty.push(...assumePretty);
+      }
+      const proofStmts: JsonProofNodeItem[] = JSON.parse(block.proofStmts);
+      const proofOrigin = [];
+      const proofPretty = [];
+      for (const block of proofStmts) {
+        proofOrigin.push(
+          '  ' +
+            block.name +
+            '(' +
+            block.args.map((a) => a.origin.replace(/ /g, '').replace(/,/g, ', ')).join(', ') +
+            ')',
+        );
+        proofPretty.push(
+          '  ' +
+            block.name +
+            '(' +
+            block.args.map((a) => a.pretty.replace(/\[ /g, '[').replace(/ \]/g, ']')).join(', ') +
+            ')',
+        );
+      }
+      const originDetails: string[] = [];
+      const prettyDetails: string[] = [];
+      for (const block of proofStmts) {
+        const originStmt =
+          block.name + '(' + block.args.map((a) => a.origin.replace(/ /g, '').replace(/,/g, ', ')).join(', ') + ')';
+        const originTarget = '|- ' + block.target.origin.replace(/ /g, '').replace(/,/g, ', ');
+        const originAssume = block.assumptions.map((a) => {
+          return '-| ' + a.origin.replace(/ /g, '').replace(/,/g, ', ');
+        });
+        const originCTarget = '|- ' + block.cumulatedTarget.origin.replace(/ /g, '').replace(/,/g, ', ');
+        const originCAssume = block.assumptions.map((a) => {
+          return '-| ' + a.origin.replace(/ /g, '').replace(/,/g, ', ');
+        });
+        const originBlock = [
+          `<details><summary>${originStmt}</summary>`,
+          '<table><thead><tr>Current State</tr><tr>Cumulated State</tr></thead><tbody>',
+          "<tr><pre class='language-follow'><code>",
+          [originTarget, ...originAssume].join('\n'),
+          '</code></pre></tr>',
+          "<tr><pre class='language-follow'><code>",
+          [originCTarget, ...originCAssume].join('\n'),
+          '</code></pre></tr>',
+          '</tbody></table>',
+          '</details>',
+        ].join('\n');
+
+        const prettyStmt =
+          block.name + '(' + block.args.map((a) => a.pretty.replace(/\[ /g, '[').replace(/ \]/g, ']')).join(', ') + ')';
+        const prettyTarget = '⊢ ' + block.target.pretty.replace(/ /g, '').replace(/,/g, ', ');
+        const prettyAssume = block.assumptions.map((a) => {
+          return '⊣ ' + a.pretty.replace(/\[ /g, '[').replace(/ \]/g, ']');
+        });
+        const prettyCTarget = '⊢ ' + block.cumulatedTarget.pretty.replace(/\[ /g, '[').replace(/ \]/g, ']');
+        const prettyCAssume = block.assumptions.map((a) => {
+          return '⊣ ' + a.pretty.replace(/\[ /g, '[').replace(/ \]/g, ']');
+        });
+        const prettyBlock = [
+          `<details><summary>${prettyStmt}</summary>`,
+          '<table><thead><tr>Current State</tr><tr>Cumulated State</tr></thead><tbody>',
+          "<tr><pre class='language-follow'><code>",
+          [prettyTarget, ...prettyAssume].join('\n'),
+          '</code></pre></tr>',
+          "<tr><pre class='language-follow'><code>",
+          [prettyCTarget, ...prettyCAssume].join('\n'),
+          '</code></pre></tr>',
+          '</tbody></table>',
+          '</details>',
+        ].join('\n');
+        originDetails.push(originBlock);
+        prettyDetails.push(prettyBlock);
+      }
+      const content = [
+        '::: code-tabs#follow',
+        '@tab:active pretty',
+        '```follow',
+        head + ' {',
+        ...bodyPretty,
+        '} = {',
+        ...proofPretty,
+        '}',
+        '```',
+        '@tab origin',
+        '```follow',
+        head + ' {',
+        ...bodyOrigin,
+        '} = {',
+        ...proofOrigin,
+        '}',
+        ':::',
+      ];
+
+      /*
+        '::: tabs#follow',
+        '@tab:active pretty',
+        prettyDetails.join('\n'),
+        '@tab origin',
+        originDetails.join('\n'),
+        ':::',
+      */
+      return content.join('\n');
     }
-    const obj = {
-      bIdx: block.bIdx,
-      bType: block.bType,
-      type: block.type,
-      name: block.name,
-      params:
-        block.params.length > 0
-          ? block.params.split(',').map((e) => {
-              const paramPair = e.split(' ');
-              return {
-                type: paramPair[0],
-                name: paramPair[1],
-              };
-            })
-          : [],
-      target: {
-        origin: block.target,
-        pretty: block.propTarget,
-      },
-      assumptions: assumePair,
-      proofStmts: block.proofStmts ? JSON.parse(block.proofStmts) : null,
-      parent: block.parent.length > 0 ? block.parent.split(',') : [],
-      children: block.children.length > 0 ? block.children.split(',') : [],
-      comment: block.comment,
-    };
-    return obj;
+    return '';
   }
 
-  public generateMdFiles(
+  public async generateMdFiles(
     book: MarkdownBlock,
     baseDir: string,
     outputDir: string,
-    index: number = 1,
+    index: number = 0,
     blockPathMap: Map<string, string>,
-  ): Content {
-    const bookName = `${index}-` + this.formatName(book.title);
+  ) {
+    const head = index > 0 ? `${index}-` : '';
+    const bookName = head + this.formatName(book.title);
     const bookDir = outputDir + bookName + '/';
     const absBookDir = baseDir + bookDir;
+    const absFilePath = absBookDir + `README.md`;
+    const filePath = outputDir + bookName;
+
     if (!existsSync(absBookDir)) {
       mkdirSync(absBookDir);
     }
 
-    const absFilePath = absBookDir + `index.json`;
-    const fileContent = {
-      title: book.title,
-      content: book.content,
-      theorems: book.theorems,
-    };
-    writeFileSync(absFilePath, JSON.stringify(fileContent));
+    const fileContent = [
+      '---',
+      'title: "' + book.title.replace(/"/g, '\\"') + '"',
+      'dir.link: true',
+      'dir.index: true',
+      `dir.order: ${index === 0 ? 1 : index}`,
+      '---',
+      '',
+      book.content,
+      '',
+    ];
 
     if (book.theorems.length > 0) {
-      const absTheoremDir = absBookDir + 'theorems/';
-      if (!existsSync(absTheoremDir)) {
-        mkdirSync(absTheoremDir);
-      }
-      book.theorems.forEach((name) => {
-        blockPathMap.set(name, bookDir);
-        this.client.setmm_followblock
-          .findFirst({
-            where: {
-              name: name,
-            },
-          })
-          .then((block) => {
-            if (block) {
-              const absBlockFileName = (absTheoremDir + block.name + '.json') as string;
-              writeFileSync(absBlockFileName, JSON.stringify(this.followBlockToJson(block)));
+      for (const name of book.theorems) {
+        blockPathMap.set(name, filePath);
+        try {
+          const block = await this.client.setmm_followblock.findFirst({ where: { name: name } });
+          if (block) {
+            fileContent.push(`## ${name}`, block.comment + '  ');
+            fileContent.push(this.followBlockToMarkdown(block));
+            fileContent.push('');
+            /*
+            if (block.parent) {
+              const links: string[] = [];
+              block.parent.split(',').map((p) => {
+                const parentLink = blockPathMap.get(p)?.replace(/["',()]+/g, '');
+                if (parentLink) {
+                  links.push(`[${p}](${parentLink}.md#${p})`);
+                }
+              });
+              fileContent.push('::: details Parent Blocks', links.join('\n'), ':::');
             }
-          });
-      });
+            */
+            if (block.children) {
+              /*
+              const links: string[] = [];
+              block.children.split(',').map((c) => {
+                const childLink = blockPathMap.get(c)?.replace(/["',()]+/g, '');
+                if (childLink) {
+                  links.push(`[${c}](${childLink}.md#${c})`);
+                }
+              });
+              fileContent.push('::: details Child Blocks', links.join('\n'), ':::');
+              */
+              fileContent.push('::: details Child Blocks', block.children, ':::');
+            }
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
     }
-
-    const content: Content = {
-      title: bookName,
-      children: [],
-    };
-
-    book.children.forEach((subBook, idx) => {
-      const nextContent = this.generateMdFiles(subBook, baseDir, bookDir, idx + 1, blockPathMap);
-      content.children.push(nextContent);
-    });
-    return content;
+    writeFileSync(absFilePath, fileContent.join('\n'));
+    for (let idx = 0; idx < book.children.length; idx++) {
+      const subBook = book.children[idx];
+      if (index === 0) {
+        await this.generateMdFiles(subBook, baseDir + bookDir, '', idx + 1, blockPathMap);
+      } else {
+        await this.generateMdFiles(subBook, baseDir, bookDir, idx + 1, blockPathMap);
+      }
+    }
   }
 
   public async toMarkdown(input: string, bookName: string): Promise<MarkdownBlock> {

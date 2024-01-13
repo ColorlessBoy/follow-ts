@@ -23,16 +23,12 @@ test('#3 toMarkdown', async () => {
   const input = readFileSync(inputFile, 'utf-8');
   const client = new FollowPrismaClient();
   const markdownBlock = await client.toMarkdown(input, 'set.mm');
+  // const jsonMap = JSON.parse(readFileSync('./examples/block-path-map.json', 'utf-8'));
+  // const blockPathMap: Map<string, string> = new Map(Object.entries(jsonMap));
   const blockPathMap: Map<string, string> = new Map();
-  const content = client.generateMdFiles(markdownBlock, './examples/', '', 1, blockPathMap);
-
-  const title = content.title;
-  const contentPath = './examples/' + title + '/' + 'content.json';
-  writeFileSync(contentPath, JSON.stringify(content));
-
-  const blockMapPath = './examples/' + title + '/' + 'block-path-map.json';
+  await client.generateMdFiles(markdownBlock, './examples/', '', 0, blockPathMap);
+  const blockMapPath = './examples/set-mm/block-path-map.json';
   writeFileSync(blockMapPath, JSON.stringify(Object.fromEntries(blockPathMap)));
-
   expect(markdownBlock !== undefined).toBe(true);
 });
 

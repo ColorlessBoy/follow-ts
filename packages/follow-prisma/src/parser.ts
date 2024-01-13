@@ -124,7 +124,7 @@ export class Prop {
 
   public replace(args: string[]) {
     if (this.stmt.length === 0) {
-      if (args.length === 0) {
+      if (args.length > 0) {
         return `${this.name}(${args.join(', ')})`;
       } else {
         return this.name;
