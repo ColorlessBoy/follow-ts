@@ -117,6 +117,7 @@ export class FollowPrismaClient {
 
   private formatPretty(str: string) {
     return str
+      .replace(/ ,/g, ',')
       .replace(/ *\[ */g, '[')
       .replace(/ *\] */g, ']')
       .replace(/ *\( */g, '(')
@@ -145,7 +146,7 @@ export class FollowPrismaClient {
         type: block.type,
         name: block.name,
         params: '',
-        body: [block.target.replace(/ /g, '')],
+        body: [block.target.replace(/ /g, '')].filter((e) => e.length > 0),
         bodyPretty: [],
         proof: [],
         proofPretty: [],
@@ -160,7 +161,7 @@ export class FollowPrismaClient {
         type: block.type,
         name: block.name,
         params: block.params.replace(/,/g, ', '),
-        body: [this.formatPretty(block.target)],
+        body: [this.formatPretty(block.target)].filter((e) => e.length > 0),
         bodyPretty: [],
         proof: [],
         proofPretty: [],
@@ -186,15 +187,21 @@ export class FollowPrismaClient {
     } else if (block.bType === 'axiom') {
       const bodyOrigin = [
         '|- ' + this.formatOrigin(block.target),
-        ...block.assumptions.split(';').map((stmt) => {
-          return '-| ' + this.formatOrigin(stmt);
-        }),
+        ...block.assumptions
+          .split(';')
+          .filter((e) => e.length > 0)
+          .map((stmt) => {
+            return '-| ' + this.formatOrigin(stmt);
+          }),
       ];
       const bodyPretty = [
         '⊢ ' + this.formatPretty(block.target),
-        ...block.propAssumptions.split(';').map((stmt) => {
-          return '⊣ ' + this.formatPretty(stmt);
-        }),
+        ...block.propAssumptions
+          .split(';')
+          .filter((e) => e.length > 0)
+          .map((stmt) => {
+            return '⊣ ' + this.formatPretty(stmt);
+          }),
       ];
       return {
         bIdx: block.bIdx,
@@ -207,21 +214,27 @@ export class FollowPrismaClient {
         proof: [],
         proofPretty: [],
         comment: block.comment,
-        parent: block.parent.split(','),
-        children: block.children.split(','),
+        parent: [],
+        children: block.name.includes('diff') ? [] : block.children.split(','),
       };
     } else if (block.bType === 'thm') {
       const bodyOrigin = [
         '|- ' + this.formatOrigin(block.target),
-        ...block.assumptions.split(';').map((stmt) => {
-          return '-| ' + this.formatOrigin(stmt);
-        }),
+        ...block.assumptions
+          .split(';')
+          .filter((e) => e.length > 0)
+          .map((stmt) => {
+            return '-| ' + this.formatOrigin(stmt);
+          }),
       ];
       const bodyPretty = [
         '⊢ ' + this.formatPretty(block.target),
-        ...block.propAssumptions.split(';').map((stmt) => {
-          return '⊣ ' + this.formatPretty(stmt);
-        }),
+        ...block.propAssumptions
+          .split(';')
+          .filter((e) => e.length > 0)
+          .map((stmt) => {
+            return '⊣ ' + this.formatPretty(stmt);
+          }),
       ];
 
       const proofStmts: JsonProofNodeItem[] = JSON.parse(block.proofStmts);
@@ -338,49 +351,48 @@ export class FollowPrismaClient {
     }
   }
 
-  public generateTitleList(book: MarkdownBlock) {
-    const fileIndex: string[] = [book.title];
+  public generateFileIndex(book: MarkdownBlock, currentIndex: { value: number } = { value: 0 }) {
+    book.index = currentIndex.value;
+    currentIndex.value += 1;
     for (const child of book.children) {
-      const ret = this.generateTitleList(child);
-      fileIndex.push(...ret);
+      this.generateFileIndex(child, currentIndex);
     }
-    return fileIndex;
   }
 
-  public generateBlockIndex(book: MarkdownBlock, titleIndexMap: Map<string, number>) {
-    const blockTitleIndex: {
-      blockName: string;
-      titleIdx: number;
+  public generateBlockFileIndexMap(book: MarkdownBlock) {
+    const blockFileIndex: {
+      name: string;
+      index: number;
     }[] = [];
 
-    const currentTitleIndex = titleIndexMap.get(book.title) || 0;
+    const currentTitleIndex = book.index || 0;
     for (const name of book.theorems) {
-      blockTitleIndex.push({ blockName: name, titleIdx: currentTitleIndex });
+      blockFileIndex.push({ name: name, index: currentTitleIndex });
     }
 
     for (const child of book.children) {
-      const rst = this.generateBlockIndex(child, titleIndexMap);
-      blockTitleIndex.push(...rst);
+      const rst = this.generateBlockFileIndexMap(child);
+      blockFileIndex.push(...rst);
     }
-    return blockTitleIndex;
+    return blockFileIndex;
   }
 
-  public async generateContentJson(book: MarkdownBlock, titleIndexMap: Map<string, number>) {
+  public async generateContentJson(book: MarkdownBlock) {
     const children = [];
     for (const child of book.children) {
-      const childContent: ContentJsonType = await this.generateContentJson(child, titleIndexMap);
+      const childContent: ContentJsonType = await this.generateContentJson(child);
       children.push(childContent);
     }
     return {
-      index: titleIndexMap.get(book.title) || 0,
+      index: book.index || 0,
       title: book.title,
-      hasContent: book.content.length > 0,
+      hasContent: book.content.length > 0 || book.theorems.length > 0,
       children: children,
     };
   }
 
-  public async generateJsonFiles(book: MarkdownBlock, outputDir: string, titleIndexMap: Map<string, number>) {
-    const bookIndex = titleIndexMap.get(book.title) || 0;
+  public async generateJsonFiles(book: MarkdownBlock, outputDir: string) {
+    const bookIndex = book.index || 0;
     const filePath = outputDir + 'files/' + `${bookIndex}` + '.json';
     if (!existsSync(outputDir + 'files/')) {
       mkdirSync(outputDir + 'files/');
@@ -412,7 +424,7 @@ export class FollowPrismaClient {
     writeFileSync(filePath, JSON.stringify(bookJson));
     for (let idx = 0; idx < book.children.length; idx++) {
       const subBook = book.children[idx];
-      await this.generateJsonFiles(subBook, outputDir, titleIndexMap);
+      await this.generateJsonFiles(subBook, outputDir);
     }
   }
 

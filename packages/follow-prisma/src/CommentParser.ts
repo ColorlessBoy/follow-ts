@@ -77,6 +77,7 @@ export class MarkdownBlock {
   content: string;
   theorems: string[];
   children: MarkdownBlock[];
+  index?: number;
 
   constructor(commentBlock?: CommentBlock, defaultType: number = -1, defaultTitle: string = '') {
     this.type = commentBlock?.type || defaultType;
