@@ -4,6 +4,36 @@ import { randomUUID } from 'node:crypto';
 import { CommentParser, MarkdownBlock } from './CommentParser';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 
+type ContentJsonType = {
+  index: number;
+  title: string;
+  hasContent: boolean;
+  children: ContentJsonType[];
+};
+
+type FollowBlockJsonType = {
+  bIdx: number;
+  bType: string;
+  type: string;
+  name: string;
+  params: string;
+  body: string[];
+  bodyPretty: string[];
+  proof: {
+    statement: string;
+    body: string[];
+    cumulatedBody: string[];
+  }[];
+  proofPretty: {
+    statement: string;
+    body: string[];
+    cumulatedBody: string[];
+  }[];
+  comment: string;
+  parent: string[];
+  children: string[];
+};
+
 type StmtBlock = {
   origin: string;
   pretty: string;
@@ -75,8 +105,315 @@ export class FollowPrismaClient {
   private formatName(str: string) {
     return str
       .toLowerCase()
-      .replace(/[:. /-]+/g, '-')
-      .replace(/["',()]+/g, '');
+      .replace(/[?`&;"',()_^]+/g, '')
+      .replace(/<i>/g, '')
+      .replace(/<-i>/g, '')
+      .replace(/[:. /-]+/g, '-');
+  }
+
+  private formatOrigin(str: string) {
+    return str.replace(/ /g, '').replace(/,/g, ', ');
+  }
+
+  private formatPretty(str: string) {
+    return str
+      .replace(/ *\[ */g, '[')
+      .replace(/ *\] */g, ']')
+      .replace(/ *\( */g, '(')
+      .replace(/ *\) */g, ')');
+  }
+  private followBlockToJson(block: setmm_followblock): FollowBlockJsonType | undefined {
+    if (block.bType === 'type') {
+      return {
+        bIdx: block.bIdx,
+        bType: 'type',
+        type: '',
+        name: block.name,
+        params: '',
+        body: [],
+        bodyPretty: [],
+        proof: [],
+        proofPretty: [],
+        comment: block.comment,
+        parent: block.parent.split(','),
+        children: block.children.split(','),
+      };
+    } else if (block.bType === 'const') {
+      return {
+        bIdx: block.bIdx,
+        bType: 'const',
+        type: block.type,
+        name: block.name,
+        params: '',
+        body: [block.target.replace(/ /g, '')],
+        bodyPretty: [],
+        proof: [],
+        proofPretty: [],
+        comment: block.comment,
+        parent: block.parent.split(','),
+        children: block.children.split(','),
+      };
+    } else if (block.bType === 'prop') {
+      return {
+        bIdx: block.bIdx,
+        bType: 'prop',
+        type: block.type,
+        name: block.name,
+        params: block.params.replace(/,/g, ', '),
+        body: [this.formatPretty(block.target)],
+        bodyPretty: [],
+        proof: [],
+        proofPretty: [],
+        comment: block.comment,
+        parent: block.parent.split(','),
+        children: block.children.split(','),
+      };
+    } else if (block.bType === 'absurd') {
+      return {
+        bIdx: block.bIdx,
+        bType: 'absurd',
+        type: '',
+        name: block.name,
+        params: block.params.replace(/,/g, ', '),
+        body: ['|-| ' + this.formatOrigin(block.target)],
+        bodyPretty: ['ʜ ' + this.formatPretty(block.propTarget)],
+        proof: [],
+        proofPretty: [],
+        comment: block.comment,
+        parent: block.parent.split(','),
+        children: block.children.split(','),
+      };
+    } else if (block.bType === 'axiom') {
+      const bodyOrigin = [
+        '|- ' + this.formatOrigin(block.target),
+        ...block.assumptions.split(';').map((stmt) => {
+          return '-| ' + this.formatOrigin(stmt);
+        }),
+      ];
+      const bodyPretty = [
+        '⊢ ' + this.formatPretty(block.target),
+        ...block.propAssumptions.split(';').map((stmt) => {
+          return '⊣ ' + this.formatPretty(stmt);
+        }),
+      ];
+      return {
+        bIdx: block.bIdx,
+        bType: 'axiom',
+        type: '',
+        name: block.name,
+        params: block.params.replace(/,/g, ', '),
+        body: bodyOrigin,
+        bodyPretty: bodyPretty,
+        proof: [],
+        proofPretty: [],
+        comment: block.comment,
+        parent: block.parent.split(','),
+        children: block.children.split(','),
+      };
+    } else if (block.bType === 'thm') {
+      const bodyOrigin = [
+        '|- ' + this.formatOrigin(block.target),
+        ...block.assumptions.split(';').map((stmt) => {
+          return '-| ' + this.formatOrigin(stmt);
+        }),
+      ];
+      const bodyPretty = [
+        '⊢ ' + this.formatPretty(block.target),
+        ...block.propAssumptions.split(';').map((stmt) => {
+          return '⊣ ' + this.formatPretty(stmt);
+        }),
+      ];
+
+      const proofStmts: JsonProofNodeItem[] = JSON.parse(block.proofStmts);
+      const proofOriginStmt = proofStmts.map((block) => {
+        const stmt = block.name + '(' + block.args.map((stmt) => this.formatOrigin(stmt.origin)).join(', ') + ')';
+        const bodyOrigin = [
+          '|- ' + this.formatOrigin(block.target.origin),
+          ...block.assumptions.map((stmt) => {
+            return '-| ' + this.formatOrigin(stmt.origin);
+          }),
+        ];
+        const cumulatedBodyOrigin = [
+          '|- ' + this.formatOrigin(block.cumulatedTarget.origin),
+          ...block.cumulatedAssumptions.map((stmt) => {
+            return '-| ' + this.formatOrigin(stmt.origin);
+          }),
+        ];
+        return {
+          statement: stmt,
+          body: bodyOrigin,
+          cumulatedBody: cumulatedBodyOrigin,
+        };
+      });
+      const proofPrettyStmt = proofStmts.map((block) => {
+        const stmt = block.name + '(' + block.args.map((stmt) => this.formatPretty(stmt.pretty)).join(', ') + ')';
+        const bodyPretty = [
+          '⊢ ' + this.formatPretty(block.target.pretty),
+          ...block.assumptions.map((stmt) => {
+            return '⊣ ' + this.formatPretty(stmt.pretty);
+          }),
+        ];
+        const cumulatedBodyPretty = [
+          '⊢ ' + this.formatPretty(block.cumulatedTarget.pretty),
+          ...block.cumulatedAssumptions.map((stmt) => {
+            return '⊣ ' + this.formatPretty(stmt.pretty);
+          }),
+        ];
+        return {
+          statement: stmt,
+          body: bodyPretty,
+          cumulatedBody: cumulatedBodyPretty,
+        };
+      });
+
+      return {
+        bIdx: block.bIdx,
+        bType: 'thm',
+        type: '',
+        name: block.name,
+        params: block.params.replace(/,/g, ', '),
+        body: bodyOrigin,
+        bodyPretty: bodyPretty,
+        proof: proofOriginStmt,
+        proofPretty: proofPrettyStmt,
+        comment: block.comment,
+        parent: block.parent.split(','),
+        children: block.children.split(','),
+      };
+    }
+  }
+
+  public followBlockCode(block: FollowBlockJsonType):
+    | {
+        origin: string;
+        pretty: string;
+        parent: string[];
+        children: string[];
+      }
+    | undefined {
+    if (block.bType === 'type') {
+      return { origin: `type ${block.name}`, pretty: '', parent: block.parent, children: block.children };
+    } else if (block.bType === 'const') {
+      let code = `const ${block.type} ${block.name}`;
+      if (block.body.length > 0) {
+        code += ` { ${block.body[0]} }`;
+      }
+      return { origin: code, pretty: '', parent: block.parent, children: block.children };
+    } else if (block.bType === 'prop') {
+      let code = `prop ${block.type} ${block.name}(${block.params})`;
+      if (block.body.length > 0) {
+        code += ` { ${block.body[0]} }`;
+      }
+      return { origin: code, pretty: '', parent: block.parent, children: block.children };
+    } else if (block.bType === 'absurd') {
+      let code = `absurd ${block.name}(${block.params})`;
+      let codePretty = `absurd ${block.name}(${block.params})`;
+      if (block.body.length > 0) {
+        code += ` { ${block.body[0]} }`;
+        codePretty += ` { ${block.bodyPretty[0]}}`;
+      }
+      return { origin: code, pretty: codePretty, parent: block.parent, children: block.children };
+    } else if (block.bType === 'axiom') {
+      const code = [`axiom ${block.name}(${block.params}) {`, ...block.body.map((e) => `  ${e}`), '}'].join('\n');
+      const codePretty = [`axiom ${block.name}(${block.params}) {`, ...block.bodyPretty.map((e) => `  ${e}`), '}'].join(
+        '\n',
+      );
+      return { origin: code, pretty: codePretty, parent: block.parent, children: block.children };
+    } else if (block.bType === 'thm') {
+      const code = [
+        `thm ${block.name}(${block.params}) {`,
+        ...block.body.map((e) => `  ${e}`),
+        '} = {',
+        ...block.proof.map((e) => `  ${e.statement}`),
+        '}',
+      ].join('\n');
+      const codePretty = [
+        `thm ${block.name}(${block.params}) {`,
+        ...block.body.map((e) => `  ${e}`),
+        '} = {',
+        ...block.proofPretty.map((e) => `  ${e.statement}`),
+        '}',
+      ].join('\n');
+      return { origin: code, pretty: codePretty, parent: block.parent, children: block.children };
+    }
+  }
+
+  public generateTitleList(book: MarkdownBlock) {
+    const fileIndex: string[] = [book.title];
+    for (const child of book.children) {
+      const ret = this.generateTitleList(child);
+      fileIndex.push(...ret);
+    }
+    return fileIndex;
+  }
+
+  public generateBlockIndex(book: MarkdownBlock, titleIndexMap: Map<string, number>) {
+    const blockTitleIndex: {
+      blockName: string;
+      titleIdx: number;
+    }[] = [];
+
+    const currentTitleIndex = titleIndexMap.get(book.title) || 0;
+    for (const name of book.theorems) {
+      blockTitleIndex.push({ blockName: name, titleIdx: currentTitleIndex });
+    }
+
+    for (const child of book.children) {
+      const rst = this.generateBlockIndex(child, titleIndexMap);
+      blockTitleIndex.push(...rst);
+    }
+    return blockTitleIndex;
+  }
+
+  public async generateContentJson(book: MarkdownBlock, titleIndexMap: Map<string, number>) {
+    const children = [];
+    for (const child of book.children) {
+      const childContent: ContentJsonType = await this.generateContentJson(child, titleIndexMap);
+      children.push(childContent);
+    }
+    return {
+      index: titleIndexMap.get(book.title) || 0,
+      title: book.title,
+      hasContent: book.content.length > 0,
+      children: children,
+    };
+  }
+
+  public async generateJsonFiles(book: MarkdownBlock, outputDir: string, titleIndexMap: Map<string, number>) {
+    const bookIndex = titleIndexMap.get(book.title) || 0;
+    const filePath = outputDir + 'files/' + `${bookIndex}` + '.json';
+    if (!existsSync(outputDir + 'files/')) {
+      mkdirSync(outputDir + 'files/');
+    }
+    const blockDir = outputDir + 'blocks/';
+    if (!existsSync(blockDir)) {
+      mkdirSync(blockDir);
+    }
+    const blocks = [];
+    for (const name of book.theorems) {
+      const block = await this.client.setmm_followblock.findFirst({ where: { name: name } });
+      if (block) {
+        const blockJson = this.followBlockToJson(block);
+        if (blockJson) {
+          const proofFilePath = blockDir + block.name + '.json';
+          writeFileSync(proofFilePath, JSON.stringify(blockJson));
+          const proofCode = this.followBlockCode(blockJson);
+          blocks.push(proofCode);
+        }
+      }
+    }
+    const bookJson = {
+      index: bookIndex,
+      title: book.title,
+      content: book.content,
+      block: blocks,
+    };
+
+    writeFileSync(filePath, JSON.stringify(bookJson));
+    for (let idx = 0; idx < book.children.length; idx++) {
+      const subBook = book.children[idx];
+      await this.generateJsonFiles(subBook, outputDir, titleIndexMap);
+    }
   }
 
   private followBlockToMarkdown(block: setmm_followblock): string {

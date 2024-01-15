@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { FollowPrismaClient } from '../src/client';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 test('#1 prisma', async () => {
   const inputFile = './examples/set.fol1';
@@ -29,6 +29,36 @@ test('#3 toMarkdown', async () => {
   await client.generateMdFiles(markdownBlock, './examples/', '', 0, blockPathMap);
   const blockMapPath = './examples/set-mm/block-path-map.json';
   writeFileSync(blockMapPath, JSON.stringify(Object.fromEntries(blockPathMap)));
+  expect(markdownBlock !== undefined).toBe(true);
+});
+
+test('#4 toJson', async () => {
+  const inputFile = './examples/set.mm';
+  const input = readFileSync(inputFile, 'utf-8');
+  const client = new FollowPrismaClient();
+  const markdownBlock = await client.toMarkdown(input, 'set.mm');
+  const outputDir = './examples/follow-setmm-json/';
+  if (!existsSync(outputDir)) {
+    mkdirSync(outputDir);
+  }
+  const titleList = client.generateTitleList(markdownBlock);
+  const titleIndexMap = new Map(
+    titleList.map((title, idx) => {
+      return [title, idx];
+    }),
+  );
+  const blockTitleIndex = client.generateBlockIndex(markdownBlock, titleIndexMap);
+  console.log('blockTitleIndex: ', blockTitleIndex.length);
+  await client.generateJsonFiles(markdownBlock, outputDir, titleIndexMap);
+  const content = await client.generateContentJson(markdownBlock, titleIndexMap);
+  const indexJson = {
+    titleList: titleList,
+    blockTitleIndex: blockTitleIndex.map((e) => {
+      return [e.blockName, e.titleIdx];
+    }),
+  };
+  writeFileSync(outputDir + 'content.json', JSON.stringify(content));
+  writeFileSync(outputDir + 'index.json', JSON.stringify(indexJson));
   expect(markdownBlock !== undefined).toBe(true);
 });
 
