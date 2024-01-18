@@ -136,8 +136,8 @@ export class FollowPrismaClient {
         proof: [],
         proofPretty: [],
         comment: block.comment,
-        parent: block.parent.split(','),
-        children: block.children.split(','),
+        parent: block.parent.split(',').filter((e) => e.length > 0),
+        children: block.children.split(',').filter((e) => e.length > 0),
       };
     } else if (block.bType === 'const') {
       return {
@@ -151,8 +151,8 @@ export class FollowPrismaClient {
         proof: [],
         proofPretty: [],
         comment: block.comment,
-        parent: block.parent.split(','),
-        children: block.children.split(','),
+        parent: block.parent.split(',').filter((e) => e.length > 0),
+        children: block.children.split(',').filter((e) => e.length > 0),
       };
     } else if (block.bType === 'prop') {
       return {
@@ -166,8 +166,8 @@ export class FollowPrismaClient {
         proof: [],
         proofPretty: [],
         comment: block.comment,
-        parent: block.parent.split(','),
-        children: block.children.split(','),
+        parent: block.parent.split(',').filter((e) => e.length > 0),
+        children: block.children.split(',').filter((e) => e.length > 0),
       };
     } else if (block.bType === 'absurd') {
       return {
@@ -181,8 +181,8 @@ export class FollowPrismaClient {
         proof: [],
         proofPretty: [],
         comment: block.comment,
-        parent: block.parent.split(','),
-        children: block.children.split(','),
+        parent: block.parent.split(',').filter((e) => e.length > 0),
+        children: block.children.split(',').filter((e) => e.length > 0),
       };
     } else if (block.bType === 'axiom') {
       const bodyOrigin = [
@@ -195,7 +195,7 @@ export class FollowPrismaClient {
           }),
       ];
       const bodyPretty = [
-        '⊢ ' + this.formatPretty(block.target),
+        '⊢ ' + this.formatPretty(block.propTarget),
         ...block.propAssumptions
           .split(';')
           .filter((e) => e.length > 0)
@@ -228,7 +228,7 @@ export class FollowPrismaClient {
           }),
       ];
       const bodyPretty = [
-        '⊢ ' + this.formatPretty(block.target),
+        '⊢ ' + this.formatPretty(block.propTarget),
         ...block.propAssumptions
           .split(';')
           .filter((e) => e.length > 0)
@@ -290,14 +290,16 @@ export class FollowPrismaClient {
         proof: proofOriginStmt,
         proofPretty: proofPrettyStmt,
         comment: block.comment,
-        parent: block.parent.split(','),
-        children: block.children.split(','),
+        parent: block.parent.split(',').filter((e) => e.length > 0),
+        children: block.children.split(',').filter((e) => e.length > 0),
       };
     }
   }
 
   public followBlockCode(block: FollowBlockJsonType):
     | {
+        name: string;
+        content: string;
         origin: string;
         pretty: string;
         parent: string[];
@@ -305,19 +307,40 @@ export class FollowPrismaClient {
       }
     | undefined {
     if (block.bType === 'type') {
-      return { origin: `type ${block.name}`, pretty: '', parent: block.parent, children: block.children };
+      return {
+        name: block.name,
+        content: block.comment,
+        origin: `type ${block.name}`,
+        pretty: '',
+        parent: block.parent,
+        children: block.children,
+      };
     } else if (block.bType === 'const') {
       let code = `const ${block.type} ${block.name}`;
       if (block.body.length > 0) {
         code += ` { ${block.body[0]} }`;
       }
-      return { origin: code, pretty: '', parent: block.parent, children: block.children };
+      return {
+        name: block.name,
+        content: block.comment,
+        origin: code,
+        pretty: '',
+        parent: block.parent,
+        children: block.children,
+      };
     } else if (block.bType === 'prop') {
       let code = `prop ${block.type} ${block.name}(${block.params})`;
       if (block.body.length > 0) {
         code += ` { ${block.body[0]} }`;
       }
-      return { origin: code, pretty: '', parent: block.parent, children: block.children };
+      return {
+        name: block.name,
+        content: block.comment,
+        origin: code,
+        pretty: '',
+        parent: block.parent,
+        children: block.children,
+      };
     } else if (block.bType === 'absurd') {
       let code = `absurd ${block.name}(${block.params})`;
       let codePretty = `absurd ${block.name}(${block.params})`;
@@ -325,13 +348,27 @@ export class FollowPrismaClient {
         code += ` { ${block.body[0]} }`;
         codePretty += ` { ${block.bodyPretty[0]}}`;
       }
-      return { origin: code, pretty: codePretty, parent: block.parent, children: block.children };
+      return {
+        name: block.name,
+        content: block.comment,
+        origin: code,
+        pretty: codePretty,
+        parent: block.parent,
+        children: block.children,
+      };
     } else if (block.bType === 'axiom') {
       const code = [`axiom ${block.name}(${block.params}) {`, ...block.body.map((e) => `  ${e}`), '}'].join('\n');
       const codePretty = [`axiom ${block.name}(${block.params}) {`, ...block.bodyPretty.map((e) => `  ${e}`), '}'].join(
         '\n',
       );
-      return { origin: code, pretty: codePretty, parent: block.parent, children: block.children };
+      return {
+        name: block.name,
+        content: block.comment,
+        origin: code,
+        pretty: codePretty,
+        parent: block.parent,
+        children: block.children,
+      };
     } else if (block.bType === 'thm') {
       const code = [
         `thm ${block.name}(${block.params}) {`,
@@ -342,21 +379,31 @@ export class FollowPrismaClient {
       ].join('\n');
       const codePretty = [
         `thm ${block.name}(${block.params}) {`,
-        ...block.body.map((e) => `  ${e}`),
+        ...block.bodyPretty.map((e) => `  ${e}`),
         '} = {',
         ...block.proofPretty.map((e) => `  ${e.statement}`),
         '}',
       ].join('\n');
-      return { origin: code, pretty: codePretty, parent: block.parent, children: block.children };
+      return {
+        name: block.name,
+        content: block.comment,
+        origin: code,
+        pretty: codePretty,
+        parent: block.parent,
+        children: block.children,
+      };
     }
   }
 
   public generateFileIndex(book: MarkdownBlock, currentIndex: { value: number } = { value: 0 }) {
+    const titleList = [book.title];
     book.index = currentIndex.value;
     currentIndex.value += 1;
     for (const child of book.children) {
-      this.generateFileIndex(child, currentIndex);
+      const childTitleList = this.generateFileIndex(child, currentIndex);
+      titleList.push(...childTitleList);
     }
+    return titleList;
   }
 
   public generateBlockFileIndexMap(book: MarkdownBlock) {
@@ -383,11 +430,16 @@ export class FollowPrismaClient {
       const childContent: ContentJsonType = await this.generateContentJson(child);
       children.push(childContent);
     }
+    let lastChild = -1;
+    if (children.length > 0) {
+      lastChild = children[children.length - 1].index;
+    }
     return {
       index: book.index || 0,
       title: book.title,
       hasContent: book.content.length > 0 || book.theorems.length > 0,
       children: children,
+      lastChild: lastChild,
     };
   }
 
@@ -418,7 +470,7 @@ export class FollowPrismaClient {
       index: bookIndex,
       title: book.title,
       content: book.content,
-      block: blocks,
+      blocks: blocks,
     };
 
     writeFileSync(filePath, JSON.stringify(bookJson));

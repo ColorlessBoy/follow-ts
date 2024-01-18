@@ -41,11 +41,12 @@ test('#4 toJson', async () => {
   if (!existsSync(outputDir)) {
     mkdirSync(outputDir);
   }
-  client.generateFileIndex(markdownBlock);
+  const titleList = client.generateFileIndex(markdownBlock);
   const blockTitleIndex = client.generateBlockFileIndexMap(markdownBlock);
   await client.generateJsonFiles(markdownBlock, outputDir);
   const content = await client.generateContentJson(markdownBlock);
   const indexJson = {
+    titleList: titleList,
     blockTitleIndex: blockTitleIndex.map((e) => {
       return [e.name, e.index];
     }),
