@@ -395,19 +395,21 @@ export class FollowPrismaClient {
     return titleList;
   }
 
-  public generateBlockFileIndexMap(book: MarkdownBlock) {
+  public async generateBlockFileIndexMap(book: MarkdownBlock) {
     const blockFileIndex: {
       name: string;
       index: number;
+      target: string;
     }[] = [];
 
     const currentTitleIndex = book.index || 0;
     for (const name of book.theorems) {
-      blockFileIndex.push({ name: name, index: currentTitleIndex });
+      const block = await this.client.setmm_followblock.findFirst({ where: { name: name } });
+      blockFileIndex.push({ name: name, index: currentTitleIndex, target: block?.target.replace(/ /g, '') || '' });
     }
 
     for (const child of book.children) {
-      const rst = this.generateBlockFileIndexMap(child);
+      const rst = await this.generateBlockFileIndexMap(child);
       blockFileIndex.push(...rst);
     }
     return blockFileIndex;
