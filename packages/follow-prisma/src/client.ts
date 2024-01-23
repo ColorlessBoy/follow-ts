@@ -11,6 +11,11 @@ type ContentJsonType = {
   children: ContentJsonType[];
 };
 
+type StmtBlockType = {
+  origin: string;
+  pretty: string;
+};
+
 type FollowBlockJsonType = {
   bIdx: number;
   bType: string;
@@ -20,14 +25,9 @@ type FollowBlockJsonType = {
   body: string[];
   bodyPretty: string[];
   proof: {
-    statement: string;
-    body: string[];
-    cumulatedBody: string[];
-  }[];
-  proofPretty: {
-    statement: string;
-    body: string[];
-    cumulatedBody: string[];
+    stmt: StmtBlockType;
+    body: StmtBlockType;
+    cumulated: StmtBlockType;
   }[];
   comment: string;
   parent: string[];
@@ -134,7 +134,6 @@ export class FollowPrismaClient {
         body: [],
         bodyPretty: [],
         proof: [],
-        proofPretty: [],
         comment: block.comment,
         parent: block.parent.split(',').filter((e) => e.length > 0),
         children: block.children.split(',').filter((e) => e.length > 0),
@@ -149,7 +148,6 @@ export class FollowPrismaClient {
         body: [block.target.replace(/ /g, '')].filter((e) => e.length > 0),
         bodyPretty: [],
         proof: [],
-        proofPretty: [],
         comment: block.comment,
         parent: block.parent.split(',').filter((e) => e.length > 0),
         children: block.children.split(',').filter((e) => e.length > 0),
@@ -164,7 +162,6 @@ export class FollowPrismaClient {
         body: [this.formatPretty(block.target)].filter((e) => e.length > 0),
         bodyPretty: [],
         proof: [],
-        proofPretty: [],
         comment: block.comment,
         parent: block.parent.split(',').filter((e) => e.length > 0),
         children: block.children.split(',').filter((e) => e.length > 0),
@@ -179,7 +176,6 @@ export class FollowPrismaClient {
         body: ['|-| ' + this.formatOrigin(block.target)],
         bodyPretty: ['ʜ ' + this.formatPretty(block.propTarget)],
         proof: [],
-        proofPretty: [],
         comment: block.comment,
         parent: block.parent.split(',').filter((e) => e.length > 0),
         children: block.children.split(',').filter((e) => e.length > 0),
@@ -212,7 +208,6 @@ export class FollowPrismaClient {
         body: bodyOrigin,
         bodyPretty: bodyPretty,
         proof: [],
-        proofPretty: [],
         comment: block.comment,
         parent: [],
         children: block.name.includes('diff') ? [] : block.children.split(','),
@@ -238,45 +233,40 @@ export class FollowPrismaClient {
       ];
 
       const proofStmts: JsonProofNodeItem[] = JSON.parse(block.proofStmts);
-      const proofOriginStmt = proofStmts.map((block) => {
-        const stmt = block.name + '(' + block.args.map((stmt) => this.formatOrigin(stmt.origin)).join(', ') + ')';
-        const bodyOrigin = [
-          '|- ' + this.formatOrigin(block.target.origin),
-          ...block.assumptions.map((stmt) => {
-            return '-| ' + this.formatOrigin(stmt.origin);
-          }),
-        ];
-        const cumulatedBodyOrigin = [
-          '|- ' + this.formatOrigin(block.cumulatedTarget.origin),
-          ...block.cumulatedAssumptions.map((stmt) => {
-            return '-| ' + this.formatOrigin(stmt.origin);
-          }),
-        ];
-        return {
-          statement: stmt,
-          body: bodyOrigin,
-          cumulatedBody: cumulatedBodyOrigin,
+      const proofStmtJson = proofStmts.map((block) => {
+        const stmt: StmtBlockType = {
+          origin: block.name + '(' + block.args.map((stmt) => this.formatOrigin(stmt.origin)).join(', ') + ')',
+          pretty: block.name + '(' + block.args.map((stmt) => this.formatPretty(stmt.pretty)).join(', ') + ')',
         };
-      });
-      const proofPrettyStmt = proofStmts.map((block) => {
-        const stmt = block.name + '(' + block.args.map((stmt) => this.formatPretty(stmt.pretty)).join(', ') + ')';
-        const bodyPretty = [
-          '⊢ ' + this.formatPretty(block.target.pretty),
-          ...block.assumptions.map((stmt) => {
-            return '⊣ ' + this.formatPretty(stmt.pretty);
-          }),
-        ];
-        const cumulatedBodyPretty = [
-          '⊢ ' + this.formatPretty(block.cumulatedTarget.pretty),
-          ...block.cumulatedAssumptions.map((stmt) => {
-            return '⊣ ' + this.formatPretty(stmt.pretty);
-          }),
-        ];
-        return {
-          statement: stmt,
-          body: bodyPretty,
-          cumulatedBody: cumulatedBodyPretty,
+        const body: StmtBlockType = {
+          origin: [
+            '|- ' + this.formatOrigin(block.target.origin),
+            ...block.assumptions.map((stmt) => {
+              return '-| ' + this.formatOrigin(stmt.origin);
+            }),
+          ].join('\n'),
+          pretty: [
+            '⊢ ' + this.formatPretty(block.target.pretty),
+            ...block.assumptions.map((stmt) => {
+              return '⊣ ' + this.formatPretty(stmt.pretty);
+            }),
+          ].join('\n'),
         };
+        const cumulated: StmtBlockType = {
+          origin: [
+            '|- ' + this.formatOrigin(block.cumulatedTarget.origin),
+            ...block.cumulatedAssumptions.map((stmt) => {
+              return '-| ' + this.formatOrigin(stmt.origin);
+            }),
+          ].join('\n'),
+          pretty: [
+            '⊢ ' + this.formatPretty(block.cumulatedTarget.pretty),
+            ...block.cumulatedAssumptions.map((stmt) => {
+              return '⊣ ' + this.formatPretty(stmt.pretty);
+            }),
+          ].join('\n'),
+        };
+        return { stmt, body, cumulated };
       });
 
       return {
@@ -287,8 +277,7 @@ export class FollowPrismaClient {
         params: block.params.replace(/,/g, ', '),
         body: bodyOrigin,
         bodyPretty: bodyPretty,
-        proof: proofOriginStmt,
-        proofPretty: proofPrettyStmt,
+        proof: proofStmtJson,
         comment: block.comment,
         parent: block.parent.split(',').filter((e) => e.length > 0),
         children: block.children.split(',').filter((e) => e.length > 0),
@@ -374,14 +363,14 @@ export class FollowPrismaClient {
         `thm ${block.name}(${block.params}) {`,
         ...block.body.map((e) => `  ${e}`),
         '} = {',
-        ...block.proof.map((e) => `  ${e.statement}`),
+        ...block.proof.map((e) => `  ${e.stmt.origin}`),
         '}',
       ].join('\n');
       const codePretty = [
         `thm ${block.name}(${block.params}) {`,
         ...block.bodyPretty.map((e) => `  ${e}`),
         '} = {',
-        ...block.proofPretty.map((e) => `  ${e.statement}`),
+        ...block.proof.map((e) => `  ${e.stmt.pretty}`),
         '}',
       ].join('\n');
       return {
