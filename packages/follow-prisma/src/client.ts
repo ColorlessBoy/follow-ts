@@ -54,6 +54,53 @@ export class FollowPrismaClient {
     this.client = new PrismaClient();
   }
 
+  public async getAllTypeConst(): Promise<string> {
+    try {
+      await this.client.$connect();
+      console.log('Connected to the database.');
+    } catch (error) {
+      console.error('Failed to connect to the database.', error);
+      return Promise.reject(error);
+    }
+    const typeList = await this.client.setmm_followblock.findMany({
+      where: {
+        bType: {
+          equals: 'type',
+        },
+      },
+      orderBy: {
+        bIdx: 'asc',
+      },
+      select: {
+        name: true,
+      },
+    });
+    const typeStrList = typeList.map((t) => {
+      return `'${t.name}'`;
+    });
+
+    const constList = await this.client.setmm_followblock.findMany({
+      where: {
+        bType: {
+          equals: 'const',
+        },
+      },
+      orderBy: {
+        bIdx: 'asc',
+      },
+      select: {
+        name: true,
+        target: true,
+      },
+    });
+    const constStrList = constList.map((c) => {
+      return `'${c.name}'`;
+    });
+
+    await this.client.$disconnect();
+    return [typeStrList.join(','), constStrList.join(',')].join('\n');
+  }
+
   public async getAllConstProps(): Promise<string> {
     try {
       await this.client.$connect();

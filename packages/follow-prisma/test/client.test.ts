@@ -66,3 +66,14 @@ test('#4 getAllConstProps', async () => {
   });
   expect(1 + 1).toBe(2);
 });
+
+test('#5 getAllTypeConst', async () => {
+  const client = new FollowPrismaClient();
+  const blocks = await client.getAllTypeConst();
+  const outputFile = './examples/type_const.txt';
+  writeFileSync(outputFile, blocks, {
+    encoding: 'utf-8',
+    flag: 'w',
+  });
+  expect(1 + 1).toBe(2);
+});
